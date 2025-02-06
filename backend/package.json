@@ -1,0 +1,40 @@
+{
+  "name": "backend",
+  "scripts": {
+    "test": "vitest --run",
+    "check": "biome check --write ./src",
+    "lint": "biome lint --write ./src",
+    "fmt": "biome format --write ./src",
+    "local": "wrangler dev --local --ip 0.0.0.0",
+    "local:db:create": "wrangler d1 execute loutine-dev --local --command 'select 1'",
+    "local:drizzle:generate": "drizzle-kit generate --config drizzle.config.local.ts",
+    "local:drizzle:migrate": "drizzle-kit migrate --config drizzle.config.local.ts",
+    "local:drizzle:studio": "drizzle-kit studio --config drizzle.config.local.ts",
+    "dev": "wrangler dev --remote --config wrangler.dev.toml",
+    "dev:db:create": "wrangler d1 create loutine-dev",
+    "dev:drizzle:generate": "drizzle-kit generate --config drizzle.config.dev.ts",
+    "dev:drizzle:migrate": "drizzle-kit migrate --config drizzle.config.dev.ts",
+    "dev:drizzle:studio": "drizzle-kit studio --config drizzle.config.dev.ts",
+    "prod:drizzle:generate": "drizzle-kit generate",
+    "prod:drizzle:migrate": "drizzle-kit migrate",
+    "prod:drizzle:studio": "drizzle-kit studio",
+    "prod:db:create": "wrangler d1 create loutine",
+    "prod:deploy": "wrangler deploy --minify"
+  },
+  "dependencies": {
+    "@hono/zod-validator": "^0.4.2",
+    "drizzle-orm": "^0.38.4",
+    "drizzle-zod": "^0.6.1",
+    "hono": "^4.6.15",
+    "zod": "^3.24.1"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "1.9.4",
+    "@cloudflare/vitest-pool-workers": "^0.6.5",
+    "@cloudflare/workers-types": "^4.20241218.0",
+    "@libsql/client": "^0.14.0",
+    "drizzle-kit": "^0.30.2",
+    "vitest": "^2.1.8",
+    "wrangler": "^3.96.0"
+  }
+}
