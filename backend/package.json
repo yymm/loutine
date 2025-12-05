@@ -33,7 +33,7 @@
     "@cloudflare/vitest-pool-workers": "^0.6.5",
     "@cloudflare/workers-types": "^4.20241218.0",
     "@libsql/client": "^0.14.0",
-    "drizzle-kit": "^0.30.2",
+    "drizzle-kit": "^0.31.0",
     "vitest": "^2.1.8",
     "wrangler": "^3.96.0"
   }
