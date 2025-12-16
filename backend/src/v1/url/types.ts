@@ -5,5 +5,5 @@ export const urlTitleSchema = z.object({
 		.string()
 		.url()
 		.min(1, 'urlは必須です')
-		.max(1000, 'urlは100文字以内にしてください'),
+		.max(1000, 'urlは1000文字以内にしてください'),
 });

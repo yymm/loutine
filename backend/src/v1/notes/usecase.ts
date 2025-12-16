@@ -1,6 +1,6 @@
 import { and, gte, lt } from 'drizzle-orm';
 import {DrizzleD1Database} from "drizzle-orm/d1";
-import {notes} from "../../schema";
+import {note_tag, notes} from "../../schema";
 
 export class NotesUsecase {
   db: DrizzleD1Database;
@@ -21,4 +21,32 @@ export class NotesUsecase {
       .all();
 		return all_notes;
   }
+
+	async create({
+		title,
+		text,
+		tag_ids,
+	}: {
+		title: string;
+		text: string;
+		tag_ids: Array<number> | null | undefined;
+	}) {
+    // FIXME: Since D1 lacks transaction functionality,
+    // you'll either have to implement your own rollback mechanism
+    // or wait for transactions to be implemented.
+		const new_note = await this.db
+			.insert(notes)
+			.values({ title, text })
+			.returning()
+			.get();
+		if (tag_ids !== null && tag_ids !== undefined) {
+			for (const tag_id of tag_ids) {
+				this.db.insert(note_tag)
+					.values({ note_id: new_note.id, tag_id })
+					.returning()
+					.get();
+			}
+		}
+		return new_note;
+	}
 }

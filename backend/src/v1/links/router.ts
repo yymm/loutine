@@ -19,13 +19,12 @@ app.get('/:id', zValidator('param', linksIdSchema), async (c) => {
 });
 
 app.post('/', zValidator('json', createLinksSchema), async (c) => {
-	const { title, url, tag_ids, category_id } = c.req.valid('json');
+	const { title, url, tag_ids } = c.req.valid('json');
 	const { linksUsecase } = c.var;
 	const new_link = await linksUsecase.create({
 		title,
 		url,
 		tag_ids,
-		category_id,
 	});
 	return c.json(new_link, 201);
 });

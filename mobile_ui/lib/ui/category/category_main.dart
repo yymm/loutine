@@ -30,8 +30,14 @@ class CategoryMain extends StatelessWidget {
                   showModalBottomSheet<void>(
                     context: context,
                     isDismissible: false,
+                    isScrollControlled: true,
                     builder: (BuildContext context) {
-                      return CategoryNewWidget();
+                      return Padding(
+                        padding: EdgeInsets.only(
+                          bottom: MediaQuery.of(context).viewInsets.bottom,
+                        ),
+                        child: CategoryNewWidget(),
+                      );
                     },
                   );
                   // }}}

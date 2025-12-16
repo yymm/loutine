@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_ui/ui/purchase/form/purchase_form.dart';
 
 class PurchaseFormMain extends StatelessWidget {
   const PurchaseFormMain({ super.key });
@@ -19,8 +20,12 @@ class PurchaseFormMain extends StatelessWidget {
           )
         ]
       ),
-      body: Center(
-        child: Text("purchase main"),
+      body: SingleChildScrollView(
+        child: Stack(
+          children: [
+            PurchaseForm(),
+          ],
+        ),
       )
     );
   }

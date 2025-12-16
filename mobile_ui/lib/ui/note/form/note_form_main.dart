@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_ui/ui/note/form/note_form.dart';
 
 class NoteFormMain extends StatelessWidget {
   const NoteFormMain({ super.key });
@@ -19,8 +20,12 @@ class NoteFormMain extends StatelessWidget {
           )
         ]
       ),
-      body: Center(
-        child: Text("note main"),
+      body: SingleChildScrollView(
+        child: Stack(
+          children: <Widget>[
+            NoteForm(),
+          ],
+        ),
       )
     );
   }

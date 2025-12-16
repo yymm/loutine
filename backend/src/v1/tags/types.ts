@@ -7,7 +7,7 @@ const insertTagsSchema = createInsertSchema(tags, {
 	name: z
 		.string()
 		.min(1, 'nameは必須です')
-		.max(100, 'nameは100文字以内にしてください'),
+		.max(1000, 'nameは1000文字以内にしてください'),
 	description: z.string().nullable(),
 	created_at: z.string().datetime(),
 	updated_at: z.string().datetime(),

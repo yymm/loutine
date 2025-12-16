@@ -1,6 +1,6 @@
-import { and, eq, gte, lt } from 'drizzle-orm';
+import { and, eq, gte, inArray, lt } from 'drizzle-orm';
 import type { DrizzleD1Database } from 'drizzle-orm/d1';
-import { link_category, link_tag, links } from '../../schema';
+import { link_tag, links, tags } from '../../schema';
 
 export class LinksUsecase {
 	db: DrizzleD1Database;
@@ -22,7 +22,6 @@ export class LinksUsecase {
 		const all_links = await this.db
       .select()
       .from(links)
-      .limit(10)
       .where(and(
         gte(links.created_at, start_date),
         lt(links.created_at, end_date),
@@ -35,12 +34,10 @@ export class LinksUsecase {
 		title,
 		url,
 		tag_ids,
-		category_id,
 	}: {
 		title: string;
 		url: string;
 		tag_ids: Array<number> | null | undefined;
-		category_id: number | null | undefined;
 	}) {
     // FIXME: Since D1 lacks transaction functionality,
     // you'll either have to implement your own rollback mechanism
@@ -57,13 +54,6 @@ export class LinksUsecase {
 					.returning()
 					.get();
 			}
-		}
-		if (category_id !== null && category_id !== undefined) {
-			await this.db
-				.insert(link_category)
-				.values({ link_id: new_link.id, category_id: category_id! })
-				.returning()
-				.get();
 		}
 		return new_link;
 	}

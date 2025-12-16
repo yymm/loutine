@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'package:faker/faker.dart';
+
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mobile_ui/api/vanilla_api.dart';
@@ -49,12 +49,13 @@ class LinkNewNotifier extends StateNotifier<LinkNew> {
     state = LinkNew(url: '', title: '');
   }
 
-  Future<void> add({ required List<int> tagIds, int? categoryId }) async {
+  Future<void> add({ required List<int> tagIds}) async {
     print('press add(): url => ${state.url}, ttile => ${state.title}');
     final apiClient = LinkApiClient();
-    await apiClient.post(state.url, state.title, tagIds, categoryId);
+    await apiClient.post(state.url, state.title, tagIds);
     return;
   }
 }
 
-final linkNewProvider = StateNotifierProvider<LinkNewNotifier, LinkNew>((ref) => LinkNewNotifier());
+final linkNewProvider
+  = StateNotifierProvider<LinkNewNotifier, LinkNew>((ref) => LinkNewNotifier());

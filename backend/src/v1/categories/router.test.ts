@@ -4,7 +4,7 @@ import type { Category } from './types';
 
 describe('categories router', () => {
 	const body = {
-		title: 'test code',
+		name: 'test code',
 		description: 'test code description',
 	};
 
@@ -32,7 +32,7 @@ describe('categories router', () => {
 		);
 		const category: Category = await res.json();
 		expect(res.status).toBe(201);
-		expect(category.title).toBe(body.title);
+		expect(category.name).toBe(body.name);
 		expect(category.description).toBe(body.description);
 	});
 
@@ -40,7 +40,7 @@ describe('categories router', () => {
 		const res = await categories_router.request('/1', {}, env);
 		const category: Category = await res.json();
 		expect(res.status).toBe(200);
-		expect(category.title).toBe(body.title);
+		expect(category.name).toBe(body.name);
 		expect(category.description).toBe(body.description);
 	});
 
@@ -54,7 +54,7 @@ describe('categories router', () => {
 	it('PUT /', async () => {
 		const put_body = {
 			id: 1,
-			title: 'updated test',
+			name: 'updated test',
 			description: 'updated description test',
 		};
 		const res = await categories_router.request(
@@ -68,7 +68,7 @@ describe('categories router', () => {
 		);
 		const category: Category = await res.json();
 		expect(res.status).toBe(200);
-		expect(category.title).toBe(put_body.title);
+		expect(category.name).toBe(put_body.name);
 		expect(category.description).toBe(put_body.description);
 	});
 });

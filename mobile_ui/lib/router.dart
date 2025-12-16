@@ -21,23 +21,6 @@ final router = GoRouter(
   debugLogDiagnostics: true,
   initialLocation: '/',
   routes: <RouteBase>[
-    GoRoute(
-      name: 'setting',
-      path: '/setting',
-      builder: (context, state) => SettingMain(),
-      routes: [
-        GoRoute(
-          name: 'tag',
-          path: 'tag',
-          builder: (context, state) => TagMain(),
-        ),
-        GoRoute(
-          name: 'category',
-          path: 'category',
-          builder: (context, state) => CategoryMain(),
-        ),
-      ],
-    ),
     StatefulShellRoute.indexedStack(
       parentNavigatorKey: _rootNavigationKey,
       builder: (BuildContext context, GoRouterState state, StatefulNavigationShell navigationShell) {
@@ -53,6 +36,25 @@ final router = GoRouter(
               builder: (BuildContext context, GoRouterState state) {
                 return const HomeMain();
               },
+              routes: [
+                GoRoute(
+                  name: 'setting',
+                  path: 'setting',
+                  builder: (context, state) => SettingMain(),
+                  routes: [
+                    GoRoute(
+                      name: 'tag',
+                      path: 'tag',
+                      builder: (context, state) => TagMain(),
+                    ),
+                    GoRoute(
+                      name: 'category',
+                      path: 'category',
+                      builder: (context, state) => CategoryMain(),
+                    ),
+                  ],
+                ),
+              ],
             ),
           ],
         ),

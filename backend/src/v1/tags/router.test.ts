@@ -4,7 +4,7 @@ import type { Tag } from './types';
 
 describe('tags router', () => {
 	const body = {
-		title: 'test tag',
+		name: 'test tag',
 		description: 'test tag description',
 	};
 
@@ -32,7 +32,7 @@ describe('tags router', () => {
 		);
 		const tag: Tag = await res.json();
 		expect(res.status).toBe(201);
-		expect(tag.title).toBe(body.title);
+		expect(tag.name).toBe(body.name);
 		expect(tag.description).toBe(body.description);
 	});
 
@@ -40,7 +40,7 @@ describe('tags router', () => {
 		const res = await tags_router.request('/1', {}, env);
 		const tag: Tag = await res.json();
 		expect(res.status).toBe(200);
-		expect(tag.title).toBe(body.title);
+		expect(tag.name).toBe(body.name);
 		expect(tag.description).toBe(body.description);
 	});
 
@@ -54,7 +54,7 @@ describe('tags router', () => {
 	it('PUT /', async () => {
 		const put_body = {
 			id: 1,
-			title: 'updated tag test',
+			name: 'updated tag test',
 			description: 'updated tag description test',
 		};
 		const res = await tags_router.request(
@@ -68,7 +68,7 @@ describe('tags router', () => {
 		);
 		const tag: Tag = await res.json();
 		expect(res.status).toBe(200);
-		expect(tag.title).toBe(put_body.title);
+		expect(tag.name).toBe(put_body.name);
 		expect(tag.description).toBe(put_body.description);
 	});
 });

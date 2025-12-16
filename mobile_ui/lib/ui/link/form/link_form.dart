@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:mobile_ui/state/category_list_state.dart';
 import 'package:mobile_ui/state/link_new_state.dart';
 import 'package:mobile_ui/state/tag_list_state.dart';
 import 'package:mobile_ui/ui/shared/app_divider_widget.dart';
@@ -35,7 +34,7 @@ class _LinkForm extends ConsumerState<LinkForm> {
     // final state = Provider.of<LinkFormState>(context, listen: true);
     final linkNewNotifier = ref.read(linkNewProvider.notifier);
     final tags = ref.watch(tagListProvider);
-    final categories = ref.watch(categoryListProvider);
+    // final categories = ref.watch(categoryListProvider);
 
     return Container(
       padding: EdgeInsets.all(25),
@@ -46,6 +45,8 @@ class _LinkForm extends ConsumerState<LinkForm> {
             // >> Enter a url {{{
             TextFormField(
               controller: _urlController,
+              keyboardType: TextInputType.multiline,
+              maxLines: null,
               decoration: InputDecoration(
                 hintText: 'Enter a url',
                 labelText: 'URL',
@@ -81,6 +82,8 @@ class _LinkForm extends ConsumerState<LinkForm> {
             // >> Enter a url title {{{
             TextFormField(
               controller: _titleController,
+              keyboardType: TextInputType.multiline,
+              maxLines: null,
               decoration: InputDecoration(
                 hintText: 'Enter a url title',
                 labelText: 'Title',
@@ -137,21 +140,21 @@ class _LinkForm extends ConsumerState<LinkForm> {
             // }}}
             SizedBox(height: 20),
             // >> Category selector {{{
-            DropdownButtonFormField(
-              value: dropdownformfieldValue,
-              decoration: InputDecoration(
-                labelText: 'Category',
-                prefixIcon: Icon(Icons.category),
-              ),
-              items: categories.map((category) {
-                return DropdownMenuItem(value: category.id.toString(), child: Text(category.name));
-              }).toList(),
-              onChanged: (value) {
-                setState(() {
-                  dropdownformfieldValue = value;
-                });
-              },
-            ),
+            // DropdownButtonFormField(
+            //   value: dropdownformfieldValue,
+            //   decoration: InputDecoration(
+            //     labelText: 'Category',
+            //     prefixIcon: Icon(Icons.category),
+            //   ),
+            //   items: categories.map((category) {
+            //     return DropdownMenuItem(value: category.id.toString(), child: Text(category.name));
+            //   }).toList(),
+            //   onChanged: (value) {
+            //     setState(() {
+            //       dropdownformfieldValue = value;
+            //     });
+            //   },
+            // ),
             // }}}
             SizedBox(height: 40),
             // >> Submit button {{{
@@ -159,8 +162,8 @@ class _LinkForm extends ConsumerState<LinkForm> {
               onPressed: () {
                 if (!_formKey.currentState!.validate()) return;
                 final tagIds = _tabController.selectedItems.map((v) => int.parse(v.value)).toList();
-                final categoryId = dropdownformfieldValue != null ? int.parse(dropdownformfieldValue!) : null;
-                linkNewNotifier.add(tagIds: tagIds, categoryId: categoryId)
+                // final categoryId = dropdownformfieldValue != null ? int.parse(dropdownformfieldValue!) : null;
+                linkNewNotifier.add(tagIds: tagIds)
                   .then((v) {
                     linkNewNotifier.reset();
                     _urlController.value = _urlController.value.copyWith(

@@ -30,8 +30,14 @@ class TagMain extends StatelessWidget {
                   showModalBottomSheet<void>(
                     context: context,
                     isDismissible: false,
+                    isScrollControlled: true,
                     builder: (BuildContext context) {
-                      return TagNewWidget();
+                      return Padding(
+                        padding: EdgeInsets.only(
+                          bottom: MediaQuery.of(context).viewInsets.bottom,
+                        ),
+                        child: TagNewWidget(),
+                      );
                     },
                   );
                   // }}}

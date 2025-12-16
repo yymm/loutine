@@ -21,4 +21,23 @@ export class PurchasesUsecase {
       .all();
 		return all_purchases;
   }
+
+	async create({
+		title,
+		cost,
+		category_id,
+	}: {
+		title: string;
+		cost: number;
+		category_id: number | null | undefined;
+	}) {
+    const values = category_id !== null && category_id !== undefined ?
+      { title, cost, category_id} : { title, cost };
+		const new_purchase = await this.db
+			.insert(purchases)
+			.values(values)
+			.returning()
+			.get();
+		return new_purchase;
+	}
 }

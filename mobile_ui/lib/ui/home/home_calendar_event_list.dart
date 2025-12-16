@@ -11,7 +11,6 @@ class HomeCalendarEventList extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final calendarEventList = ref.watch(calendarEventListProvider);
-    print(calendarEventList.length);
     return SingleChildScrollView(
       child: Column(
         children: calendarEventList.map((event) {
@@ -25,7 +24,7 @@ class HomeCalendarEventList extends ConsumerWidget {
               title: switch (event.itemType) {
                 CalendarEventItemType.link => GestureDetector(
                   onTap: () => launchUrlString(event.data),
-                  child: Text(event.title, style: TextStyle(color: Colors.teal)),
+                  child: Text(event.title, style: TextStyle(color: Colors.teal), overflow: TextOverflow.ellipsis),
                 ),
                 CalendarEventItemType.purchase => Text('¥ ${event.data}'),
                 CalendarEventItemType.note => Text(event.title),

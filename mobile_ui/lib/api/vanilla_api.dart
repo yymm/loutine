@@ -3,8 +3,9 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 
-const baseUrl = 'http://10.0.2.2:8787';
-// const baseUrl = 'http://192.168.0.38:8787';
+// load from dart-define-from-file
+const envBaseUrl = String.fromEnvironment('baseUrl');
+const baseUrl = envBaseUrl == "" ? 'http://10.0.2.2:8787' : envBaseUrl;
 
 class LinkApiClient {
   Future<String> list(DateTime startDate, DateTime endDate) async {
@@ -20,13 +21,10 @@ class LinkApiClient {
     }
   }
 
-  Future<String> post(String url, String title, List<int> tagIds, int? categoryId) async {
+  Future<String> post(String url, String title, List<int> tagIds) async {
     final postUrl = Uri.parse('$baseUrl/api/v1/links');
     final headers = {'content-type': 'application/json'};
-    final body = categoryId == null ?
-      json.encode({'url': url, 'title': title, 'tag_ids': tagIds })
-      :
-      json.encode({'url': url, 'title': title, 'tag_ids': tagIds, 'category_id': categoryId });
+    final body = json.encode({'url': url, 'title': title, 'tag_ids': tagIds });
     print('LinkApi(post): $body');
     final res = await http.post(postUrl, headers: headers, body: body);
     if (res.statusCode == 201) {
@@ -50,6 +48,19 @@ class PurchaseApiClient {
       throw StateError('Failure to load purchases');
     }
   }
+  Future<String> post(double cost, String title, int? categoryId) async {
+    final postUrl = Uri.parse('$baseUrl/api/v1/purchases');
+    final headers = {'content-type': 'application/json'};
+    final bodyObject = categoryId != null ? {'cost': cost, 'title': title, 'categoryId': categoryId} : {'cost': cost, 'title': title};
+    final body = json.encode(bodyObject);
+    print('PurchaseApi(post): $body');
+    final res = await http.post(postUrl, headers: headers, body: body);
+    if (res.statusCode == 201) {
+      return utf8.decode(res.bodyBytes);
+    } else {
+      throw StateError('Failure to add link');
+    }
+  }
 }
 
 class NoteApiClient {
@@ -65,6 +76,19 @@ class NoteApiClient {
       throw StateError('Failure to load purchases');
     }
   }
+
+  Future<String> post(String text, String title, List<int> tagIds) async {
+    final postUrl = Uri.parse('$baseUrl/api/v1/notes');
+    final headers = {'content-type': 'application/json'};
+    final body = json.encode({'text': text, 'title': title, 'tag_ids': tagIds });
+    print('NoteApi(post): $body');
+    final res = await http.post(postUrl, headers: headers, body: body);
+    if (res.statusCode == 201) {
+      return utf8.decode(res.bodyBytes);
+    } else {
+      throw StateError('Failure to add link');
+    }
+  }
 }
 
 class TagApiClient {
@@ -72,7 +96,7 @@ class TagApiClient {
     final url = Uri.parse('$baseUrl/api/v1/tags');
     final res = await http.get(url);
     if (res.statusCode == 200) {
-      return res.body;
+      return utf8.decode(res.bodyBytes);
     } else {
       throw StateError('Failure to load tags');
     }
