@@ -1,0 +1,15 @@
+desc: Update a link
+runners:
+  req: http://localhost:8787
+steps:
+- req:
+    /api/v1/links/1:
+      put:
+        body:
+          application/json:
+            id: 1
+            title: updated link runn
+            url: https://updated.example.com
+  test: |
+    current.res.status == 200
+    && current.res.headers["Content-Type"][0] == "application/json"

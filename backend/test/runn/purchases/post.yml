@@ -1,0 +1,14 @@
+desc: Create a new purchase
+runners:
+  req: http://localhost:8787
+steps:
+- req:
+    /api/v1/purchases:
+      post:
+        body:
+          application/json:
+            title: test purchase runn
+            cost: 1500
+  test: |
+    current.res.status == 201
+    && current.res.headers["Content-Type"][0] == "application/json"
