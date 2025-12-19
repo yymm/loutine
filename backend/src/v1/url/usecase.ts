@@ -1,19 +1,22 @@
+import { fetch_url_title } from "../../utils/fetch_url_title";
+import { fetch_url_ogp, empty_ogp } from "../../utils/fetch_ogp";
+
 export class UrlUsecase {
   async get_url_title(url: string) {
-    const response = await fetch(url);
-
-    // 取得できない場合はエラーにせず空文字を返す仕様
-    if (!response.ok) {
-      // throw new Error(`HTTP error! status: ${response.status}`);
+    const title = fetch_url_title(url);
+    if (title === null) {
+      console.warn(`Failed to fetch url title (fetch_url_title)`)
       return '';
     }
+    return title;
+  }
 
-    const html = await response.text();
-
-    const titleMatch = html.match(/<title>(.*?)<\/title>/i);
-    if (titleMatch && titleMatch[1]) {
-      return titleMatch[1].trim();
+  async get_url_ogp(url: string) {
+    const ogp = await fetch_url_ogp(url);
+    if (ogp === null) {
+      console.warn('Failed to fetch url ogp (fetch_url_ogp)');
+      return empty_ogp;
     }
-    return '';
+    return ogp;
   }
 }

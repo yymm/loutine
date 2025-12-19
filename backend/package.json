@@ -2,6 +2,7 @@
   "name": "backend",
   "scripts": {
     "test": "vitest --run",
+    "test:runn": "runn run ./test/runn/**/*.yml",
     "check": "biome check --write ./src",
     "lint": "biome lint --write ./src",
     "fmt": "biome format --write ./src",

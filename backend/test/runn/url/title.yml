@@ -1,0 +1,14 @@
+desc: test api/v1/url/title POST
+runners:
+  req: http://127.0.0.1:8787
+steps:
+- req:
+    /api/v1/url/title:
+      post:
+        body:
+          application/json:
+            url: https://dev.to/abdullahyasir/flutter-development-setup-for-wsl2-windows-android-studio-complete-guide-4493
+  test: |
+    current.res.status == 200
+    && current.res.headers["Content-Type"][0] == "application/json"
+    && compare(current.res.body, {"title":"","url":"https://dev.to/abdullahyasir/flutter-development-setup-for-wsl2-windows-android-studio-complete-guide-4493"})
