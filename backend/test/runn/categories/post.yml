@@ -8,7 +8,7 @@ steps:
         body:
           application/json:
             description: a bit desc
-            title: test category
+            name: test category
   test: |
     current.res.status == 201
     && current.res.headers["Content-Type"][0] == "application/json"

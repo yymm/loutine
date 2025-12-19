@@ -11,4 +11,5 @@ steps:
   test: |
     current.res.status == 200
     && current.res.headers["Content-Type"][0] == "application/json"
-    && compare(current.res.body, {"title":"","url":"https://dev.to/abdullahyasir/flutter-development-setup-for-wsl2-windows-android-studio-complete-guide-4493"})
+    && current.res.body.url == "https://dev.to/abdullahyasir/flutter-development-setup-for-wsl2-windows-android-studio-complete-guide-4493"
+    && current.res.body.title != ""

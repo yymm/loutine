@@ -10,5 +10,5 @@ steps:
             title: hoge article
             url: https://example.com/hoge
   test: |
-    current.res.status == 200
+    current.res.status == 201
     && current.res.headers["Content-Type"][0] == "application/json"

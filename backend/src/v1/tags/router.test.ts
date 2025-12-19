@@ -7,20 +7,9 @@ describe('tags router', () => {
 		name: 'test tag',
 		description: 'test tag description',
 	};
+	let createdTagId: number;
 
-	beforeAll(async () => {
-		await tags_router.request(
-			'/',
-			{
-				method: 'POST',
-				body: JSON.stringify(body),
-				headers: new Headers({ 'Content-Type': 'application/json' }),
-			},
-			env,
-		);
-	});
-
-	it('POST /', async () => {
+	beforeEach(async () => {
 		const res = await tags_router.request(
 			'/',
 			{
@@ -31,13 +20,31 @@ describe('tags router', () => {
 			env,
 		);
 		const tag: Tag = await res.json();
-		expect(res.status).toBe(201);
-		expect(tag.name).toBe(body.name);
-		expect(tag.description).toBe(body.description);
+		createdTagId = tag.id;
 	});
 
-	it('GET /1', async () => {
-		const res = await tags_router.request('/1', {}, env);
+	it('POST /', async () => {
+		const newBody = {
+			name: 'another tag',
+			description: 'another tag description',
+		};
+		const res = await tags_router.request(
+			'/',
+			{
+				method: 'POST',
+				body: JSON.stringify(newBody),
+				headers: new Headers({ 'Content-Type': 'application/json' }),
+			},
+			env,
+		);
+		const tag: Tag = await res.json();
+		expect(res.status).toBe(201);
+		expect(tag.name).toBe(newBody.name);
+		expect(tag.description).toBe(newBody.description);
+	});
+
+	it('GET /:id', async () => {
+		const res = await tags_router.request(`/${createdTagId}`, {}, env);
 		const tag: Tag = await res.json();
 		expect(res.status).toBe(200);
 		expect(tag.name).toBe(body.name);
@@ -48,12 +55,12 @@ describe('tags router', () => {
 		const res = await tags_router.request('/', {}, env);
 		const tags: Array<Tag> = await res.json();
 		expect(res.status).toBe(200);
-		expect(tags.length).toBe(1);
+		expect(tags.length).toBeGreaterThanOrEqual(1);
 	});
 
 	it('PUT /', async () => {
 		const put_body = {
-			id: 1,
+			id: createdTagId,
 			name: 'updated tag test',
 			description: 'updated tag description test',
 		};
