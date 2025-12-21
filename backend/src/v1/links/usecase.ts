@@ -20,13 +20,12 @@ export class LinksUsecase {
 
 	async get_date_range(start_date: string, end_date: string) {
 		const all_links = await this.db
-      .select()
-      .from(links)
-      .where(and(
-        gte(links.created_at, start_date),
-        lt(links.created_at, end_date),
-      ))
-      .all();
+			.select()
+			.from(links)
+			.where(
+				and(gte(links.created_at, start_date), lt(links.created_at, end_date)),
+			)
+			.all();
 		return all_links;
 	}
 
@@ -39,9 +38,9 @@ export class LinksUsecase {
 		url: string;
 		tag_ids: Array<number> | null | undefined;
 	}) {
-    // FIXME: Since D1 lacks transaction functionality,
-    // you'll either have to implement your own rollback mechanism
-    // or wait for transactions to be implemented.
+		// FIXME: Since D1 lacks transaction functionality,
+		// you'll either have to implement your own rollback mechanism
+		// or wait for transactions to be implemented.
 		const new_link = await this.db
 			.insert(links)
 			.values({ title, url })
@@ -49,7 +48,8 @@ export class LinksUsecase {
 			.get();
 		if (tag_ids !== null && tag_ids !== undefined) {
 			for (const tag_id of tag_ids) {
-				this.db.insert(link_tag)
+				this.db
+					.insert(link_tag)
 					.values({ link_id: new_link.id, tag_id })
 					.returning()
 					.get();

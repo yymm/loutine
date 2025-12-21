@@ -1,5 +1,5 @@
 import { env } from 'cloudflare:test';
-import { describe, expect, it, beforeEach } from 'vitest';
+import { beforeEach, describe, expect, it } from 'vitest';
 import { purchases_router } from './router';
 
 describe('purchases router', () => {

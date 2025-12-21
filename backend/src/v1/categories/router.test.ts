@@ -44,7 +44,11 @@ describe('categories router', () => {
 	});
 
 	it('GET /:id', async () => {
-		const res = await categories_router.request(`/${createdCategoryId}`, {}, env);
+		const res = await categories_router.request(
+			`/${createdCategoryId}`,
+			{},
+			env,
+		);
 		const category: Category = await res.json();
 		expect(res.status).toBe(200);
 		expect(category.name).toBe(body.name);

@@ -4,7 +4,7 @@ import { links_router } from './links/router';
 import { notes_router } from './notes/router';
 import { purchases_router } from './purchases/router';
 import { tags_router } from './tags/router';
-import {url_router} from './url/router';
+import { url_router } from './url/router';
 
 const v1_router = createHono().basePath('v1');
 
