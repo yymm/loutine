@@ -1,6 +1,6 @@
-import {zValidator} from '@hono/zod-validator';
+import { zValidator } from '@hono/zod-validator';
 import { createHono } from '../../utils/app_factory';
-import {createNotesSchema, notesListSchema} from './types';
+import { createNotesSchema, notesListSchema } from './types';
 
 const app = createHono();
 

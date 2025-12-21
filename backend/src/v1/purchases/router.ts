@@ -1,13 +1,16 @@
+import { zValidator } from '@hono/zod-validator';
 import { createHono } from '../../utils/app_factory';
-import {createPurchasesSchema, purchasesListSchema} from './types';
-import {zValidator} from '@hono/zod-validator';
+import { createPurchasesSchema, purchasesListSchema } from './types';
 
 const app = createHono();
 
 app.get('/', zValidator('query', purchasesListSchema), async (c) => {
 	const { start_date, end_date } = c.req.valid('query');
 	const { purchasesUsecase } = c.var;
-	const all_purchases = await purchasesUsecase.get_date_range(start_date, end_date);
+	const all_purchases = await purchasesUsecase.get_date_range(
+		start_date,
+		end_date,
+	);
 	return c.json(all_purchases, 200);
 });
 

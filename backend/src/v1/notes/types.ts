@@ -1,6 +1,6 @@
-import {createInsertSchema} from "drizzle-zod";
-import {z} from "zod";
-import {notes} from "../../schema";
+import { createInsertSchema } from 'drizzle-zod';
+import { z } from 'zod';
+import { notes } from '../../schema';
 
 export const insertNotesSchema = createInsertSchema(notes, {
 	id: z.coerce.number(),
@@ -20,13 +20,13 @@ export const createNotesSchema = insertNotesSchema
 	.extend({
 		tag_ids: z.number().array().nullish(),
 	})
-  .pick({
-    title: true,
-    text: true,
-    tag_ids: true,
-  });
+	.pick({
+		title: true,
+		text: true,
+		tag_ids: true,
+	});
 
 export const notesListSchema = z.object({
-  start_date: z.string().date(), // YYYY-MM-DD
-  end_date: z.string().date(), // YYYY-MM-DD
+	start_date: z.string().date(), // YYYY-MM-DD
+	end_date: z.string().date(), // YYYY-MM-DD
 });

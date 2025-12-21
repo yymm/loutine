@@ -1,7 +1,7 @@
 import { env } from 'cloudflare:test';
-import { describe, expect, it, beforeEach } from 'vitest';
+import { beforeEach, describe, expect, it } from 'vitest';
 import { links_router } from './router';
-import { Link } from './types';
+import type { Link } from './types';
 
 describe('links router', () => {
 	const body = {

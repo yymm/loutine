@@ -38,8 +38,8 @@ export const linksIdSchema = insertLinksSchema.pick({
 });
 
 export const linksListSchema = z.object({
-  start_date: z.string().date(), // YYYY-MM-DD
-  end_date: z.string().date(), // YYYY-MM-DD
+	start_date: z.string().date(), // YYYY-MM-DD
+	end_date: z.string().date(), // YYYY-MM-DD
 });
 
 export type Link = z.infer<typeof insertLinksSchema>;
