@@ -1,17 +1,17 @@
 interface OGPData {
-  title?: string;
-  description?: string;
-  image?: string;
-  url?: string;
-  site_name?: string;
+  og_title?: string;
+  og_description?: string;
+  og_image?: string;
+  og_url?: string;
+  og_site_name?: string;
 }
 
 export const empty_ogp = {
-  title: '',
-  description: '',
-  image: '',
-  url: '',
-  site_name: '',
+  og_title: '',
+  og_description: '',
+  og_image: '',
+  og_url: '',
+  og_site_name: '',
 }
 
 /**
@@ -34,11 +34,11 @@ export const fetch_url_ogp = async (targetUrl: string): Promise<OGPData | null> 
 
     // 抽出対象のプロパティ定義
     const properties: Record<string, keyof OGPData> = {
-      'og:title': 'title',
-      'og:description': 'description',
-      'og:image': 'image',
-      'og:url': 'url',
-      'og:site_name': 'site_name'
+      'og:title': 'og_title',
+      'og:description': 'og_description',
+      'og:image': 'og_image',
+      'og:url': 'og_url',
+      'og:site_name': 'og_site_name'
     };
 
     // metaタグを抽出するための正規表現
@@ -58,13 +58,6 @@ export const fetch_url_ogp = async (targetUrl: string): Promise<OGPData | null> 
         // ogp[key] = decodeHtmlEntities(match[1]);
         ogp[key] = match[1].trim();
       }
-    }
-
-    // フォールバック: <title>タグの抽出
-    if (!ogp.title) {
-      const titleMatch = headInner.match(/<title(?:\s+[^>]*)?>([\s\S]*?)<\/title>/i);
-      // if (titleMatch) ogp.title = decodeHtmlEntities(titleMatch[1].trim());
-      if (titleMatch) ogp.title = titleMatch[1].trim();
     }
 
     return ogp;
