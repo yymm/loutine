@@ -9,7 +9,8 @@ app.post('/title', zValidator('json', urlTitleSchema), async (c) => {
 	const { url } = c.req.valid('json');
 	const { urlUsecase } = c.var;
 	const title = await urlUsecase.get_url_title(url);
-	return c.json({ title, url }, 200);
+  const ogp = await urlUsecase.get_url_ogp(url);
+	return c.json({ ...ogp, title, url }, 200);
 });
 
 export { app as url_router }

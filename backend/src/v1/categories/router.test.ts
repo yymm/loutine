@@ -7,20 +7,9 @@ describe('categories router', () => {
 		name: 'test code',
 		description: 'test code description',
 	};
+	let createdCategoryId: number;
 
-	beforeAll(async () => {
-		await categories_router.request(
-			'/',
-			{
-				method: 'POST',
-				body: JSON.stringify(body),
-				headers: new Headers({ 'Content-Type': 'application/json' }),
-			},
-			env,
-		);
-	});
-
-	it('POST /', async () => {
+	beforeEach(async () => {
 		const res = await categories_router.request(
 			'/',
 			{
@@ -31,13 +20,31 @@ describe('categories router', () => {
 			env,
 		);
 		const category: Category = await res.json();
-		expect(res.status).toBe(201);
-		expect(category.name).toBe(body.name);
-		expect(category.description).toBe(body.description);
+		createdCategoryId = category.id;
 	});
 
-	it('GET /1', async () => {
-		const res = await categories_router.request('/1', {}, env);
+	it('POST /', async () => {
+		const newBody = {
+			name: 'another category',
+			description: 'another category description',
+		};
+		const res = await categories_router.request(
+			'/',
+			{
+				method: 'POST',
+				body: JSON.stringify(newBody),
+				headers: new Headers({ 'Content-Type': 'application/json' }),
+			},
+			env,
+		);
+		const category: Category = await res.json();
+		expect(res.status).toBe(201);
+		expect(category.name).toBe(newBody.name);
+		expect(category.description).toBe(newBody.description);
+	});
+
+	it('GET /:id', async () => {
+		const res = await categories_router.request(`/${createdCategoryId}`, {}, env);
 		const category: Category = await res.json();
 		expect(res.status).toBe(200);
 		expect(category.name).toBe(body.name);
@@ -48,12 +55,12 @@ describe('categories router', () => {
 		const res = await categories_router.request('/', {}, env);
 		const categories: Array<Category> = await res.json();
 		expect(res.status).toBe(200);
-		expect(categories.length).toBe(1);
+		expect(categories.length).toBeGreaterThanOrEqual(1);
 	});
 
 	it('PUT /', async () => {
 		const put_body = {
-			id: 1,
+			id: createdCategoryId,
 			name: 'updated test',
 			description: 'updated description test',
 		};

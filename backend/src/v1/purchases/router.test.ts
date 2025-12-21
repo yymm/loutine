@@ -1,16 +1,16 @@
 import { env } from 'cloudflare:test';
 import { describe, expect, it, beforeEach } from 'vitest';
-import { notes_router } from './router';
+import { purchases_router } from './router';
 
-describe('notes router', () => {
+describe('purchases router', () => {
 	const body = {
-		title: 'test note',
-		text: 'test note content',
+		title: 'test purchase',
+		cost: 1000,
 	};
-	let createdNoteId: number;
+	let createdPurchaseId: number;
 
 	beforeEach(async () => {
-		const res = await notes_router.request(
+		const res = await purchases_router.request(
 			'/',
 			{
 				method: 'POST',
@@ -19,16 +19,16 @@ describe('notes router', () => {
 			},
 			env,
 		);
-		const note = await res.json();
-		createdNoteId = note.id;
+		const purchase = await res.json();
+		createdPurchaseId = purchase.id;
 	});
 
 	it('POST /', async () => {
 		const newBody = {
-			title: 'another note',
-			text: 'another note content',
+			title: 'another purchase',
+			cost: 2000,
 		};
-		const res = await notes_router.request(
+		const res = await purchases_router.request(
 			'/',
 			{
 				method: 'POST',
@@ -37,19 +37,19 @@ describe('notes router', () => {
 			},
 			env,
 		);
-		const note = await res.json();
+		const purchase = await res.json();
 		expect(res.status).toBe(201);
-		expect(note.title).toBe(newBody.title);
-		expect(note.text).toBe(newBody.text);
+		expect(purchase.title).toBe(newBody.title);
+		expect(purchase.cost).toBe(newBody.cost);
 	});
 
-	it('POST / with tag_ids', async () => {
+	it('POST / with category_id', async () => {
 		const newBody = {
-			title: 'note with tags',
-			text: 'note content with tags',
-			tag_ids: [],
+			title: 'purchase with category',
+			cost: 3000,
+			category_id: null,
 		};
-		const res = await notes_router.request(
+		const res = await purchases_router.request(
 			'/',
 			{
 				method: 'POST',
@@ -58,28 +58,28 @@ describe('notes router', () => {
 			},
 			env,
 		);
-		const note = await res.json();
+		const purchase = await res.json();
 		expect(res.status).toBe(201);
-		expect(note.title).toBe(newBody.title);
-		expect(note.text).toBe(newBody.text);
+		expect(purchase.title).toBe(newBody.title);
+		expect(purchase.cost).toBe(newBody.cost);
 	});
 
 	it('GET / with date range', async () => {
-		const res = await notes_router.request(
+		const res = await purchases_router.request(
 			'/?start_date=2020-01-01&end_date=2099-12-31',
 			{},
 			env,
 		);
-		const notes = await res.json();
+		const purchases = await res.json();
 		expect(res.status).toBe(200);
-		expect(Array.isArray(notes)).toBe(true);
+		expect(Array.isArray(purchases)).toBe(true);
 	});
 
 	it('POST / without required fields', async () => {
 		const invalidBody = {
-			title: 'no text provided',
+			title: 'no cost provided',
 		};
-		const res = await notes_router.request(
+		const res = await purchases_router.request(
 			'/',
 			{
 				method: 'POST',

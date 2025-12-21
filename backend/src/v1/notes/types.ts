@@ -10,9 +10,8 @@ export const insertNotesSchema = createInsertSchema(notes, {
 		.max(2048, 'titleは2048文字以内にしてください'),
 	text: z
 		.string()
-		.url()
 		.min(1, 'textは必須です')
-		.max(8192, 'urlは8192文字以内にしてください'),
+		.max(8192, 'textは8192文字以内にしてください'),
 	created_at: z.string().datetime(),
 	updated_at: z.string().datetime(),
 });
