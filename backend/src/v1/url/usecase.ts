@@ -3,7 +3,7 @@ import { fetch_url_ogp, empty_ogp } from "../../utils/fetch_ogp";
 
 export class UrlUsecase {
   async get_url_title(url: string) {
-    const title = fetch_url_title(url);
+    const title = await fetch_url_title(url);
     if (title === null) {
       console.warn(`Failed to fetch url title (fetch_url_title)`)
       return '';
