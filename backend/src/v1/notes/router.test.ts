@@ -7,7 +7,7 @@ describe('notes router', () => {
 		title: 'test note',
 		text: 'test note content',
 	};
-	let createdNoteId: number;
+	let _createdNoteId: number;
 
 	beforeEach(async () => {
 		const res = await notes_router.request(
@@ -20,7 +20,7 @@ describe('notes router', () => {
 			env,
 		);
 		const note = await res.json();
-		createdNoteId = note.id;
+		_createdNoteId = note.id;
 	});
 
 	it('POST /', async () => {

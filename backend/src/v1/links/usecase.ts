@@ -1,6 +1,6 @@
-import { and, eq, gte, inArray, lt } from 'drizzle-orm';
+import { and, eq, gte, lt } from 'drizzle-orm';
 import type { DrizzleD1Database } from 'drizzle-orm/d1';
-import { link_tag, links, tags } from '../../schema';
+import { link_tag, links } from '../../schema';
 
 export class LinksUsecase {
 	db: DrizzleD1Database;
