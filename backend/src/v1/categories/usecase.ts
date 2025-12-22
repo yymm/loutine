@@ -30,7 +30,10 @@ export class CategoriesUsecase {
 	async create({
 		name,
 		description,
-	}: { name: string; description: string | null }) {
+	}: {
+		name: string;
+		description: string | null;
+	}) {
 		const new_category = await this.db
 			.insert(categories)
 			.values(description === null ? { name } : { name, description })
@@ -43,7 +46,11 @@ export class CategoriesUsecase {
 		id,
 		name,
 		description,
-	}: { id: number; name: string; description: string | null }) {
+	}: {
+		id: number;
+		name: string;
+		description: string | null;
+	}) {
 		const updated_category = await this.db
 			.update(categories)
 			.set(description === null ? { name } : { name, description })

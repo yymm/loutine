@@ -22,7 +22,10 @@ export class TagsUsecase {
 	async create({
 		name,
 		description,
-	}: { name: string; description: string | null }) {
+	}: {
+		name: string;
+		description: string | null;
+	}) {
 		const new_tag = this.db
 			.insert(tags)
 			.values(description === null ? { name } : { name, description })
@@ -35,7 +38,11 @@ export class TagsUsecase {
 		id,
 		name,
 		description,
-	}: { id: number; name: string; description: string | null }) {
+	}: {
+		id: number;
+		name: string;
+		description: string | null;
+	}) {
 		const updated_tag = await this.db
 			.update(tags)
 			.set(description === null ? { name } : { name, description })

@@ -7,7 +7,7 @@ describe('purchases router', () => {
 		title: 'test purchase',
 		cost: 1000,
 	};
-	let createdPurchaseId: number;
+	let _createdPurchaseId: number;
 
 	beforeEach(async () => {
 		const res = await purchases_router.request(
@@ -20,7 +20,7 @@ describe('purchases router', () => {
 			env,
 		);
 		const purchase = await res.json();
-		createdPurchaseId = purchase.id;
+		_createdPurchaseId = purchase.id;
 	});
 
 	it('POST /', async () => {
