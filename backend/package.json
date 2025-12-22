@@ -6,6 +6,11 @@
     "check": "biome check --write ./src",
     "lint": "biome lint --write ./src",
     "fmt": "biome format --write ./src",
+    "ci:check": "biome check ./src",
+    "ci:type": "tsc --noEmit",
+    "ci:test": "vitest --run",
+    "ci:test:e2e": "runn run ./test/runn/**/*.yml",
+    "ci:build": "wrangler deploy --dry-run --outdir dist",
     "local": "wrangler dev --local --ip 0.0.0.0",
     "local:db:create": "wrangler d1 execute loutine-dev --local --command 'select 1'",
     "local:drizzle:generate": "drizzle-kit generate --config drizzle.config.local.ts",
@@ -33,6 +38,7 @@
     "@cloudflare/workers-types": "^4.20251221.0",
     "@libsql/client": "^0.15.15",
     "drizzle-kit": "^0.31.8",
+    "typescript": "^5.9.3",
     "vitest": "^3.2.4",
     "wrangler": "^4.56.0"
   }
