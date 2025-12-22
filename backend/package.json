@@ -34,6 +34,6 @@
     "@libsql/client": "^0.15.15",
     "drizzle-kit": "^0.31.8",
     "vitest": "^3.2.4",
-    "wrangler": "^3.96.0"
+    "wrangler": "^4.56.0"
   }
 }
