@@ -19,7 +19,7 @@ describe('notes router', () => {
 			},
 			env,
 		);
-		const note = await res.json();
+		const note = (await res.json()) as { id: number };
 		_createdNoteId = note.id;
 	});
 
@@ -37,7 +37,7 @@ describe('notes router', () => {
 			},
 			env,
 		);
-		const note = await res.json();
+		const note = (await res.json()) as { title: string; text: string };
 		expect(res.status).toBe(201);
 		expect(note.title).toBe(newBody.title);
 		expect(note.text).toBe(newBody.text);
@@ -58,7 +58,7 @@ describe('notes router', () => {
 			},
 			env,
 		);
-		const note = await res.json();
+		const note = (await res.json()) as { title: string; text: string };
 		expect(res.status).toBe(201);
 		expect(note.title).toBe(newBody.title);
 		expect(note.text).toBe(newBody.text);
