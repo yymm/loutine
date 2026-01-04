@@ -72,6 +72,12 @@ jobs:
       - name: Install dependencies
         run: npm ci
       
+      - name: Initialize database
+        run: npm run local:db:create
+      
+      - name: Run migrations
+        run: npm run local:drizzle:migrate
+      
       - name: Run tests
         run: npm run ci:test
 
@@ -98,6 +104,12 @@ jobs:
       
       - name: Install dependencies
         run: npm ci
+      
+      - name: Initialize database
+        run: npm run local:db:create
+      
+      - name: Run migrations
+        run: npm run local:drizzle:migrate
       
       - name: Start Wrangler dev server
         run: npx wrangler dev --local --ip 127.0.0.1 --port 8787 &

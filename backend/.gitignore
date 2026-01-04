@@ -1,6 +1,5 @@
 # wralgler
 .wrangler
-migrations
 
 # prod
 dist/
