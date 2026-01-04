@@ -16,7 +16,7 @@ describe('url router', () => {
 			},
 			env,
 		);
-		const data = await res.json();
+		const data = (await res.json()) as { url: string; title: string };
 		expect(res.status).toBe(200);
 		expect(data.url).toBe(body.url);
 		expect(data.title).toBeDefined();

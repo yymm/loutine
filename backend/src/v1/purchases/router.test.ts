@@ -19,7 +19,7 @@ describe('purchases router', () => {
 			},
 			env,
 		);
-		const purchase = await res.json();
+		const purchase = (await res.json()) as { id: number };
 		_createdPurchaseId = purchase.id;
 	});
 
@@ -37,7 +37,7 @@ describe('purchases router', () => {
 			},
 			env,
 		);
-		const purchase = await res.json();
+		const purchase = (await res.json()) as { title: string; cost: number };
 		expect(res.status).toBe(201);
 		expect(purchase.title).toBe(newBody.title);
 		expect(purchase.cost).toBe(newBody.cost);
@@ -58,7 +58,7 @@ describe('purchases router', () => {
 			},
 			env,
 		);
-		const purchase = await res.json();
+		const purchase = (await res.json()) as { title: string; cost: number };
 		expect(res.status).toBe(201);
 		expect(purchase.title).toBe(newBody.title);
 		expect(purchase.cost).toBe(newBody.cost);
