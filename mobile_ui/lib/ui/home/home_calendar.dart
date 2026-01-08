@@ -4,9 +4,8 @@ import 'package:mobile_ui/models/calendar_event_item.dart';
 import 'package:mobile_ui/state/home_calendar_state.dart';
 import 'package:table_calendar/table_calendar.dart';
 
-
 class HomeCalendarWidget extends ConsumerWidget {
-  const HomeCalendarWidget({ super.key });
+  const HomeCalendarWidget({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -54,14 +53,7 @@ class HomeCalendarWidget extends ConsumerWidget {
             if (event.itemType == CalendarEventItemType.purchase) purchaseCnt++;
             if (event.itemType == CalendarEventItemType.note) noteCnt++;
           }).toList();
-          return Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              getBadge(linkCnt, Colors.lightBlue),
-              getBadge(purchaseCnt, Colors.orange),
-              getBadge(noteCnt, Colors.lightGreen),
-            ]
-          );
+          return Row(mainAxisAlignment: MainAxisAlignment.center, children: [getBadge(linkCnt, Colors.lightBlue), getBadge(purchaseCnt, Colors.orange), getBadge(noteCnt, Colors.lightGreen)]);
         },
       ),
     );
@@ -71,8 +63,5 @@ class HomeCalendarWidget extends ConsumerWidget {
 Widget getBadge(int cnt, Color color) {
   // if (cnt == 0) return SizedBox(width: 0, height: 0);
   if (cnt == 0) return SizedBox.shrink();
-  return Badge.count(
-    count: cnt,
-    backgroundColor: color,
-  );
+  return Badge.count(count: cnt, backgroundColor: color);
 }

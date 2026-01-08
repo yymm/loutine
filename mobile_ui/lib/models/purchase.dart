@@ -16,12 +16,6 @@ class Purchase {
   // final List<Tag> tags;
 
   factory Purchase.fromJson(Map<String, dynamic> json) {
-    return Purchase(
-      id: json['id'] as int,
-      title: json['title'] as String,
-      cost: json['cost'] as int,
-      createdAt: DateTime.parse(json['created_at']),
-      updatedAt: DateTime.parse(json['updated_at']),
-    );
+    return Purchase(id: json['id'] as int, title: json['title'] as String, cost: json['cost'] as int, createdAt: DateTime.parse(json['created_at']), updatedAt: DateTime.parse(json['updated_at']));
   }
 }

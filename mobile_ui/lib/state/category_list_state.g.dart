@@ -12,18 +12,8 @@ part of 'category_list_state.dart';
 @ProviderFor(CategoryListNotifier)
 final categoryListProvider = CategoryListNotifierProvider._();
 
-final class CategoryListNotifierProvider
-    extends $NotifierProvider<CategoryListNotifier, List<Category>> {
-  CategoryListNotifierProvider._()
-    : super(
-        from: null,
-        argument: null,
-        retry: null,
-        name: r'categoryListProvider',
-        isAutoDispose: true,
-        dependencies: null,
-        $allTransitiveDependencies: null,
-      );
+final class CategoryListNotifierProvider extends $NotifierProvider<CategoryListNotifier, List<Category>> {
+  CategoryListNotifierProvider._() : super(from: null, argument: null, retry: null, name: r'categoryListProvider', isAutoDispose: true, dependencies: null, $allTransitiveDependencies: null);
 
   @override
   String debugGetCreateSourceHash() => _$categoryListNotifierHash();
@@ -34,15 +24,11 @@ final class CategoryListNotifierProvider
 
   /// {@macro riverpod.override_with_value}
   Override overrideWithValue(List<Category> value) {
-    return $ProviderOverride(
-      origin: this,
-      providerOverride: $SyncValueProvider<List<Category>>(value),
-    );
+    return $ProviderOverride(origin: this, providerOverride: $SyncValueProvider<List<Category>>(value));
   }
 }
 
-String _$categoryListNotifierHash() =>
-    r'd7a5a8048aa7ebe4a0115a30086b2cf267639c64';
+String _$categoryListNotifierHash() => r'd7a5a8048aa7ebe4a0115a30086b2cf267639c64';
 
 abstract class _$CategoryListNotifier extends $Notifier<List<Category>> {
   List<Category> build();
@@ -50,14 +36,7 @@ abstract class _$CategoryListNotifier extends $Notifier<List<Category>> {
   @override
   void runBuild() {
     final ref = this.ref as $Ref<List<Category>, List<Category>>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<List<Category>, List<Category>>,
-              List<Category>,
-              Object?,
-              Object?
-            >;
+    final element = ref.element as $ClassProviderElement<AnyNotifier<List<Category>, List<Category>>, List<Category>, Object?, Object?>;
     element.handleCreate(ref, build);
   }
 }
@@ -65,33 +44,15 @@ abstract class _$CategoryListNotifier extends $Notifier<List<Category>> {
 @ProviderFor(categoryListFuture)
 final categoryListFutureProvider = CategoryListFutureProvider._();
 
-final class CategoryListFutureProvider
-    extends
-        $FunctionalProvider<
-          AsyncValue<List<Category>>,
-          List<Category>,
-          FutureOr<List<Category>>
-        >
-    with $FutureModifier<List<Category>>, $FutureProvider<List<Category>> {
-  CategoryListFutureProvider._()
-    : super(
-        from: null,
-        argument: null,
-        retry: null,
-        name: r'categoryListFutureProvider',
-        isAutoDispose: true,
-        dependencies: null,
-        $allTransitiveDependencies: null,
-      );
+final class CategoryListFutureProvider extends $FunctionalProvider<AsyncValue<List<Category>>, List<Category>, FutureOr<List<Category>>> with $FutureModifier<List<Category>>, $FutureProvider<List<Category>> {
+  CategoryListFutureProvider._() : super(from: null, argument: null, retry: null, name: r'categoryListFutureProvider', isAutoDispose: true, dependencies: null, $allTransitiveDependencies: null);
 
   @override
   String debugGetCreateSourceHash() => _$categoryListFutureHash();
 
   @$internal
   @override
-  $FutureProviderElement<List<Category>> $createElement(
-    $ProviderPointer pointer,
-  ) => $FutureProviderElement(pointer);
+  $FutureProviderElement<List<Category>> $createElement($ProviderPointer pointer) => $FutureProviderElement(pointer);
 
   @override
   FutureOr<List<Category>> create(Ref ref) {
@@ -99,5 +60,4 @@ final class CategoryListFutureProvider
   }
 }
 
-String _$categoryListFutureHash() =>
-    r'84a090303814d52fcf5cf858f9f4c3b9e48cb541';
+String _$categoryListFutureHash() => r'84a090303814d52fcf5cf858f9f4c3b9e48cb541';

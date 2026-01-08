@@ -12,18 +12,8 @@ part of 'link_new_state.dart';
 @ProviderFor(LinkNewNotifier)
 final linkNewProvider = LinkNewNotifierProvider._();
 
-final class LinkNewNotifierProvider
-    extends $NotifierProvider<LinkNewNotifier, LinkNew> {
-  LinkNewNotifierProvider._()
-    : super(
-        from: null,
-        argument: null,
-        retry: null,
-        name: r'linkNewProvider',
-        isAutoDispose: true,
-        dependencies: null,
-        $allTransitiveDependencies: null,
-      );
+final class LinkNewNotifierProvider extends $NotifierProvider<LinkNewNotifier, LinkNew> {
+  LinkNewNotifierProvider._() : super(from: null, argument: null, retry: null, name: r'linkNewProvider', isAutoDispose: true, dependencies: null, $allTransitiveDependencies: null);
 
   @override
   String debugGetCreateSourceHash() => _$linkNewNotifierHash();
@@ -34,10 +24,7 @@ final class LinkNewNotifierProvider
 
   /// {@macro riverpod.override_with_value}
   Override overrideWithValue(LinkNew value) {
-    return $ProviderOverride(
-      origin: this,
-      providerOverride: $SyncValueProvider<LinkNew>(value),
-    );
+    return $ProviderOverride(origin: this, providerOverride: $SyncValueProvider<LinkNew>(value));
   }
 }
 
@@ -49,14 +36,7 @@ abstract class _$LinkNewNotifier extends $Notifier<LinkNew> {
   @override
   void runBuild() {
     final ref = this.ref as $Ref<LinkNew, LinkNew>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<LinkNew, LinkNew>,
-              LinkNew,
-              Object?,
-              Object?
-            >;
+    final element = ref.element as $ClassProviderElement<AnyNotifier<LinkNew, LinkNew>, LinkNew, Object?, Object?>;
     element.handleCreate(ref, build);
   }
 }

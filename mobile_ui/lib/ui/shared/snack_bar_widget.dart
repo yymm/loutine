@@ -7,10 +7,7 @@ SnackBar getSnackBar({required context, required text, bool error = false}) {
     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
     margin: const EdgeInsets.only(left: 23, right: 23, bottom: 23),
     behavior: SnackBarBehavior.floating,
-    action: SnackBarAction(
-      label: "close",
-      onPressed: () => ScaffoldMessenger.of(context).hideCurrentSnackBar(),
-    ),
+    action: SnackBarAction(label: "close", onPressed: () => ScaffoldMessenger.of(context).hideCurrentSnackBar()),
     backgroundColor: error ? Colors.red : Colors.green,
   );
 }

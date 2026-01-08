@@ -5,7 +5,7 @@ import 'package:mobile_ui/ui/shared/loading_widget.dart';
 import 'package:mobile_ui/state/category_list_state.dart';
 
 class CategoryList extends ConsumerWidget {
-  const CategoryList({ super.key });
+  const CategoryList({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -17,13 +17,13 @@ class CategoryList extends ConsumerWidget {
         AsyncData() => CategoryListWidget(categories),
         AsyncError() => const Text('Some error happened...'),
         _ => LoadingWidget(true),
-      }
+      },
     );
   }
 }
 
 class CategoryListWidget extends StatelessWidget {
-  const CategoryListWidget(this._categories, { super.key });
+  const CategoryListWidget(this._categories, {super.key});
 
   final List<Category> _categories;
 
@@ -34,16 +34,10 @@ class CategoryListWidget extends StatelessWidget {
       children: _categories.map((category) {
         return Card(
           margin: const EdgeInsets.all(5),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10),
-          ),
-          child: ListTile(
-            leading: Icon(Icons.category),
-            title: Text(category.name),
-            subtitle: Text(category.description),
-          ),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+          child: ListTile(leading: Icon(Icons.category), title: Text(category.name), subtitle: Text(category.description)),
         );
-      }).toList()
+      }).toList(),
     );
   }
 }

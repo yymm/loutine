@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mobile_ui/state/theme_mode_state.dart';
 
-class AppDividerWidget extends ConsumerWidget{
-  const AppDividerWidget({ super.key });
+class AppDividerWidget extends ConsumerWidget {
+  const AppDividerWidget({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -25,7 +25,7 @@ class AppDividerWidget extends ConsumerWidget{
           ],
         ),
         SizedBox(height: 20),
-      ]
+      ],
     );
   }
 }

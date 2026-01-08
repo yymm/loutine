@@ -1,11 +1,5 @@
 class Category {
-  Category({
-    required this.id,
-    required this.name,
-    this.description = '',
-    required this.createdAt,
-    required this.updatedAt,
-  });
+  Category({required this.id, required this.name, this.description = '', required this.createdAt, required this.updatedAt});
 
   final int id;
   final String name;
@@ -14,13 +8,7 @@ class Category {
   final DateTime updatedAt;
 
   factory Category.fromJson(Map<String, dynamic> json) {
-    return Category(
-      id: json['id'] as int,
-      name: json['name'] as String,
-      description: json['description'] as String,
-      createdAt: DateTime.parse(json['created_at']),
-      updatedAt: DateTime.parse(json['updated_at']),
-    );
+    return Category(id: json['id'] as int, name: json['name'] as String, description: json['description'] as String, createdAt: DateTime.parse(json['created_at']), updatedAt: DateTime.parse(json['updated_at']));
   }
 
   @override

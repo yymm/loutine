@@ -12,18 +12,8 @@ part of 'purchase_new_state.dart';
 @ProviderFor(PurchaseNewNotifier)
 final purchaseNewProvider = PurchaseNewNotifierProvider._();
 
-final class PurchaseNewNotifierProvider
-    extends $NotifierProvider<PurchaseNewNotifier, PurchaseNew> {
-  PurchaseNewNotifierProvider._()
-    : super(
-        from: null,
-        argument: null,
-        retry: null,
-        name: r'purchaseNewProvider',
-        isAutoDispose: true,
-        dependencies: null,
-        $allTransitiveDependencies: null,
-      );
+final class PurchaseNewNotifierProvider extends $NotifierProvider<PurchaseNewNotifier, PurchaseNew> {
+  PurchaseNewNotifierProvider._() : super(from: null, argument: null, retry: null, name: r'purchaseNewProvider', isAutoDispose: true, dependencies: null, $allTransitiveDependencies: null);
 
   @override
   String debugGetCreateSourceHash() => _$purchaseNewNotifierHash();
@@ -34,15 +24,11 @@ final class PurchaseNewNotifierProvider
 
   /// {@macro riverpod.override_with_value}
   Override overrideWithValue(PurchaseNew value) {
-    return $ProviderOverride(
-      origin: this,
-      providerOverride: $SyncValueProvider<PurchaseNew>(value),
-    );
+    return $ProviderOverride(origin: this, providerOverride: $SyncValueProvider<PurchaseNew>(value));
   }
 }
 
-String _$purchaseNewNotifierHash() =>
-    r'f0aafe09061c9e0d8d0e29e11b2e1224b751dc89';
+String _$purchaseNewNotifierHash() => r'f0aafe09061c9e0d8d0e29e11b2e1224b751dc89';
 
 abstract class _$PurchaseNewNotifier extends $Notifier<PurchaseNew> {
   PurchaseNew build();
@@ -50,14 +36,7 @@ abstract class _$PurchaseNewNotifier extends $Notifier<PurchaseNew> {
   @override
   void runBuild() {
     final ref = this.ref as $Ref<PurchaseNew, PurchaseNew>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<PurchaseNew, PurchaseNew>,
-              PurchaseNew,
-              Object?,
-              Object?
-            >;
+    final element = ref.element as $ClassProviderElement<AnyNotifier<PurchaseNew, PurchaseNew>, PurchaseNew, Object?, Object?>;
     element.handleCreate(ref, build);
   }
 }

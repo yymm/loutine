@@ -1,11 +1,5 @@
 class Tag {
-  Tag({
-    required this.id,
-    required this.name,
-    this.description = '',
-    required this.createdAt,
-    required this.updatedAt,
-  });
+  Tag({required this.id, required this.name, this.description = '', required this.createdAt, required this.updatedAt});
 
   final int id;
   final String name;
@@ -14,13 +8,7 @@ class Tag {
   final DateTime updatedAt;
 
   factory Tag.fromJson(Map<String, dynamic> json) {
-    return Tag(
-      id: json['id'] as int,
-      name: json['name'] as String,
-      description: json['description'] as String,
-      createdAt: DateTime.parse(json['created_at']),
-      updatedAt: DateTime.parse(json['updated_at']),
-    );
+    return Tag(id: json['id'] as int, name: json['name'] as String, description: json['description'] as String, createdAt: DateTime.parse(json['created_at']), updatedAt: DateTime.parse(json['updated_at']));
   }
 
   @override
@@ -28,4 +16,3 @@ class Tag {
     return '[$id] $name';
   }
 }
-

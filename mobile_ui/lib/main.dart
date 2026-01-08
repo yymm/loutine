@@ -11,11 +11,7 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await SharedPreferencesInstance.initialize();
 
-  runApp(
-    ProviderScope(
-      child: const LoutineApp()
-    )
-  );
+  runApp(ProviderScope(child: const LoutineApp()));
 }
 
 class LoutineApp extends ConsumerWidget {
@@ -28,22 +24,13 @@ class LoutineApp extends ConsumerWidget {
     ref.read(categoryListProvider.notifier).getList();
     ref.read(calendarStateProvider.notifier).getAllEventItem(DateTime.now());
 
-    return MaterialApp.router(
-      title: 'Loutine App',
-      darkTheme: _getThemeData(Brightness.dark),
-      theme: _getThemeData(Brightness.light),
-      themeMode: ref.watch(themeModeProvider),
-      routerConfig: router,
-    );
+    return MaterialApp.router(title: 'Loutine App', darkTheme: _getThemeData(Brightness.dark), theme: _getThemeData(Brightness.light), themeMode: ref.watch(themeModeProvider), routerConfig: router);
   }
 }
 
 ThemeData _getThemeData(Brightness brightness) {
   return ThemeData(
-    colorScheme: ColorScheme.fromSeed(
-      seedColor: Colors.teal,
-      brightness: brightness,
-    ),
+    colorScheme: ColorScheme.fromSeed(seedColor: Colors.teal, brightness: brightness),
     // fontFamily: 'NotoSansJP',
   );
 }

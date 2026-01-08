@@ -11,10 +11,7 @@ import 'package:table_calendar/table_calendar.dart';
 part 'home_calendar_state.g.dart';
 
 class CalendarState {
-  CalendarState({
-    required this.calendarEvents,
-    required this.linkList,
-  });
+  CalendarState({required this.calendarEvents, required this.linkList});
   Map<DateTime, List<CalendarEventItem>> calendarEvents;
   List<Link> linkList;
 }
@@ -39,7 +36,7 @@ class CalendarStateNotifier extends _$CalendarStateNotifier {
       return CalendarEventItem.fromPurchase(purchase);
     }).toList();
 
-    final noteList= await getNoteList(dateTime);
+    final noteList = await getNoteList(dateTime);
     final calendarEventItemNoteList = noteList.map((note) {
       return CalendarEventItem.fromNote(note);
     }).toList();
@@ -138,4 +135,3 @@ class CalendarEventListNotifier extends _$CalendarEventListNotifier {
 
   void reset() => state = [];
 }
-

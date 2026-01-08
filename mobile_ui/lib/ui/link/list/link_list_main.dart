@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:mobile_ui/ui/link/list/link_list.dart';
 
 class LinkListMain extends StatelessWidget {
-  const LinkListMain({ super.key });
+  const LinkListMain({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -15,9 +15,9 @@ class LinkListMain extends StatelessWidget {
             onPressed: () {
               return;
             },
-            icon: Icon(Icons.replay_outlined)
+            icon: Icon(Icons.replay_outlined),
           ),
-        ]
+        ],
       ),
       body: Stack(
         children: [
@@ -30,21 +30,18 @@ class LinkListMain extends StatelessWidget {
                   alignment: Alignment.bottomRight,
                   padding: EdgeInsets.all(10),
                   child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      shape: CircleBorder(),
-                      padding: EdgeInsets.all(24),
-                    ),
+                    style: ElevatedButton.styleFrom(shape: CircleBorder(), padding: EdgeInsets.all(24)),
                     onPressed: () {
                       context.go('/link/list');
                     },
                     child: Icon(Icons.add),
-                  )
-                )
-              ]
-            )
+                  ),
+                ),
+              ],
+            ),
           ),
-        ]
-      )
+        ],
+      ),
     );
   }
 }

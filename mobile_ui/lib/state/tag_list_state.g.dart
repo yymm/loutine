@@ -12,18 +12,8 @@ part of 'tag_list_state.dart';
 @ProviderFor(TagListNotifier)
 final tagListProvider = TagListNotifierProvider._();
 
-final class TagListNotifierProvider
-    extends $NotifierProvider<TagListNotifier, List<Tag>> {
-  TagListNotifierProvider._()
-    : super(
-        from: null,
-        argument: null,
-        retry: null,
-        name: r'tagListProvider',
-        isAutoDispose: true,
-        dependencies: null,
-        $allTransitiveDependencies: null,
-      );
+final class TagListNotifierProvider extends $NotifierProvider<TagListNotifier, List<Tag>> {
+  TagListNotifierProvider._() : super(from: null, argument: null, retry: null, name: r'tagListProvider', isAutoDispose: true, dependencies: null, $allTransitiveDependencies: null);
 
   @override
   String debugGetCreateSourceHash() => _$tagListNotifierHash();
@@ -34,10 +24,7 @@ final class TagListNotifierProvider
 
   /// {@macro riverpod.override_with_value}
   Override overrideWithValue(List<Tag> value) {
-    return $ProviderOverride(
-      origin: this,
-      providerOverride: $SyncValueProvider<List<Tag>>(value),
-    );
+    return $ProviderOverride(origin: this, providerOverride: $SyncValueProvider<List<Tag>>(value));
   }
 }
 
@@ -49,14 +36,7 @@ abstract class _$TagListNotifier extends $Notifier<List<Tag>> {
   @override
   void runBuild() {
     final ref = this.ref as $Ref<List<Tag>, List<Tag>>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<List<Tag>, List<Tag>>,
-              List<Tag>,
-              Object?,
-              Object?
-            >;
+    final element = ref.element as $ClassProviderElement<AnyNotifier<List<Tag>, List<Tag>>, List<Tag>, Object?, Object?>;
     element.handleCreate(ref, build);
   }
 }
@@ -64,32 +44,15 @@ abstract class _$TagListNotifier extends $Notifier<List<Tag>> {
 @ProviderFor(tagListFuture)
 final tagListFutureProvider = TagListFutureProvider._();
 
-final class TagListFutureProvider
-    extends
-        $FunctionalProvider<
-          AsyncValue<List<Tag>>,
-          List<Tag>,
-          FutureOr<List<Tag>>
-        >
-    with $FutureModifier<List<Tag>>, $FutureProvider<List<Tag>> {
-  TagListFutureProvider._()
-    : super(
-        from: null,
-        argument: null,
-        retry: null,
-        name: r'tagListFutureProvider',
-        isAutoDispose: true,
-        dependencies: null,
-        $allTransitiveDependencies: null,
-      );
+final class TagListFutureProvider extends $FunctionalProvider<AsyncValue<List<Tag>>, List<Tag>, FutureOr<List<Tag>>> with $FutureModifier<List<Tag>>, $FutureProvider<List<Tag>> {
+  TagListFutureProvider._() : super(from: null, argument: null, retry: null, name: r'tagListFutureProvider', isAutoDispose: true, dependencies: null, $allTransitiveDependencies: null);
 
   @override
   String debugGetCreateSourceHash() => _$tagListFutureHash();
 
   @$internal
   @override
-  $FutureProviderElement<List<Tag>> $createElement($ProviderPointer pointer) =>
-      $FutureProviderElement(pointer);
+  $FutureProviderElement<List<Tag>> $createElement($ProviderPointer pointer) => $FutureProviderElement(pointer);
 
   @override
   FutureOr<List<Tag>> create(Ref ref) {

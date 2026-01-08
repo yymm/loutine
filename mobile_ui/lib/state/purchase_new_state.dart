@@ -4,10 +4,7 @@ import 'package:mobile_ui/api/vanilla_api.dart';
 part 'purchase_new_state.g.dart';
 
 class PurchaseNew {
-  PurchaseNew({
-    required this.title,
-    required this.cost,
-  });
+  PurchaseNew({required this.title, required this.cost});
 
   final String title;
   final double cost;
@@ -32,7 +29,7 @@ class PurchaseNewNotifier extends _$PurchaseNewNotifier {
     state = PurchaseNew(title: '', cost: 0);
   }
 
-  Future<void> add({ categoryId }) async {
+  Future<void> add({categoryId}) async {
     print('press add(): cost => ${state.cost}, title => ${state.title}');
     final apiClient = PurchaseApiClient();
     await apiClient.post(state.cost, state.title, categoryId);
