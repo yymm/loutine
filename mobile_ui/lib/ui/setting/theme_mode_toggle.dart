@@ -8,25 +8,22 @@ class ThemeModeToggle extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final toggle = ref.read(themeModeProvider.notifier).toggle;
-    switch (ref.watch(themeModeProvider)) {
-      case ThemeMode.light:
-        return ListTile(
-          leading: const Icon(Icons.light_mode_rounded),
-          title: const Text('Theme: Light'),
-          onTap: toggle,
-        );
-      case ThemeMode.dark:
-        return ListTile(
-          leading: const Icon(Icons.dark_mode_rounded),
-          title: const Text('Theme: Dark'),
-          onTap: toggle,
-        );
-      case ThemeMode.system:
-        return ListTile(
-          leading: const Icon(Icons.smartphone_rounded),
-          title: const Text('Theme: System'),
-          onTap: toggle,
-        );
-    }
+    return switch (ref.watch(themeModeProvider)) {
+      ThemeMode.light => ListTile(
+        leading: const Icon(Icons.light_mode_rounded),
+        title: const Text('Theme: Light'),
+        onTap: toggle,
+      ),
+      ThemeMode.dark => ListTile(
+        leading: const Icon(Icons.dark_mode_rounded),
+        title: const Text('Theme: Dark'),
+        onTap: toggle,
+      ),
+      ThemeMode.system => ListTile(
+        leading: const Icon(Icons.smartphone_rounded),
+        title: const Text('Theme: System'),
+        onTap: toggle,
+      ),
+    };
   }
 }

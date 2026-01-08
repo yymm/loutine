@@ -1,8 +1,10 @@
 import 'dart:convert';
 
 import 'package:flutter/services.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:mobile_ui/api/vanilla_api.dart';
+
+part 'link_new_state.g.dart';
 
 class LinkNew {
   LinkNew({
@@ -14,8 +16,12 @@ class LinkNew {
   final String title;
 }
 
-class LinkNewNotifier extends StateNotifier<LinkNew> {
-  LinkNewNotifier() : super(LinkNew(url: '', title: ''));
+@riverpod
+class LinkNewNotifier extends _$LinkNewNotifier {
+  @override
+  LinkNew build() {
+    return LinkNew(url: '', title: '');
+  }
 
   void changeUrl(String v) {
     state = LinkNew(url: v, title: state.title);
@@ -28,6 +34,7 @@ class LinkNewNotifier extends StateNotifier<LinkNew> {
   Future<String> pasteByClipBoard() async {
     final clipboardData = await Clipboard.getData('text/plain');
     final url = clipboardData!.text ?? "";
+    if (!ref.mounted) return url;
     state = LinkNew(url: url, title: state.title);
     return url;
   }
@@ -41,6 +48,7 @@ class LinkNewNotifier extends StateNotifier<LinkNew> {
     final Map<String, dynamic> resJson = json.decode(body);
     // final title = faker.internet.userName();
     final title = resJson['title']!;
+    if (!ref.mounted) return title;
     state = LinkNew(url: state.url, title: title);
     return title;
   }
@@ -56,6 +64,3 @@ class LinkNewNotifier extends StateNotifier<LinkNew> {
     return;
   }
 }
-
-final linkNewProvider
-  = StateNotifierProvider<LinkNewNotifier, LinkNew>((ref) => LinkNewNotifier());

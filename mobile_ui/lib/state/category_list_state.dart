@@ -1,16 +1,23 @@
 import 'dart:convert';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:mobile_ui/api/vanilla_api.dart';
 import 'package:mobile_ui/models/category.dart';
 
-class CategoryListNotifier extends StateNotifier<List<Category>> {
-  CategoryListNotifier() : super([]);
+part 'category_list_state.g.dart';
+
+@riverpod
+class CategoryListNotifier extends _$CategoryListNotifier {
+  @override
+  List<Category> build() {
+    return [];
+  }
 
   Future<void> add(String name, String description) async {
     CategoryApiClient apiClient = CategoryApiClient();
     final resBody = await apiClient.post(name, description);
     final Map<String, dynamic> decodedString = json.decode(resBody);
     final category = Category.fromJson(decodedString);
+    if (!ref.mounted) return;
     state = [...state, category];
   }
 
@@ -21,13 +28,13 @@ class CategoryListNotifier extends StateNotifier<List<Category>> {
     final categoryList = categorysJson.map((category) {
       return Category.fromJson(category);
     }).toList();
+    if (!ref.mounted) return categoryList;
     state = categoryList;
     return categoryList;
   }
 }
 
-final categoryListProvider = StateNotifierProvider<CategoryListNotifier, List<Category>>((ref) => CategoryListNotifier());
-
-final categoryListFutureProvider = FutureProvider.autoDispose<List<Category>>((ref) async {
+@riverpod
+Future<List<Category>> categoryListFuture(ref) async {
   return ref.read(categoryListProvider.notifier).getList();
-});
+}

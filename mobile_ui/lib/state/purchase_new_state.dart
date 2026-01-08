@@ -1,5 +1,7 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:mobile_ui/api/vanilla_api.dart';
+
+part 'purchase_new_state.g.dart';
 
 class PurchaseNew {
   PurchaseNew({
@@ -11,8 +13,12 @@ class PurchaseNew {
   final double cost;
 }
 
-class PurchaseNewNotifier extends StateNotifier<PurchaseNew> {
-  PurchaseNewNotifier() : super(PurchaseNew(title: '', cost: 0));
+@riverpod
+class PurchaseNewNotifier extends _$PurchaseNewNotifier {
+  @override
+  PurchaseNew build() {
+    return PurchaseNew(title: '', cost: 0);
+  }
 
   void changeTitle(String v) {
     state = PurchaseNew(title: v, cost: state.cost);
@@ -33,6 +39,3 @@ class PurchaseNewNotifier extends StateNotifier<PurchaseNew> {
     return;
   }
 }
-
-final purchaseNewProvider
-  = StateNotifierProvider<PurchaseNewNotifier, PurchaseNew>((ref) => PurchaseNewNotifier());
