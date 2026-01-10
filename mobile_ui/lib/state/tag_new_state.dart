@@ -18,8 +18,6 @@ class TagNewDescriptionNotifier extends Notifier<String> {
   void reset() => state = '';
 }
 
-final tagNewNameNotifierProvider
-  = NotifierProvider<TagNewNameNotifier, String>(TagNewNameNotifier.new);
+final tagNewNameNotifierProvider = NotifierProvider<TagNewNameNotifier, String>(TagNewNameNotifier.new);
 
-final tagNewDescriptionNotifierProvider
-  = NotifierProvider<TagNewDescriptionNotifier, String>(TagNewDescriptionNotifier.new);
+final tagNewDescriptionNotifierProvider = NotifierProvider<TagNewDescriptionNotifier, String>(TagNewDescriptionNotifier.new);

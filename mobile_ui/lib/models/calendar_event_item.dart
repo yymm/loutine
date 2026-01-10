@@ -4,22 +4,10 @@ import 'package:mobile_ui/models/note.dart';
 import 'package:mobile_ui/models/purchase.dart';
 import 'package:mobile_ui/models/tag.dart';
 
-enum CalendarEventItemType {
-  link,
-  purchase,
-  note,
-}
+enum CalendarEventItemType { link, purchase, note }
 
 class CalendarEventItem {
-  CalendarEventItem({
-    required this.createdAt,
-    required this.itemType,
-    required this.id,
-    required this.title,
-    required this.data,
-    this.tags,
-    this.category,
-  });
+  CalendarEventItem({required this.createdAt, required this.itemType, required this.id, required this.title, required this.data, this.tags, this.category});
 
   final DateTime createdAt;
   final CalendarEventItemType itemType;

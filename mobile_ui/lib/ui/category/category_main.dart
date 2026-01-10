@@ -33,23 +33,21 @@ class CategoryMain extends StatelessWidget {
                     isScrollControlled: true,
                     builder: (BuildContext context) {
                       return Padding(
-                        padding: EdgeInsets.only(
-                          bottom: MediaQuery.of(context).viewInsets.bottom,
-                        ),
+                        padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
                         child: CategoryNewWidget(),
                       );
                     },
                   );
                   // }}}
                 },
-                label: Text('Show Modal')
+                label: Text('Show Modal'),
               ),
               SizedBox(height: 20),
               Expanded(child: CategoryList()),
             ],
           ),
-        )
-      )
+        ),
+      ),
     );
   }
 }

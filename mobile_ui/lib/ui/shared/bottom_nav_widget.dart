@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 class BottomNavWidget extends StatelessWidget {
-  const BottomNavWidget({ super.key, required this.navigationShell });
+  const BottomNavWidget({super.key, required this.navigationShell});
 
   final StatefulNavigationShell navigationShell;
 
@@ -13,16 +13,10 @@ class BottomNavWidget extends StatelessWidget {
       bottomNavigationBar: NavigationBar(
         selectedIndex: navigationShell.currentIndex,
         onDestinationSelected: (idx) {
-          navigationShell.goBranch(
-            idx,
-            initialLocation: idx == navigationShell.currentIndex,
-          );
+          navigationShell.goBranch(idx, initialLocation: idx == navigationShell.currentIndex);
         },
         destinations: const [
-          NavigationDestination(
-            icon: Icon(Icons.home),
-            label: 'Home',
-          ),
+          NavigationDestination(icon: Icon(Icons.home), label: 'Home'),
           NavigationDestination(
             icon: Icon(Icons.add_link, color: Colors.lightBlue),
             label: 'Link',

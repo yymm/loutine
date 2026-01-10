@@ -45,10 +45,10 @@ class SettingMain extends StatelessWidget {
                   context.go('/setting/category');
                 },
               ),
-            ]
+            ],
           ),
-        )
-      )
+        ),
+      ),
     );
   }
 }

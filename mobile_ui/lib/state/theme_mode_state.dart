@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:mobile_ui/storage.dart';
 
-class ThemeModeNotifier extends StateNotifier<ThemeMode> {
+part 'theme_mode_state.g.dart';
+
+@riverpod
+class ThemeModeNotifier extends _$ThemeModeNotifier {
   static const String storageKeyThemeMode = 'theme_mdoe';
 
   final _storage = SharedPreferencesInstance().prefs;
 
-  ThemeModeNotifier() : super(ThemeMode.system) {
-    state = _loadThemeMode() ?? ThemeMode.system;
+  @override
+  ThemeMode build() {
+    return _loadThemeMode() ?? ThemeMode.system;
   }
 
   Future<void> toggle() async {
@@ -26,6 +30,7 @@ class ThemeModeNotifier extends StateNotifier<ThemeMode> {
     }
     await _saveThemeMode(themeMode).then((value) {
       if (value == true) {
+        if (!ref.mounted) return;
         state = themeMode;
       }
     });
@@ -43,5 +48,3 @@ class ThemeModeNotifier extends StateNotifier<ThemeMode> {
     return _storage.setString(storageKeyThemeMode, themeMode.name);
   }
 }
-
-final themeModeProvider = StateNotifierProvider<ThemeModeNotifier, ThemeMode>((ref) => ThemeModeNotifier());

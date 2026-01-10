@@ -6,7 +6,7 @@ import 'package:mobile_ui/ui/shared/snack_bar_widget.dart';
 
 class TagNewWidget extends ConsumerWidget {
   final _formKey = GlobalKey<FormState>();
-  TagNewWidget({ super.key });
+  TagNewWidget({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -30,22 +30,12 @@ class TagNewWidget extends ConsumerWidget {
                   children: [
                     Icon(Icons.playlist_add),
                     SizedBox(width: 10),
-                    Text(
-                      'Add new tag',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16,
-                      ),
-                    )
-                  ]
+                    Text('Add new tag', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+                  ],
                 ),
                 SizedBox(height: 20),
                 TextFormField(
-                  decoration: InputDecoration(
-                    hintText: 'Enter tag title',
-                    labelText: 'Title',
-                    prefixIcon: Icon(Icons.title),
-                  ),
+                  decoration: InputDecoration(hintText: 'Enter tag title', labelText: 'Title', prefixIcon: Icon(Icons.title)),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Please enter some title';
@@ -58,11 +48,7 @@ class TagNewWidget extends ConsumerWidget {
                 ),
                 SizedBox(height: 20),
                 TextFormField(
-                  decoration: InputDecoration(
-                    hintText: 'Enter tag desctiption',
-                    labelText: 'Description',
-                    prefixIcon: Icon(Icons.description),
-                  ),
+                  decoration: InputDecoration(hintText: 'Enter tag desctiption', labelText: 'Description', prefixIcon: Icon(Icons.description)),
                   onChanged: (v) {
                     tagNewDescriptionNotifier.change(v);
                   },
@@ -76,31 +62,29 @@ class TagNewWidget extends ConsumerWidget {
                         if (!_formKey.currentState!.validate()) return;
                         final title = ref.read(tagNewNameNotifierProvider);
                         final description = ref.read(tagNewDescriptionNotifierProvider);
-                        tagListNotifier.add(title, description)
-                          .then((v) {
-                            tagNewNameNotifier.reset();
-                            tagNewDescriptionNotifier.reset();
-                            if (!context.mounted) return;
-                            ScaffoldMessenger.of(context).showSnackBar(getSnackBar(context: context, text: 'Success to add tag'));
-                            Navigator.pop(context);
-                          })
-                          .catchError((err) {
-                            if (!context.mounted) return;
-                            ScaffoldMessenger.of(context).showSnackBar(getSnackBar(context: context, text: err.toString(), error: true));
-                          });
+                        tagListNotifier
+                            .add(title, description)
+                            .then((v) {
+                              tagNewNameNotifier.reset();
+                              tagNewDescriptionNotifier.reset();
+                              if (!context.mounted) return;
+                              ScaffoldMessenger.of(context).showSnackBar(getSnackBar(context: context, text: 'Success to add tag'));
+                              Navigator.pop(context);
+                            })
+                            .catchError((err) {
+                              if (!context.mounted) return;
+                              ScaffoldMessenger.of(context).showSnackBar(getSnackBar(context: context, text: err.toString(), error: true));
+                            });
                       },
                       child: const Text('Add'),
                     ),
-                    TextButton(
-                      onPressed: () => Navigator.pop(context),
-                      child: const Text('Cancel'),
-                    ),
-                  ]
+                    TextButton(onPressed: () => Navigator.pop(context), child: const Text('Cancel')),
+                  ],
                 ),
-              ]
-            )
-          )
-        )
+              ],
+            ),
+          ),
+        ),
       ),
     );
   }

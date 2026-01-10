@@ -42,16 +42,8 @@ final router = GoRouter(
                   path: 'setting',
                   builder: (context, state) => SettingMain(),
                   routes: [
-                    GoRoute(
-                      name: 'tag',
-                      path: 'tag',
-                      builder: (context, state) => TagMain(),
-                    ),
-                    GoRoute(
-                      name: 'category',
-                      path: 'category',
-                      builder: (context, state) => CategoryMain(),
-                    ),
+                    GoRoute(name: 'tag', path: 'tag', builder: (context, state) => TagMain()),
+                    GoRoute(name: 'category', path: 'category', builder: (context, state) => CategoryMain()),
                   ],
                 ),
               ],
@@ -72,9 +64,9 @@ final router = GoRouter(
                   path: 'list',
                   builder: (BuildContext context, GoRouterState state) {
                     return const LinkListMain();
-                  }
+                  },
                 ),
-              ]
+              ],
             ),
           ],
         ),
@@ -100,9 +92,9 @@ final router = GoRouter(
                 return const NoteFormMain();
               },
             ),
-          ]
+          ],
         ),
       ],
     ),
-  ]
+  ],
 );

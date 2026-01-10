@@ -6,7 +6,7 @@ import 'package:mobile_ui/ui/shared/app_divider_widget.dart';
 import 'package:mobile_ui/ui/shared/snack_bar_widget.dart';
 
 class PurchaseForm extends ConsumerStatefulWidget {
-  const PurchaseForm({ super.key });
+  const PurchaseForm({super.key});
 
   @override
   createState() => _PurchaseForm();
@@ -42,18 +42,13 @@ class _PurchaseForm extends ConsumerState<PurchaseForm> {
             TextFormField(
               controller: _titleController,
               keyboardType: TextInputType.number,
-              decoration: InputDecoration(
-                hintText: 'Enter a cost',
-                labelText: 'Cost',
-                prefixIcon: Icon(Icons.currency_yen),
-                border: InputBorder.none,
-              ),
+              decoration: InputDecoration(hintText: 'Enter a cost', labelText: 'Cost', prefixIcon: Icon(Icons.currency_yen), border: InputBorder.none),
               validator: (value) {
                 if (value == null || value.isEmpty) {
                   return 'Please enter a cost';
                 }
                 if (double.tryParse(value) == null) {
-                return 'Please enter a numeric';
+                  return 'Please enter a numeric';
                 }
                 return null;
               },
@@ -68,13 +63,7 @@ class _PurchaseForm extends ConsumerState<PurchaseForm> {
               controller: _costController,
               keyboardType: TextInputType.multiline,
               maxLines: null,
-              decoration: InputDecoration(
-                hintText: 'Enter a title',
-                labelText: 'Title',
-                prefixIcon: Icon(Icons.shopping_bag),
-                border: InputBorder.none,
-
-              ),
+              decoration: InputDecoration(hintText: 'Enter a title', labelText: 'Title', prefixIcon: Icon(Icons.shopping_bag), border: InputBorder.none),
               validator: (value) {
                 if (value == null || value.isEmpty) {
                   return 'Please enter some title';
@@ -91,11 +80,7 @@ class _PurchaseForm extends ConsumerState<PurchaseForm> {
             // >> Category selector {{{
             DropdownButtonFormField(
               value: dropdownformfieldValue,
-              decoration: InputDecoration(
-                labelText: 'Category',
-                prefixIcon: Icon(Icons.category),
-                border: InputBorder.none,
-              ),
+              decoration: InputDecoration(labelText: 'Category', prefixIcon: Icon(Icons.category), border: InputBorder.none),
               items: categories.map((category) {
                 return DropdownMenuItem(value: category.id.toString(), child: Text(category.name));
               }).toList(),
@@ -112,25 +97,22 @@ class _PurchaseForm extends ConsumerState<PurchaseForm> {
               onPressed: () {
                 if (!_formKey.currentState!.validate()) return;
                 final categoryId = dropdownformfieldValue != null ? int.parse(dropdownformfieldValue!) : null;
-                purchaseNewNotifier.add(categoryId: categoryId)
-                  .then((v) {
-                    purchaseNewNotifier.reset();
-                    _costController.value = _costController.value.copyWith(
-                      text: '',
-                    );
-                    _titleController.value = _titleController.value.copyWith(
-                      text: '',
-                    );
-                    setState(() {
-                      dropdownformfieldValue = null;
+                purchaseNewNotifier
+                    .add(categoryId: categoryId)
+                    .then((v) {
+                      purchaseNewNotifier.reset();
+                      _costController.value = _costController.value.copyWith(text: '');
+                      _titleController.value = _titleController.value.copyWith(text: '');
+                      setState(() {
+                        dropdownformfieldValue = null;
+                      });
+                      if (!context.mounted) return;
+                      ScaffoldMessenger.of(context).showSnackBar(getSnackBar(context: context, text: 'Success to add purchase'));
+                    })
+                    .catchError((err) {
+                      if (!context.mounted) return;
+                      ScaffoldMessenger.of(context).showSnackBar(getSnackBar(context: context, text: err.toString(), error: true));
                     });
-                    if (!context.mounted) return;
-                    ScaffoldMessenger.of(context).showSnackBar(getSnackBar(context: context, text: 'Success to add purchase'));
-                  })
-                  .catchError((err) {
-                    if (!context.mounted) return;
-                    ScaffoldMessenger.of(context).showSnackBar(getSnackBar(context: context, text: err.toString(), error: true));
-                  });
               },
               style: ElevatedButton.styleFrom(fixedSize: Size(100, 100)),
               child: const Text('Submit'),

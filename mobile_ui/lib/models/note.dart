@@ -16,12 +16,6 @@ class Note {
   // final List<Tag> tags;
 
   factory Note.fromJson(Map<String, dynamic> json) {
-    return Note(
-      id: json['id'] as int,
-      title: json['title'] as String,
-      text: json['text'] as String,
-      createdAt: DateTime.parse(json['created_at']),
-      updatedAt: DateTime.parse(json['updated_at']),
-    );
+    return Note(id: json['id'] as int, title: json['title'] as String, text: json['text'] as String, createdAt: DateTime.parse(json['created_at']), updatedAt: DateTime.parse(json['updated_at']));
   }
 }

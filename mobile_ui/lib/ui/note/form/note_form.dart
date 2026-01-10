@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class NoteForm extends ConsumerWidget {
-  const NoteForm({ super.key });
+  const NoteForm({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

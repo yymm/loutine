@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:mobile_ui/api/vanilla_api.dart';
 import 'package:mobile_ui/models/calendar_event_item.dart';
 import 'package:mobile_ui/models/link.dart';
@@ -8,17 +8,20 @@ import 'package:mobile_ui/models/note.dart';
 import 'package:mobile_ui/models/purchase.dart';
 import 'package:table_calendar/table_calendar.dart';
 
+part 'home_calendar_state.g.dart';
+
 class CalendarState {
-  CalendarState({
-    required this.calendarEvents,
-    required this.linkList,
-  });
+  CalendarState({required this.calendarEvents, required this.linkList});
   Map<DateTime, List<CalendarEventItem>> calendarEvents;
   List<Link> linkList;
 }
 
-class CalendarStateNotifier extends StateNotifier<CalendarState> {
-  CalendarStateNotifier() : super(CalendarState(calendarEvents: {}, linkList: []));
+@riverpod
+class CalendarStateNotifier extends _$CalendarStateNotifier {
+  @override
+  CalendarState build() {
+    return CalendarState(calendarEvents: {}, linkList: []);
+  }
 
   Future<void> addLink() async {}
 
@@ -33,7 +36,7 @@ class CalendarStateNotifier extends StateNotifier<CalendarState> {
       return CalendarEventItem.fromPurchase(purchase);
     }).toList();
 
-    final noteList= await getNoteList(dateTime);
+    final noteList = await getNoteList(dateTime);
     final calendarEventItemNoteList = noteList.map((note) {
       return CalendarEventItem.fromNote(note);
     }).toList();
@@ -50,6 +53,7 @@ class CalendarStateNotifier extends StateNotifier<CalendarState> {
       }
     }).toList();
 
+    if (!ref.mounted) return;
     state = CalendarState(calendarEvents: events, linkList: linkList);
   }
 
@@ -102,10 +106,8 @@ class CalendarStateNotifier extends StateNotifier<CalendarState> {
   }
 }
 
-final calendarStateProvider
-  = StateNotifierProvider<CalendarStateNotifier, CalendarState>((ref) => CalendarStateNotifier());
-
-class CalendarFocusDayNotifier extends Notifier<DateTime> {
+@riverpod
+class CalendarFocusDayNotifier extends _$CalendarFocusDayNotifier {
   @override
   DateTime build() => DateTime.now();
 
@@ -114,7 +116,8 @@ class CalendarFocusDayNotifier extends Notifier<DateTime> {
   void reset() => state = DateTime.now();
 }
 
-class CalendarFormatNotifier extends Notifier<CalendarFormat> {
+@riverpod
+class CalendarFormatNotifier extends _$CalendarFormatNotifier {
   @override
   CalendarFormat build() => CalendarFormat.month;
 
@@ -123,7 +126,8 @@ class CalendarFormatNotifier extends Notifier<CalendarFormat> {
   void reset() => state = CalendarFormat.month;
 }
 
-class CalendarEventListNotifier extends Notifier<List<CalendarEventItem>> {
+@riverpod
+class CalendarEventListNotifier extends _$CalendarEventListNotifier {
   @override
   List<CalendarEventItem> build() => [];
 
@@ -131,13 +135,3 @@ class CalendarEventListNotifier extends Notifier<List<CalendarEventItem>> {
 
   void reset() => state = [];
 }
-
-
-final calendarFocusDayProvider
-  = NotifierProvider<CalendarFocusDayNotifier, DateTime>(CalendarFocusDayNotifier.new);
-
-final calendarFormatProvider
-  = NotifierProvider<CalendarFormatNotifier, CalendarFormat>(CalendarFormatNotifier.new);
-
-final calendarEventListProvider
-  = NotifierProvider<CalendarEventListNotifier, List<CalendarEventItem>>(CalendarEventListNotifier.new);

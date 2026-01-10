@@ -24,7 +24,7 @@ class LinkApiClient {
   Future<String> post(String url, String title, List<int> tagIds) async {
     final postUrl = Uri.parse('$baseUrl/api/v1/links');
     final headers = {'content-type': 'application/json'};
-    final body = json.encode({'url': url, 'title': title, 'tag_ids': tagIds });
+    final body = json.encode({'url': url, 'title': title, 'tag_ids': tagIds});
     print('LinkApi(post): $body');
     final res = await http.post(postUrl, headers: headers, body: body);
     if (res.statusCode == 201) {
@@ -48,6 +48,7 @@ class PurchaseApiClient {
       throw StateError('Failure to load purchases');
     }
   }
+
   Future<String> post(double cost, String title, int? categoryId) async {
     final postUrl = Uri.parse('$baseUrl/api/v1/purchases');
     final headers = {'content-type': 'application/json'};
@@ -80,7 +81,7 @@ class NoteApiClient {
   Future<String> post(String text, String title, List<int> tagIds) async {
     final postUrl = Uri.parse('$baseUrl/api/v1/notes');
     final headers = {'content-type': 'application/json'};
-    final body = json.encode({'text': text, 'title': title, 'tag_ids': tagIds });
+    final body = json.encode({'text': text, 'title': title, 'tag_ids': tagIds});
     print('NoteApi(post): $body');
     final res = await http.post(postUrl, headers: headers, body: body);
     if (res.statusCode == 201) {
@@ -105,7 +106,7 @@ class TagApiClient {
   Future<String> post(String name, String description) async {
     final url = Uri.parse('$baseUrl/api/v1/tags');
     final headers = {'content-type': 'application/json'};
-    final body = json.encode({'name': name, 'description': description });
+    final body = json.encode({'name': name, 'description': description});
     final res = await http.post(url, headers: headers, body: body);
     if (res.statusCode == 201) {
       print('TagApi(post): $res.body');
@@ -130,7 +131,7 @@ class CategoryApiClient {
   Future<String> post(String name, String description) async {
     final url = Uri.parse('$baseUrl/api/v1/categories');
     final headers = {'content-type': 'application/json'};
-    final body = json.encode({'name': name, 'description': description });
+    final body = json.encode({'name': name, 'description': description});
     final res = await http.post(url, headers: headers, body: body);
     if (res.statusCode == 201) {
       print('TagApi(post): $res.body');

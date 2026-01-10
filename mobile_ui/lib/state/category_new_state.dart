@@ -18,8 +18,6 @@ class CategoryNewDescriptionNotifier extends Notifier<String> {
   void reset() => state = '';
 }
 
-final categoryNewNameNotifierProvider
-  = NotifierProvider<CategoryNewNameNotifier, String>(CategoryNewNameNotifier.new);
+final categoryNewNameNotifierProvider = NotifierProvider<CategoryNewNameNotifier, String>(CategoryNewNameNotifier.new);
 
-final categoryNewDescriptionNotifierProvider
-  = NotifierProvider<CategoryNewDescriptionNotifier, String>(CategoryNewDescriptionNotifier.new);
+final categoryNewDescriptionNotifierProvider = NotifierProvider<CategoryNewDescriptionNotifier, String>(CategoryNewDescriptionNotifier.new);
