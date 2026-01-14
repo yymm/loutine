@@ -10,9 +10,8 @@ class TagNewWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final tagListNotifier = ref.read(tagListProvider.notifier);
-    final tagNewNameNotifier = ref.read<TagNewNameNotifier>(tagNewNameNotifierProvider.notifier);
-    final tagNewDescriptionNotifier = ref.read<TagNewDescriptionNotifier>(tagNewDescriptionNotifierProvider.notifier);
+    final name = ref.watch(tagNewNameProvider);
+    final description = ref.watch(tagNewDescriptionProvider);
 
     return SizedBox(
       height: 300,
@@ -53,7 +52,7 @@ class TagNewWidget extends ConsumerWidget {
                     return null;
                   },
                   onChanged: (v) {
-                    tagNewNameNotifier.change(v);
+                    ref.read(tagNewNameProvider.notifier).change(v);
                   },
                 ),
                 SizedBox(height: 20),
@@ -64,7 +63,7 @@ class TagNewWidget extends ConsumerWidget {
                     prefixIcon: Icon(Icons.description),
                   ),
                   onChanged: (v) {
-                    tagNewDescriptionNotifier.change(v);
+                    ref.read(tagNewDescriptionProvider.notifier).change(v);
                   },
                 ),
                 SizedBox(height: 20),
@@ -74,12 +73,10 @@ class TagNewWidget extends ConsumerWidget {
                     ElevatedButton(
                       onPressed: () {
                         if (!_formKey.currentState!.validate()) return;
-                        final title = ref.read(tagNewNameNotifierProvider);
-                        final description = ref.read(tagNewDescriptionNotifierProvider);
-                        tagListNotifier.add(title, description)
+                        ref.read(tagListProvider.notifier).add(name, description)
                           .then((v) {
-                            tagNewNameNotifier.reset();
-                            tagNewDescriptionNotifier.reset();
+                            ref.read(tagNewNameProvider.notifier).reset();
+                            ref.read(tagNewDescriptionProvider.notifier).reset();
                             if (!context.mounted) return;
                             ScaffoldMessenger.of(context).showSnackBar(getSnackBar(context: context, text: 'Success to add tag'));
                             Navigator.pop(context);
