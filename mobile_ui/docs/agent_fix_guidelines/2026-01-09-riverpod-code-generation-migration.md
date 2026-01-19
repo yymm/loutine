@@ -385,13 +385,13 @@ Error: Can't use 'tag_new_state.g.dart' as a part, because it has no 'part of' d
 
 `tag_new_state.dart`を移行する場合:
 
-- [ ] `import 'package:riverpod_annotation/riverpod_annotation.dart';`に変更
-- [ ] `part 'tag_new_state.g.dart';`を追加
-- [ ] クラスに`@riverpod`アノテーションを追加
-- [ ] `extends Notifier<T>` → `extends _$ClassName`に変更
-- [ ] 手動のProvider定義を削除
-- [ ] `dart run build_runner build --delete-conflicting-outputs`を実行
-- [ ] `.g.dart`ファイルが生成されたことを確認
+- [x] `import 'package:riverpod_annotation/riverpod_annotation.dart';`に変更
+- [x] `part 'tag_new_state.g.dart';`を追加
+- [x] クラスに`@riverpod`アノテーションを追加
+- [x] `extends Notifier<T>` → `extends _$ClassName`に変更
+- [x] 手動のProvider定義を削除
+- [x] `dart run build_runner build --delete-conflicting-outputs`を実行
+- [x] `.g.dart`ファイルが生成されたことを確認
 - [ ] アプリをビルドしてエラーがないか確認
 - [ ] 動作確認 (UIで状態が正しく更新されるか)
 

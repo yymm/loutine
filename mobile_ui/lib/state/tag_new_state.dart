@@ -1,6 +1,9 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-class TagNewNameNotifier extends Notifier<String> {
+part 'tag_new_state.g.dart';
+
+@riverpod
+class TagNewName extends _$TagNewName {
   @override
   String build() => '';
 
@@ -9,7 +12,8 @@ class TagNewNameNotifier extends Notifier<String> {
   void reset() => state = '';
 }
 
-class TagNewDescriptionNotifier extends Notifier<String> {
+@riverpod
+class TagNewDescription extends _$TagNewDescription {
   @override
   String build() => '';
 
@@ -17,9 +21,3 @@ class TagNewDescriptionNotifier extends Notifier<String> {
 
   void reset() => state = '';
 }
-
-final tagNewNameNotifierProvider
-  = NotifierProvider<TagNewNameNotifier, String>(TagNewNameNotifier.new);
-
-final tagNewDescriptionNotifierProvider
-  = NotifierProvider<TagNewDescriptionNotifier, String>(TagNewDescriptionNotifier.new);

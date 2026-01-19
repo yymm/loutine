@@ -1,1 +1,3 @@
-{}
+{
+  "flutter.sdk.path": ".fvm/flutter_sdk"
+}
