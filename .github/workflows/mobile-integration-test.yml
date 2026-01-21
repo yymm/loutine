@@ -1,0 +1,143 @@
+name: Mobile UI Integration Tests
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+    paths:
+      - 'mobile_ui/**'
+      - 'backend/**'
+      - '.github/workflows/mobile-integration-test.yml'
+  pull_request:
+    paths:
+      - 'mobile_ui/**'
+      - 'backend/**'
+      - '.github/workflows/mobile-integration-test.yml'
+
+defaults:
+  run:
+    working-directory: mobile_ui
+
+jobs:
+  integration_test:
+    name: Integration Tests (Linux Desktop + Backend)
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+      # ========================================
+      # Flutter Setup
+      # ========================================
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.27.1'
+          cache: true
+      
+      - name: Install Linux dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            clang \
+            cmake \
+            ninja-build \
+            pkg-config \
+            libgtk-3-dev \
+            liblzma-dev \
+            libstdc++-12-dev
+      
+      - name: Install Flutter dependencies
+        run: flutter pub get
+      
+      # ========================================
+      # Backend Setup
+      # ========================================
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: 'npm'
+          cache-dependency-path: backend/package-lock.json
+      
+      - name: Install Backend dependencies
+        working-directory: backend
+        run: npm ci
+      
+      - name: Initialize database
+        working-directory: backend
+        run: npm run local:db:create
+      
+      - name: Run migrations
+        working-directory: backend
+        run: npm run local:drizzle:migrate
+      
+      # ========================================
+      # Start Backend Server
+      # ========================================
+      - name: Start Backend server
+        working-directory: backend
+        run: |
+          npx wrangler dev --local --ip 127.0.0.1 --port 8787 &
+          echo $! > /tmp/backend_pid.txt
+        env:
+          WRANGLER_SEND_METRICS: false
+      
+      - name: Wait for Backend to be ready
+        run: |
+          echo "Waiting for backend server..."
+          timeout 60 bash -c 'until curl -f http://127.0.0.1:8787/health 2>/dev/null; do 
+            echo "Backend not ready yet..."
+            sleep 2
+          done' || \
+          timeout 60 bash -c 'until nc -z 127.0.0.1 8787; do 
+            echo "Backend port not open yet..."
+            sleep 2
+          done'
+          echo "Backend server is ready!"
+      
+      # ========================================
+      # Run Integration Tests
+      # ========================================
+      - name: Start Xvfb (for Linux Desktop GUI)
+        run: |
+          sudo Xvfb :99 -screen 0 1280x1024x24 &
+          echo "Xvfb started on display :99"
+      
+      - name: Run Integration Tests on Linux Desktop
+        run: |
+          flutter test integration_test/ \
+            -d linux \
+            --dart-define=baseUrl=http://127.0.0.1:8787
+        env:
+          DISPLAY: :99
+      
+      # ========================================
+      # Cleanup & Artifacts
+      # ========================================
+      - name: Stop Backend server
+        if: always()
+        run: |
+          if [ -f /tmp/backend_pid.txt ]; then
+            kill $(cat /tmp/backend_pid.txt) || true
+          fi
+      
+      - name: Upload test screenshots (on failure)
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: integration-test-screenshots
+          path: mobile_ui/screenshots/
+          retention-days: 7
+      
+      - name: Upload test logs (on failure)
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: integration-test-logs
+          path: |
+            mobile_ui/build/
+            backend/.wrangler/
+          retention-days: 3
