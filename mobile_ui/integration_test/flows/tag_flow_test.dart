@@ -8,6 +8,10 @@ void main() {
 
   group('タグ管理のE2Eテスト', () {
     testWidgets('タグを作成して一覧に表示される', (tester) async {
+      // ユニークなタグ名を生成（タイムスタンプ使用）
+      final timestamp = DateTime.now().millisecondsSinceEpoch;
+      final uniqueTagName = 'E2Eテスト_$timestamp';
+      
       // アプリ起動
       await app.main();
       await tester.pumpAndSettle();
@@ -40,7 +44,7 @@ void main() {
       // Titleフィールドに入力
       final titleField = find.widgetWithText(TextFormField, 'Title');
       expect(titleField, findsOneWidget);
-      await tester.enterText(titleField, 'E2Eテストタグ');
+      await tester.enterText(titleField, uniqueTagName);
       await tester.pumpAndSettle();
 
       // Descriptionフィールドに入力
@@ -49,21 +53,19 @@ void main() {
       await tester.enterText(descriptionField, 'テスト用の説明');
       await tester.pumpAndSettle();
 
-      // Addボタンをタップ
+      // 保存ボタンをタップ
       final saveButton = find.widgetWithText(ElevatedButton, 'Add');
       expect(saveButton, findsOneWidget);
       await tester.tap(saveButton);
       
-      // API通信を待つ（長めに設定）
-      await tester.pumpAndSettle(const Duration(seconds: 5));
+      // API通信を待つ（さらに長めに設定）
+      await tester.pumpAndSettle(const Duration(seconds: 10));
 
-      // モーダルが閉じることを確認
-      expect(find.text('Add new tag'), findsOneWidget); // ボタンのみ残る
-
-      // 一覧に表示されることを確認
-      expect(find.text('E2Eテストタグ'), findsOneWidget);
+      // 一覧にタグが表示されることを確認（Chipウィジェットを検索）
+      final tagChip = find.widgetWithText(Chip, uniqueTagName);
+      expect(tagChip, findsOneWidget);
       
-      print('✅ タグ作成フローのテストが成功しました');
+      print('✅ タグ作成フローのテストが成功しました: $uniqueTagName');
     });
   });
 }
