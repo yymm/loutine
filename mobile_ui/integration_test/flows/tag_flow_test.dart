@@ -12,11 +12,19 @@ void main() {
       await app.main();
       await tester.pumpAndSettle();
 
-      // タグタブへ遷移
-      // BottomNavigationBarの「タグ」をタップ
-      final tagTab = find.text('タグ');
-      expect(tagTab, findsOneWidget);
-      await tester.tap(tagTab);
+      // Homeタブが表示されていることを確認
+      expect(find.text('Home'), findsOneWidget);
+
+      // 設定アイコンをタップして設定画面へ遷移
+      final settingsIcon = find.byIcon(Icons.settings);
+      expect(settingsIcon, findsOneWidget);
+      await tester.tap(settingsIcon);
+      await tester.pumpAndSettle();
+
+      // 設定画面でタグ管理をタップ
+      final tagManagement = find.text('Tag Management');
+      expect(tagManagement, findsOneWidget);
+      await tester.tap(tagManagement);
       await tester.pumpAndSettle();
 
       // 新規作成ボタンをタップ
