@@ -101,6 +101,11 @@ jobs:
       # ========================================
       # Run Integration Tests
       # ========================================
+      - name: Start Xvfb (for Linux Desktop GUI)
+        run: |
+          sudo Xvfb :99 -screen 0 1280x1024x24 &
+          echo "Xvfb started on display :99"
+      
       - name: Run Integration Tests on Linux Desktop
         run: |
           flutter test integration_test/ \
