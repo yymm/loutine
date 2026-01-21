@@ -122,9 +122,13 @@ void main() {
     });
 
     testWidgets('テーマを複数回切り替えできる', (tester) async {
-      // カテゴリ画面から設定画面に戻る
-      final backButton = find.byIcon(Icons.settings);
-      await tester.tap(backButton);
+      // カテゴリ画面からホームに戻る
+      await tester.tap(find.text('Home'));
+      await tester.pumpAndSettle();
+
+      // 設定画面へ遷移
+      final settingsIcon = find.byIcon(Icons.settings);
+      await tester.tap(settingsIcon);
       await tester.pumpAndSettle();
 
       // 現在のテーマを確認（初期状態）
