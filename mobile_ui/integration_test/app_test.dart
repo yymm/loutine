@@ -133,6 +133,57 @@ void main() {
         print('✅ シナリオ2完了: カテゴリ作成成功 - $uniqueCategoryName');
       }
 
+      // ======================
+      // シナリオ3: Link作成
+      // ======================
+      {
+        print('📝 シナリオ3: Link作成を開始');
+        final timestamp = DateTime.now().millisecondsSinceEpoch;
+        final uniqueLinkTitle = 'E2Eリンク_$timestamp';
+        final testUrl = 'https://example.com/test_$timestamp';
+        
+        // カテゴリ画面からHomeに戻る
+        await tester.pumpAndSettle(const Duration(seconds: 1));
+        final homeTab = find.text('Home');
+        expect(homeTab, findsOneWidget);
+        await tester.tap(homeTab);
+        await tester.pumpAndSettle();
+
+        // Linkタブへ移動
+        final linkTab = find.text('Link');
+        expect(linkTab, findsOneWidget);
+        await tester.tap(linkTab);
+        await tester.pumpAndSettle();
+
+        // Link Form画面にいることを確認
+        expect(find.text('Link Form'), findsOneWidget);
+
+        // URLフィールドに入力
+        final urlField = find.widgetWithText(TextFormField, 'URL');
+        expect(urlField, findsOneWidget);
+        await tester.enterText(urlField, testUrl);
+        await tester.pumpAndSettle();
+
+        // Titleフィールドに入力
+        final titleField = find.widgetWithText(TextFormField, 'Title');
+        expect(titleField, findsOneWidget);
+        await tester.enterText(titleField, uniqueLinkTitle);
+        await tester.pumpAndSettle();
+
+        // Submitボタンをタップ
+        final submitButton = find.widgetWithText(ElevatedButton, 'Submit');
+        expect(submitButton, findsOneWidget);
+        await tester.tap(submitButton);
+        
+        // API通信を待つ
+        await tester.pumpAndSettle(const Duration(seconds: 10));
+
+        // 成功メッセージを確認
+        expect(find.text('Success to add link'), findsOneWidget);
+        
+        print('✅ シナリオ3完了: Link作成成功 - $uniqueLinkTitle');
+      }
+
       print('🎉 全テストシナリオ完了！');
     });
   });
