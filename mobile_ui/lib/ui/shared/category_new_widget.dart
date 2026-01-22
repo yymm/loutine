@@ -11,8 +11,8 @@ class CategoryNewWidget extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final categoryListNotifier = ref.watch(categoryListProvider.notifier);
-    final categoryNewNameNotifier = ref.read<CategoryNewNameNotifier>(categoryNewNameNotifierProvider.notifier);
-    final categoryNewDescriptionNotifier = ref.read<CategoryNewDescriptionNotifier>(categoryNewDescriptionNotifierProvider.notifier);
+    final categoryNewNameNotifier = ref.read(categoryNewNameProvider.notifier);
+    final categoryNewDescriptionNotifier = ref.read(categoryNewDescriptionProvider.notifier);
 
     return SizedBox(
       height: 300,
@@ -74,8 +74,8 @@ class CategoryNewWidget extends ConsumerWidget {
                     ElevatedButton(
                       onPressed: () {
                         if (!_formKey.currentState!.validate()) return;
-                        final title = ref.read(categoryNewNameNotifierProvider);
-                        final description = ref.read(categoryNewDescriptionNotifierProvider);
+                        final title = ref.read(categoryNewNameProvider);
+                        final description = ref.read(categoryNewDescriptionProvider);
                         categoryListNotifier.add(title, description)
                           .then((v) {
                             categoryNewNameNotifier.reset();
