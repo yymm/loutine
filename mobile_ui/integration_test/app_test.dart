@@ -184,6 +184,51 @@ void main() {
         print('✅ シナリオ3完了: Link作成成功 - $uniqueLinkTitle');
       }
 
+      // ======================
+      // シナリオ4: Purchase作成
+      // ======================
+      {
+        print('📝 シナリオ4: Purchase作成を開始');
+        final timestamp = DateTime.now().millisecondsSinceEpoch;
+        final uniquePurchaseTitle = 'E2E購入_$timestamp';
+        final testCost = '1234';
+        
+        // LinkタブからPurchaseタブへ移動
+        await tester.pumpAndSettle(const Duration(seconds: 1));
+        final purchaseTab = find.text('Purchase');
+        expect(purchaseTab, findsOneWidget);
+        await tester.tap(purchaseTab);
+        await tester.pumpAndSettle();
+
+        // Purchase Form画面にいることを確認
+        expect(find.text('Purchase Form'), findsOneWidget);
+
+        // Costフィールドに入力
+        final costField = find.widgetWithText(TextFormField, 'Cost');
+        expect(costField, findsOneWidget);
+        await tester.enterText(costField, testCost);
+        await tester.pumpAndSettle();
+
+        // Titleフィールドに入力
+        final titleField = find.widgetWithText(TextFormField, 'Title');
+        expect(titleField, findsOneWidget);
+        await tester.enterText(titleField, uniquePurchaseTitle);
+        await tester.pumpAndSettle();
+
+        // Submitボタンをタップ
+        final submitButton = find.widgetWithText(ElevatedButton, 'Submit');
+        expect(submitButton, findsOneWidget);
+        await tester.tap(submitButton);
+        
+        // API通信を待つ
+        await tester.pumpAndSettle(const Duration(seconds: 10));
+
+        // 成功メッセージを確認
+        expect(find.text('Success to add purchase'), findsOneWidget);
+        
+        print('✅ シナリオ4完了: Purchase作成成功 - $uniquePurchaseTitle (¥$testCost)');
+      }
+
       print('🎉 全テストシナリオ完了！');
     });
   });
