@@ -63,7 +63,7 @@ void main() {
         await tester.tap(saveButton);
         
         // API通信を待つ
-        await tester.pumpAndSettle(const Duration(seconds: 10));
+        await tester.pumpAndSettle(const Duration(seconds: 5));
 
         // 一覧にタグが表示されることを確認
         final tagChip = find.widgetWithText(Chip, uniqueTagName);
@@ -124,11 +124,11 @@ void main() {
         await tester.tap(saveButton);
         
         // API通信を待つ
-        await tester.pumpAndSettle(const Duration(seconds: 10));
+        await tester.pumpAndSettle(const Duration(seconds: 5));
 
         // 一覧にカテゴリが表示されることを確認
-        final categoryChip = find.widgetWithText(Chip, uniqueCategoryName);
-        expect(categoryChip, findsOneWidget);
+        final categoryCard = find.widgetWithText(Card, uniqueCategoryName);
+        expect(categoryCard, findsOneWidget);
         
         print('✅ シナリオ2完了: カテゴリ作成成功 - $uniqueCategoryName');
       }
