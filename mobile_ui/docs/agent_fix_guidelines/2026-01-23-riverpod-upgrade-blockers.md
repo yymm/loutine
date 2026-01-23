@@ -20,9 +20,23 @@ riverpod 3.2.0
 
 ## アップグレード可能にする方法
 
-### 方法1: Flutter SDKの次期アップデートを待つ ⭐️ 推奨
+### 方法1: Flutter SDKの次期アップデートを待つ ⭐️ 推奨 **（唯一の実用的な方法）**
 
 **概要**: Flutter SDKの次のメジャー/マイナーリリースで `test_api` のバージョン制約が緩和される可能性が高い
+
+**重要な発見（2026-01-23追記）**:
+- `riverpod 3.2.0` 自体が `test ^1.0.0` に**直接依存**している
+- これがFlutter SDKの `flutter_test` → `test_api 0.7.7` と競合
+- **custom_lintを削除しても解決できない根本的な問題**
+
+```json
+// riverpod 3.2.0 の依存関係（pub.dev より）
+{
+  "dependencies": {
+    "test": "^1.0.0"  // ← この依存関係が問題
+  }
+}
+```
 
 **利点**:
 - ✅ 最も安全で確実
@@ -46,45 +60,24 @@ flutter pub upgrade --dry-run flutter_riverpod riverpod_annotation riverpod_gene
 
 ---
 
-### 方法2: custom_lint と riverpod_lint を一時的に削除 ⚠️
+### 方法2: ~~custom_lint と riverpod_lint を一時的に削除~~ ❌ **効果なし**
 
-**概要**: Lintツールを諦めて、Riverpod 3.x/4.xにアップグレード
+**2026-01-23 検証結果**: **この方法では解決できません**
 
-**トレードオフ**:
-- ✅ Riverpod 3.x/4.xの新機能が使える
-- ❌ Riverpod特有のlintルールが効かなくなる
-- ❌ コード品質チェックが弱くなる
+custom_lintを削除しても、`riverpod 3.2.0`パッケージ自体が`test ^1.0.0`に依存しているため、Flutter SDKの`test_api`との競合は解消されません。
 
-**実施手順**:
-
-1. **pubspec.yaml から削除**:
-```yaml
-dev_dependencies:
-  # custom_lint: ^0.7.6  # 削除
-  # riverpod_lint: ^2.6.5  # 削除
-```
-
-2. **analysis_options.yaml から削除**:
-```yaml
-analyzer:
-  # plugins:
-  #   - custom_lint  # コメントアウト
-```
-
-3. **Riverpod アップグレード**:
+**検証済み**:
 ```bash
-flutter pub upgrade --major-versions flutter_riverpod riverpod_annotation riverpod_generator
+# custom_lint, riverpod_lint を削除
+# flutter_riverpod: ^3.2.0
+# riverpod_annotation: ^4.0.1
+# riverpod_generator: ^4.0.2
+
+flutter pub get
+# → 依然として version solving failed
 ```
 
-4. **コード生成**:
-```bash
-flutter pub run build_runner build --delete-conflicting-outputs
-```
-
-**注意事項**:
-- riverpod_lintが提供するルール（不適切なProvider使用の検出など）が失われる
-- 手動でのコードレビューが必要
-- 将来互換性のあるバージョンが出たら戻す
+**結論**: このアプローチは**不可能**です。
 
 ---
 
