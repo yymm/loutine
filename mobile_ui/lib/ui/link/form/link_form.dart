@@ -34,7 +34,7 @@ class _LinkForm extends ConsumerState<LinkForm> {
     // final state = Provider.of<LinkFormState>(context, listen: true);
     final linkNew = ref.watch(linkNewStateProvider);
     final tags = ref.watch(tagListStateProvider);
-    // final categories = ref.watch(categoryListProvider);
+    // final categories = ref.watch(categoryListStateProvider);
 
     return Container(
       padding: EdgeInsets.all(25),

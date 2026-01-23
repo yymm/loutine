@@ -1,10 +1,14 @@
 import 'dart:convert';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:mobile_ui/api/vanilla_api.dart';
 import 'package:mobile_ui/models/category.dart';
 
-class CategoryListNotifier extends StateNotifier<List<Category>> {
-  CategoryListNotifier() : super([]);
+part 'category_list_state.g.dart';
+
+@riverpod
+class CategoryListState extends _$CategoryListState {
+  @override
+  List<Category> build() => [];
 
   Future<void> add(String name, String description) async {
     CategoryApiClient apiClient = CategoryApiClient();
@@ -26,8 +30,7 @@ class CategoryListNotifier extends StateNotifier<List<Category>> {
   }
 }
 
-final categoryListProvider = StateNotifierProvider<CategoryListNotifier, List<Category>>((ref) => CategoryListNotifier());
-
-final categoryListFutureProvider = FutureProvider.autoDispose<List<Category>>((ref) async {
-  return ref.read(categoryListProvider.notifier).getList();
-});
+@riverpod
+Future<List<Category>> categoryListFuture(CategoryListFutureRef ref) async {
+  return ref.read(categoryListStateProvider.notifier).getList();
+}

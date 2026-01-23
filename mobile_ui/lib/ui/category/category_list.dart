@@ -10,7 +10,7 @@ class CategoryList extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final AsyncValue<List<Category>> categoryList = ref.watch(categoryListFutureProvider);
-    final categories = ref.watch(categoryListProvider);
+    final categories = ref.watch(categoryListStateProvider);
 
     return SingleChildScrollView(
       child: switch (categoryList) {
