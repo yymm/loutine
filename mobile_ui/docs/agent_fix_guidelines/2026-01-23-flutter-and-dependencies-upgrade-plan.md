@@ -138,13 +138,25 @@
 
 ## 想定スケジュール
 
-- Step 1 (Flutter本体): 30分
-- Step 2 (Riverpod): 1-2時間（Breaking changes対応含む）
-- Step 3 (go_router): 1時間
-- Step 4 (build_runner/lint): 30分
-- Step 5 (その他): 30分
+- Step 1 (Flutter本体): 完了 ✅
+- Step 2 (互換性のある依存関係): 1-2時間（特にgo_routerのBreaking changes対応）
+- Step 3 (build_runner/lints): 30分
 
-**合計**: 3.5-4.5時間
+**合計**: 1.5-2.5時間
+
+## 重要な注意事項
+
+### Riverpod 3.x/4.x アップグレードについて
+
+現時点では、Riverpod 3.x/4.xへのアップグレードは**技術的に不可能**です。理由：
+
+1. `riverpod_generator 4.0.2` は `analyzer ^9.0.0` を要求
+2. `custom_lint` の最新版でも `analyzer ^8.0.0` まで
+3. Flutter SDK 3.38.7 の `flutter_test` が `test_api 0.7.7` に固定されており、依存関係チェーンが競合
+
+**将来の対応**:
+- Flutter SDK または Riverpod エコシステムのアップデートで互換性が改善されるまで待つ
+- Riverpod 2.6.xは既にコードジェネレーター方式に移行済みなので、機能的な問題はない
 
 ## ロールバック戦略
 
