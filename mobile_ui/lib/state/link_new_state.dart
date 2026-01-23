@@ -6,8 +6,8 @@ import 'package:mobile_ui/api/vanilla_api.dart';
 
 part 'link_new_state.g.dart';
 
-class LinkNew {
-  LinkNew({
+class LinkNewData {
+  LinkNewData({
     required this.url,
     required this.title,
   });
@@ -17,22 +17,22 @@ class LinkNew {
 }
 
 @riverpod
-class LinkNewState extends _$LinkNewState {
+class LinkNew extends _$LinkNew {
   @override
-  LinkNew build() => LinkNew(url: '', title: '');
+  LinkNewData build() => LinkNewData(url: '', title: '');
 
   void changeUrl(String v) {
-    state = LinkNew(url: v, title: state.title);
+    state = LinkNewData(url: v, title: state.title);
   }
 
   void changeTitle(String v) {
-    state = LinkNew(url: state.url, title: v);
+    state = LinkNewData(url: state.url, title: v);
   }
 
   Future<String> pasteByClipBoard() async {
     final clipboardData = await Clipboard.getData('text/plain');
     final url = clipboardData!.text ?? "";
-    state = LinkNew(url: url, title: state.title);
+    state = LinkNewData(url: url, title: state.title);
     return url;
   }
 
@@ -45,12 +45,12 @@ class LinkNewState extends _$LinkNewState {
     final Map<String, dynamic> resJson = json.decode(body);
     // final title = faker.internet.userName();
     final title = resJson['title']!;
-    state = LinkNew(url: state.url, title: title);
+    state = LinkNewData(url: state.url, title: title);
     return title;
   }
 
   void reset() {
-    state = LinkNew(url: '', title: '');
+    state = LinkNewData(url: '', title: '');
   }
 
   Future<void> add({ required List<int> tagIds}) async {

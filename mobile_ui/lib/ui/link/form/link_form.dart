@@ -32,7 +32,7 @@ class _LinkForm extends ConsumerState<LinkForm> {
   @override
   Widget build(BuildContext context) {
     // final state = Provider.of<LinkFormState>(context, listen: true);
-    final linkNew = ref.watch(linkNewStateProvider);
+    final linkNew = ref.watch(linkNewProvider);
     final tags = ref.watch(tagListStateProvider);
     // final categories = ref.watch(categoryListStateProvider);
 
@@ -62,7 +62,7 @@ class _LinkForm extends ConsumerState<LinkForm> {
                 return null;
               },
               onChanged: (text) {
-                ref.read(linkNewStateProvider.notifier).changeUrl(text);
+                ref.read(linkNewProvider.notifier).changeUrl(text);
               },
             ),
             // }}}
@@ -70,7 +70,7 @@ class _LinkForm extends ConsumerState<LinkForm> {
             // >> Paste from clipboard {{{
             TextButton(
               onPressed: () async {
-                final pastedUrl = await ref.read(linkNewStateProvider.notifier).pasteByClipBoard();
+                final pastedUrl = await ref.read(linkNewProvider.notifier).pasteByClipBoard();
                 _urlController.value = _urlController.value.copyWith(
                   text: pastedUrl,
                 );
@@ -96,7 +96,7 @@ class _LinkForm extends ConsumerState<LinkForm> {
                 return null;
               },
               onChanged: (text) {
-                ref.read(linkNewStateProvider.notifier).changeTitle(text);
+                ref.read(linkNewProvider.notifier).changeTitle(text);
               },
             ),
             // }}}
@@ -104,7 +104,7 @@ class _LinkForm extends ConsumerState<LinkForm> {
             // >> Get title via url {{{
             TextButton(
               onPressed: () async {
-                final String titleViaUrl = await ref.read(linkNewStateProvider.notifier).getTitleFromUrl();
+                final String titleViaUrl = await ref.read(linkNewProvider.notifier).getTitleFromUrl();
                 _titleController.value = _titleController.value.copyWith(
                   text: titleViaUrl,
                 );
@@ -163,9 +163,9 @@ class _LinkForm extends ConsumerState<LinkForm> {
                 if (!_formKey.currentState!.validate()) return;
                 final tagIds = _tabController.selectedItems.map((v) => int.parse(v.value)).toList();
                 // final categoryId = dropdownformfieldValue != null ? int.parse(dropdownformfieldValue!) : null;
-                ref.read(linkNewStateProvider.notifier).add(tagIds: tagIds)
+                ref.read(linkNewProvider.notifier).add(tagIds: tagIds)
                   .then((v) {
-                    ref.read(linkNewStateProvider.notifier).reset();
+                    ref.read(linkNewProvider.notifier).reset();
                     _urlController.value = _urlController.value.copyWith(
                       text: '',
                     );
