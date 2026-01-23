@@ -24,11 +24,9 @@ linter:
     # avoid_print: false  # Uncomment to disable the `avoid_print` rule
     # prefer_single_quotes: true  # Uncomment to enable the `prefer_single_quotes` rule
 
-# analyzer:
-#   plugins:
-#     - custom_lint
-# Note: custom_lint plugin disabled to enable Riverpod 3.x/4.x upgrade
-# Riverpod-specific lint rules will not be enforced until compatible versions are available
+analyzer:
+  plugins:
+    - custom_lint
 
 # Additional information about this file can be found at
 # https://dart.dev/guides/language/analysis-options
