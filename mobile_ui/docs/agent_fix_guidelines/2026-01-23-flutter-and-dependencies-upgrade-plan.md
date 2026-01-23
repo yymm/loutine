@@ -49,80 +49,56 @@
 
 ### 前提条件の確認
 
-1. **技術的制約**（2026-01-08の調査結果より）
-   - Flutter 3.27.0未満では新しいパッケージバージョンが使えない
-   - Riverpod 3.xはFlutter 3.27.0以上が必要
-   - **結論**: Flutter + Riverpod + 他パッケージを同時にアップデートする必要がある
+1. **技術的制約**（2026-01-23の調査結果）
+   - **重要な発見**: Riverpod 3.x/4.x は現在のFlutter SDK 3.38.7と依存関係の競合がある
+   - `riverpod_generator 4.x` は `analyzer ^9.0.0` が必要
+   - `custom_lint 0.7.x` は `analyzer ^7.0.0` が必要
+   - `custom_lint 0.8.x` は `analyzer ^8.0.0` が必要
+   - `flutter_test` (Flutter SDK) の `test_api` バージョン固定により、これらの間で依存関係が解決できない
+   - **結論**: Riverpod 2.6.xを維持し、互換性のある他のパッケージのみをアップグレードする
 
 2. **リスク軽減策**
    - ✅ Riverpodコードジェネレーター移行済み
    - ✅ Provider単体テスト存在
    - ✅ CI/CDパイプライン稼働中
 
-### アップグレード手順
+### 修正されたアップグレード手順
 
-#### Step 1: Flutter本体のアップグレード (単独コミット)
+#### Step 1: Flutter本体のアップグレード (完了 ✅)
 - ローカル環境: Flutter 3.24.3 → 3.38.7 (fvmを使用)
-  - `.fvm/fvm_config.json` を更新
-  - `fvm install 3.38.7`
-  - `fvm use 3.38.7`
-- CI環境: Flutter 3.27.1 → 3.38.7 (`.github/workflows/*.yml`)
-- `pubspec.yaml` の SDK制約更新: `^3.5.3` → `^3.8.0` (Flutter 3.38.7のDartバージョン)
+- CI環境: Flutter 3.27.1 → 3.38.7
+- Dart SDK: 3.5.3 → 3.10.7
 
-#### Step 2: Riverpod関連の同時アップグレード (単独コミット)
-**理由**: Riverpod関連パッケージは密結合しており、同時に更新する必要がある
+#### Step 2: 互換性のある依存関係のアップグレード (go_router、http、その他)
+**理由**: Riverpod 3.x/4.xは現在互換性がないため、2.6.xを維持しつつ他をアップグレード
 
 更新対象:
-- `flutter_riverpod`: 2.6.1 → 3.2.0
-- `riverpod_annotation`: 2.6.1 → 4.0.1
-- `riverpod_generator`: 2.6.3 → 4.0.2
-- `riverpod_lint`: 2.6.3 → 3.1.2
-
-作業内容:
-1. `pubspec.yaml` の依存関係を更新
-2. `flutter pub get`
-3. コード生成の再実行: `flutter pub run build_runner build --delete-conflicting-outputs`
-4. Breaking changesの対応（必要に応じて）
-5. 全テスト実行: `flutter test`
-6. Lint実行: `flutter analyze`
-
-#### Step 3: go_routerのアップグレード (単独コミット)
-**理由**: ルーティング機能は独立しており、他の依存関係と分離可能
-
-更新対象:
-- `go_router`: 14.8.0 → 17.0.1
-
-作業内容:
-1. `pubspec.yaml` を更新
-2. Breaking changesの確認と対応
-3. ルーティング関連のテスト実行
-
-#### Step 4: build_runner / lint関連のアップグレード (単独コミット)
-**理由**: 開発ツールの更新は独立している
-
-更新対象:
-- `build_runner`: 2.4.13 → 2.10.5
-- `custom_lint`: 0.7.0 → 0.8.1
-- `flutter_lints`: 5.0.0 → 6.0.0
-
-作業内容:
-1. `pubspec.yaml` を更新
-2. コード生成の再実行
-3. 新しいLintルールの確認と対応
-
-#### Step 5: その他の依存関係の一括アップグレード (単独コミット)
-**理由**: 残りはマイナーアップデートで影響範囲が小さい
-
-更新対象:
+- `go_router`: 14.8.0 → 17.0.1 (メジャーアップデート)
 - `http`: 1.3.0 → 1.6.0
 - `flutter_launcher_icons`: 0.14.3 → 0.14.4
 - `shared_preferences`: 2.5.1 → 2.5.4
 - `url_launcher`: 6.3.1 → 6.3.2
 
+**Riverpod関連は現行バージョンを維持**:
+- `flutter_riverpod`: 2.6.1 (最新3.2.0は互換性なし)
+- `riverpod_annotation`: 2.6.1 (最新4.0.1は互換性なし)
+- `riverpod_generator`: 2.6.5 (最新4.0.2は互換性なし)
+- `riverpod_lint`: 2.6.5 (最新3.1.2は互換性なし)
+- `custom_lint`: 0.7.6 (最新0.8.1は互換性なし)
+
 作業内容:
-1. `pubspec.yaml` を更新
-2. 全テスト実行
-3. 動作確認
+1. `pubspec.yaml` の互換性のある依存関係を更新
+2. `flutter pub get`
+3. Breaking changesの対応（特にgo_router）
+4. 全テスト実行: `flutter test`
+5. Lint実行: `flutter analyze`
+
+#### Step 3: build_runner / flutter_lints のアップグレード (必要に応じて)
+**理由**: 開発ツールの更新
+
+更新対象:
+- `build_runner`: 2.4.13 → 2.10.5 (互換性を確認)
+- `flutter_lints`: 5.0.0 → 6.0.0 (互換性を確認)
 
 ## 各Stepの検証項目
 
