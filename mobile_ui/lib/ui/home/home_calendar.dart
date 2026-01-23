@@ -12,7 +12,7 @@ class HomeCalendarWidget extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final focusDay = ref.watch(calendarFocusDayProvider);
-    final format = ref.watch(calendarFormatStateProvider);
+    final format = ref.watch(calendarFormatManagerProvider);
 
     final calendarState = ref.watch(calendarStateManagerProvider);
 
@@ -22,7 +22,7 @@ class HomeCalendarWidget extends ConsumerWidget {
       focusedDay: focusDay,
       calendarFormat: format,
       onFormatChanged: (format) {
-        ref.read(calendarFormatStateProvider.notifier).change(format);
+        ref.read(calendarFormatManagerProvider.notifier).change(format);
       },
       eventLoader: (date) {
         return calendarState.calendarEvents[date] ?? [];

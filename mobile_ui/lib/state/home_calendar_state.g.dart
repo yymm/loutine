@@ -39,23 +39,23 @@ final calendarFocusDayProvider =
 );
 
 typedef _$CalendarFocusDay = AutoDisposeNotifier<DateTime>;
-String _$calendarFormatStateHash() =>
-    r'fe2669a8aa48bbcd196fc454ed7b635140c17e51';
+String _$calendarFormatManagerHash() =>
+    r'656b39ddcbee06b908363957a1842b78a96108be';
 
-/// See also [CalendarFormatState].
-@ProviderFor(CalendarFormatState)
-final calendarFormatStateProvider =
-    AutoDisposeNotifierProvider<CalendarFormatState, CalendarFormat>.internal(
-  CalendarFormatState.new,
-  name: r'calendarFormatStateProvider',
+/// See also [CalendarFormatManager].
+@ProviderFor(CalendarFormatManager)
+final calendarFormatManagerProvider =
+    AutoDisposeNotifierProvider<CalendarFormatManager, CalendarFormat>.internal(
+  CalendarFormatManager.new,
+  name: r'calendarFormatManagerProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$calendarFormatStateHash,
+      : _$calendarFormatManagerHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef _$CalendarFormatState = AutoDisposeNotifier<CalendarFormat>;
+typedef _$CalendarFormatManager = AutoDisposeNotifier<CalendarFormat>;
 String _$calendarEventListHash() => r'b0be0ce522d3696e117978f942c62845a76242b2';
 
 /// See also [CalendarEventList].

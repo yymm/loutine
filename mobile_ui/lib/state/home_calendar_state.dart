@@ -117,7 +117,7 @@ class CalendarFocusDay extends _$CalendarFocusDay {
 }
 
 @riverpod
-class CalendarFormatState extends _$CalendarFormatState {
+class CalendarFormatManager extends _$CalendarFormatManager {
   @override
   CalendarFormat build() => CalendarFormat.month;
 

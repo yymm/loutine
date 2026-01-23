@@ -39,30 +39,30 @@ void main() {
     });
   });
 
-  group('CalendarFormatState', () {
+  group('CalendarFormatManager', () {
     test('初期値はmonth', () {
       final container = ProviderContainer();
       addTearDown(container.dispose);
 
-      expect(container.read(calendarFormatStateProvider), CalendarFormat.month);
+      expect(container.read(calendarFormatManagerProvider), CalendarFormat.month);
     });
 
     test('change()でフォーマットが変更される', () {
       final container = ProviderContainer();
       addTearDown(container.dispose);
 
-      container.read(calendarFormatStateProvider.notifier).change(CalendarFormat.week);
-      expect(container.read(calendarFormatStateProvider), CalendarFormat.week);
+      container.read(calendarFormatManagerProvider.notifier).change(CalendarFormat.week);
+      expect(container.read(calendarFormatManagerProvider), CalendarFormat.week);
     });
 
     test('reset()でmonthに戻る', () {
       final container = ProviderContainer();
       addTearDown(container.dispose);
 
-      final notifier = container.read(calendarFormatStateProvider.notifier);
+      final notifier = container.read(calendarFormatManagerProvider.notifier);
       notifier.change(CalendarFormat.twoWeeks);
       notifier.reset();
-      expect(container.read(calendarFormatStateProvider), CalendarFormat.month);
+      expect(container.read(calendarFormatManagerProvider), CalendarFormat.month);
     });
   });
 
