@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mobile_ui/router.dart';
-import 'package:mobile_ui/state/category_list_state.dart';
-import 'package:mobile_ui/state/home_calendar_state.dart';
-import 'package:mobile_ui/state/tag_list_state.dart';
+import 'package:mobile_ui/providers/category_list_provider.dart';
+import 'package:mobile_ui/providers/home_calendar_provider.dart';
+import 'package:mobile_ui/providers/tag_list_provider.dart';
 import 'package:mobile_ui/storage.dart';
-import 'package:mobile_ui/state/theme_mode_state.dart';
+import 'package:mobile_ui/providers/theme_mode_provider.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();

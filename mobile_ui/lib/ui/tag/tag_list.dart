@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mobile_ui/models/tag.dart';
 import 'package:mobile_ui/ui/shared/loading_widget.dart';
-import 'package:mobile_ui/state/tag_list_state.dart';
+import 'package:mobile_ui/providers/tag_list_provider.dart';
 
 class TagList extends ConsumerWidget {
   const TagList({ super.key });

@@ -1,59 +1,59 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:mobile_ui/state/tag_new_state.dart';
+import 'package:mobile_ui/providers/category_new_provider.dart';
 
 void main() {
-  group('TagNewName', () {
+  group('CategoryNewName', () {
     test('初期値は空文字列', () {
       final container = ProviderContainer();
       addTearDown(container.dispose);
 
-      expect(container.read(tagNewNameProvider), '');
+      expect(container.read(categoryNewNameProvider), '');
     });
 
     test('change()で値が変更される', () {
       final container = ProviderContainer();
       addTearDown(container.dispose);
 
-      container.read(tagNewNameProvider.notifier).change('テストタグ');
-      expect(container.read(tagNewNameProvider), 'テストタグ');
+      container.read(categoryNewNameProvider.notifier).change('テストカテゴリ');
+      expect(container.read(categoryNewNameProvider), 'テストカテゴリ');
     });
 
     test('reset()で空文字列に戻る', () {
       final container = ProviderContainer();
       addTearDown(container.dispose);
 
-      final notifier = container.read(tagNewNameProvider.notifier);
-      notifier.change('テストタグ');
+      final notifier = container.read(categoryNewNameProvider.notifier);
+      notifier.change('テストカテゴリ');
       notifier.reset();
-      expect(container.read(tagNewNameProvider), '');
+      expect(container.read(categoryNewNameProvider), '');
     });
   });
 
-  group('TagNewDescription', () {
+  group('CategoryNewDescription', () {
     test('初期値は空文字列', () {
       final container = ProviderContainer();
       addTearDown(container.dispose);
 
-      expect(container.read(tagNewDescriptionProvider), '');
+      expect(container.read(categoryNewDescriptionProvider), '');
     });
 
     test('change()で値が変更される', () {
       final container = ProviderContainer();
       addTearDown(container.dispose);
 
-      container.read(tagNewDescriptionProvider.notifier).change('説明文');
-      expect(container.read(tagNewDescriptionProvider), '説明文');
+      container.read(categoryNewDescriptionProvider.notifier).change('説明文');
+      expect(container.read(categoryNewDescriptionProvider), '説明文');
     });
 
     test('reset()で空文字列に戻る', () {
       final container = ProviderContainer();
       addTearDown(container.dispose);
 
-      final notifier = container.read(tagNewDescriptionProvider.notifier);
+      final notifier = container.read(categoryNewDescriptionProvider.notifier);
       notifier.change('説明文');
       notifier.reset();
-      expect(container.read(tagNewDescriptionProvider), '');
+      expect(container.read(categoryNewDescriptionProvider), '');
     });
   });
 }

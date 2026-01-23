@@ -1,7 +1,7 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:mobile_ui/api/vanilla_api.dart';
 
-part 'purchase_new_state.g.dart';
+part 'purchase_new_provider.g.dart';
 
 class PurchaseNewData {
   PurchaseNewData({

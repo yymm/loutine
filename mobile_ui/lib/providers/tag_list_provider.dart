@@ -4,7 +4,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:mobile_ui/api/vanilla_api.dart';
 import 'package:mobile_ui/models/tag.dart';
 
-part 'tag_list_state.g.dart';
+part 'tag_list_provider.g.dart';
 
 @riverpod
 class TagList extends _$TagList {

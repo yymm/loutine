@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:mobile_ui/storage.dart';
 
-part 'theme_mode_state.g.dart';
+part 'theme_mode_provider.g.dart';
 
 @riverpod
 class ThemeModeManager extends _$ThemeModeManager {

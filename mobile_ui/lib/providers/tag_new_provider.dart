@@ -1,9 +1,9 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-part 'category_new_state.g.dart';
+part 'tag_new_provider.g.dart';
 
 @riverpod
-class CategoryNewName extends _$CategoryNewName {
+class TagNewName extends _$TagNewName {
   @override
   String build() => '';
 
@@ -13,7 +13,7 @@ class CategoryNewName extends _$CategoryNewName {
 }
 
 @riverpod
-class CategoryNewDescription extends _$CategoryNewDescription {
+class TagNewDescription extends _$TagNewDescription {
   @override
   String build() => '';
 

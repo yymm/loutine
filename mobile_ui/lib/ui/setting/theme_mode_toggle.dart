@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:mobile_ui/state/theme_mode_state.dart';
+import 'package:mobile_ui/providers/theme_mode_provider.dart';
 
 class ThemeModeToggle extends ConsumerWidget {
   const ThemeModeToggle({super.key});
