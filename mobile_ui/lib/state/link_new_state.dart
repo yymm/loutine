@@ -1,8 +1,10 @@
 import 'dart:convert';
 
 import 'package:flutter/services.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:mobile_ui/api/vanilla_api.dart';
+
+part 'link_new_state.g.dart';
 
 class LinkNew {
   LinkNew({
@@ -14,8 +16,10 @@ class LinkNew {
   final String title;
 }
 
-class LinkNewNotifier extends StateNotifier<LinkNew> {
-  LinkNewNotifier() : super(LinkNew(url: '', title: ''));
+@riverpod
+class LinkNewState extends _$LinkNewState {
+  @override
+  LinkNew build() => LinkNew(url: '', title: '');
 
   void changeUrl(String v) {
     state = LinkNew(url: v, title: state.title);
@@ -56,6 +60,3 @@ class LinkNewNotifier extends StateNotifier<LinkNew> {
     return;
   }
 }
-
-final linkNewProvider
-  = StateNotifierProvider<LinkNewNotifier, LinkNew>((ref) => LinkNewNotifier());
