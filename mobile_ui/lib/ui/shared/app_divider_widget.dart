@@ -7,7 +7,7 @@ class AppDividerWidget extends ConsumerWidget{
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final themeMode = ref.watch(themeModeProvider);
+    final themeMode = ref.watch(themeModeStateProvider);
     final color = switch (themeMode) {
       ThemeMode.system => Colors.black12,
       ThemeMode.light => Colors.black12,

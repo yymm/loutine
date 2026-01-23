@@ -32,7 +32,7 @@ class LoutineApp extends ConsumerWidget {
       title: 'Loutine App',
       darkTheme: _getThemeData(Brightness.dark),
       theme: _getThemeData(Brightness.light),
-      themeMode: ref.watch(themeModeProvider),
+      themeMode: ref.watch(themeModeStateProvider),
       routerConfig: router,
     );
   }
