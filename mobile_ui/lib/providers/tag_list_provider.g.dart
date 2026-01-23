@@ -29,13 +29,14 @@ String _$tagListHash() => r'952eb6ab0e8193a686dcaefe84cc0f3dc8352fe4';
 @ProviderFor(TagList)
 final tagListProvider =
     AutoDisposeNotifierProvider<TagList, List<Tag>>.internal(
-  TagList.new,
-  name: r'tagListProvider',
-  debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$tagListHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
+      TagList.new,
+      name: r'tagListProvider',
+      debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+          ? null
+          : _$tagListHash,
+      dependencies: null,
+      allTransitiveDependencies: null,
+    );
 
 typedef _$TagList = AutoDisposeNotifier<List<Tag>>;
 // ignore_for_file: type=lint

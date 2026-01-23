@@ -66,7 +66,7 @@ dev_dependencies:
 ### 移行対象ファイル一覧
 
 ```
-lib/state/
+lib/providers/
 ├── category_new_state.dart        ← シンプル (Notifier × 2個)
 ├── tag_new_state.dart             ← シンプル (Notifier × 2個)
 ├── purchase_new_state.dart        ← StateNotifier
@@ -91,7 +91,7 @@ lib/state/
 ### STEP 1: 現在のコード (移行前)
 
 ```dart
-// lib/state/tag_new_state.dart
+// lib/providers/tag_new_state.dart
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 // 手動実装: Notifierクラスを自分で定義
@@ -131,7 +131,7 @@ final tagNewDescriptionNotifierProvider
 ### STEP 2: コードジェネレーター版に書き換え
 
 ```dart
-// lib/state/tag_new_state.dart
+// lib/providers/tag_new_state.dart
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 // 重要: この行を追加 (生成されるファイルを指定)
@@ -220,14 +220,14 @@ dart run build_runner watch --delete-conflicting-outputs
 
 **成功すると**:
 ```
-lib/state/tag_new_state.g.dart  ← このファイルが生成される
+lib/providers/tag_new_state.g.dart  ← このファイルが生成される
 ```
 
 ---
 
 ### STEP 4: 生成されたコードを確認
 
-`lib/state/tag_new_state.g.dart` (自動生成・編集禁止):
+`lib/providers/tag_new_state.g.dart` (自動生成・編集禁止):
 
 ```dart
 // GENERATED CODE - DO NOT MODIFY BY HAND
@@ -418,7 +418,7 @@ Error: Can't use 'tag_new_state.g.dart' as a part, because it has no 'part of' d
 ### 手順1: ファイルを編集
 
 ```bash
-# エディタで lib/state/tag_new_state.dart を開く
+# エディタで lib/providers/tag_new_state.dart を開く
 ```
 
 ### 手順2: コードを書き換える
@@ -436,7 +436,7 @@ dart run build_runner build --delete-conflicting-outputs
 
 ```bash
 # 生成されたか確認
-ls -l lib/state/tag_new_state.g.dart
+ls -l lib/providers/tag_new_state.g.dart
 
 # アプリをビルド
 flutter build apk --debug

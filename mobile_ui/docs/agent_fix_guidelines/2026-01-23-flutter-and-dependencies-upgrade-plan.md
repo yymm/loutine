@@ -62,7 +62,10 @@
 ### アップグレード手順
 
 #### Step 1: Flutter本体のアップグレード (単独コミット)
-- ローカル環境: Flutter 3.24.3 → 3.38.7
+- ローカル環境: Flutter 3.24.3 → 3.38.7 (fvmを使用)
+  - `.fvm/fvm_config.json` を更新
+  - `fvm install 3.38.7`
+  - `fvm use 3.38.7`
 - CI環境: Flutter 3.27.1 → 3.38.7 (`.github/workflows/*.yml`)
 - `pubspec.yaml` の SDK制約更新: `^3.5.3` → `^3.8.0` (Flutter 3.38.7のDartバージョン)
 
@@ -128,7 +131,8 @@
 2. ✅ `flutter pub run build_runner build --delete-conflicting-outputs` が成功
 3. ✅ `flutter test` が全て通過
 4. ✅ `flutter analyze` でエラーなし
-5. ✅ アプリが起動できる（手動確認）
+5. ✅ Integration Testが通過（CIでの実行でも可）
+6. ✅ アプリが起動できる（手動確認）
 
 ### Step 2 (Riverpod) 追加検証
 - Provider単体テスト8ファイルが全て通過
@@ -136,6 +140,7 @@
 
 ### Step 3 (go_router) 追加検証
 - アプリ内の画面遷移が正常に動作するか確認
+- Integration Testでのルーティング動作を確認
 
 ## Breaking Changes対応のガイドライン
 

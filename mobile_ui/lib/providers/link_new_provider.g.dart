@@ -12,13 +12,14 @@ String _$linkNewHash() => r'3a44c281942758435956a9ecd71997bbb75d916c';
 @ProviderFor(LinkNew)
 final linkNewProvider =
     AutoDisposeNotifierProvider<LinkNew, LinkNewData>.internal(
-  LinkNew.new,
-  name: r'linkNewProvider',
-  debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$linkNewHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
+      LinkNew.new,
+      name: r'linkNewProvider',
+      debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+          ? null
+          : _$linkNewHash,
+      dependencies: null,
+      allTransitiveDependencies: null,
+    );
 
 typedef _$LinkNew = AutoDisposeNotifier<LinkNewData>;
 // ignore_for_file: type=lint

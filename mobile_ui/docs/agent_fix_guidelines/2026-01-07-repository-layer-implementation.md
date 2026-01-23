@@ -56,7 +56,7 @@ class CategoryRepository {
 ### 2. State層の実装例
 
 ```dart
-// lib/state/category_list_state.dart
+// lib/providers/category_list_state.dart
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mobile_ui/api/category_repository.dart';
 import 'package:mobile_ui/models/category.dart';

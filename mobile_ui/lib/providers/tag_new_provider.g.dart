@@ -12,13 +12,14 @@ String _$tagNewNameHash() => r'66aca1900bc687f78f09f3480371f2b6c8f5e582';
 @ProviderFor(TagNewName)
 final tagNewNameProvider =
     AutoDisposeNotifierProvider<TagNewName, String>.internal(
-  TagNewName.new,
-  name: r'tagNewNameProvider',
-  debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$tagNewNameHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
+      TagNewName.new,
+      name: r'tagNewNameProvider',
+      debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+          ? null
+          : _$tagNewNameHash,
+      dependencies: null,
+      allTransitiveDependencies: null,
+    );
 
 typedef _$TagNewName = AutoDisposeNotifier<String>;
 String _$tagNewDescriptionHash() => r'e7db906b742f6309bc3cb08fb8fd6d4e0c3ad25b';
@@ -27,14 +28,14 @@ String _$tagNewDescriptionHash() => r'e7db906b742f6309bc3cb08fb8fd6d4e0c3ad25b';
 @ProviderFor(TagNewDescription)
 final tagNewDescriptionProvider =
     AutoDisposeNotifierProvider<TagNewDescription, String>.internal(
-  TagNewDescription.new,
-  name: r'tagNewDescriptionProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$tagNewDescriptionHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
+      TagNewDescription.new,
+      name: r'tagNewDescriptionProvider',
+      debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+          ? null
+          : _$tagNewDescriptionHash,
+      dependencies: null,
+      allTransitiveDependencies: null,
+    );
 
 typedef _$TagNewDescription = AutoDisposeNotifier<String>;
 // ignore_for_file: type=lint

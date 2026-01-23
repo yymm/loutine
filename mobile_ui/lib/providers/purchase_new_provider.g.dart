@@ -12,13 +12,14 @@ String _$purchaseNewHash() => r'2b6eb3710a838c3c4b8c692fbc114e4e0a05c3f8';
 @ProviderFor(PurchaseNew)
 final purchaseNewProvider =
     AutoDisposeNotifierProvider<PurchaseNew, PurchaseNewData>.internal(
-  PurchaseNew.new,
-  name: r'purchaseNewProvider',
-  debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$purchaseNewHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
+      PurchaseNew.new,
+      name: r'purchaseNewProvider',
+      debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+          ? null
+          : _$purchaseNewHash,
+      dependencies: null,
+      allTransitiveDependencies: null,
+    );
 
 typedef _$PurchaseNew = AutoDisposeNotifier<PurchaseNewData>;
 // ignore_for_file: type=lint
