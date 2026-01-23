@@ -3,7 +3,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:mobile_ui/api/vanilla_api.dart';
 import 'package:mobile_ui/models/category.dart';
 
-part 'category_list_state.g.dart';
+part 'category_list_provider.g.dart';
 
 @riverpod
 class CategoryList extends _$CategoryList {

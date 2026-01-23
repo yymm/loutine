@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mobile_ui/models/category.dart';
 import 'package:mobile_ui/ui/shared/loading_widget.dart';
-import 'package:mobile_ui/state/category_list_state.dart';
+import 'package:mobile_ui/providers/category_list_provider.dart';
 
 class CategoryList extends ConsumerWidget {
   const CategoryList({ super.key });

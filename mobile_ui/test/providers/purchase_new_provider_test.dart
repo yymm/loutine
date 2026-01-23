@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:mobile_ui/state/purchase_new_state.dart';
+import 'package:mobile_ui/providers/purchase_new_provider.dart';
 
 void main() {
   group('PurchaseNew', () {

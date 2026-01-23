@@ -8,7 +8,7 @@ import 'package:mobile_ui/models/note.dart';
 import 'package:mobile_ui/models/purchase.dart';
 import 'package:table_calendar/table_calendar.dart';
 
-part 'home_calendar_state.g.dart';
+part 'home_calendar_provider.g.dart';
 
 class CalendarState {
   CalendarState({

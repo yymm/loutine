@@ -4,7 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:mobile_ui/api/vanilla_api.dart';
 
-part 'link_new_state.g.dart';
+part 'link_new_provider.g.dart';
 
 class LinkNewData {
   LinkNewData({
