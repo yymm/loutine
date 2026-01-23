@@ -1,11 +1,13 @@
 import 'dart:convert';
 
 import 'package:flutter/services.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:mobile_ui/api/vanilla_api.dart';
 
-class LinkNew {
-  LinkNew({
+part 'link_new_state.g.dart';
+
+class LinkNewData {
+  LinkNewData({
     required this.url,
     required this.title,
   });
@@ -14,21 +16,23 @@ class LinkNew {
   final String title;
 }
 
-class LinkNewNotifier extends StateNotifier<LinkNew> {
-  LinkNewNotifier() : super(LinkNew(url: '', title: ''));
+@riverpod
+class LinkNew extends _$LinkNew {
+  @override
+  LinkNewData build() => LinkNewData(url: '', title: '');
 
   void changeUrl(String v) {
-    state = LinkNew(url: v, title: state.title);
+    state = LinkNewData(url: v, title: state.title);
   }
 
   void changeTitle(String v) {
-    state = LinkNew(url: state.url, title: v);
+    state = LinkNewData(url: state.url, title: v);
   }
 
   Future<String> pasteByClipBoard() async {
     final clipboardData = await Clipboard.getData('text/plain');
     final url = clipboardData!.text ?? "";
-    state = LinkNew(url: url, title: state.title);
+    state = LinkNewData(url: url, title: state.title);
     return url;
   }
 
@@ -41,12 +45,12 @@ class LinkNewNotifier extends StateNotifier<LinkNew> {
     final Map<String, dynamic> resJson = json.decode(body);
     // final title = faker.internet.userName();
     final title = resJson['title']!;
-    state = LinkNew(url: state.url, title: title);
+    state = LinkNewData(url: state.url, title: title);
     return title;
   }
 
   void reset() {
-    state = LinkNew(url: '', title: '');
+    state = LinkNewData(url: '', title: '');
   }
 
   Future<void> add({ required List<int> tagIds}) async {
@@ -56,6 +60,3 @@ class LinkNewNotifier extends StateNotifier<LinkNew> {
     return;
   }
 }
-
-final linkNewProvider
-  = StateNotifierProvider<LinkNewNotifier, LinkNew>((ref) => LinkNewNotifier());

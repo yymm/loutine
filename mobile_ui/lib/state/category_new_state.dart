@@ -1,6 +1,9 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-class CategoryNewNameNotifier extends Notifier<String> {
+part 'category_new_state.g.dart';
+
+@riverpod
+class CategoryNewName extends _$CategoryNewName {
   @override
   String build() => '';
 
@@ -9,7 +12,8 @@ class CategoryNewNameNotifier extends Notifier<String> {
   void reset() => state = '';
 }
 
-class CategoryNewDescriptionNotifier extends Notifier<String> {
+@riverpod
+class CategoryNewDescription extends _$CategoryNewDescription {
   @override
   String build() => '';
 
@@ -17,9 +21,3 @@ class CategoryNewDescriptionNotifier extends Notifier<String> {
 
   void reset() => state = '';
 }
-
-final categoryNewNameNotifierProvider
-  = NotifierProvider<CategoryNewNameNotifier, String>(CategoryNewNameNotifier.new);
-
-final categoryNewDescriptionNotifierProvider
-  = NotifierProvider<CategoryNewDescriptionNotifier, String>(CategoryNewDescriptionNotifier.new);

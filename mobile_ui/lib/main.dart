@@ -26,13 +26,13 @@ class LoutineApp extends ConsumerWidget {
     // Initial load of tags
     ref.read(tagListProvider.notifier).getList();
     ref.read(categoryListProvider.notifier).getList();
-    ref.read(calendarStateProvider.notifier).getAllEventItem(DateTime.now());
+    ref.read(calendarStateManagerProvider.notifier).getAllEventItem(DateTime.now());
 
     return MaterialApp.router(
       title: 'Loutine App',
       darkTheme: _getThemeData(Brightness.dark),
       theme: _getThemeData(Brightness.light),
-      themeMode: ref.watch(themeModeProvider),
+      themeMode: ref.watch(themeModeManagerProvider),
       routerConfig: router,
     );
   }

@@ -10,9 +10,8 @@ class CategoryNewWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final categoryListNotifier = ref.watch(categoryListProvider.notifier);
-    final categoryNewNameNotifier = ref.read<CategoryNewNameNotifier>(categoryNewNameNotifierProvider.notifier);
-    final categoryNewDescriptionNotifier = ref.read<CategoryNewDescriptionNotifier>(categoryNewDescriptionNotifierProvider.notifier);
+    final name = ref.watch(categoryNewNameProvider);
+    final description = ref.watch(categoryNewDescriptionProvider);
 
     return SizedBox(
       height: 300,
@@ -53,7 +52,7 @@ class CategoryNewWidget extends ConsumerWidget {
                     return null;
                   },
                   onChanged: (v) {
-                    categoryNewNameNotifier.change(v);
+                    ref.read(categoryNewNameProvider.notifier).change(v);
                   },
                 ),
                 SizedBox(height: 20),
@@ -64,7 +63,7 @@ class CategoryNewWidget extends ConsumerWidget {
                     prefixIcon: Icon(Icons.description),
                   ),
                   onChanged: (v) {
-                    categoryNewDescriptionNotifier.change(v);
+                    ref.read(categoryNewDescriptionProvider.notifier).change(v);
                   },
                 ),
                 SizedBox(height: 20),
@@ -74,12 +73,10 @@ class CategoryNewWidget extends ConsumerWidget {
                     ElevatedButton(
                       onPressed: () {
                         if (!_formKey.currentState!.validate()) return;
-                        final title = ref.read(categoryNewNameNotifierProvider);
-                        final description = ref.read(categoryNewDescriptionNotifierProvider);
-                        categoryListNotifier.add(title, description)
+                        ref.read(categoryListProvider.notifier).add(name, description)
                           .then((v) {
-                            categoryNewNameNotifier.reset();
-                            categoryNewDescriptionNotifier.reset();
+                            ref.read(categoryNewNameProvider.notifier).reset();
+                            ref.read(categoryNewDescriptionProvider.notifier).reset();
                             if (!context.mounted) return;
                             ScaffoldMessenger.of(context).showSnackBar(getSnackBar(context: context, text: 'Success to add category'));
                             Navigator.pop(context);

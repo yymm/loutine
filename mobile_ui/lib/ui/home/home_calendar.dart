@@ -12,14 +12,9 @@ class HomeCalendarWidget extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final focusDay = ref.watch(calendarFocusDayProvider);
-    final focusDayNotifier = ref.read<CalendarFocusDayNotifier>(calendarFocusDayProvider.notifier);
-    final format = ref.watch(calendarFormatProvider);
-    final formatNotifier = ref.read(calendarFormatProvider.notifier);
+    final format = ref.watch(calendarFormatManagerProvider);
 
-    final calendarState = ref.watch(calendarStateProvider);
-    final calendarStateNotifier = ref.read(calendarStateProvider.notifier);
-
-    final calendarEventListNotifier = ref.read<CalendarEventListNotifier>(calendarEventListProvider.notifier);
+    final calendarState = ref.watch(calendarStateManagerProvider);
 
     return TableCalendar(
       firstDay: DateTime.utc(2020, 1, 1),
@@ -27,7 +22,7 @@ class HomeCalendarWidget extends ConsumerWidget {
       focusedDay: focusDay,
       calendarFormat: format,
       onFormatChanged: (format) {
-        formatNotifier.change(format);
+        ref.read(calendarFormatManagerProvider.notifier).change(format);
       },
       eventLoader: (date) {
         return calendarState.calendarEvents[date] ?? [];
@@ -36,12 +31,12 @@ class HomeCalendarWidget extends ConsumerWidget {
         return isSameDay(focusDay, day);
       },
       onDaySelected: (selectedDay, focusDay) {
-        focusDayNotifier.change(selectedDay);
-        calendarEventListNotifier.change(calendarState.calendarEvents[selectedDay] ?? []);
+        ref.read(calendarFocusDayProvider.notifier).change(selectedDay);
+        ref.read(calendarEventListProvider.notifier).change(calendarState.calendarEvents[selectedDay] ?? []);
       },
       onPageChanged: (focusedDay) {
-        focusDayNotifier.change(focusedDay);
-        calendarStateNotifier.getAllEventItem(focusedDay);
+        ref.read(calendarFocusDayProvider.notifier).change(focusedDay);
+        ref.read(calendarStateManagerProvider.notifier).getAllEventItem(focusedDay);
         calendarState.calendarEvents[focusedDay] ?? [];
       },
       calendarBuilders: CalendarBuilders(

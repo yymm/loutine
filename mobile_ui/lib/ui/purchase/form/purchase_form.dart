@@ -29,7 +29,7 @@ class _PurchaseForm extends ConsumerState<PurchaseForm> {
   @override
   Widget build(BuildContext context) {
     // final state = Provider.of<PurcaseFormState>(context, listen: true);
-    final purchaseNewNotifier = ref.read(purchaseNewProvider.notifier);
+    final purchaseNew = ref.watch(purchaseNewProvider);
     final categories = ref.watch(categoryListProvider);
 
     return Container(
@@ -58,7 +58,7 @@ class _PurchaseForm extends ConsumerState<PurchaseForm> {
                 return null;
               },
               onChanged: (numberString) {
-                purchaseNewNotifier.changeCost(double.parse(numberString));
+                ref.read(purchaseNewProvider.notifier).changeCost(double.parse(numberString));
               },
             ),
             // }}}
@@ -82,7 +82,7 @@ class _PurchaseForm extends ConsumerState<PurchaseForm> {
                 return null;
               },
               onChanged: (text) {
-                purchaseNewNotifier.changeTitle(text);
+                ref.read(purchaseNewProvider.notifier).changeTitle(text);
               },
             ),
             // }}}
@@ -112,9 +112,9 @@ class _PurchaseForm extends ConsumerState<PurchaseForm> {
               onPressed: () {
                 if (!_formKey.currentState!.validate()) return;
                 final categoryId = dropdownformfieldValue != null ? int.parse(dropdownformfieldValue!) : null;
-                purchaseNewNotifier.add(categoryId: categoryId)
+                ref.read(purchaseNewProvider.notifier).add(categoryId: categoryId)
                   .then((v) {
-                    purchaseNewNotifier.reset();
+                    ref.read(purchaseNewProvider.notifier).reset();
                     _costController.value = _costController.value.copyWith(
                       text: '',
                     );

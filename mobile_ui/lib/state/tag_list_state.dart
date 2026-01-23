@@ -1,11 +1,15 @@
 import 'dart:convert';
 
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:mobile_ui/api/vanilla_api.dart';
 import 'package:mobile_ui/models/tag.dart';
 
-class TagListNotifier extends StateNotifier<List<Tag>> {
-  TagListNotifier() : super([]);
+part 'tag_list_state.g.dart';
+
+@riverpod
+class TagList extends _$TagList {
+  @override
+  List<Tag> build() => [];
 
   Future<void> add(String name, String description) async {
     final TagApiClient apiClient = TagApiClient();
@@ -27,8 +31,7 @@ class TagListNotifier extends StateNotifier<List<Tag>> {
   }
 }
 
-final tagListProvider = StateNotifierProvider<TagListNotifier, List<Tag>>((ref) => TagListNotifier());
-
-final tagListFutureProvider = FutureProvider.autoDispose<List<Tag>>((ref) async {
+@riverpod
+Future<List<Tag>> tagListFuture(TagListFutureRef ref) async {
   return ref.read(tagListProvider.notifier).getList();
-});
+}
