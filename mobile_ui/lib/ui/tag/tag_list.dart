@@ -10,7 +10,7 @@ class TagList extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final AsyncValue<List<Tag>> tagList = ref.watch(tagListFutureProvider);
-    final tags = ref.watch(tagListStateProvider);
+    final tags = ref.watch(tagListProvider);
 
     return SingleChildScrollView(
       child: switch (tagList) {

@@ -4,12 +4,12 @@ import 'package:mobile_ui/state/tag_list_state.dart';
 import 'package:mobile_ui/models/tag.dart';
 
 void main() {
-  group('TagListState', () {
+  group('TagList', () {
     test('初期値は空のリスト', () {
       final container = ProviderContainer();
       addTearDown(container.dispose);
 
-      expect(container.read(tagListStateProvider), []);
+      expect(container.read(tagListProvider), []);
     });
 
     test('状態は直接更新できる', () {
@@ -24,9 +24,9 @@ void main() {
         createdAt: now,
         updatedAt: now,
       );
-      container.read(tagListStateProvider.notifier).state = [testTag];
+      container.read(tagListProvider.notifier).state = [testTag];
       
-      final state = container.read(tagListStateProvider);
+      final state = container.read(tagListProvider);
       expect(state.length, 1);
       expect(state[0].name, 'テストタグ');
     });
@@ -40,9 +40,9 @@ void main() {
         Tag(id: 1, name: 'タグ1', description: '説明1', createdAt: now, updatedAt: now),
         Tag(id: 2, name: 'タグ2', description: '説明2', createdAt: now, updatedAt: now),
       ];
-      container.read(tagListStateProvider.notifier).state = tags;
+      container.read(tagListProvider.notifier).state = tags;
       
-      final state = container.read(tagListStateProvider);
+      final state = container.read(tagListProvider);
       expect(state.length, 2);
       expect(state[0].name, 'タグ1');
       expect(state[1].name, 'タグ2');

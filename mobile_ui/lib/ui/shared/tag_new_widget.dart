@@ -73,7 +73,7 @@ class TagNewWidget extends ConsumerWidget {
                     ElevatedButton(
                       onPressed: () {
                         if (!_formKey.currentState!.validate()) return;
-                        ref.read(tagListStateProvider.notifier).add(name, description)
+                        ref.read(tagListProvider.notifier).add(name, description)
                           .then((v) {
                             ref.read(tagNewNameProvider.notifier).reset();
                             ref.read(tagNewDescriptionProvider.notifier).reset();

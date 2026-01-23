@@ -6,7 +6,7 @@ part of 'tag_list_state.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$tagListFutureHash() => r'793ec296b0a8b63b9b3b3222fb6a14a819a4a774';
+String _$tagListFutureHash() => r'94032200e5ed46d2541f071a5d2b81084000a205';
 
 /// See also [tagListFuture].
 @ProviderFor(tagListFuture)
@@ -23,20 +23,20 @@ final tagListFutureProvider = AutoDisposeFutureProvider<List<Tag>>.internal(
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 typedef TagListFutureRef = AutoDisposeFutureProviderRef<List<Tag>>;
-String _$tagListStateHash() => r'4239731537de9fa1b5bf8595d02b86c3462c8e8b';
+String _$tagListHash() => r'952eb6ab0e8193a686dcaefe84cc0f3dc8352fe4';
 
-/// See also [TagListState].
-@ProviderFor(TagListState)
-final tagListStateProvider =
-    AutoDisposeNotifierProvider<TagListState, List<Tag>>.internal(
-  TagListState.new,
-  name: r'tagListStateProvider',
+/// See also [TagList].
+@ProviderFor(TagList)
+final tagListProvider =
+    AutoDisposeNotifierProvider<TagList, List<Tag>>.internal(
+  TagList.new,
+  name: r'tagListProvider',
   debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$tagListStateHash,
+      const bool.fromEnvironment('dart.vm.product') ? null : _$tagListHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef _$TagListState = AutoDisposeNotifier<List<Tag>>;
+typedef _$TagList = AutoDisposeNotifier<List<Tag>>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

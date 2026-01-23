@@ -7,7 +7,7 @@ import 'package:mobile_ui/models/tag.dart';
 part 'tag_list_state.g.dart';
 
 @riverpod
-class TagListState extends _$TagListState {
+class TagList extends _$TagList {
   @override
   List<Tag> build() => [];
 
@@ -33,5 +33,5 @@ class TagListState extends _$TagListState {
 
 @riverpod
 Future<List<Tag>> tagListFuture(TagListFutureRef ref) async {
-  return ref.read(tagListStateProvider.notifier).getList();
+  return ref.read(tagListProvider.notifier).getList();
 }

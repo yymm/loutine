@@ -33,7 +33,7 @@ class _LinkForm extends ConsumerState<LinkForm> {
   Widget build(BuildContext context) {
     // final state = Provider.of<LinkFormState>(context, listen: true);
     final linkNew = ref.watch(linkNewProvider);
-    final tags = ref.watch(tagListStateProvider);
+    final tags = ref.watch(tagListProvider);
     // final categories = ref.watch(categoryListStateProvider);
 
     return Container(
