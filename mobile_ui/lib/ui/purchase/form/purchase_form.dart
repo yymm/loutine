@@ -30,7 +30,7 @@ class _PurchaseForm extends ConsumerState<PurchaseForm> {
   Widget build(BuildContext context) {
     // final state = Provider.of<PurcaseFormState>(context, listen: true);
     final purchaseNew = ref.watch(purchaseNewProvider);
-    final categories = ref.watch(categoryListStateProvider);
+    final categories = ref.watch(categoryListProvider);
 
     return Container(
       padding: EdgeInsets.all(25),

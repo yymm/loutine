@@ -7,7 +7,7 @@ part of 'category_list_state.dart';
 // **************************************************************************
 
 String _$categoryListFutureHash() =>
-    r'b91b3af8f1cf2765e202be7d4915e177e5647100';
+    r'44f8b8b4aef87d8ea3608f359582f54020f5b228';
 
 /// See also [categoryListFuture].
 @ProviderFor(categoryListFuture)
@@ -25,21 +25,20 @@ final categoryListFutureProvider =
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 typedef CategoryListFutureRef = AutoDisposeFutureProviderRef<List<Category>>;
-String _$categoryListStateHash() => r'a35ae411eae70b1e0812d558c4b0ee095d1eafe4';
+String _$categoryListHash() => r'aa68dcf755959f2606cda3d2dc9baaf256150916';
 
-/// See also [CategoryListState].
-@ProviderFor(CategoryListState)
-final categoryListStateProvider =
-    AutoDisposeNotifierProvider<CategoryListState, List<Category>>.internal(
-  CategoryListState.new,
-  name: r'categoryListStateProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$categoryListStateHash,
+/// See also [CategoryList].
+@ProviderFor(CategoryList)
+final categoryListProvider =
+    AutoDisposeNotifierProvider<CategoryList, List<Category>>.internal(
+  CategoryList.new,
+  name: r'categoryListProvider',
+  debugGetCreateSourceHash:
+      const bool.fromEnvironment('dart.vm.product') ? null : _$categoryListHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef _$CategoryListState = AutoDisposeNotifier<List<Category>>;
+typedef _$CategoryList = AutoDisposeNotifier<List<Category>>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

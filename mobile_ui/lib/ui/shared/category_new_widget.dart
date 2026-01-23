@@ -73,7 +73,7 @@ class CategoryNewWidget extends ConsumerWidget {
                     ElevatedButton(
                       onPressed: () {
                         if (!_formKey.currentState!.validate()) return;
-                        ref.read(categoryListStateProvider.notifier).add(name, description)
+                        ref.read(categoryListProvider.notifier).add(name, description)
                           .then((v) {
                             ref.read(categoryNewNameProvider.notifier).reset();
                             ref.read(categoryNewDescriptionProvider.notifier).reset();

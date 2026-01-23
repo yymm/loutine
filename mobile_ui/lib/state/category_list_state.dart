@@ -6,7 +6,7 @@ import 'package:mobile_ui/models/category.dart';
 part 'category_list_state.g.dart';
 
 @riverpod
-class CategoryListState extends _$CategoryListState {
+class CategoryList extends _$CategoryList {
   @override
   List<Category> build() => [];
 
@@ -32,5 +32,5 @@ class CategoryListState extends _$CategoryListState {
 
 @riverpod
 Future<List<Category>> categoryListFuture(CategoryListFutureRef ref) async {
-  return ref.read(categoryListStateProvider.notifier).getList();
+  return ref.read(categoryListProvider.notifier).getList();
 }

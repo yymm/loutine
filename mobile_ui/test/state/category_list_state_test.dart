@@ -4,12 +4,12 @@ import 'package:mobile_ui/state/category_list_state.dart';
 import 'package:mobile_ui/models/category.dart';
 
 void main() {
-  group('CategoryListState', () {
+  group('CategoryList', () {
     test('初期値は空のリスト', () {
       final container = ProviderContainer();
       addTearDown(container.dispose);
 
-      expect(container.read(categoryListStateProvider), []);
+      expect(container.read(categoryListProvider), []);
     });
 
     test('状態は直接更新できる', () {
@@ -24,9 +24,9 @@ void main() {
         createdAt: now,
         updatedAt: now,
       );
-      container.read(categoryListStateProvider.notifier).state = [testCategory];
+      container.read(categoryListProvider.notifier).state = [testCategory];
       
-      final state = container.read(categoryListStateProvider);
+      final state = container.read(categoryListProvider);
       expect(state.length, 1);
       expect(state[0].name, 'テストカテゴリ');
     });
@@ -40,9 +40,9 @@ void main() {
         Category(id: 1, name: 'カテゴリ1', description: '説明1', createdAt: now, updatedAt: now),
         Category(id: 2, name: 'カテゴリ2', description: '説明2', createdAt: now, updatedAt: now),
       ];
-      container.read(categoryListStateProvider.notifier).state = categories;
+      container.read(categoryListProvider.notifier).state = categories;
       
-      final state = container.read(categoryListStateProvider);
+      final state = container.read(categoryListProvider);
       expect(state.length, 2);
       expect(state[0].name, 'カテゴリ1');
       expect(state[1].name, 'カテゴリ2');
