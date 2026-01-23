@@ -6,21 +6,20 @@ part of 'purchase_new_state.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$purchaseNewStateHash() => r'5cca9e44aa51faff4ceed9b8f9912bb4018d6d9d';
+String _$purchaseNewHash() => r'2b6eb3710a838c3c4b8c692fbc114e4e0a05c3f8';
 
-/// See also [PurchaseNewState].
-@ProviderFor(PurchaseNewState)
-final purchaseNewStateProvider =
-    AutoDisposeNotifierProvider<PurchaseNewState, PurchaseNew>.internal(
-  PurchaseNewState.new,
-  name: r'purchaseNewStateProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$purchaseNewStateHash,
+/// See also [PurchaseNew].
+@ProviderFor(PurchaseNew)
+final purchaseNewProvider =
+    AutoDisposeNotifierProvider<PurchaseNew, PurchaseNewData>.internal(
+  PurchaseNew.new,
+  name: r'purchaseNewProvider',
+  debugGetCreateSourceHash:
+      const bool.fromEnvironment('dart.vm.product') ? null : _$purchaseNewHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef _$PurchaseNewState = AutoDisposeNotifier<PurchaseNew>;
+typedef _$PurchaseNew = AutoDisposeNotifier<PurchaseNewData>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package
