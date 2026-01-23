@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
-  group('ThemeModeState', () {
+  group('ThemeModeManager', () {
     test('ThemeModeの値が正しく定義されている', () {
       expect(ThemeMode.light, isA<ThemeMode>());
       expect(ThemeMode.dark, isA<ThemeMode>());

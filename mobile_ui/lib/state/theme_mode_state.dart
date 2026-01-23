@@ -5,7 +5,7 @@ import 'package:mobile_ui/storage.dart';
 part 'theme_mode_state.g.dart';
 
 @riverpod
-class ThemeModeState extends _$ThemeModeState {
+class ThemeModeManager extends _$ThemeModeManager {
   static const String storageKeyThemeMode = 'theme_mdoe';
 
   final _storage = SharedPreferencesInstance().prefs;
