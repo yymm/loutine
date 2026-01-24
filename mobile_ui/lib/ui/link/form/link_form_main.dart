@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:mobile_ui/ui/link/form/link_form.dart';
 
 class LinkFormMain extends StatelessWidget {
-  const LinkFormMain({ super.key });
+  const LinkFormMain({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -17,16 +17,10 @@ class LinkFormMain extends StatelessWidget {
               context.go('/link/list');
             },
             icon: Icon(Icons.format_list_bulleted),
-          )
-        ]
+          ),
+        ],
       ),
-      body: SingleChildScrollView(
-        child: Stack(
-          children: <Widget>[
-            LinkForm(),
-          ],
-        ),
-      )
+      body: SingleChildScrollView(child: Stack(children: <Widget>[LinkForm()])),
     );
   }
 }

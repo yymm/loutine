@@ -11,11 +11,7 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await SharedPreferencesInstance.initialize();
 
-  runApp(
-    ProviderScope(
-      child: const LoutineApp()
-    )
-  );
+  runApp(ProviderScope(child: const LoutineApp()));
 }
 
 class LoutineApp extends ConsumerWidget {
@@ -26,7 +22,9 @@ class LoutineApp extends ConsumerWidget {
     // Initial load of tags
     ref.read(tagListProvider.notifier).getList();
     ref.read(categoryListProvider.notifier).getList();
-    ref.read(calendarStateManagerProvider.notifier).getAllEventItem(DateTime.now());
+    ref
+        .read(calendarStateManagerProvider.notifier)
+        .getAllEventItem(DateTime.now());
 
     return MaterialApp.router(
       title: 'Loutine App',

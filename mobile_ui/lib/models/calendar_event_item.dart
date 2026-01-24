@@ -4,11 +4,7 @@ import 'package:mobile_ui/models/note.dart';
 import 'package:mobile_ui/models/purchase.dart';
 import 'package:mobile_ui/models/tag.dart';
 
-enum CalendarEventItemType {
-  link,
-  purchase,
-  note,
-}
+enum CalendarEventItemType { link, purchase, note }
 
 class CalendarEventItem {
   CalendarEventItem({

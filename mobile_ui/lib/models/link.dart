@@ -1,4 +1,3 @@
-
 class Link {
   Link({
     required this.id,

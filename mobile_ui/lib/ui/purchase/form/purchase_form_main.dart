@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mobile_ui/ui/purchase/form/purchase_form.dart';
 
 class PurchaseFormMain extends StatelessWidget {
-  const PurchaseFormMain({ super.key });
+  const PurchaseFormMain({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -17,17 +17,10 @@ class PurchaseFormMain extends StatelessWidget {
               // context.go('/text_input');
             },
             icon: const Icon(Icons.bar_chart),
-          )
-        ]
+          ),
+        ],
       ),
-      body: SingleChildScrollView(
-        child: Stack(
-          children: [
-            PurchaseForm(),
-          ],
-        ),
-      )
+      body: SingleChildScrollView(child: Stack(children: [PurchaseForm()])),
     );
   }
 }
-

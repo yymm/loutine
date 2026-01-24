@@ -5,11 +5,13 @@ import 'package:mobile_ui/ui/shared/loading_widget.dart';
 import 'package:mobile_ui/providers/category_list_provider.dart';
 
 class CategoryList extends ConsumerWidget {
-  const CategoryList({ super.key });
+  const CategoryList({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final AsyncValue<List<Category>> categoryList = ref.watch(categoryListFutureProvider);
+    final AsyncValue<List<Category>> categoryList = ref.watch(
+      categoryListFutureProvider,
+    );
     final categories = ref.watch(categoryListProvider);
 
     return SingleChildScrollView(
@@ -17,13 +19,13 @@ class CategoryList extends ConsumerWidget {
         AsyncData() => CategoryListWidget(categories),
         AsyncError() => const Text('Some error happened...'),
         _ => LoadingWidget(true),
-      }
+      },
     );
   }
 }
 
 class CategoryListWidget extends StatelessWidget {
-  const CategoryListWidget(this._categories, { super.key });
+  const CategoryListWidget(this._categories, {super.key});
 
   final List<Category> _categories;
 
@@ -43,7 +45,7 @@ class CategoryListWidget extends StatelessWidget {
             subtitle: Text(category.description),
           ),
         );
-      }).toList()
+      }).toList(),
     );
   }
 }

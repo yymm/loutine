@@ -7,10 +7,7 @@ import 'package:mobile_ui/api/vanilla_api.dart';
 part 'link_new_provider.g.dart';
 
 class LinkNewData {
-  LinkNewData({
-    required this.url,
-    required this.title,
-  });
+  LinkNewData({required this.url, required this.title});
 
   final String url;
   final String title;
@@ -55,7 +52,7 @@ class LinkNew extends _$LinkNew {
     state = LinkNewData(url: '', title: '');
   }
 
-  Future<void> add({ required List<int> tagIds}) async {
+  Future<void> add({required List<int> tagIds}) async {
     print('press add(): url => ${state.url}, ttile => ${state.title}');
     final apiClient = LinkApiClient();
     await apiClient.post(state.url, state.title, tagIds);

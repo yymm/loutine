@@ -7,7 +7,7 @@ import 'package:mobile_ui/ui/shared/snack_bar_widget.dart';
 import 'package:multi_dropdown/multi_dropdown.dart';
 
 class LinkForm extends ConsumerStatefulWidget {
-  const LinkForm({ super.key });
+  const LinkForm({super.key});
 
   @override
   createState() => _LinkForm();
@@ -56,7 +56,9 @@ class _LinkForm extends ConsumerState<LinkForm> {
                 if (value == null || value.isEmpty) {
                   return 'Please enter some url';
                 }
-                if (!RegExp(r"^https?://[a-zA-Z0-9.a-zA-Z0-9./:!#$%&'*+-=?^_`{|}~]+$").hasMatch(value)) {
+                if (!RegExp(
+                  r"^https?://[a-zA-Z0-9.a-zA-Z0-9./:!#$%&'*+-=?^_`{|}~]+$",
+                ).hasMatch(value)) {
                   return 'Please enter valid url';
                 }
                 return null;
@@ -70,7 +72,9 @@ class _LinkForm extends ConsumerState<LinkForm> {
             // >> Paste from clipboard {{{
             TextButton(
               onPressed: () async {
-                final pastedUrl = await ref.read(linkNewProvider.notifier).pasteByClipBoard();
+                final pastedUrl = await ref
+                    .read(linkNewProvider.notifier)
+                    .pasteByClipBoard();
                 _urlController.value = _urlController.value.copyWith(
                   text: pastedUrl,
                 );
@@ -104,7 +108,9 @@ class _LinkForm extends ConsumerState<LinkForm> {
             // >> Get title via url {{{
             TextButton(
               onPressed: () async {
-                final String titleViaUrl = await ref.read(linkNewProvider.notifier).getTitleFromUrl();
+                final String titleViaUrl = await ref
+                    .read(linkNewProvider.notifier)
+                    .getTitleFromUrl();
                 _titleController.value = _titleController.value.copyWith(
                   text: titleViaUrl,
                 );
@@ -120,9 +126,7 @@ class _LinkForm extends ConsumerState<LinkForm> {
               controller: _tabController,
               chipDecoration: ChipDecoration(
                 backgroundColor: Colors.teal,
-                labelStyle: TextStyle(
-                  color: Colors.white,
-                ),
+                labelStyle: TextStyle(color: Colors.white),
               ),
               fieldDecoration: FieldDecoration(
                 hintText: 'Tag',
@@ -161,22 +165,37 @@ class _LinkForm extends ConsumerState<LinkForm> {
             ElevatedButton(
               onPressed: () {
                 if (!_formKey.currentState!.validate()) return;
-                final tagIds = _tabController.selectedItems.map((v) => int.parse(v.value)).toList();
+                final tagIds = _tabController.selectedItems
+                    .map((v) => int.parse(v.value))
+                    .toList();
                 // final categoryId = dropdownformfieldValue != null ? int.parse(dropdownformfieldValue!) : null;
-                ref.read(linkNewProvider.notifier).add(tagIds: tagIds)
-                  .then((v) {
-                    ref.read(linkNewProvider.notifier).reset();
-                    _urlController.clear();
-                    _titleController.clear();
-                    _tabController.clearAll();
-                    dropdownformfieldValue = null;
-                    if (!context.mounted) return;
-                    ScaffoldMessenger.of(context).showSnackBar(getSnackBar(context: context, text: 'Success to add link'));
-                  })
-                  .catchError((err) {
-                    if (!context.mounted) return;
-                    ScaffoldMessenger.of(context).showSnackBar(getSnackBar(context: context, text: err.toString(), error: true));
-                  });
+                ref
+                    .read(linkNewProvider.notifier)
+                    .add(tagIds: tagIds)
+                    .then((v) {
+                      ref.read(linkNewProvider.notifier).reset();
+                      _urlController.clear();
+                      _titleController.clear();
+                      _tabController.clearAll();
+                      dropdownformfieldValue = null;
+                      if (!context.mounted) return;
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        getSnackBar(
+                          context: context,
+                          text: 'Success to add link',
+                        ),
+                      );
+                    })
+                    .catchError((err) {
+                      if (!context.mounted) return;
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        getSnackBar(
+                          context: context,
+                          text: err.toString(),
+                          error: true,
+                        ),
+                      );
+                    });
               },
               style: ElevatedButton.styleFrom(fixedSize: Size(100, 100)),
               child: const Text('Submit'),

@@ -25,7 +25,7 @@ void main() {
         updatedAt: now,
       );
       container.read(tagListProvider.notifier).state = [testTag];
-      
+
       final state = container.read(tagListProvider);
       expect(state.length, 1);
       expect(state[0].name, 'テストタグ');
@@ -37,11 +37,23 @@ void main() {
 
       final now = DateTime.now();
       final tags = [
-        Tag(id: 1, name: 'タグ1', description: '説明1', createdAt: now, updatedAt: now),
-        Tag(id: 2, name: 'タグ2', description: '説明2', createdAt: now, updatedAt: now),
+        Tag(
+          id: 1,
+          name: 'タグ1',
+          description: '説明1',
+          createdAt: now,
+          updatedAt: now,
+        ),
+        Tag(
+          id: 2,
+          name: 'タグ2',
+          description: '説明2',
+          createdAt: now,
+          updatedAt: now,
+        ),
       ];
       container.read(tagListProvider.notifier).state = tags;
-      
+
       final state = container.read(tagListProvider);
       expect(state.length, 2);
       expect(state[0].name, 'タグ1');

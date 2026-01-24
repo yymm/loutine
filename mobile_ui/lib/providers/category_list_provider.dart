@@ -22,7 +22,7 @@ class CategoryList extends _$CategoryList {
   Future<List<Category>> getList() async {
     CategoryApiClient apiClient = CategoryApiClient();
     final resBody = await apiClient.list();
-    final List<dynamic> categorysJson= json.decode(resBody);
+    final List<dynamic> categorysJson = json.decode(resBody);
     final categoryList = categorysJson.map((category) {
       return Category.fromJson(category);
     }).toList();

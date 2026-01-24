@@ -40,7 +40,7 @@ void main() {
       final notifier = container.read(purchaseNewProvider.notifier);
       notifier.changeTitle('ランチ');
       notifier.changeCost(800.0);
-      
+
       final state = container.read(purchaseNewProvider);
       expect(state.title, 'ランチ');
       expect(state.cost, 800.0);
@@ -54,7 +54,7 @@ void main() {
       notifier.changeTitle('テスト');
       notifier.changeCost(1000.0);
       notifier.reset();
-      
+
       final state = container.read(purchaseNewProvider);
       expect(state.title, '');
       expect(state.cost, 0);

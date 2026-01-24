@@ -6,7 +6,7 @@ import 'package:mobile_ui/ui/shared/snack_bar_widget.dart';
 
 class TagNewWidget extends ConsumerWidget {
   final _formKey = GlobalKey<FormState>();
-  TagNewWidget({ super.key });
+  TagNewWidget({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -35,8 +35,8 @@ class TagNewWidget extends ConsumerWidget {
                         fontWeight: FontWeight.bold,
                         fontSize: 16,
                       ),
-                    )
-                  ]
+                    ),
+                  ],
                 ),
                 SizedBox(height: 20),
                 TextFormField(
@@ -73,18 +73,33 @@ class TagNewWidget extends ConsumerWidget {
                     ElevatedButton(
                       onPressed: () {
                         if (!_formKey.currentState!.validate()) return;
-                        ref.read(tagListProvider.notifier).add(name, description)
-                          .then((v) {
-                            ref.read(tagNewNameProvider.notifier).reset();
-                            ref.read(tagNewDescriptionProvider.notifier).reset();
-                            if (!context.mounted) return;
-                            ScaffoldMessenger.of(context).showSnackBar(getSnackBar(context: context, text: 'Success to add tag'));
-                            Navigator.pop(context);
-                          })
-                          .catchError((err) {
-                            if (!context.mounted) return;
-                            ScaffoldMessenger.of(context).showSnackBar(getSnackBar(context: context, text: err.toString(), error: true));
-                          });
+                        ref
+                            .read(tagListProvider.notifier)
+                            .add(name, description)
+                            .then((v) {
+                              ref.read(tagNewNameProvider.notifier).reset();
+                              ref
+                                  .read(tagNewDescriptionProvider.notifier)
+                                  .reset();
+                              if (!context.mounted) return;
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                getSnackBar(
+                                  context: context,
+                                  text: 'Success to add tag',
+                                ),
+                              );
+                              Navigator.pop(context);
+                            })
+                            .catchError((err) {
+                              if (!context.mounted) return;
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                getSnackBar(
+                                  context: context,
+                                  text: err.toString(),
+                                  error: true,
+                                ),
+                              );
+                            });
                       },
                       child: const Text('Add'),
                     ),
@@ -92,12 +107,12 @@ class TagNewWidget extends ConsumerWidget {
                       onPressed: () => Navigator.pop(context),
                       child: const Text('Cancel'),
                     ),
-                  ]
+                  ],
                 ),
-              ]
-            )
-          )
-        )
+              ],
+            ),
+          ),
+        ),
       ),
     );
   }

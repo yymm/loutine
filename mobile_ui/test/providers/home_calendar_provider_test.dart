@@ -31,7 +31,7 @@ void main() {
       final notifier = container.read(calendarFocusDayProvider.notifier);
       notifier.change(DateTime(2025, 1, 15));
       notifier.reset();
-      
+
       final state = container.read(calendarFocusDayProvider);
       expect(state.day, DateTime.now().day);
       expect(state.month, DateTime.now().month);
@@ -44,15 +44,23 @@ void main() {
       final container = ProviderContainer();
       addTearDown(container.dispose);
 
-      expect(container.read(calendarFormatManagerProvider), CalendarFormat.month);
+      expect(
+        container.read(calendarFormatManagerProvider),
+        CalendarFormat.month,
+      );
     });
 
     test('change()でフォーマットが変更される', () {
       final container = ProviderContainer();
       addTearDown(container.dispose);
 
-      container.read(calendarFormatManagerProvider.notifier).change(CalendarFormat.week);
-      expect(container.read(calendarFormatManagerProvider), CalendarFormat.week);
+      container
+          .read(calendarFormatManagerProvider.notifier)
+          .change(CalendarFormat.week);
+      expect(
+        container.read(calendarFormatManagerProvider),
+        CalendarFormat.week,
+      );
     });
 
     test('reset()でmonthに戻る', () {
@@ -62,7 +70,10 @@ void main() {
       final notifier = container.read(calendarFormatManagerProvider.notifier);
       notifier.change(CalendarFormat.twoWeeks);
       notifier.reset();
-      expect(container.read(calendarFormatManagerProvider), CalendarFormat.month);
+      expect(
+        container.read(calendarFormatManagerProvider),
+        CalendarFormat.month,
+      );
     });
   });
 
