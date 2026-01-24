@@ -166,12 +166,8 @@ class _LinkForm extends ConsumerState<LinkForm> {
                 ref.read(linkNewProvider.notifier).add(tagIds: tagIds)
                   .then((v) {
                     ref.read(linkNewProvider.notifier).reset();
-                    _urlController.value = _urlController.value.copyWith(
-                      text: '',
-                    );
-                    _titleController.value = _titleController.value.copyWith(
-                      text: '',
-                    );
+                    _urlController.clear();
+                    _titleController.clear();
                     _tabController.clearAll();
                     dropdownformfieldValue = null;
                     if (!context.mounted) return;
