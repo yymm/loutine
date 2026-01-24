@@ -36,7 +36,7 @@
     "@biomejs/biome": "^2.3.10",
     "@cloudflare/vitest-pool-workers": "^0.12.0",
     "@cloudflare/workers-types": "^4.20251221.0",
-    "@libsql/client": "^0.15.15",
+    "@libsql/client": "^0.17.0",
     "drizzle-kit": "^0.31.8",
     "typescript": "^5.9.3",
     "vitest": "^3.2.4",
