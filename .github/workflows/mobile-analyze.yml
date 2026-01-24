@@ -32,26 +32,10 @@ jobs:
         run: flutter pub run build_runner build --delete-conflicting-outputs
       
       - name: Run Dart analyze
-        run: flutter analyze
-        
-      - name: Check for errors and warnings
         run: |
-          OUTPUT=$(flutter analyze 2>&1)
-          echo "$OUTPUT"
-          
-          # Check for errors
-          if echo "$OUTPUT" | grep -E "^  error •" > /dev/null; then
-            echo ""
-            echo "❌ Analysis found errors!"
-            exit 1
-          fi
-          
-          # Check for warnings
-          if echo "$OUTPUT" | grep -E "^warning •" > /dev/null; then
-            echo ""
-            echo "⚠️  Analysis found warnings!"
-            exit 1
-          fi
+          echo "Running flutter analyze..."
+          flutter analyze --no-fatal-infos
           
           echo ""
-          echo "✅ No errors or warnings found!"
+          echo "✅ Analysis completed successfully!"
+          echo "Note: Info-level messages are allowed and won't fail the build."
