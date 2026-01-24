@@ -22,7 +22,7 @@ jobs:
     name: Lint & Format Check
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -41,7 +41,7 @@ jobs:
     name: TypeScript Type Check
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -60,7 +60,7 @@ jobs:
     name: Unit Tests
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -85,7 +85,7 @@ jobs:
     name: E2E Tests (Runn)
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -128,7 +128,7 @@ jobs:
     name: Build Check
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -147,7 +147,7 @@ jobs:
     name: Security Audit
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       
       - name: Setup Node.js
         uses: actions/setup-node@v4
