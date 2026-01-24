@@ -6,7 +6,7 @@ import 'package:mobile_ui/ui/shared/snack_bar_widget.dart';
 
 class CategoryNewWidget extends ConsumerWidget {
   final _formKey = GlobalKey<FormState>();
-  CategoryNewWidget({ super.key });
+  CategoryNewWidget({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -35,8 +35,8 @@ class CategoryNewWidget extends ConsumerWidget {
                         fontWeight: FontWeight.bold,
                         fontSize: 16,
                       ),
-                    )
-                  ]
+                    ),
+                  ],
                 ),
                 SizedBox(height: 20),
                 TextFormField(
@@ -73,18 +73,35 @@ class CategoryNewWidget extends ConsumerWidget {
                     ElevatedButton(
                       onPressed: () {
                         if (!_formKey.currentState!.validate()) return;
-                        ref.read(categoryListProvider.notifier).add(name, description)
-                          .then((v) {
-                            ref.read(categoryNewNameProvider.notifier).reset();
-                            ref.read(categoryNewDescriptionProvider.notifier).reset();
-                            if (!context.mounted) return;
-                            ScaffoldMessenger.of(context).showSnackBar(getSnackBar(context: context, text: 'Success to add category'));
-                            Navigator.pop(context);
-                          })
-                          .catchError((err) {
-                            if (!context.mounted) return;
-                            ScaffoldMessenger.of(context).showSnackBar(getSnackBar(context: context, text: err.toString(), error: true));
-                          });
+                        ref
+                            .read(categoryListProvider.notifier)
+                            .add(name, description)
+                            .then((v) {
+                              ref
+                                  .read(categoryNewNameProvider.notifier)
+                                  .reset();
+                              ref
+                                  .read(categoryNewDescriptionProvider.notifier)
+                                  .reset();
+                              if (!context.mounted) return;
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                getSnackBar(
+                                  context: context,
+                                  text: 'Success to add category',
+                                ),
+                              );
+                              Navigator.pop(context);
+                            })
+                            .catchError((err) {
+                              if (!context.mounted) return;
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                getSnackBar(
+                                  context: context,
+                                  text: err.toString(),
+                                  error: true,
+                                ),
+                              );
+                            });
                       },
                       child: const Text('Add'),
                     ),
@@ -92,12 +109,12 @@ class CategoryNewWidget extends ConsumerWidget {
                       onPressed: () => Navigator.pop(context),
                       child: const Text('Cancel'),
                     ),
-                  ]
+                  ],
                 ),
-              ]
-            )
-          )
-        )
+              ],
+            ),
+          ),
+        ),
       ),
     );
   }

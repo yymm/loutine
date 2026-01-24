@@ -10,11 +10,20 @@ import 'package:mobile_ui/ui/setting/setting_main.dart';
 import 'package:mobile_ui/ui/shared/bottom_nav_widget.dart';
 import 'package:mobile_ui/ui/tag/tag_main.dart';
 
-final GlobalKey<NavigatorState> _rootNavigationKey = GlobalKey<NavigatorState>(debugLabel: 'root');
-final GlobalKey<NavigatorState> _homeNavigationKey = GlobalKey<NavigatorState>(debugLabel: 'home');
-final GlobalKey<NavigatorState> _linkNavigationKey = GlobalKey<NavigatorState>(debugLabel: 'link');
-final GlobalKey<NavigatorState> _purchaseNavigationKey = GlobalKey<NavigatorState>(debugLabel: 'purchase');
-final GlobalKey<NavigatorState> _noteNavigationKey = GlobalKey<NavigatorState>(debugLabel: 'note');
+final GlobalKey<NavigatorState> _rootNavigationKey = GlobalKey<NavigatorState>(
+  debugLabel: 'root',
+);
+final GlobalKey<NavigatorState> _homeNavigationKey = GlobalKey<NavigatorState>(
+  debugLabel: 'home',
+);
+final GlobalKey<NavigatorState> _linkNavigationKey = GlobalKey<NavigatorState>(
+  debugLabel: 'link',
+);
+final GlobalKey<NavigatorState> _purchaseNavigationKey =
+    GlobalKey<NavigatorState>(debugLabel: 'purchase');
+final GlobalKey<NavigatorState> _noteNavigationKey = GlobalKey<NavigatorState>(
+  debugLabel: 'note',
+);
 
 final router = GoRouter(
   navigatorKey: _rootNavigationKey,
@@ -23,9 +32,14 @@ final router = GoRouter(
   routes: <RouteBase>[
     StatefulShellRoute.indexedStack(
       parentNavigatorKey: _rootNavigationKey,
-      builder: (BuildContext context, GoRouterState state, StatefulNavigationShell navigationShell) {
-        return BottomNavWidget(navigationShell: navigationShell);
-      },
+      builder:
+          (
+            BuildContext context,
+            GoRouterState state,
+            StatefulNavigationShell navigationShell,
+          ) {
+            return BottomNavWidget(navigationShell: navigationShell);
+          },
       branches: [
         StatefulShellBranch(
           navigatorKey: _homeNavigationKey,
@@ -72,9 +86,9 @@ final router = GoRouter(
                   path: 'list',
                   builder: (BuildContext context, GoRouterState state) {
                     return const LinkListMain();
-                  }
+                  },
                 ),
-              ]
+              ],
             ),
           ],
         ),
@@ -100,9 +114,9 @@ final router = GoRouter(
                 return const NoteFormMain();
               },
             ),
-          ]
+          ],
         ),
       ],
     ),
-  ]
+  ],
 );

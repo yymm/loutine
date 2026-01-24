@@ -42,14 +42,14 @@ class TagMain extends StatelessWidget {
                   );
                   // }}}
                 },
-                label: Text('Add new tag')
+                label: Text('Add new tag'),
               ),
               SizedBox(height: 20),
               Expanded(child: TagList()),
             ],
           ),
-        )
-      )
+        ),
+      ),
     );
   }
 }

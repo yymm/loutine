@@ -23,7 +23,7 @@ class TagList extends _$TagList {
   Future<List<Tag>> getList() async {
     final TagApiClient apiClient = TagApiClient();
     final resBody = await apiClient.list();
-    final List<dynamic> tagListJson= jsonDecode(resBody);
+    final List<dynamic> tagListJson = jsonDecode(resBody);
     final tagList = tagListJson.map((tag) {
       return Tag.fromJson(tag);
     }).toList();

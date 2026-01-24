@@ -4,7 +4,7 @@ import 'package:mobile_ui/ui/home/home_calendar.dart';
 import 'package:mobile_ui/ui/home/home_calendar_event_list.dart';
 
 class HomeMain extends StatelessWidget {
-  const HomeMain({ super.key });
+  const HomeMain({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -18,20 +18,18 @@ class HomeMain extends StatelessWidget {
               context.go('/setting');
             },
             icon: const Icon(Icons.settings),
-          )
-        ]
+          ),
+        ],
       ),
       body: SafeArea(
         child: Column(
           children: [
             HomeCalendarWidget(),
             SizedBox(height: 20),
-            Expanded(
-              child: HomeCalendarEventList(),
-            )
-          ]
-        )
-      )
+            Expanded(child: HomeCalendarEventList()),
+          ],
+        ),
+      ),
     );
   }
 }

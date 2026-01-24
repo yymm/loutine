@@ -42,14 +42,14 @@ class CategoryMain extends StatelessWidget {
                   );
                   // }}}
                 },
-                label: Text('Show Modal')
+                label: Text('Show Modal'),
               ),
               SizedBox(height: 20),
               Expanded(child: CategoryList()),
             ],
           ),
-        )
-      )
+        ),
+      ),
     );
   }
 }

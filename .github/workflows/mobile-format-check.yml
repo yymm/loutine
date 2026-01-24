@@ -1,0 +1,40 @@
+name: Mobile UI Format Check
+
+on:
+  pull_request:
+    paths:
+      - 'mobile_ui/**/*.dart'
+      - '.github/workflows/mobile-format-check.yml'
+
+defaults:
+  run:
+    working-directory: mobile_ui
+
+jobs:
+  format-check:
+    name: Check Dart Formatting
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.38.7'
+          cache: true
+      
+      - name: Check Dart formatting
+        run: dart format --set-exit-if-changed .
+        
+      - name: Format check failed
+        if: failure()
+        run: |
+          echo "❌ Code formatting check failed!"
+          echo ""
+          echo "Please run 'dart format .' in the mobile_ui directory to fix formatting issues."
+          echo "Or use 'make format' if you have Make installed."
+          echo ""
+          echo "Tip: Enable 'Format on Save' in your editor to avoid this in the future."
+          exit 1

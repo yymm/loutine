@@ -12,22 +12,28 @@ void main() {
     test('ThemeModeの切り替えロジック', () {
       // Light -> Dark
       ThemeMode current = ThemeMode.light;
-      ThemeMode next = current == ThemeMode.light ? ThemeMode.dark 
-          : current == ThemeMode.dark ? ThemeMode.system 
+      ThemeMode next = current == ThemeMode.light
+          ? ThemeMode.dark
+          : current == ThemeMode.dark
+          ? ThemeMode.system
           : ThemeMode.light;
       expect(next, ThemeMode.dark);
 
       // Dark -> System
       current = ThemeMode.dark;
-      next = current == ThemeMode.light ? ThemeMode.dark 
-          : current == ThemeMode.dark ? ThemeMode.system 
+      next = current == ThemeMode.light
+          ? ThemeMode.dark
+          : current == ThemeMode.dark
+          ? ThemeMode.system
           : ThemeMode.light;
       expect(next, ThemeMode.system);
 
       // System -> Light
       current = ThemeMode.system;
-      next = current == ThemeMode.light ? ThemeMode.dark 
-          : current == ThemeMode.dark ? ThemeMode.system 
+      next = current == ThemeMode.light
+          ? ThemeMode.dark
+          : current == ThemeMode.dark
+          ? ThemeMode.system
           : ThemeMode.light;
       expect(next, ThemeMode.light);
     });

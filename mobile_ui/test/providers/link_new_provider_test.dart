@@ -40,7 +40,7 @@ void main() {
       final notifier = container.read(linkNewProvider.notifier);
       notifier.changeUrl('https://flutter.dev');
       notifier.changeTitle('Flutter公式サイト');
-      
+
       final state = container.read(linkNewProvider);
       expect(state.url, 'https://flutter.dev');
       expect(state.title, 'Flutter公式サイト');
@@ -54,7 +54,7 @@ void main() {
       notifier.changeUrl('https://example.com');
       notifier.changeTitle('テスト');
       notifier.reset();
-      
+
       final state = container.read(linkNewProvider);
       expect(state.url, '');
       expect(state.title, '');

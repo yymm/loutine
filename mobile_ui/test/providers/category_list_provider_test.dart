@@ -25,7 +25,7 @@ void main() {
         updatedAt: now,
       );
       container.read(categoryListProvider.notifier).state = [testCategory];
-      
+
       final state = container.read(categoryListProvider);
       expect(state.length, 1);
       expect(state[0].name, 'テストカテゴリ');
@@ -37,11 +37,23 @@ void main() {
 
       final now = DateTime.now();
       final categories = [
-        Category(id: 1, name: 'カテゴリ1', description: '説明1', createdAt: now, updatedAt: now),
-        Category(id: 2, name: 'カテゴリ2', description: '説明2', createdAt: now, updatedAt: now),
+        Category(
+          id: 1,
+          name: 'カテゴリ1',
+          description: '説明1',
+          createdAt: now,
+          updatedAt: now,
+        ),
+        Category(
+          id: 2,
+          name: 'カテゴリ2',
+          description: '説明2',
+          createdAt: now,
+          updatedAt: now,
+        ),
       ];
       container.read(categoryListProvider.notifier).state = categories;
-      
+
       final state = container.read(categoryListProvider);
       expect(state.length, 2);
       expect(state[0].name, 'カテゴリ1');

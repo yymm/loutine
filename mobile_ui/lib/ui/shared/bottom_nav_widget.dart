@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 class BottomNavWidget extends StatelessWidget {
-  const BottomNavWidget({ super.key, required this.navigationShell });
+  const BottomNavWidget({super.key, required this.navigationShell});
 
   final StatefulNavigationShell navigationShell;
 
@@ -19,10 +19,7 @@ class BottomNavWidget extends StatelessWidget {
           );
         },
         destinations: const [
-          NavigationDestination(
-            icon: Icon(Icons.home),
-            label: 'Home',
-          ),
+          NavigationDestination(icon: Icon(Icons.home), label: 'Home'),
           NavigationDestination(
             icon: Icon(Icons.add_link, color: Colors.lightBlue),
             label: 'Link',

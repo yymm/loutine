@@ -11,10 +11,7 @@ import 'package:table_calendar/table_calendar.dart';
 part 'home_calendar_provider.g.dart';
 
 class CalendarState {
-  CalendarState({
-    required this.calendarEvents,
-    required this.linkList,
-  });
+  CalendarState({required this.calendarEvents, required this.linkList});
   Map<DateTime, List<CalendarEventItem>> calendarEvents;
   List<Link> linkList;
 }
@@ -37,16 +34,23 @@ class CalendarStateManager extends _$CalendarStateManager {
       return CalendarEventItem.fromPurchase(purchase);
     }).toList();
 
-    final noteList= await getNoteList(dateTime);
+    final noteList = await getNoteList(dateTime);
     final calendarEventItemNoteList = noteList.map((note) {
       return CalendarEventItem.fromNote(note);
     }).toList();
 
-    final calendarEventItemList = calendarEventItemLinkList + calendarEventItemPurchaseList + calendarEventItemNoteList;
+    final calendarEventItemList =
+        calendarEventItemLinkList +
+        calendarEventItemPurchaseList +
+        calendarEventItemNoteList;
 
     Map<DateTime, List<CalendarEventItem>> events = {};
     final _ = calendarEventItemList.map((item) {
-      final dateTimeUtc = DateTime.utc(item.createdAt.year, item.createdAt.month, item.createdAt.day);
+      final dateTimeUtc = DateTime.utc(
+        item.createdAt.year,
+        item.createdAt.month,
+        item.createdAt.day,
+      );
       if (events.containsKey(dateTimeUtc)) {
         events[dateTimeUtc]!.add(item);
       } else {
@@ -63,7 +67,11 @@ class CalendarStateManager extends _$CalendarStateManager {
     // 月初日
     final startDate = DateTime(dateTime.year, dateTime.month, 1);
     // 月末日
-    final endDate = DateTime(dateTime.year, dateTime.month + 1, 1).add(Duration(days: -1));
+    final endDate = DateTime(
+      dateTime.year,
+      dateTime.month + 1,
+      1,
+    ).add(Duration(days: -1));
     final res = await apiClient.list(startDate, endDate);
 
     final List<dynamic> linkListJson = jsonDecode(res);
@@ -79,7 +87,11 @@ class CalendarStateManager extends _$CalendarStateManager {
     // 月初日
     final startDate = DateTime(dateTime.year, dateTime.month, 1);
     // 月末日
-    final endDate = DateTime(dateTime.year, dateTime.month + 1, 1).add(Duration(days: -1));
+    final endDate = DateTime(
+      dateTime.year,
+      dateTime.month + 1,
+      1,
+    ).add(Duration(days: -1));
     final res = await apiClient.list(startDate, endDate);
 
     final List<dynamic> purchaseListJson = jsonDecode(res);
@@ -95,7 +107,11 @@ class CalendarStateManager extends _$CalendarStateManager {
     // 月初日
     final startDate = DateTime(dateTime.year, dateTime.month, 1);
     // 月末日
-    final endDate = DateTime(dateTime.year, dateTime.month + 1, 1).add(Duration(days: -1));
+    final endDate = DateTime(
+      dateTime.year,
+      dateTime.month + 1,
+      1,
+    ).add(Duration(days: -1));
     final res = await apiClient.list(startDate, endDate);
 
     final List<dynamic> noteListJson = jsonDecode(res);

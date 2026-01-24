@@ -28,4 +28,3 @@ class Tag {
     return '[$id] $name';
   }
 }
-

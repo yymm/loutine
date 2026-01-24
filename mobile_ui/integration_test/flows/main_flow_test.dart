@@ -22,7 +22,7 @@ void main() {
         print('📝 シナリオ1: タグ作成を開始');
         final timestamp = DateTime.now().millisecondsSinceEpoch;
         final uniqueTagName = 'E2Eテスト_$timestamp';
-        
+
         // Homeタブが表示されていることを確認
         expect(find.text('Home'), findsOneWidget);
 
@@ -53,7 +53,10 @@ void main() {
         await tester.enterText(titleField, uniqueTagName);
         await tester.pumpAndSettle();
 
-        final descriptionField = find.widgetWithText(TextFormField, 'Description');
+        final descriptionField = find.widgetWithText(
+          TextFormField,
+          'Description',
+        );
         expect(descriptionField, findsOneWidget);
         await tester.enterText(descriptionField, 'テスト用の説明');
         await tester.pumpAndSettle();
@@ -62,7 +65,7 @@ void main() {
         final saveButton = find.widgetWithText(ElevatedButton, 'Add');
         expect(saveButton, findsOneWidget);
         await tester.tap(saveButton);
-        
+
         // API通信を待つ
         await tester.pumpAndSettle(const Duration(seconds: 5));
 
@@ -75,7 +78,7 @@ void main() {
         // 一覧にタグが表示されることを確認
         final tagChip = find.widgetWithText(Chip, uniqueTagName);
         expect(tagChip, findsOneWidget);
-        
+
         print('✅ シナリオ1完了: タグ作成成功 - $uniqueTagName');
       }
 
@@ -86,11 +89,11 @@ void main() {
         print('📝 シナリオ2: カテゴリ作成を開始');
         final timestamp = DateTime.now().millisecondsSinceEpoch;
         final uniqueCategoryName = 'E2Eカテゴリ_$timestamp';
-        
+
         // タグ画面から設定画面に戻る
         await tester.pumpAndSettle(const Duration(seconds: 2));
         expect(find.text('Tag List'), findsOneWidget);
-        
+
         final settingsIcon = find.descendant(
           of: find.byType(AppBar),
           matching: find.byIcon(Icons.settings),
@@ -120,7 +123,10 @@ void main() {
         await tester.enterText(titleField, uniqueCategoryName);
         await tester.pumpAndSettle();
 
-        final descriptionField = find.widgetWithText(TextFormField, 'Description');
+        final descriptionField = find.widgetWithText(
+          TextFormField,
+          'Description',
+        );
         expect(descriptionField, findsOneWidget);
         await tester.enterText(descriptionField, 'テスト用の説明');
         await tester.pumpAndSettle();
@@ -129,7 +135,7 @@ void main() {
         final saveButton = find.widgetWithText(ElevatedButton, 'Add');
         expect(saveButton, findsOneWidget);
         await tester.tap(saveButton);
-        
+
         // API通信を待つ
         await tester.pumpAndSettle(const Duration(seconds: 5));
 
@@ -142,7 +148,7 @@ void main() {
         // 一覧にカテゴリが表示されることを確認
         final categoryCard = find.widgetWithText(Card, uniqueCategoryName);
         expect(categoryCard, findsOneWidget);
-        
+
         print('✅ シナリオ2完了: カテゴリ作成成功 - $uniqueCategoryName');
       }
 
@@ -154,7 +160,7 @@ void main() {
         final timestamp = DateTime.now().millisecondsSinceEpoch;
         final uniqueLinkTitle = 'E2Eリンク_$timestamp';
         final testUrl = 'https://example.com/test_$timestamp';
-        
+
         // カテゴリ画面からHomeに戻る
         await tester.pumpAndSettle(const Duration(seconds: 1));
         final homeTab = find.text('Home');
@@ -187,7 +193,7 @@ void main() {
         final submitButton = find.widgetWithText(ElevatedButton, 'Submit');
         expect(submitButton, findsOneWidget);
         await tester.tap(submitButton);
-        
+
         // API通信を待つ
         await tester.pumpAndSettle(const Duration(seconds: 5));
 
@@ -199,7 +205,7 @@ void main() {
           tester.element(find.byType(Scaffold).first),
         ).clearSnackBars();
         await tester.pumpAndSettle();
-        
+
         print('✅ シナリオ3完了: Link作成成功 - $uniqueLinkTitle');
       }
 
@@ -211,7 +217,7 @@ void main() {
         final timestamp = DateTime.now().millisecondsSinceEpoch;
         final uniquePurchaseTitle = 'E2E購入_$timestamp';
         final testCost = '1234';
-        
+
         // LinkタブからPurchaseタブへ移動
         await tester.pumpAndSettle(const Duration(seconds: 1));
         final purchaseTab = find.text('Purchase');
@@ -238,7 +244,7 @@ void main() {
         final submitButton = find.widgetWithText(ElevatedButton, 'Submit');
         expect(submitButton, findsOneWidget);
         await tester.tap(submitButton);
-        
+
         // API通信を待つ
         await tester.pumpAndSettle(const Duration(seconds: 5));
 
@@ -250,7 +256,7 @@ void main() {
           tester.element(find.byType(Scaffold).first),
         ).clearSnackBars();
         await tester.pumpAndSettle();
-        
+
         print('✅ シナリオ4完了: Purchase作成成功 - $uniquePurchaseTitle (¥$testCost)');
       }
 
@@ -259,7 +265,7 @@ void main() {
       // ======================
       {
         print('📝 シナリオ5: カレンダー操作とイベント確認を開始');
-        
+
         // PurchaseタブからHomeタブに戻る
         await tester.pumpAndSettle(const Duration(seconds: 1));
         final homeTab = find.text('Home');

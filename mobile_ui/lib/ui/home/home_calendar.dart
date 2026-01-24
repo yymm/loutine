@@ -4,9 +4,8 @@ import 'package:mobile_ui/models/calendar_event_item.dart';
 import 'package:mobile_ui/providers/home_calendar_provider.dart';
 import 'package:table_calendar/table_calendar.dart';
 
-
 class HomeCalendarWidget extends ConsumerWidget {
-  const HomeCalendarWidget({ super.key });
+  const HomeCalendarWidget({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -31,11 +30,15 @@ class HomeCalendarWidget extends ConsumerWidget {
       },
       onDaySelected: (selectedDay, focusDay) {
         ref.read(calendarFocusDayProvider.notifier).change(selectedDay);
-        ref.read(calendarEventListProvider.notifier).change(calendarState.calendarEvents[selectedDay] ?? []);
+        ref
+            .read(calendarEventListProvider.notifier)
+            .change(calendarState.calendarEvents[selectedDay] ?? []);
       },
       onPageChanged: (focusedDay) {
         ref.read(calendarFocusDayProvider.notifier).change(focusedDay);
-        ref.read(calendarStateManagerProvider.notifier).getAllEventItem(focusedDay);
+        ref
+            .read(calendarStateManagerProvider.notifier)
+            .getAllEventItem(focusedDay);
         calendarState.calendarEvents[focusedDay] ?? [];
       },
       calendarBuilders: CalendarBuilders(
@@ -45,7 +48,9 @@ class HomeCalendarWidget extends ConsumerWidget {
           int purchaseCnt = 0;
           int noteCnt = 0;
           final _ = events.map((event) {
-            if ((event as CalendarEventItem).itemType == CalendarEventItemType.link) linkCnt++;
+            if ((event as CalendarEventItem).itemType ==
+                CalendarEventItemType.link)
+              linkCnt++;
             if (event.itemType == CalendarEventItemType.purchase) purchaseCnt++;
             if (event.itemType == CalendarEventItemType.note) noteCnt++;
           }).toList();
@@ -55,7 +60,7 @@ class HomeCalendarWidget extends ConsumerWidget {
               getBadge(linkCnt, Colors.lightBlue),
               getBadge(purchaseCnt, Colors.orange),
               getBadge(noteCnt, Colors.lightGreen),
-            ]
+            ],
           );
         },
       ),
@@ -66,8 +71,5 @@ class HomeCalendarWidget extends ConsumerWidget {
 Widget getBadge(int cnt, Color color) {
   // if (cnt == 0) return SizedBox(width: 0, height: 0);
   if (cnt == 0) return SizedBox.shrink();
-  return Badge.count(
-    count: cnt,
-    backgroundColor: color,
-  );
+  return Badge.count(count: cnt, backgroundColor: color);
 }
