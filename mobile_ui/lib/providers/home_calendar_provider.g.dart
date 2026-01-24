@@ -6,71 +6,216 @@ part of 'home_calendar_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
+// ignore_for_file: type=lint, type=warning
+
+@ProviderFor(CalendarStateManager)
+final calendarStateManagerProvider = CalendarStateManagerProvider._();
+
+final class CalendarStateManagerProvider
+    extends $NotifierProvider<CalendarStateManager, CalendarState> {
+  CalendarStateManagerProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'calendarStateManagerProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$calendarStateManagerHash();
+
+  @$internal
+  @override
+  CalendarStateManager create() => CalendarStateManager();
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(CalendarState value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<CalendarState>(value),
+    );
+  }
+}
+
 String _$calendarStateManagerHash() =>
     r'a12b61782a121b9800aaca109ad91a455c8fc635';
 
-/// See also [CalendarStateManager].
-@ProviderFor(CalendarStateManager)
-final calendarStateManagerProvider =
-    AutoDisposeNotifierProvider<CalendarStateManager, CalendarState>.internal(
-  CalendarStateManager.new,
-  name: r'calendarStateManagerProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$calendarStateManagerHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
+abstract class _$CalendarStateManager extends $Notifier<CalendarState> {
+  CalendarState build();
+  @$mustCallSuper
+  @override
+  void runBuild() {
+    final ref = this.ref as $Ref<CalendarState, CalendarState>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<CalendarState, CalendarState>,
+              CalendarState,
+              Object?,
+              Object?
+            >;
+    element.handleCreate(ref, build);
+  }
+}
 
-typedef _$CalendarStateManager = AutoDisposeNotifier<CalendarState>;
+@ProviderFor(CalendarFocusDay)
+final calendarFocusDayProvider = CalendarFocusDayProvider._();
+
+final class CalendarFocusDayProvider
+    extends $NotifierProvider<CalendarFocusDay, DateTime> {
+  CalendarFocusDayProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'calendarFocusDayProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$calendarFocusDayHash();
+
+  @$internal
+  @override
+  CalendarFocusDay create() => CalendarFocusDay();
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(DateTime value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<DateTime>(value),
+    );
+  }
+}
+
 String _$calendarFocusDayHash() => r'da5177b7853ae1e8942a604aecfafb154ef31c36';
 
-/// See also [CalendarFocusDay].
-@ProviderFor(CalendarFocusDay)
-final calendarFocusDayProvider =
-    AutoDisposeNotifierProvider<CalendarFocusDay, DateTime>.internal(
-  CalendarFocusDay.new,
-  name: r'calendarFocusDayProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$calendarFocusDayHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
+abstract class _$CalendarFocusDay extends $Notifier<DateTime> {
+  DateTime build();
+  @$mustCallSuper
+  @override
+  void runBuild() {
+    final ref = this.ref as $Ref<DateTime, DateTime>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<DateTime, DateTime>,
+              DateTime,
+              Object?,
+              Object?
+            >;
+    element.handleCreate(ref, build);
+  }
+}
 
-typedef _$CalendarFocusDay = AutoDisposeNotifier<DateTime>;
+@ProviderFor(CalendarFormatManager)
+final calendarFormatManagerProvider = CalendarFormatManagerProvider._();
+
+final class CalendarFormatManagerProvider
+    extends $NotifierProvider<CalendarFormatManager, CalendarFormat> {
+  CalendarFormatManagerProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'calendarFormatManagerProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$calendarFormatManagerHash();
+
+  @$internal
+  @override
+  CalendarFormatManager create() => CalendarFormatManager();
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(CalendarFormat value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<CalendarFormat>(value),
+    );
+  }
+}
+
 String _$calendarFormatManagerHash() =>
     r'656b39ddcbee06b908363957a1842b78a96108be';
 
-/// See also [CalendarFormatManager].
-@ProviderFor(CalendarFormatManager)
-final calendarFormatManagerProvider =
-    AutoDisposeNotifierProvider<CalendarFormatManager, CalendarFormat>.internal(
-  CalendarFormatManager.new,
-  name: r'calendarFormatManagerProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$calendarFormatManagerHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
+abstract class _$CalendarFormatManager extends $Notifier<CalendarFormat> {
+  CalendarFormat build();
+  @$mustCallSuper
+  @override
+  void runBuild() {
+    final ref = this.ref as $Ref<CalendarFormat, CalendarFormat>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<CalendarFormat, CalendarFormat>,
+              CalendarFormat,
+              Object?,
+              Object?
+            >;
+    element.handleCreate(ref, build);
+  }
+}
 
-typedef _$CalendarFormatManager = AutoDisposeNotifier<CalendarFormat>;
+@ProviderFor(CalendarEventList)
+final calendarEventListProvider = CalendarEventListProvider._();
+
+final class CalendarEventListProvider
+    extends $NotifierProvider<CalendarEventList, List<CalendarEventItem>> {
+  CalendarEventListProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'calendarEventListProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$calendarEventListHash();
+
+  @$internal
+  @override
+  CalendarEventList create() => CalendarEventList();
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(List<CalendarEventItem> value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<List<CalendarEventItem>>(value),
+    );
+  }
+}
+
 String _$calendarEventListHash() => r'b0be0ce522d3696e117978f942c62845a76242b2';
 
-/// See also [CalendarEventList].
-@ProviderFor(CalendarEventList)
-final calendarEventListProvider = AutoDisposeNotifierProvider<CalendarEventList,
-    List<CalendarEventItem>>.internal(
-  CalendarEventList.new,
-  name: r'calendarEventListProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$calendarEventListHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
-
-typedef _$CalendarEventList = AutoDisposeNotifier<List<CalendarEventItem>>;
-// ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package
+abstract class _$CalendarEventList extends $Notifier<List<CalendarEventItem>> {
+  List<CalendarEventItem> build();
+  @$mustCallSuper
+  @override
+  void runBuild() {
+    final ref =
+        this.ref as $Ref<List<CalendarEventItem>, List<CalendarEventItem>>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<List<CalendarEventItem>, List<CalendarEventItem>>,
+              List<CalendarEventItem>,
+              Object?,
+              Object?
+            >;
+    element.handleCreate(ref, build);
+  }
+}

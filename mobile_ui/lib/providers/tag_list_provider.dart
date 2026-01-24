@@ -16,6 +16,7 @@ class TagList extends _$TagList {
     final resBody = await apiClient.post(name, description);
     final Map<String, dynamic> decodedString = json.decode(resBody);
     final tag = Tag.fromJson(decodedString);
+    if (!ref.mounted) return;
     state = [...state, tag];
   }
 
@@ -26,12 +27,13 @@ class TagList extends _$TagList {
     final tagList = tagListJson.map((tag) {
       return Tag.fromJson(tag);
     }).toList();
+    if (!ref.mounted) return tagList;
     state = tagList;
     return tagList;
   }
 }
 
 @riverpod
-Future<List<Tag>> tagListFuture(TagListFutureRef ref) async {
+Future<List<Tag>> tagListFuture(Ref ref) async {
   return ref.read(tagListProvider.notifier).getList();
 }

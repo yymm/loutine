@@ -32,6 +32,7 @@ class LinkNew extends _$LinkNew {
   Future<String> pasteByClipBoard() async {
     final clipboardData = await Clipboard.getData('text/plain');
     final url = clipboardData!.text ?? "";
+    if (!ref.mounted) return url;
     state = LinkNewData(url: url, title: state.title);
     return url;
   }
@@ -45,6 +46,7 @@ class LinkNew extends _$LinkNew {
     final Map<String, dynamic> resJson = json.decode(body);
     // final title = faker.internet.userName();
     final title = resJson['title']!;
+    if (!ref.mounted) return title;
     state = LinkNewData(url: state.url, title: title);
     return title;
   }

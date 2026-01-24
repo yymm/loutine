@@ -54,6 +54,7 @@ class CalendarStateManager extends _$CalendarStateManager {
       }
     }).toList();
 
+    if (!ref.mounted) return;
     state = CalendarState(calendarEvents: events, linkList: linkList);
   }
 

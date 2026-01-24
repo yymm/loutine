@@ -29,6 +29,7 @@ class ThemeModeManager extends _$ThemeModeManager {
         break;
     }
     await _saveThemeMode(themeMode).then((value) {
+      if (!ref.mounted) return;
       if (value == true) {
         state = themeMode;
       }

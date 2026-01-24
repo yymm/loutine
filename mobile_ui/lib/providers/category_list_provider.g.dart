@@ -6,39 +6,97 @@ part of 'category_list_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$categoryListFutureHash() =>
-    r'44f8b8b4aef87d8ea3608f359582f54020f5b228';
+// GENERATED CODE - DO NOT MODIFY BY HAND
+// ignore_for_file: type=lint, type=warning
 
-/// See also [categoryListFuture].
-@ProviderFor(categoryListFuture)
-final categoryListFutureProvider =
-    AutoDisposeFutureProvider<List<Category>>.internal(
-  categoryListFuture,
-  name: r'categoryListFutureProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$categoryListFutureHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
+@ProviderFor(CategoryList)
+final categoryListProvider = CategoryListProvider._();
 
-@Deprecated('Will be removed in 3.0. Use Ref instead')
-// ignore: unused_element
-typedef CategoryListFutureRef = AutoDisposeFutureProviderRef<List<Category>>;
+final class CategoryListProvider
+    extends $NotifierProvider<CategoryList, List<Category>> {
+  CategoryListProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'categoryListProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$categoryListHash();
+
+  @$internal
+  @override
+  CategoryList create() => CategoryList();
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(List<Category> value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<List<Category>>(value),
+    );
+  }
+}
+
 String _$categoryListHash() => r'aa68dcf755959f2606cda3d2dc9baaf256150916';
 
-/// See also [CategoryList].
-@ProviderFor(CategoryList)
-final categoryListProvider =
-    AutoDisposeNotifierProvider<CategoryList, List<Category>>.internal(
-  CategoryList.new,
-  name: r'categoryListProvider',
-  debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$categoryListHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
+abstract class _$CategoryList extends $Notifier<List<Category>> {
+  List<Category> build();
+  @$mustCallSuper
+  @override
+  void runBuild() {
+    final ref = this.ref as $Ref<List<Category>, List<Category>>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<List<Category>, List<Category>>,
+              List<Category>,
+              Object?,
+              Object?
+            >;
+    element.handleCreate(ref, build);
+  }
+}
 
-typedef _$CategoryList = AutoDisposeNotifier<List<Category>>;
-// ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package
+@ProviderFor(categoryListFuture)
+final categoryListFutureProvider = CategoryListFutureProvider._();
+
+final class CategoryListFutureProvider
+    extends
+        $FunctionalProvider<
+          AsyncValue<List<Category>>,
+          List<Category>,
+          FutureOr<List<Category>>
+        >
+    with $FutureModifier<List<Category>>, $FutureProvider<List<Category>> {
+  CategoryListFutureProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'categoryListFutureProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$categoryListFutureHash();
+
+  @$internal
+  @override
+  $FutureProviderElement<List<Category>> $createElement(
+    $ProviderPointer pointer,
+  ) => $FutureProviderElement(pointer);
+
+  @override
+  FutureOr<List<Category>> create(Ref ref) {
+    return categoryListFuture(ref);
+  }
+}
+
+String _$categoryListFutureHash() =>
+    r'd0c253df57f7c123fbb6c9972579e9c84985547f';
