@@ -90,7 +90,7 @@ class _PurchaseForm extends ConsumerState<PurchaseForm> {
             SizedBox(height: 20),
             // >> Category selector {{{
             DropdownButtonFormField(
-              value: dropdownformfieldValue,
+              initialValue: dropdownformfieldValue,
               decoration: InputDecoration(
                 labelText: 'Category',
                 prefixIcon: Icon(Icons.category),
@@ -115,12 +115,8 @@ class _PurchaseForm extends ConsumerState<PurchaseForm> {
                 ref.read(purchaseNewProvider.notifier).add(categoryId: categoryId)
                   .then((v) {
                     ref.read(purchaseNewProvider.notifier).reset();
-                    _costController.value = _costController.value.copyWith(
-                      text: '',
-                    );
-                    _titleController.value = _titleController.value.copyWith(
-                      text: '',
-                    );
+                    _costController.clear();
+                    _titleController.clear();
                     setState(() {
                       dropdownformfieldValue = null;
                     });
