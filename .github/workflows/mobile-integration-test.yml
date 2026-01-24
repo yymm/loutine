@@ -126,7 +126,7 @@ jobs:
       
       - name: Upload test screenshots (on failure)
         if: failure()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: integration-test-screenshots
           path: mobile_ui/screenshots/
@@ -134,7 +134,7 @@ jobs:
       
       - name: Upload test logs (on failure)
         if: failure()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: integration-test-logs
           path: |
