@@ -29,7 +29,7 @@ class _PurchaseForm extends ConsumerState<PurchaseForm> {
   @override
   Widget build(BuildContext context) {
     // final state = Provider.of<PurcaseFormState>(context, listen: true);
-    final purchaseNew = ref.watch(purchaseNewProvider);
+    ref.watch(purchaseNewProvider); // Watch provider for rebuilds
     final categories = ref.watch(categoryListProvider);
 
     return Container(
