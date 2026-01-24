@@ -66,6 +66,12 @@ void main() {
         // API通信を待つ
         await tester.pumpAndSettle(const Duration(seconds: 5));
 
+        // Snackbarを閉じる
+        ScaffoldMessenger.of(
+          tester.element(find.byType(Scaffold).first),
+        ).clearSnackBars();
+        await tester.pumpAndSettle();
+
         // 一覧にタグが表示されることを確認
         final tagChip = find.widgetWithText(Chip, uniqueTagName);
         expect(tagChip, findsOneWidget);
@@ -127,6 +133,12 @@ void main() {
         // API通信を待つ
         await tester.pumpAndSettle(const Duration(seconds: 5));
 
+        // Snackbarを閉じる
+        ScaffoldMessenger.of(
+          tester.element(find.byType(Scaffold).first),
+        ).clearSnackBars();
+        await tester.pumpAndSettle();
+
         // 一覧にカテゴリが表示されることを確認
         final categoryCard = find.widgetWithText(Card, uniqueCategoryName);
         expect(categoryCard, findsOneWidget);
@@ -181,6 +193,12 @@ void main() {
 
         // 成功メッセージを確認
         expect(find.text('Success to add link'), findsOneWidget);
+
+        // Snackbarを閉じる
+        ScaffoldMessenger.of(
+          tester.element(find.byType(Scaffold).first),
+        ).clearSnackBars();
+        await tester.pumpAndSettle();
         
         print('✅ シナリオ3完了: Link作成成功 - $uniqueLinkTitle');
       }
@@ -226,6 +244,12 @@ void main() {
 
         // 成功メッセージを確認
         expect(find.text('Success to add purchase'), findsOneWidget);
+
+        // Snackbarを閉じる
+        ScaffoldMessenger.of(
+          tester.element(find.byType(Scaffold).first),
+        ).clearSnackBars();
+        await tester.pumpAndSettle();
         
         print('✅ シナリオ4完了: Purchase作成成功 - $uniquePurchaseTitle (¥$testCost)');
       }
