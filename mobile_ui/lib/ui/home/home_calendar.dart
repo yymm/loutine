@@ -49,10 +49,15 @@ class HomeCalendarWidget extends ConsumerWidget {
           int noteCnt = 0;
           final _ = events.map((event) {
             if ((event as CalendarEventItem).itemType ==
-                CalendarEventItemType.link)
+                CalendarEventItemType.link) {
               linkCnt++;
-            if (event.itemType == CalendarEventItemType.purchase) purchaseCnt++;
-            if (event.itemType == CalendarEventItemType.note) noteCnt++;
+            }
+            if (event.itemType == CalendarEventItemType.purchase) {
+              purchaseCnt++;
+            }
+            if (event.itemType == CalendarEventItemType.note) {
+              noteCnt++;
+            }
           }).toList();
           return Row(
             mainAxisAlignment: MainAxisAlignment.center,
