@@ -286,7 +286,7 @@ void main() {
           if (dateFinder.evaluate().isNotEmpty) {
             await tester.tap(dateFinder.first);
             await tester.pumpAndSettle();
-            print('  ✓ ${dateStr}日をタップ');
+            print('  ✓ $dateStr日をタップ');
           }
         }
 
@@ -310,7 +310,7 @@ void main() {
           if (dateFinder.evaluate().isNotEmpty) {
             await tester.tap(dateFinder.first);
             await tester.pumpAndSettle();
-            print('  ✓ 翌月の${dateStr}日をタップ');
+            print('  ✓ 翌月の$dateStr日をタップ');
           }
         }
 

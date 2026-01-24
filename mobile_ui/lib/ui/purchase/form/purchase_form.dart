@@ -90,7 +90,7 @@ class _PurchaseForm extends ConsumerState<PurchaseForm> {
             SizedBox(height: 20),
             // >> Category selector {{{
             DropdownButtonFormField(
-              value: dropdownformfieldValue,
+              initialValue: dropdownformfieldValue,
               decoration: InputDecoration(
                 labelText: 'Category',
                 prefixIcon: Icon(Icons.category),
