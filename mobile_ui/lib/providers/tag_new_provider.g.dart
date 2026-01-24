@@ -6,36 +6,108 @@ part of 'tag_new_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
+// ignore_for_file: type=lint, type=warning
+
+@ProviderFor(TagNewName)
+final tagNewNameProvider = TagNewNameProvider._();
+
+final class TagNewNameProvider extends $NotifierProvider<TagNewName, String> {
+  TagNewNameProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'tagNewNameProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$tagNewNameHash();
+
+  @$internal
+  @override
+  TagNewName create() => TagNewName();
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(String value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<String>(value),
+    );
+  }
+}
+
 String _$tagNewNameHash() => r'66aca1900bc687f78f09f3480371f2b6c8f5e582';
 
-/// See also [TagNewName].
-@ProviderFor(TagNewName)
-final tagNewNameProvider =
-    AutoDisposeNotifierProvider<TagNewName, String>.internal(
-  TagNewName.new,
-  name: r'tagNewNameProvider',
-  debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$tagNewNameHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
+abstract class _$TagNewName extends $Notifier<String> {
+  String build();
+  @$mustCallSuper
+  @override
+  void runBuild() {
+    final ref = this.ref as $Ref<String, String>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<String, String>,
+              String,
+              Object?,
+              Object?
+            >;
+    element.handleCreate(ref, build);
+  }
+}
 
-typedef _$TagNewName = AutoDisposeNotifier<String>;
+@ProviderFor(TagNewDescription)
+final tagNewDescriptionProvider = TagNewDescriptionProvider._();
+
+final class TagNewDescriptionProvider
+    extends $NotifierProvider<TagNewDescription, String> {
+  TagNewDescriptionProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'tagNewDescriptionProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$tagNewDescriptionHash();
+
+  @$internal
+  @override
+  TagNewDescription create() => TagNewDescription();
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(String value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<String>(value),
+    );
+  }
+}
+
 String _$tagNewDescriptionHash() => r'e7db906b742f6309bc3cb08fb8fd6d4e0c3ad25b';
 
-/// See also [TagNewDescription].
-@ProviderFor(TagNewDescription)
-final tagNewDescriptionProvider =
-    AutoDisposeNotifierProvider<TagNewDescription, String>.internal(
-  TagNewDescription.new,
-  name: r'tagNewDescriptionProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$tagNewDescriptionHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
-
-typedef _$TagNewDescription = AutoDisposeNotifier<String>;
-// ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package
+abstract class _$TagNewDescription extends $Notifier<String> {
+  String build();
+  @$mustCallSuper
+  @override
+  void runBuild() {
+    final ref = this.ref as $Ref<String, String>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<String, String>,
+              String,
+              Object?,
+              Object?
+            >;
+    element.handleCreate(ref, build);
+  }
+}

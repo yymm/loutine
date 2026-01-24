@@ -15,6 +15,7 @@ class CategoryList extends _$CategoryList {
     final resBody = await apiClient.post(name, description);
     final Map<String, dynamic> decodedString = json.decode(resBody);
     final category = Category.fromJson(decodedString);
+    if (!ref.mounted) return;
     state = [...state, category];
   }
 
@@ -25,12 +26,13 @@ class CategoryList extends _$CategoryList {
     final categoryList = categorysJson.map((category) {
       return Category.fromJson(category);
     }).toList();
+    if (!ref.mounted) return categoryList;
     state = categoryList;
     return categoryList;
   }
 }
 
 @riverpod
-Future<List<Category>> categoryListFuture(CategoryListFutureRef ref) async {
+Future<List<Category>> categoryListFuture(Ref ref) async {
   return ref.read(categoryListProvider.notifier).getList();
 }

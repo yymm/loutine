@@ -6,37 +6,94 @@ part of 'tag_list_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$tagListFutureHash() => r'94032200e5ed46d2541f071a5d2b81084000a205';
+// GENERATED CODE - DO NOT MODIFY BY HAND
+// ignore_for_file: type=lint, type=warning
 
-/// See also [tagListFuture].
-@ProviderFor(tagListFuture)
-final tagListFutureProvider = AutoDisposeFutureProvider<List<Tag>>.internal(
-  tagListFuture,
-  name: r'tagListFutureProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$tagListFutureHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
+@ProviderFor(TagList)
+final tagListProvider = TagListProvider._();
 
-@Deprecated('Will be removed in 3.0. Use Ref instead')
-// ignore: unused_element
-typedef TagListFutureRef = AutoDisposeFutureProviderRef<List<Tag>>;
+final class TagListProvider extends $NotifierProvider<TagList, List<Tag>> {
+  TagListProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'tagListProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$tagListHash();
+
+  @$internal
+  @override
+  TagList create() => TagList();
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(List<Tag> value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<List<Tag>>(value),
+    );
+  }
+}
+
 String _$tagListHash() => r'952eb6ab0e8193a686dcaefe84cc0f3dc8352fe4';
 
-/// See also [TagList].
-@ProviderFor(TagList)
-final tagListProvider =
-    AutoDisposeNotifierProvider<TagList, List<Tag>>.internal(
-  TagList.new,
-  name: r'tagListProvider',
-  debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$tagListHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
+abstract class _$TagList extends $Notifier<List<Tag>> {
+  List<Tag> build();
+  @$mustCallSuper
+  @override
+  void runBuild() {
+    final ref = this.ref as $Ref<List<Tag>, List<Tag>>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<List<Tag>, List<Tag>>,
+              List<Tag>,
+              Object?,
+              Object?
+            >;
+    element.handleCreate(ref, build);
+  }
+}
 
-typedef _$TagList = AutoDisposeNotifier<List<Tag>>;
-// ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package
+@ProviderFor(tagListFuture)
+final tagListFutureProvider = TagListFutureProvider._();
+
+final class TagListFutureProvider
+    extends
+        $FunctionalProvider<
+          AsyncValue<List<Tag>>,
+          List<Tag>,
+          FutureOr<List<Tag>>
+        >
+    with $FutureModifier<List<Tag>>, $FutureProvider<List<Tag>> {
+  TagListFutureProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'tagListFutureProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$tagListFutureHash();
+
+  @$internal
+  @override
+  $FutureProviderElement<List<Tag>> $createElement($ProviderPointer pointer) =>
+      $FutureProviderElement(pointer);
+
+  @override
+  FutureOr<List<Tag>> create(Ref ref) {
+    return tagListFuture(ref);
+  }
+}
+
+String _$tagListFutureHash() => r'5ac7190cf6e593fe29f31f2c566d2910f34dc9df';
