@@ -42,7 +42,7 @@ final class CalendarStateManagerProvider
 }
 
 String _$calendarStateManagerHash() =>
-    r'a12b61782a121b9800aaca109ad91a455c8fc635';
+    r'0cf3833dd4f09aa71c4477a0be1709b0e6e1ee0c';
 
 abstract class _$CalendarStateManager extends $Notifier<CalendarState> {
   CalendarState build();

@@ -8,11 +8,29 @@ part of 'tag_list_provider.dart';
 
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint, type=warning
+/// タグ一覧の状態を管理するProvider
+///
+/// 変更点:
+/// - APIクライアントを直接使わず、Repositoryを経由してデータ取得
+/// - JSONパース処理はRepositoryに委譲
+/// - Providerはデータの状態管理に専念
 
 @ProviderFor(TagList)
 final tagListProvider = TagListProvider._();
 
+/// タグ一覧の状態を管理するProvider
+///
+/// 変更点:
+/// - APIクライアントを直接使わず、Repositoryを経由してデータ取得
+/// - JSONパース処理はRepositoryに委譲
+/// - Providerはデータの状態管理に専念
 final class TagListProvider extends $NotifierProvider<TagList, List<Tag>> {
+  /// タグ一覧の状態を管理するProvider
+  ///
+  /// 変更点:
+  /// - APIクライアントを直接使わず、Repositoryを経由してデータ取得
+  /// - JSONパース処理はRepositoryに委譲
+  /// - Providerはデータの状態管理に専念
   TagListProvider._()
     : super(
         from: null,
@@ -40,7 +58,14 @@ final class TagListProvider extends $NotifierProvider<TagList, List<Tag>> {
   }
 }
 
-String _$tagListHash() => r'952eb6ab0e8193a686dcaefe84cc0f3dc8352fe4';
+String _$tagListHash() => r'5bab37ea692e1905270c28bd88ff9972ec64aae5';
+
+/// タグ一覧の状態を管理するProvider
+///
+/// 変更点:
+/// - APIクライアントを直接使わず、Repositoryを経由してデータ取得
+/// - JSONパース処理はRepositoryに委譲
+/// - Providerはデータの状態管理に専念
 
 abstract class _$TagList extends $Notifier<List<Tag>> {
   List<Tag> build();
@@ -60,8 +85,16 @@ abstract class _$TagList extends $Notifier<List<Tag>> {
   }
 }
 
+/// タグ一覧をFutureとして提供するProvider
+///
+/// 初回表示時などに使用
+
 @ProviderFor(tagListFuture)
 final tagListFutureProvider = TagListFutureProvider._();
+
+/// タグ一覧をFutureとして提供するProvider
+///
+/// 初回表示時などに使用
 
 final class TagListFutureProvider
     extends
@@ -71,6 +104,9 @@ final class TagListFutureProvider
           FutureOr<List<Tag>>
         >
     with $FutureModifier<List<Tag>>, $FutureProvider<List<Tag>> {
+  /// タグ一覧をFutureとして提供するProvider
+  ///
+  /// 初回表示時などに使用
   TagListFutureProvider._()
     : super(
         from: null,
