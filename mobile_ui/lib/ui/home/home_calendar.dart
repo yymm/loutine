@@ -8,8 +8,7 @@ class HomeCalendarWidget extends ConsumerStatefulWidget {
   const HomeCalendarWidget({super.key});
 
   @override
-  ConsumerState<HomeCalendarWidget> createState() =>
-      _HomeCalendarWidgetState();
+  ConsumerState<HomeCalendarWidget> createState() => _HomeCalendarWidgetState();
 }
 
 class _HomeCalendarWidgetState extends ConsumerState<HomeCalendarWidget> {
@@ -47,8 +46,11 @@ class _HomeCalendarWidgetState extends ConsumerState<HomeCalendarWidget> {
       },
       onDaySelected: (selectedDay, focusDay) {
         ref.read(calendarFocusDayProvider.notifier).change(selectedDay);
-        final localSelectedDay =
-            DateTime(selectedDay.year, selectedDay.month, selectedDay.day);
+        final localSelectedDay = DateTime(
+          selectedDay.year,
+          selectedDay.month,
+          selectedDay.day,
+        );
         ref
             .read(calendarEventListProvider.notifier)
             .change(calendarState.calendarEvents[localSelectedDay] ?? []);
