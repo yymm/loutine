@@ -26,15 +26,15 @@ final class TagApiClientProvider
   ///
   /// テスト時はこのProviderをオーバーライドしてモックを注入できる
   TagApiClientProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'tagApiClientProvider',
-          isAutoDispose: true,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'tagApiClientProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
   @override
   String debugGetCreateSourceHash() => _$tagApiClientHash();
@@ -81,15 +81,15 @@ final class TagRepositoryProvider
   /// tagApiClientProviderに依存しており、
   /// APIクライアントを自動的に注入する
   TagRepositoryProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'tagRepositoryProvider',
-          isAutoDispose: true,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'tagRepositoryProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
   @override
   String debugGetCreateSourceHash() => _$tagRepositoryHash();
@@ -126,23 +126,27 @@ final categoryApiClientProvider = CategoryApiClientProvider._();
 ///
 /// テスト時はこのProviderをオーバーライドしてモックを注入できる
 
-final class CategoryApiClientProvider extends $FunctionalProvider<
-    CategoryApiClient,
-    CategoryApiClient,
-    CategoryApiClient> with $Provider<CategoryApiClient> {
+final class CategoryApiClientProvider
+    extends
+        $FunctionalProvider<
+          CategoryApiClient,
+          CategoryApiClient,
+          CategoryApiClient
+        >
+    with $Provider<CategoryApiClient> {
   /// CategoryApiClientのインスタンスを提供
   ///
   /// テスト時はこのProviderをオーバーライドしてモックを注入できる
   CategoryApiClientProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'categoryApiClientProvider',
-          isAutoDispose: true,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'categoryApiClientProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
   @override
   String debugGetCreateSourceHash() => _$categoryApiClientHash();
@@ -151,8 +155,7 @@ final class CategoryApiClientProvider extends $FunctionalProvider<
   @override
   $ProviderElement<CategoryApiClient> $createElement(
     $ProviderPointer pointer,
-  ) =>
-      $ProviderElement(pointer);
+  ) => $ProviderElement(pointer);
 
   @override
   CategoryApiClient create(Ref ref) {
@@ -183,24 +186,28 @@ final categoryRepositoryProvider = CategoryRepositoryProvider._();
 /// categoryApiClientProviderに依存しており、
 /// APIクライアントを自動的に注入する
 
-final class CategoryRepositoryProvider extends $FunctionalProvider<
-    CategoryRepository,
-    CategoryRepository,
-    CategoryRepository> with $Provider<CategoryRepository> {
+final class CategoryRepositoryProvider
+    extends
+        $FunctionalProvider<
+          CategoryRepository,
+          CategoryRepository,
+          CategoryRepository
+        >
+    with $Provider<CategoryRepository> {
   /// CategoryRepositoryのインスタンスを提供
   ///
   /// categoryApiClientProviderに依存しており、
   /// APIクライアントを自動的に注入する
   CategoryRepositoryProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'categoryRepositoryProvider',
-          isAutoDispose: true,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'categoryRepositoryProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
   @override
   String debugGetCreateSourceHash() => _$categoryRepositoryHash();
@@ -209,8 +216,7 @@ final class CategoryRepositoryProvider extends $FunctionalProvider<
   @override
   $ProviderElement<CategoryRepository> $createElement(
     $ProviderPointer pointer,
-  ) =>
-      $ProviderElement(pointer);
+  ) => $ProviderElement(pointer);
 
   @override
   CategoryRepository create(Ref ref) {

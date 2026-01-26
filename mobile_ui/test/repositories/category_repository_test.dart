@@ -74,7 +74,8 @@ void main() {
         // Arrange
         const name = '新しいカテゴリ';
         const description = '新しい説明';
-        final jsonResponse = '''
+        final jsonResponse =
+            '''
         {
           "id": 3,
           "name": "$name",
@@ -84,8 +85,9 @@ void main() {
         }
         ''';
 
-        when(() => mockApiClient.post(name, description))
-            .thenAnswer((_) async => jsonResponse);
+        when(
+          () => mockApiClient.post(name, description),
+        ).thenAnswer((_) async => jsonResponse);
 
         // Act
         final category = await repository.createCategory(name, description);
