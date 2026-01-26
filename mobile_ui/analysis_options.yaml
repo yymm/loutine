@@ -27,6 +27,8 @@ linter:
 analyzer:
   plugins:
     - custom_lint
+  errors:
+    invalid_annotation_target: ignore # due to https://github.com/rrousselGit/freezed/issues/488
 
 # Additional information about this file can be found at
 # https://dart.dev/guides/language/analysis-options
