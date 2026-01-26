@@ -114,3 +114,123 @@ final class TagRepositoryProvider
 }
 
 String _$tagRepositoryHash() => r'24cc9c879dfd5bc4d6dcd9a93ea7806e821e7a02';
+
+/// CategoryApiClientのインスタンスを提供
+///
+/// テスト時はこのProviderをオーバーライドしてモックを注入できる
+
+@ProviderFor(categoryApiClient)
+final categoryApiClientProvider = CategoryApiClientProvider._();
+
+/// CategoryApiClientのインスタンスを提供
+///
+/// テスト時はこのProviderをオーバーライドしてモックを注入できる
+
+final class CategoryApiClientProvider
+    extends
+        $FunctionalProvider<
+          CategoryApiClient,
+          CategoryApiClient,
+          CategoryApiClient
+        >
+    with $Provider<CategoryApiClient> {
+  /// CategoryApiClientのインスタンスを提供
+  ///
+  /// テスト時はこのProviderをオーバーライドしてモックを注入できる
+  CategoryApiClientProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'categoryApiClientProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$categoryApiClientHash();
+
+  @$internal
+  @override
+  $ProviderElement<CategoryApiClient> $createElement(
+    $ProviderPointer pointer,
+  ) => $ProviderElement(pointer);
+
+  @override
+  CategoryApiClient create(Ref ref) {
+    return categoryApiClient(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(CategoryApiClient value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<CategoryApiClient>(value),
+    );
+  }
+}
+
+String _$categoryApiClientHash() => r'd1a0720ee14e42a25d3ca8b36daa82729f09cbcd';
+
+/// CategoryRepositoryのインスタンスを提供
+///
+/// categoryApiClientProviderに依存しており、
+/// APIクライアントを自動的に注入する
+
+@ProviderFor(categoryRepository)
+final categoryRepositoryProvider = CategoryRepositoryProvider._();
+
+/// CategoryRepositoryのインスタンスを提供
+///
+/// categoryApiClientProviderに依存しており、
+/// APIクライアントを自動的に注入する
+
+final class CategoryRepositoryProvider
+    extends
+        $FunctionalProvider<
+          CategoryRepository,
+          CategoryRepository,
+          CategoryRepository
+        >
+    with $Provider<CategoryRepository> {
+  /// CategoryRepositoryのインスタンスを提供
+  ///
+  /// categoryApiClientProviderに依存しており、
+  /// APIクライアントを自動的に注入する
+  CategoryRepositoryProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'categoryRepositoryProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$categoryRepositoryHash();
+
+  @$internal
+  @override
+  $ProviderElement<CategoryRepository> $createElement(
+    $ProviderPointer pointer,
+  ) => $ProviderElement(pointer);
+
+  @override
+  CategoryRepository create(Ref ref) {
+    return categoryRepository(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(CategoryRepository value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<CategoryRepository>(value),
+    );
+  }
+}
+
+String _$categoryRepositoryHash() =>
+    r'24c02982de576f7565d8804ab24f8d01297552ec';
