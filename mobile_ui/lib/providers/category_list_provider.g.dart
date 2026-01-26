@@ -8,12 +8,30 @@ part of 'category_list_provider.dart';
 
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint, type=warning
+/// カテゴリ一覧の状態を管理するProvider
+///
+/// 変更点:
+/// - APIクライアントを直接使わず、Repositoryを経由してデータ取得
+/// - JSONパース処理はRepositoryに委譲
+/// - Providerはデータの状態管理に専念
 
 @ProviderFor(CategoryList)
 final categoryListProvider = CategoryListProvider._();
 
+/// カテゴリ一覧の状態を管理するProvider
+///
+/// 変更点:
+/// - APIクライアントを直接使わず、Repositoryを経由してデータ取得
+/// - JSONパース処理はRepositoryに委譲
+/// - Providerはデータの状態管理に専念
 final class CategoryListProvider
     extends $NotifierProvider<CategoryList, List<Category>> {
+  /// カテゴリ一覧の状態を管理するProvider
+  ///
+  /// 変更点:
+  /// - APIクライアントを直接使わず、Repositoryを経由してデータ取得
+  /// - JSONパース処理はRepositoryに委譲
+  /// - Providerはデータの状態管理に専念
   CategoryListProvider._()
     : super(
         from: null,
@@ -41,7 +59,14 @@ final class CategoryListProvider
   }
 }
 
-String _$categoryListHash() => r'aa68dcf755959f2606cda3d2dc9baaf256150916';
+String _$categoryListHash() => r'5880d994e84d476b2c018e242f7aaa4da96222a7';
+
+/// カテゴリ一覧の状態を管理するProvider
+///
+/// 変更点:
+/// - APIクライアントを直接使わず、Repositoryを経由してデータ取得
+/// - JSONパース処理はRepositoryに委譲
+/// - Providerはデータの状態管理に専念
 
 abstract class _$CategoryList extends $Notifier<List<Category>> {
   List<Category> build();
@@ -61,8 +86,16 @@ abstract class _$CategoryList extends $Notifier<List<Category>> {
   }
 }
 
+/// カテゴリ一覧をFutureとして提供するProvider
+///
+/// 初回表示時などに使用
+
 @ProviderFor(categoryListFuture)
 final categoryListFutureProvider = CategoryListFutureProvider._();
+
+/// カテゴリ一覧をFutureとして提供するProvider
+///
+/// 初回表示時などに使用
 
 final class CategoryListFutureProvider
     extends
@@ -72,6 +105,9 @@ final class CategoryListFutureProvider
           FutureOr<List<Category>>
         >
     with $FutureModifier<List<Category>>, $FutureProvider<List<Category>> {
+  /// カテゴリ一覧をFutureとして提供するProvider
+  ///
+  /// 初回表示時などに使用
   CategoryListFutureProvider._()
     : super(
         from: null,

@@ -25,6 +25,9 @@ jobs:
           flutter-version: '3.38.7'
           cache: true
       
+      - name: Get dependencies
+        run: flutter pub get
+      
       - name: Check Dart formatting
         run: dart format --set-exit-if-changed .
         
