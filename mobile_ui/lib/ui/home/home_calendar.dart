@@ -39,16 +39,19 @@ class _HomeCalendarWidgetState extends ConsumerState<HomeCalendarWidget> {
         ref.read(calendarFormatManagerProvider.notifier).change(format);
       },
       eventLoader: (date) {
-        return calendarState.calendarEvents[date] ?? [];
+        final localDate = DateTime(date.year, date.month, date.day);
+        return calendarState.calendarEvents[localDate] ?? [];
       },
       selectedDayPredicate: (day) {
         return isSameDay(focusDay, day);
       },
       onDaySelected: (selectedDay, focusDay) {
         ref.read(calendarFocusDayProvider.notifier).change(selectedDay);
+        final localSelectedDay =
+            DateTime(selectedDay.year, selectedDay.month, selectedDay.day);
         ref
             .read(calendarEventListProvider.notifier)
-            .change(calendarState.calendarEvents[selectedDay] ?? []);
+            .change(calendarState.calendarEvents[localSelectedDay] ?? []);
       },
       onPageChanged: (focusedDay) {
         ref.read(calendarFocusDayProvider.notifier).change(focusedDay);
