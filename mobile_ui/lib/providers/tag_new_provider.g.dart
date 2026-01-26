@@ -48,7 +48,8 @@ abstract class _$TagNewName extends $Notifier<String> {
   @override
   void runBuild() {
     final ref = this.ref as $Ref<String, String>;
-    final element = ref.element as $ClassProviderElement<AnyNotifier<String, String>, String, Object?, Object?>;
+    final element = ref.element as $ClassProviderElement<
+        AnyNotifier<String, String>, String, Object?, Object?>;
     element.handleCreate(ref, build);
   }
 }
@@ -56,7 +57,8 @@ abstract class _$TagNewName extends $Notifier<String> {
 @ProviderFor(TagNewDescription)
 final tagNewDescriptionProvider = TagNewDescriptionProvider._();
 
-final class TagNewDescriptionProvider extends $NotifierProvider<TagNewDescription, String> {
+final class TagNewDescriptionProvider
+    extends $NotifierProvider<TagNewDescription, String> {
   TagNewDescriptionProvider._()
       : super(
           from: null,
@@ -92,7 +94,8 @@ abstract class _$TagNewDescription extends $Notifier<String> {
   @override
   void runBuild() {
     final ref = this.ref as $Ref<String, String>;
-    final element = ref.element as $ClassProviderElement<AnyNotifier<String, String>, String, Object?, Object?>;
+    final element = ref.element as $ClassProviderElement<
+        AnyNotifier<String, String>, String, Object?, Object?>;
     element.handleCreate(ref, build);
   }
 }

@@ -72,7 +72,8 @@ class _LinkForm extends ConsumerState<LinkForm> {
             // >> Paste from clipboard {{{
             TextButton(
               onPressed: () async {
-                final pastedUrl = await ref.read(linkNewProvider.notifier).pasteByClipBoard();
+                final pastedUrl =
+                    await ref.read(linkNewProvider.notifier).pasteByClipBoard();
                 _urlController.value = _urlController.value.copyWith(
                   text: pastedUrl,
                 );
@@ -106,7 +107,8 @@ class _LinkForm extends ConsumerState<LinkForm> {
             // >> Get title via url {{{
             TextButton(
               onPressed: () async {
-                final String titleViaUrl = await ref.read(linkNewProvider.notifier).getTitleFromUrl();
+                final String titleViaUrl =
+                    await ref.read(linkNewProvider.notifier).getTitleFromUrl();
                 _titleController.value = _titleController.value.copyWith(
                   text: titleViaUrl,
                 );
@@ -161,9 +163,14 @@ class _LinkForm extends ConsumerState<LinkForm> {
             ElevatedButton(
               onPressed: () {
                 if (!_formKey.currentState!.validate()) return;
-                final tagIds = _tabController.selectedItems.map((v) => int.parse(v.value)).toList();
+                final tagIds = _tabController.selectedItems
+                    .map((v) => int.parse(v.value))
+                    .toList();
                 // final categoryId = dropdownformfieldValue != null ? int.parse(dropdownformfieldValue!) : null;
-                ref.read(linkNewProvider.notifier).add(tagIds: tagIds).then((v) {
+                ref
+                    .read(linkNewProvider.notifier)
+                    .add(tagIds: tagIds)
+                    .then((v) {
                   ref.read(linkNewProvider.notifier).reset();
                   _urlController.clear();
                   _titleController.clear();

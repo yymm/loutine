@@ -58,7 +58,9 @@ class _PurchaseForm extends ConsumerState<PurchaseForm> {
                 return null;
               },
               onChanged: (numberString) {
-                ref.read(purchaseNewProvider.notifier).changeCost(double.parse(numberString));
+                ref
+                    .read(purchaseNewProvider.notifier)
+                    .changeCost(double.parse(numberString));
               },
             ),
             // }}}
@@ -113,8 +115,13 @@ class _PurchaseForm extends ConsumerState<PurchaseForm> {
             ElevatedButton(
               onPressed: () {
                 if (!_formKey.currentState!.validate()) return;
-                final categoryId = dropdownformfieldValue != null ? int.parse(dropdownformfieldValue!) : null;
-                ref.read(purchaseNewProvider.notifier).add(categoryId: categoryId).then((v) {
+                final categoryId = dropdownformfieldValue != null
+                    ? int.parse(dropdownformfieldValue!)
+                    : null;
+                ref
+                    .read(purchaseNewProvider.notifier)
+                    .add(categoryId: categoryId)
+                    .then((v) {
                   ref.read(purchaseNewProvider.notifier).reset();
                   _costController.clear();
                   _titleController.clear();

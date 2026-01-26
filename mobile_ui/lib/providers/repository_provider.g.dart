@@ -19,7 +19,9 @@ final tagApiClientProvider = TagApiClientProvider._();
 ///
 /// テスト時はこのProviderをオーバーライドしてモックを注入できる
 
-final class TagApiClientProvider extends $FunctionalProvider<TagApiClient, TagApiClient, TagApiClient> with $Provider<TagApiClient> {
+final class TagApiClientProvider
+    extends $FunctionalProvider<TagApiClient, TagApiClient, TagApiClient>
+    with $Provider<TagApiClient> {
   /// TagApiClientのインスタンスを提供
   ///
   /// テスト時はこのProviderをオーバーライドしてモックを注入できる
@@ -39,7 +41,8 @@ final class TagApiClientProvider extends $FunctionalProvider<TagApiClient, TagAp
 
   @$internal
   @override
-  $ProviderElement<TagApiClient> $createElement($ProviderPointer pointer) => $ProviderElement(pointer);
+  $ProviderElement<TagApiClient> $createElement($ProviderPointer pointer) =>
+      $ProviderElement(pointer);
 
   @override
   TagApiClient create(Ref ref) {
@@ -70,7 +73,9 @@ final tagRepositoryProvider = TagRepositoryProvider._();
 /// tagApiClientProviderに依存しており、
 /// APIクライアントを自動的に注入する
 
-final class TagRepositoryProvider extends $FunctionalProvider<TagRepository, TagRepository, TagRepository> with $Provider<TagRepository> {
+final class TagRepositoryProvider
+    extends $FunctionalProvider<TagRepository, TagRepository, TagRepository>
+    with $Provider<TagRepository> {
   /// TagRepositoryのインスタンスを提供
   ///
   /// tagApiClientProviderに依存しており、
@@ -91,7 +96,8 @@ final class TagRepositoryProvider extends $FunctionalProvider<TagRepository, Tag
 
   @$internal
   @override
-  $ProviderElement<TagRepository> $createElement($ProviderPointer pointer) => $ProviderElement(pointer);
+  $ProviderElement<TagRepository> $createElement($ProviderPointer pointer) =>
+      $ProviderElement(pointer);
 
   @override
   TagRepository create(Ref ref) {
@@ -120,7 +126,10 @@ final categoryApiClientProvider = CategoryApiClientProvider._();
 ///
 /// テスト時はこのProviderをオーバーライドしてモックを注入できる
 
-final class CategoryApiClientProvider extends $FunctionalProvider<CategoryApiClient, CategoryApiClient, CategoryApiClient> with $Provider<CategoryApiClient> {
+final class CategoryApiClientProvider extends $FunctionalProvider<
+    CategoryApiClient,
+    CategoryApiClient,
+    CategoryApiClient> with $Provider<CategoryApiClient> {
   /// CategoryApiClientのインスタンスを提供
   ///
   /// テスト時はこのProviderをオーバーライドしてモックを注入できる
@@ -174,7 +183,10 @@ final categoryRepositoryProvider = CategoryRepositoryProvider._();
 /// categoryApiClientProviderに依存しており、
 /// APIクライアントを自動的に注入する
 
-final class CategoryRepositoryProvider extends $FunctionalProvider<CategoryRepository, CategoryRepository, CategoryRepository> with $Provider<CategoryRepository> {
+final class CategoryRepositoryProvider extends $FunctionalProvider<
+    CategoryRepository,
+    CategoryRepository,
+    CategoryRepository> with $Provider<CategoryRepository> {
   /// CategoryRepositoryのインスタンスを提供
   ///
   /// categoryApiClientProviderに依存しており、
@@ -214,4 +226,5 @@ final class CategoryRepositoryProvider extends $FunctionalProvider<CategoryRepos
   }
 }
 
-String _$categoryRepositoryHash() => r'24c02982de576f7565d8804ab24f8d01297552ec';
+String _$categoryRepositoryHash() =>
+    r'24c02982de576f7565d8804ab24f8d01297552ec';

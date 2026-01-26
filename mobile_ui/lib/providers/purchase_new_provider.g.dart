@@ -12,7 +12,8 @@ part of 'purchase_new_provider.dart';
 @ProviderFor(PurchaseNew)
 final purchaseNewProvider = PurchaseNewProvider._();
 
-final class PurchaseNewProvider extends $NotifierProvider<PurchaseNew, PurchaseNewData> {
+final class PurchaseNewProvider
+    extends $NotifierProvider<PurchaseNew, PurchaseNewData> {
   PurchaseNewProvider._()
       : super(
           from: null,
@@ -48,7 +49,11 @@ abstract class _$PurchaseNew extends $Notifier<PurchaseNewData> {
   @override
   void runBuild() {
     final ref = this.ref as $Ref<PurchaseNewData, PurchaseNewData>;
-    final element = ref.element as $ClassProviderElement<AnyNotifier<PurchaseNewData, PurchaseNewData>, PurchaseNewData, Object?, Object?>;
+    final element = ref.element as $ClassProviderElement<
+        AnyNotifier<PurchaseNewData, PurchaseNewData>,
+        PurchaseNewData,
+        Object?,
+        Object?>;
     element.handleCreate(ref, build);
   }
 }

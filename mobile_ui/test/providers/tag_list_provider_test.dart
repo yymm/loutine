@@ -94,7 +94,8 @@ void main() {
             updatedAt: now,
           ),
         ];
-        when(() => mockRepository.fetchTags()).thenAnswer((_) async => mockTags);
+        when(() => mockRepository.fetchTags())
+            .thenAnswer((_) async => mockTags);
 
         // ProviderContainerでRepositoryをオーバーライド
         final container = ProviderContainer(
@@ -130,7 +131,8 @@ void main() {
           createdAt: now,
           updatedAt: now,
         );
-        when(() => mockRepository.createTag('新規タグ', '新規説明')).thenAnswer((_) async => newTag);
+        when(() => mockRepository.createTag('新規タグ', '新規説明'))
+            .thenAnswer((_) async => newTag);
 
         final container = ProviderContainer(
           overrides: [

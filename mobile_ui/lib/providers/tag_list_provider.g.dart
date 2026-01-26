@@ -73,7 +73,8 @@ abstract class _$TagList extends $Notifier<List<Tag>> {
   @override
   void runBuild() {
     final ref = this.ref as $Ref<List<Tag>, List<Tag>>;
-    final element = ref.element as $ClassProviderElement<AnyNotifier<List<Tag>, List<Tag>>, List<Tag>, Object?, Object?>;
+    final element = ref.element as $ClassProviderElement<
+        AnyNotifier<List<Tag>, List<Tag>>, List<Tag>, Object?, Object?>;
     element.handleCreate(ref, build);
   }
 }
@@ -89,7 +90,9 @@ final tagListFutureProvider = TagListFutureProvider._();
 ///
 /// 初回表示時などに使用
 
-final class TagListFutureProvider extends $FunctionalProvider<AsyncValue<List<Tag>>, List<Tag>, FutureOr<List<Tag>>> with $FutureModifier<List<Tag>>, $FutureProvider<List<Tag>> {
+final class TagListFutureProvider extends $FunctionalProvider<
+        AsyncValue<List<Tag>>, List<Tag>, FutureOr<List<Tag>>>
+    with $FutureModifier<List<Tag>>, $FutureProvider<List<Tag>> {
   /// タグ一覧をFutureとして提供するProvider
   ///
   /// 初回表示時などに使用
@@ -109,7 +112,8 @@ final class TagListFutureProvider extends $FunctionalProvider<AsyncValue<List<Ta
 
   @$internal
   @override
-  $FutureProviderElement<List<Tag>> $createElement($ProviderPointer pointer) => $FutureProviderElement(pointer);
+  $FutureProviderElement<List<Tag>> $createElement($ProviderPointer pointer) =>
+      $FutureProviderElement(pointer);
 
   @override
   FutureOr<List<Tag>> create(Ref ref) {

@@ -22,7 +22,9 @@ class CategoryRepository {
   Future<List<Category>> fetchCategories() async {
     final resBody = await _apiClient.list();
     final List<dynamic> json = jsonDecode(resBody);
-    return json.map((e) => Category.fromJson(e as Map<String, dynamic>)).toList();
+    return json
+        .map((e) => Category.fromJson(e as Map<String, dynamic>))
+        .toList();
   }
 
   /// 新しいカテゴリを作成

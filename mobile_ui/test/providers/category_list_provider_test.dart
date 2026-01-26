@@ -94,7 +94,8 @@ void main() {
             updatedAt: now,
           ),
         ];
-        when(() => mockRepository.fetchCategories()).thenAnswer((_) async => mockCategories);
+        when(() => mockRepository.fetchCategories())
+            .thenAnswer((_) async => mockCategories);
 
         // ProviderContainerでRepositoryをオーバーライド
         final container = ProviderContainer(
@@ -105,7 +106,8 @@ void main() {
         addTearDown(container.dispose);
 
         // Act: getList()を実行
-        final result = await container.read(categoryListProvider.notifier).getList();
+        final result =
+            await container.read(categoryListProvider.notifier).getList();
 
         // Assert: 正しく状態が更新されているか検証
         expect(result.length, 2);
@@ -130,7 +132,8 @@ void main() {
           createdAt: now,
           updatedAt: now,
         );
-        when(() => mockRepository.createCategory('新規カテゴリ', '新規説明')).thenAnswer((_) async => newCategory);
+        when(() => mockRepository.createCategory('新規カテゴリ', '新規説明'))
+            .thenAnswer((_) async => newCategory);
 
         final container = ProviderContainer(
           overrides: [
@@ -147,10 +150,14 @@ void main() {
           createdAt: now,
           updatedAt: now,
         );
-        container.read(categoryListProvider.notifier).state = [existingCategory];
+        container.read(categoryListProvider.notifier).state = [
+          existingCategory
+        ];
 
         // Act
-        await container.read(categoryListProvider.notifier).add('新規カテゴリ', '新規説明');
+        await container
+            .read(categoryListProvider.notifier)
+            .add('新規カテゴリ', '新規説明');
 
         // Assert
         final state = container.read(categoryListProvider);

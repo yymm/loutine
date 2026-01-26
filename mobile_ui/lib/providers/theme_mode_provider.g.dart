@@ -12,7 +12,8 @@ part of 'theme_mode_provider.dart';
 @ProviderFor(ThemeModeManager)
 final themeModeManagerProvider = ThemeModeManagerProvider._();
 
-final class ThemeModeManagerProvider extends $NotifierProvider<ThemeModeManager, ThemeMode> {
+final class ThemeModeManagerProvider
+    extends $NotifierProvider<ThemeModeManager, ThemeMode> {
   ThemeModeManagerProvider._()
       : super(
           from: null,
@@ -48,7 +49,8 @@ abstract class _$ThemeModeManager extends $Notifier<ThemeMode> {
   @override
   void runBuild() {
     final ref = this.ref as $Ref<ThemeMode, ThemeMode>;
-    final element = ref.element as $ClassProviderElement<AnyNotifier<ThemeMode, ThemeMode>, ThemeMode, Object?, Object?>;
+    final element = ref.element as $ClassProviderElement<
+        AnyNotifier<ThemeMode, ThemeMode>, ThemeMode, Object?, Object?>;
     element.handleCreate(ref, build);
   }
 }

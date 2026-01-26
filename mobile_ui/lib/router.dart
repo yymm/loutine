@@ -19,7 +19,8 @@ final GlobalKey<NavigatorState> _homeNavigationKey = GlobalKey<NavigatorState>(
 final GlobalKey<NavigatorState> _linkNavigationKey = GlobalKey<NavigatorState>(
   debugLabel: 'link',
 );
-final GlobalKey<NavigatorState> _purchaseNavigationKey = GlobalKey<NavigatorState>(debugLabel: 'purchase');
+final GlobalKey<NavigatorState> _purchaseNavigationKey =
+    GlobalKey<NavigatorState>(debugLabel: 'purchase');
 final GlobalKey<NavigatorState> _noteNavigationKey = GlobalKey<NavigatorState>(
   debugLabel: 'note',
 );

@@ -12,7 +12,8 @@ part of 'category_new_provider.dart';
 @ProviderFor(CategoryNewName)
 final categoryNewNameProvider = CategoryNewNameProvider._();
 
-final class CategoryNewNameProvider extends $NotifierProvider<CategoryNewName, String> {
+final class CategoryNewNameProvider
+    extends $NotifierProvider<CategoryNewName, String> {
   CategoryNewNameProvider._()
       : super(
           from: null,
@@ -48,7 +49,8 @@ abstract class _$CategoryNewName extends $Notifier<String> {
   @override
   void runBuild() {
     final ref = this.ref as $Ref<String, String>;
-    final element = ref.element as $ClassProviderElement<AnyNotifier<String, String>, String, Object?, Object?>;
+    final element = ref.element as $ClassProviderElement<
+        AnyNotifier<String, String>, String, Object?, Object?>;
     element.handleCreate(ref, build);
   }
 }
@@ -56,7 +58,8 @@ abstract class _$CategoryNewName extends $Notifier<String> {
 @ProviderFor(CategoryNewDescription)
 final categoryNewDescriptionProvider = CategoryNewDescriptionProvider._();
 
-final class CategoryNewDescriptionProvider extends $NotifierProvider<CategoryNewDescription, String> {
+final class CategoryNewDescriptionProvider
+    extends $NotifierProvider<CategoryNewDescription, String> {
   CategoryNewDescriptionProvider._()
       : super(
           from: null,
@@ -84,7 +87,8 @@ final class CategoryNewDescriptionProvider extends $NotifierProvider<CategoryNew
   }
 }
 
-String _$categoryNewDescriptionHash() => r'3cb044d8549628957783673e47c238a4d30d2f66';
+String _$categoryNewDescriptionHash() =>
+    r'3cb044d8549628957783673e47c238a4d30d2f66';
 
 abstract class _$CategoryNewDescription extends $Notifier<String> {
   String build();
@@ -92,7 +96,8 @@ abstract class _$CategoryNewDescription extends $Notifier<String> {
   @override
   void runBuild() {
     final ref = this.ref as $Ref<String, String>;
-    final element = ref.element as $ClassProviderElement<AnyNotifier<String, String>, String, Object?, Object?>;
+    final element = ref.element as $ClassProviderElement<
+        AnyNotifier<String, String>, String, Object?, Object?>;
     element.handleCreate(ref, build);
   }
 }

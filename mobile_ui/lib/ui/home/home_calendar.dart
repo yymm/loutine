@@ -30,11 +30,15 @@ class HomeCalendarWidget extends ConsumerWidget {
       },
       onDaySelected: (selectedDay, focusDay) {
         ref.read(calendarFocusDayProvider.notifier).change(selectedDay);
-        ref.read(calendarEventListProvider.notifier).change(calendarState.calendarEvents[selectedDay] ?? []);
+        ref
+            .read(calendarEventListProvider.notifier)
+            .change(calendarState.calendarEvents[selectedDay] ?? []);
       },
       onPageChanged: (focusedDay) {
         ref.read(calendarFocusDayProvider.notifier).change(focusedDay);
-        ref.read(calendarStateManagerProvider.notifier).getAllEventItem(focusedDay);
+        ref
+            .read(calendarStateManagerProvider.notifier)
+            .getAllEventItem(focusedDay);
         calendarState.calendarEvents[focusedDay] ?? [];
       },
       calendarBuilders: CalendarBuilders(
@@ -44,7 +48,8 @@ class HomeCalendarWidget extends ConsumerWidget {
           int purchaseCnt = 0;
           int noteCnt = 0;
           final _ = events.map((event) {
-            if ((event as CalendarEventItem).itemType == CalendarEventItemType.link) {
+            if ((event as CalendarEventItem).itemType ==
+                CalendarEventItemType.link) {
               linkCnt++;
             }
             if (event.itemType == CalendarEventItemType.purchase) {

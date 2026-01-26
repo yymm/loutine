@@ -84,7 +84,8 @@ void main() {
         }
         ''';
 
-        when(() => mockApiClient.post(name, description)).thenAnswer((_) async => jsonResponse);
+        when(() => mockApiClient.post(name, description))
+            .thenAnswer((_) async => jsonResponse);
 
         // Act
         final tag = await repository.createTag(name, description);

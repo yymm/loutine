@@ -73,9 +73,14 @@ class CategoryNewWidget extends ConsumerWidget {
                     ElevatedButton(
                       onPressed: () {
                         if (!_formKey.currentState!.validate()) return;
-                        ref.read(categoryListProvider.notifier).add(name, description).then((v) {
+                        ref
+                            .read(categoryListProvider.notifier)
+                            .add(name, description)
+                            .then((v) {
                           ref.read(categoryNewNameProvider.notifier).reset();
-                          ref.read(categoryNewDescriptionProvider.notifier).reset();
+                          ref
+                              .read(categoryNewDescriptionProvider.notifier)
+                              .reset();
                           if (!context.mounted) return;
                           ScaffoldMessenger.of(context).showSnackBar(
                             getSnackBar(

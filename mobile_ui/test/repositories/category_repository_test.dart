@@ -84,7 +84,8 @@ void main() {
         }
         ''';
 
-        when(() => mockApiClient.post(name, description)).thenAnswer((_) async => jsonResponse);
+        when(() => mockApiClient.post(name, description))
+            .thenAnswer((_) async => jsonResponse);
 
         // Act
         final category = await repository.createCategory(name, description);

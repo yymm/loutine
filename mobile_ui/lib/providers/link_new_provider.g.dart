@@ -48,7 +48,8 @@ abstract class _$LinkNew extends $Notifier<LinkNewData> {
   @override
   void runBuild() {
     final ref = this.ref as $Ref<LinkNewData, LinkNewData>;
-    final element = ref.element as $ClassProviderElement<AnyNotifier<LinkNewData, LinkNewData>, LinkNewData, Object?, Object?>;
+    final element = ref.element as $ClassProviderElement<
+        AnyNotifier<LinkNewData, LinkNewData>, LinkNewData, Object?, Object?>;
     element.handleCreate(ref, build);
   }
 }
