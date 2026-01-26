@@ -56,9 +56,7 @@ class PurchaseApiClient {
   Future<String> post(double cost, String title, int? categoryId) async {
     final postUrl = Uri.parse('$baseUrl/api/v1/purchases');
     final headers = {'content-type': 'application/json'};
-    final bodyObject = categoryId != null
-        ? {'cost': cost, 'title': title, 'categoryId': categoryId}
-        : {'cost': cost, 'title': title};
+    final bodyObject = categoryId != null ? {'cost': cost, 'title': title, 'categoryId': categoryId} : {'cost': cost, 'title': title};
     final body = json.encode(bodyObject);
     print('PurchaseApi(post): $body');
     final res = await http.post(postUrl, headers: headers, body: body);

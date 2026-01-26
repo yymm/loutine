@@ -111,11 +111,11 @@ void main() {
         expect(result.length, 2);
         expect(result[0].name, 'リポジトリカテゴリ1');
         expect(result[1].name, 'リポジトリカテゴリ2');
-        
+
         final state = container.read(categoryListProvider);
         expect(state.length, 2);
         expect(state[0].name, 'リポジトリカテゴリ1');
-        
+
         // Repositoryが1回呼ばれたことを確認
         verify(() => mockRepository.fetchCategories()).called(1);
       });
@@ -130,8 +130,7 @@ void main() {
           createdAt: now,
           updatedAt: now,
         );
-        when(() => mockRepository.createCategory('新規カテゴリ', '新規説明'))
-            .thenAnswer((_) async => newCategory);
+        when(() => mockRepository.createCategory('新規カテゴリ', '新規説明')).thenAnswer((_) async => newCategory);
 
         final container = ProviderContainer(
           overrides: [
@@ -158,10 +157,9 @@ void main() {
         expect(state.length, 2);
         expect(state[0].name, '既存カテゴリ');
         expect(state[1].name, '新規カテゴリ');
-        
+
         verify(() => mockRepository.createCategory('新規カテゴリ', '新規説明')).called(1);
       });
     });
   });
 }
-

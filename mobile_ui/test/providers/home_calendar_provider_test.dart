@@ -54,9 +54,7 @@ void main() {
       final container = ProviderContainer();
       addTearDown(container.dispose);
 
-      container
-          .read(calendarFormatManagerProvider.notifier)
-          .change(CalendarFormat.week);
+      container.read(calendarFormatManagerProvider.notifier).change(CalendarFormat.week);
       expect(
         container.read(calendarFormatManagerProvider),
         CalendarFormat.week,

@@ -73,33 +73,27 @@ class TagNewWidget extends ConsumerWidget {
                     ElevatedButton(
                       onPressed: () {
                         if (!_formKey.currentState!.validate()) return;
-                        ref
-                            .read(tagListProvider.notifier)
-                            .add(name, description)
-                            .then((v) {
-                              ref.read(tagNewNameProvider.notifier).reset();
-                              ref
-                                  .read(tagNewDescriptionProvider.notifier)
-                                  .reset();
-                              if (!context.mounted) return;
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                getSnackBar(
-                                  context: context,
-                                  text: 'Success to add tag',
-                                ),
-                              );
-                              Navigator.pop(context);
-                            })
-                            .catchError((err) {
-                              if (!context.mounted) return;
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                getSnackBar(
-                                  context: context,
-                                  text: err.toString(),
-                                  error: true,
-                                ),
-                              );
-                            });
+                        ref.read(tagListProvider.notifier).add(name, description).then((v) {
+                          ref.read(tagNewNameProvider.notifier).reset();
+                          ref.read(tagNewDescriptionProvider.notifier).reset();
+                          if (!context.mounted) return;
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            getSnackBar(
+                              context: context,
+                              text: 'Success to add tag',
+                            ),
+                          );
+                          Navigator.pop(context);
+                        }).catchError((err) {
+                          if (!context.mounted) return;
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            getSnackBar(
+                              context: context,
+                              text: err.toString(),
+                              error: true,
+                            ),
+                          );
+                        });
                       },
                       child: const Text('Add'),
                     ),

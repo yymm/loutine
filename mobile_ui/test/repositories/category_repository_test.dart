@@ -2,7 +2,6 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:mobile_ui/api/vanilla_api.dart';
 import 'package:mobile_ui/repositories/category_repository.dart';
-import 'package:mobile_ui/models/category.dart';
 
 /// CategoryApiClientのモック
 /// mocktailを使って実際のAPIコールを避ける
@@ -39,7 +38,7 @@ void main() {
           }
         ]
         ''';
-        
+
         when(() => mockApiClient.list()).thenAnswer((_) async => jsonResponse);
 
         // Act: Repositoryメソッドを実行
@@ -52,7 +51,7 @@ void main() {
         expect(categories[0].description, '説明1');
         expect(categories[1].id, 2);
         expect(categories[1].name, 'カテゴリ2');
-        
+
         // APIクライアントが1回呼ばれたことを確認
         verify(() => mockApiClient.list()).called(1);
       });
@@ -84,9 +83,8 @@ void main() {
           "updated_at": "2024-01-03T00:00:00Z"
         }
         ''';
-        
-        when(() => mockApiClient.post(name, description))
-            .thenAnswer((_) async => jsonResponse);
+
+        when(() => mockApiClient.post(name, description)).thenAnswer((_) async => jsonResponse);
 
         // Act
         final category = await repository.createCategory(name, description);

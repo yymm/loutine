@@ -111,11 +111,11 @@ void main() {
         expect(result.length, 2);
         expect(result[0].name, 'リポジトリタグ1');
         expect(result[1].name, 'リポジトリタグ2');
-        
+
         final state = container.read(tagListProvider);
         expect(state.length, 2);
         expect(state[0].name, 'リポジトリタグ1');
-        
+
         // Repositoryが1回呼ばれたことを確認
         verify(() => mockRepository.fetchTags()).called(1);
       });
@@ -130,8 +130,7 @@ void main() {
           createdAt: now,
           updatedAt: now,
         );
-        when(() => mockRepository.createTag('新規タグ', '新規説明'))
-            .thenAnswer((_) async => newTag);
+        when(() => mockRepository.createTag('新規タグ', '新規説明')).thenAnswer((_) async => newTag);
 
         final container = ProviderContainer(
           overrides: [
@@ -158,10 +157,9 @@ void main() {
         expect(state.length, 2);
         expect(state[0].name, '既存タグ');
         expect(state[1].name, '新規タグ');
-        
+
         verify(() => mockRepository.createTag('新規タグ', '新規説明')).called(1);
       });
     });
   });
 }
-

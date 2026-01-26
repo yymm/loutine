@@ -14,15 +14,15 @@ final tagNewNameProvider = TagNewNameProvider._();
 
 final class TagNewNameProvider extends $NotifierProvider<TagNewName, String> {
   TagNewNameProvider._()
-    : super(
-        from: null,
-        argument: null,
-        retry: null,
-        name: r'tagNewNameProvider',
-        isAutoDispose: true,
-        dependencies: null,
-        $allTransitiveDependencies: null,
-      );
+      : super(
+          from: null,
+          argument: null,
+          retry: null,
+          name: r'tagNewNameProvider',
+          isAutoDispose: true,
+          dependencies: null,
+          $allTransitiveDependencies: null,
+        );
 
   @override
   String debugGetCreateSourceHash() => _$tagNewNameHash();
@@ -48,14 +48,7 @@ abstract class _$TagNewName extends $Notifier<String> {
   @override
   void runBuild() {
     final ref = this.ref as $Ref<String, String>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<String, String>,
-              String,
-              Object?,
-              Object?
-            >;
+    final element = ref.element as $ClassProviderElement<AnyNotifier<String, String>, String, Object?, Object?>;
     element.handleCreate(ref, build);
   }
 }
@@ -63,18 +56,17 @@ abstract class _$TagNewName extends $Notifier<String> {
 @ProviderFor(TagNewDescription)
 final tagNewDescriptionProvider = TagNewDescriptionProvider._();
 
-final class TagNewDescriptionProvider
-    extends $NotifierProvider<TagNewDescription, String> {
+final class TagNewDescriptionProvider extends $NotifierProvider<TagNewDescription, String> {
   TagNewDescriptionProvider._()
-    : super(
-        from: null,
-        argument: null,
-        retry: null,
-        name: r'tagNewDescriptionProvider',
-        isAutoDispose: true,
-        dependencies: null,
-        $allTransitiveDependencies: null,
-      );
+      : super(
+          from: null,
+          argument: null,
+          retry: null,
+          name: r'tagNewDescriptionProvider',
+          isAutoDispose: true,
+          dependencies: null,
+          $allTransitiveDependencies: null,
+        );
 
   @override
   String debugGetCreateSourceHash() => _$tagNewDescriptionHash();
@@ -100,14 +92,7 @@ abstract class _$TagNewDescription extends $Notifier<String> {
   @override
   void runBuild() {
     final ref = this.ref as $Ref<String, String>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<String, String>,
-              String,
-              Object?,
-              Object?
-            >;
+    final element = ref.element as $ClassProviderElement<AnyNotifier<String, String>, String, Object?, Object?>;
     element.handleCreate(ref, build);
   }
 }

@@ -14,15 +14,15 @@ final linkNewProvider = LinkNewProvider._();
 
 final class LinkNewProvider extends $NotifierProvider<LinkNew, LinkNewData> {
   LinkNewProvider._()
-    : super(
-        from: null,
-        argument: null,
-        retry: null,
-        name: r'linkNewProvider',
-        isAutoDispose: true,
-        dependencies: null,
-        $allTransitiveDependencies: null,
-      );
+      : super(
+          from: null,
+          argument: null,
+          retry: null,
+          name: r'linkNewProvider',
+          isAutoDispose: true,
+          dependencies: null,
+          $allTransitiveDependencies: null,
+        );
 
   @override
   String debugGetCreateSourceHash() => _$linkNewHash();
@@ -48,14 +48,7 @@ abstract class _$LinkNew extends $Notifier<LinkNewData> {
   @override
   void runBuild() {
     final ref = this.ref as $Ref<LinkNewData, LinkNewData>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<LinkNewData, LinkNewData>,
-              LinkNewData,
-              Object?,
-              Object?
-            >;
+    final element = ref.element as $ClassProviderElement<AnyNotifier<LinkNewData, LinkNewData>, LinkNewData, Object?, Object?>;
     element.handleCreate(ref, build);
   }
 }

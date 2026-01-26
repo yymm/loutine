@@ -24,8 +24,7 @@ final categoryListProvider = CategoryListProvider._();
 /// - APIクライアントを直接使わず、Repositoryを経由してデータ取得
 /// - JSONパース処理はRepositoryに委譲
 /// - Providerはデータの状態管理に専念
-final class CategoryListProvider
-    extends $NotifierProvider<CategoryList, List<Category>> {
+final class CategoryListProvider extends $NotifierProvider<CategoryList, List<Category>> {
   /// カテゴリ一覧の状態を管理するProvider
   ///
   /// 変更点:
@@ -33,15 +32,15 @@ final class CategoryListProvider
   /// - JSONパース処理はRepositoryに委譲
   /// - Providerはデータの状態管理に専念
   CategoryListProvider._()
-    : super(
-        from: null,
-        argument: null,
-        retry: null,
-        name: r'categoryListProvider',
-        isAutoDispose: true,
-        dependencies: null,
-        $allTransitiveDependencies: null,
-      );
+      : super(
+          from: null,
+          argument: null,
+          retry: null,
+          name: r'categoryListProvider',
+          isAutoDispose: true,
+          dependencies: null,
+          $allTransitiveDependencies: null,
+        );
 
   @override
   String debugGetCreateSourceHash() => _$categoryListHash();
@@ -74,14 +73,7 @@ abstract class _$CategoryList extends $Notifier<List<Category>> {
   @override
   void runBuild() {
     final ref = this.ref as $Ref<List<Category>, List<Category>>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<List<Category>, List<Category>>,
-              List<Category>,
-              Object?,
-              Object?
-            >;
+    final element = ref.element as $ClassProviderElement<AnyNotifier<List<Category>, List<Category>>, List<Category>, Object?, Object?>;
     element.handleCreate(ref, build);
   }
 }
@@ -97,27 +89,20 @@ final categoryListFutureProvider = CategoryListFutureProvider._();
 ///
 /// 初回表示時などに使用
 
-final class CategoryListFutureProvider
-    extends
-        $FunctionalProvider<
-          AsyncValue<List<Category>>,
-          List<Category>,
-          FutureOr<List<Category>>
-        >
-    with $FutureModifier<List<Category>>, $FutureProvider<List<Category>> {
+final class CategoryListFutureProvider extends $FunctionalProvider<AsyncValue<List<Category>>, List<Category>, FutureOr<List<Category>>> with $FutureModifier<List<Category>>, $FutureProvider<List<Category>> {
   /// カテゴリ一覧をFutureとして提供するProvider
   ///
   /// 初回表示時などに使用
   CategoryListFutureProvider._()
-    : super(
-        from: null,
-        argument: null,
-        retry: null,
-        name: r'categoryListFutureProvider',
-        isAutoDispose: true,
-        dependencies: null,
-        $allTransitiveDependencies: null,
-      );
+      : super(
+          from: null,
+          argument: null,
+          retry: null,
+          name: r'categoryListFutureProvider',
+          isAutoDispose: true,
+          dependencies: null,
+          $allTransitiveDependencies: null,
+        );
 
   @override
   String debugGetCreateSourceHash() => _$categoryListFutureHash();
@@ -126,7 +111,8 @@ final class CategoryListFutureProvider
   @override
   $FutureProviderElement<List<Category>> $createElement(
     $ProviderPointer pointer,
-  ) => $FutureProviderElement(pointer);
+  ) =>
+      $FutureProviderElement(pointer);
 
   @override
   FutureOr<List<Category>> create(Ref ref) {
@@ -134,5 +120,4 @@ final class CategoryListFutureProvider
   }
 }
 
-String _$categoryListFutureHash() =>
-    r'd0c253df57f7c123fbb6c9972579e9c84985547f';
+String _$categoryListFutureHash() => r'd0c253df57f7c123fbb6c9972579e9c84985547f';

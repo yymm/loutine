@@ -19,8 +19,7 @@ final GlobalKey<NavigatorState> _homeNavigationKey = GlobalKey<NavigatorState>(
 final GlobalKey<NavigatorState> _linkNavigationKey = GlobalKey<NavigatorState>(
   debugLabel: 'link',
 );
-final GlobalKey<NavigatorState> _purchaseNavigationKey =
-    GlobalKey<NavigatorState>(debugLabel: 'purchase');
+final GlobalKey<NavigatorState> _purchaseNavigationKey = GlobalKey<NavigatorState>(debugLabel: 'purchase');
 final GlobalKey<NavigatorState> _noteNavigationKey = GlobalKey<NavigatorState>(
   debugLabel: 'note',
 );
@@ -32,14 +31,13 @@ final router = GoRouter(
   routes: <RouteBase>[
     StatefulShellRoute.indexedStack(
       parentNavigatorKey: _rootNavigationKey,
-      builder:
-          (
-            BuildContext context,
-            GoRouterState state,
-            StatefulNavigationShell navigationShell,
-          ) {
-            return BottomNavWidget(navigationShell: navigationShell);
-          },
+      builder: (
+        BuildContext context,
+        GoRouterState state,
+        StatefulNavigationShell navigationShell,
+      ) {
+        return BottomNavWidget(navigationShell: navigationShell);
+      },
       branches: [
         StatefulShellBranch(
           navigatorKey: _homeNavigationKey,
