@@ -85,7 +85,8 @@ void main() {
         const cost = 1500.0;
         const title = '新しい購入';
         const categoryId = 1;
-        final jsonResponse = '''
+        final jsonResponse =
+            '''
         {
           "id": 3,
           "title": "$title",
@@ -117,7 +118,8 @@ void main() {
         // Arrange
         const cost = 2000.0;
         const title = 'カテゴリなし購入';
-        final jsonResponse = '''
+        final jsonResponse =
+            '''
         {
           "id": 4,
           "title": "$title",
@@ -147,9 +149,9 @@ void main() {
         // Arrange
         final startDate = DateTime(2024, 1, 1);
         final endDate = DateTime(2024, 1, 31);
-        when(() => mockApiClient.list(startDate, endDate)).thenThrow(
-          const SocketException('Network unreachable'),
-        );
+        when(
+          () => mockApiClient.list(startDate, endDate),
+        ).thenThrow(const SocketException('Network unreachable'));
 
         // Act & Assert
         expect(
@@ -162,8 +164,9 @@ void main() {
         // Arrange
         final startDate = DateTime(2024, 1, 1);
         final endDate = DateTime(2024, 1, 31);
-        when(() => mockApiClient.list(startDate, endDate))
-            .thenAnswer((_) async => 'invalid json');
+        when(
+          () => mockApiClient.list(startDate, endDate),
+        ).thenAnswer((_) async => 'invalid json');
 
         // Act & Assert
         expect(
@@ -176,9 +179,9 @@ void main() {
         // Arrange
         final startDate = DateTime(2024, 1, 1);
         final endDate = DateTime(2024, 1, 31);
-        when(() => mockApiClient.list(startDate, endDate)).thenAnswer(
-          (_) async => '"this should be an array"',
-        );
+        when(
+          () => mockApiClient.list(startDate, endDate),
+        ).thenAnswer((_) async => '"this should be an array"');
 
         // Act & Assert
         expect(

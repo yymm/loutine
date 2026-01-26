@@ -77,28 +77,31 @@ class CategoryNewWidget extends ConsumerWidget {
                             .read(categoryListProvider.notifier)
                             .add(name, description)
                             .then((v) {
-                          ref.read(categoryNewNameProvider.notifier).reset();
-                          ref
-                              .read(categoryNewDescriptionProvider.notifier)
-                              .reset();
-                          if (!context.mounted) return;
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            getSnackBar(
-                              context: context,
-                              text: 'Success to add category',
-                            ),
-                          );
-                          Navigator.pop(context);
-                        }).catchError((err) {
-                          if (!context.mounted) return;
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            getSnackBar(
-                              context: context,
-                              text: err.toString(),
-                              error: true,
-                            ),
-                          );
-                        });
+                              ref
+                                  .read(categoryNewNameProvider.notifier)
+                                  .reset();
+                              ref
+                                  .read(categoryNewDescriptionProvider.notifier)
+                                  .reset();
+                              if (!context.mounted) return;
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                getSnackBar(
+                                  context: context,
+                                  text: 'Success to add category',
+                                ),
+                              );
+                              Navigator.pop(context);
+                            })
+                            .catchError((err) {
+                              if (!context.mounted) return;
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                getSnackBar(
+                                  context: context,
+                                  text: err.toString(),
+                                  error: true,
+                                ),
+                              );
+                            });
                       },
                       child: const Text('Add'),
                     ),

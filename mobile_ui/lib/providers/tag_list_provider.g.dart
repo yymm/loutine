@@ -32,15 +32,15 @@ final class TagListProvider extends $NotifierProvider<TagList, List<Tag>> {
   /// - JSONパース処理はRepositoryに委譲
   /// - Providerはデータの状態管理に専念
   TagListProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'tagListProvider',
-          isAutoDispose: true,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'tagListProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
   @override
   String debugGetCreateSourceHash() => _$tagListHash();
@@ -73,8 +73,14 @@ abstract class _$TagList extends $Notifier<List<Tag>> {
   @override
   void runBuild() {
     final ref = this.ref as $Ref<List<Tag>, List<Tag>>;
-    final element = ref.element as $ClassProviderElement<
-        AnyNotifier<List<Tag>, List<Tag>>, List<Tag>, Object?, Object?>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<List<Tag>, List<Tag>>,
+              List<Tag>,
+              Object?,
+              Object?
+            >;
     element.handleCreate(ref, build);
   }
 }
@@ -90,22 +96,27 @@ final tagListFutureProvider = TagListFutureProvider._();
 ///
 /// 初回表示時などに使用
 
-final class TagListFutureProvider extends $FunctionalProvider<
-        AsyncValue<List<Tag>>, List<Tag>, FutureOr<List<Tag>>>
+final class TagListFutureProvider
+    extends
+        $FunctionalProvider<
+          AsyncValue<List<Tag>>,
+          List<Tag>,
+          FutureOr<List<Tag>>
+        >
     with $FutureModifier<List<Tag>>, $FutureProvider<List<Tag>> {
   /// タグ一覧をFutureとして提供するProvider
   ///
   /// 初回表示時などに使用
   TagListFutureProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'tagListFutureProvider',
-          isAutoDispose: true,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'tagListFutureProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
   @override
   String debugGetCreateSourceHash() => _$tagListFutureHash();

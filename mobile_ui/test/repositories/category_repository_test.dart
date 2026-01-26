@@ -77,7 +77,8 @@ void main() {
         // Arrange
         const name = '新しいカテゴリ';
         const description = '新しい説明';
-        final jsonResponse = '''
+        final jsonResponse =
+            '''
         {
           "id": 3,
           "name": "$name",
@@ -105,9 +106,9 @@ void main() {
     group('エラーハンドリング', () {
       test('ネットワークエラー時にNetworkExceptionを投げる', () async {
         // Arrange: SocketExceptionをシミュレート
-        when(() => mockApiClient.list()).thenThrow(
-          const SocketException('Network unreachable'),
-        );
+        when(
+          () => mockApiClient.list(),
+        ).thenThrow(const SocketException('Network unreachable'));
 
         // Act & Assert
         expect(
@@ -118,8 +119,9 @@ void main() {
 
       test('不正なJSON形式の場合にParseExceptionを投げる', () async {
         // Arrange: 不正なJSONレスポンス
-        when(() => mockApiClient.list())
-            .thenAnswer((_) async => 'invalid json');
+        when(
+          () => mockApiClient.list(),
+        ).thenAnswer((_) async => 'invalid json');
 
         // Act & Assert
         expect(
@@ -130,9 +132,9 @@ void main() {
 
       test('JSONの型が期待と異なる場合にParseExceptionを投げる', () async {
         // Arrange: 配列ではなく文字列を返す
-        when(() => mockApiClient.list()).thenAnswer(
-          (_) async => '"this should be an array"',
-        );
+        when(
+          () => mockApiClient.list(),
+        ).thenAnswer((_) async => '"this should be an array"');
 
         // Act & Assert
         expect(
