@@ -13,7 +13,6 @@ export class PurchasesUsecase {
 		const all_purchases = await this.db
 			.select()
 			.from(purchases)
-			.limit(10)
 			.where(
 				and(
 					gte(purchases.created_at, start_date),

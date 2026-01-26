@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:mobile_ui/providers/category_list_provider.dart';
 import 'package:mobile_ui/providers/home_calendar_provider.dart';
+import 'package:mobile_ui/providers/tag_list_provider.dart';
 
 class BottomNavWidget extends ConsumerWidget {
   const BottomNavWidget({super.key, required this.navigationShell});
@@ -14,11 +16,20 @@ class BottomNavWidget extends ConsumerWidget {
       ref
           .read(calendarStateManagerProvider.notifier)
           .getAllEventItem(ref.read(calendarFocusDayProvider));
+    } else if (index == 1) {
+      // Link tab - fetch tags if empty
+      final tags = ref.read(tagListProvider);
+      if (tags.isEmpty) {
+        ref.read(tagListProvider.notifier).getList();
+      }
+    } else if (index == 2) {
+      // Purchase tab - fetch categories if empty
+      final categories = ref.read(categoryListProvider);
+      if (categories.isEmpty) {
+        ref.read(categoryListProvider.notifier).getList();
+      }
     }
-    // Add other tab initialization logic here if needed
-    // if (index == 1) { /* Link tab */ }
-    // if (index == 2) { /* Purchase tab */ }
-    // if (index == 3) { /* Note tab */ }
+    // Note tab (index == 3) - add initialization if needed
 
     navigationShell.goBranch(
       index,
