@@ -23,7 +23,7 @@ abstract class AppException implements Exception {
 /// 「ネットワーク接続を確認してください」と表示すべきです。
 class NetworkException extends AppException {
   const NetworkException([String message = 'ネットワークエラーが発生しました'])
-    : super(message);
+      : super(message);
 }
 
 /// サーバーからのエラーレスポンスに関する例外
@@ -37,7 +37,7 @@ class NetworkException extends AppException {
 /// 詳細なエラー情報をログやユーザーに提供できます。
 class ServerException extends AppException {
   const ServerException(this.statusCode, [String? message])
-    : super(message ?? 'サーバーエラーが発生しました (ステータス: $statusCode)');
+      : super(message ?? 'サーバーエラーが発生しました (ステータス: $statusCode)');
 
   final int statusCode;
 

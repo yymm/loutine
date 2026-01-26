@@ -1,7 +1,9 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:mobile_ui/api/vanilla_api.dart';
 import 'package:mobile_ui/models/purchase.dart';
+import 'package:mobile_ui/exceptions/app_exceptions.dart';
 
 /// Purchase関連のデータ取得を担当するRepository
 ///
@@ -9,6 +11,7 @@ import 'package:mobile_ui/models/purchase.dart';
 /// - APIクライアントを使ってデータを取得
 /// - JSONレスポンスをPurchaseモデルに変換
 /// - データ取得ロジックの抽象化
+/// - エラーを適切なカスタム例外に変換
 class PurchaseRepository {
   final PurchaseApiClient _apiClient;
 
@@ -19,27 +22,53 @@ class PurchaseRepository {
   /// 指定期間の購入履歴一覧を取得
   ///
   /// APIから取得したJSONをパースしてPurchaseのリストに変換して返す
+  ///
+  /// 発生する可能性のある例外:
+  /// - [NetworkException]: ネットワークエラー
+  /// - [ServerException]: サーバーエラー
+  /// - [ParseException]: JSONパースエラー
   Future<List<Purchase>> fetchPurchases(
     DateTime startDate,
     DateTime endDate,
   ) async {
-    final resBody = await _apiClient.list(startDate, endDate);
-    final List<dynamic> json = jsonDecode(resBody);
-    return json
-        .map((e) => Purchase.fromJson(e as Map<String, dynamic>))
-        .toList();
+    try {
+      final resBody = await _apiClient.list(startDate, endDate);
+      final List<dynamic> json = jsonDecode(resBody);
+      return json
+          .map((e) => Purchase.fromJson(e as Map<String, dynamic>))
+          .toList();
+    } on SocketException {
+      throw const NetworkException('インターネット接続を確認してください');
+    } on FormatException catch (e) {
+      throw ParseException('購入履歴データの解析に失敗しました: ${e.message}');
+    } on TypeError catch (e) {
+      throw ParseException('購入履歴データの形式が不正です: $e');
+    }
   }
 
   /// 新しい購入履歴を作成
   ///
   /// APIに送信して作成されたPurchaseを返す
+  ///
+  /// 発生する可能性のある例外:
+  /// - [NetworkException]: ネットワークエラー
+  /// - [ServerException]: サーバーエラー
+  /// - [ParseException]: JSONパースエラー
   Future<Purchase> createPurchase(
     double cost,
     String title,
     int? categoryId,
   ) async {
-    final resBody = await _apiClient.post(cost, title, categoryId);
-    final Map<String, dynamic> json = jsonDecode(resBody);
-    return Purchase.fromJson(json);
+    try {
+      final resBody = await _apiClient.post(cost, title, categoryId);
+      final Map<String, dynamic> json = jsonDecode(resBody);
+      return Purchase.fromJson(json);
+    } on SocketException {
+      throw const NetworkException('インターネット接続を確認してください');
+    } on FormatException catch (e) {
+      throw ParseException('作成された購入履歴データの解析に失敗しました: ${e.message}');
+    } on TypeError catch (e) {
+      throw ParseException('作成された購入履歴データの形式が不正です: $e');
+    }
   }
 }

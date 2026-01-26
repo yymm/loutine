@@ -77,8 +77,7 @@ void main() {
         // Arrange
         const name = '新しいタグ';
         const description = '新しい説明';
-        final jsonResponse =
-            '''
+        final jsonResponse = '''
         {
           "id": 3,
           "name": "$name",

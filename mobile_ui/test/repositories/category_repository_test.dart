@@ -1,7 +1,10 @@
+import 'dart:io';
+
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:mobile_ui/api/vanilla_api.dart';
 import 'package:mobile_ui/repositories/category_repository.dart';
+import 'package:mobile_ui/exceptions/app_exceptions.dart';
 
 /// CategoryApiClientのモック
 /// mocktailを使って実際のAPIコールを避ける
@@ -74,8 +77,7 @@ void main() {
         // Arrange
         const name = '新しいカテゴリ';
         const description = '新しい説明';
-        final jsonResponse =
-            '''
+        final jsonResponse = '''
         {
           "id": 3,
           "name": "$name",
@@ -97,6 +99,46 @@ void main() {
         expect(category.name, name);
         expect(category.description, description);
         verify(() => mockApiClient.post(name, description)).called(1);
+      });
+    });
+
+    group('エラーハンドリング', () {
+      test('ネットワークエラー時にNetworkExceptionを投げる', () async {
+        // Arrange: SocketExceptionをシミュレート
+        when(() => mockApiClient.list()).thenThrow(
+          const SocketException('Network unreachable'),
+        );
+
+        // Act & Assert
+        expect(
+          () => repository.fetchCategories(),
+          throwsA(isA<NetworkException>()),
+        );
+      });
+
+      test('不正なJSON形式の場合にParseExceptionを投げる', () async {
+        // Arrange: 不正なJSONレスポンス
+        when(() => mockApiClient.list())
+            .thenAnswer((_) async => 'invalid json');
+
+        // Act & Assert
+        expect(
+          () => repository.fetchCategories(),
+          throwsA(isA<ParseException>()),
+        );
+      });
+
+      test('JSONの型が期待と異なる場合にParseExceptionを投げる', () async {
+        // Arrange: 配列ではなく文字列を返す
+        when(() => mockApiClient.list()).thenAnswer(
+          (_) async => '"this should be an array"',
+        );
+
+        // Act & Assert
+        expect(
+          () => repository.fetchCategories(),
+          throwsA(isA<ParseException>()),
+        );
       });
     });
   });
