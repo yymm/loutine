@@ -107,8 +107,9 @@ void main() {
         addTearDown(container.dispose);
 
         // Act: getList()を実行
-        final result =
-            await container.read(categoryListProvider.notifier).getList();
+        final result = await container
+            .read(categoryListProvider.notifier)
+            .getList();
 
         // Assert: 正しく状態が更新されているか検証
         expect(result.length, 2);

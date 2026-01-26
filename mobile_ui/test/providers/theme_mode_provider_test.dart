@@ -15,8 +15,8 @@ void main() {
       ThemeMode next = current == ThemeMode.light
           ? ThemeMode.dark
           : current == ThemeMode.dark
-              ? ThemeMode.system
-              : ThemeMode.light;
+          ? ThemeMode.system
+          : ThemeMode.light;
       expect(next, ThemeMode.dark);
 
       // Dark -> System
@@ -24,8 +24,8 @@ void main() {
       next = current == ThemeMode.light
           ? ThemeMode.dark
           : current == ThemeMode.dark
-              ? ThemeMode.system
-              : ThemeMode.light;
+          ? ThemeMode.system
+          : ThemeMode.light;
       expect(next, ThemeMode.system);
 
       // System -> Light
@@ -33,8 +33,8 @@ void main() {
       next = current == ThemeMode.light
           ? ThemeMode.dark
           : current == ThemeMode.dark
-              ? ThemeMode.system
-              : ThemeMode.light;
+          ? ThemeMode.system
+          : ThemeMode.light;
       expect(next, ThemeMode.light);
     });
   });

@@ -40,8 +40,9 @@ void main() {
         ]
         ''';
 
-        when(() => mockApiClient.list(startDate, endDate))
-            .thenAnswer((_) async => jsonResponse);
+        when(
+          () => mockApiClient.list(startDate, endDate),
+        ).thenAnswer((_) async => jsonResponse);
 
         // Act
         final purchases = await repository.fetchPurchases(startDate, endDate);
@@ -62,8 +63,9 @@ void main() {
         // Arrange
         final startDate = DateTime(2024, 1, 1);
         final endDate = DateTime(2024, 1, 31);
-        when(() => mockApiClient.list(startDate, endDate))
-            .thenAnswer((_) async => '[]');
+        when(
+          () => mockApiClient.list(startDate, endDate),
+        ).thenAnswer((_) async => '[]');
 
         // Act
         final purchases = await repository.fetchPurchases(startDate, endDate);
@@ -80,7 +82,8 @@ void main() {
         const cost = 1500.0;
         const title = '新しい購入';
         const categoryId = 1;
-        final jsonResponse = '''
+        final jsonResponse =
+            '''
         {
           "id": 3,
           "title": "$title",
@@ -90,12 +93,16 @@ void main() {
         }
         ''';
 
-        when(() => mockApiClient.post(cost, title, categoryId))
-            .thenAnswer((_) async => jsonResponse);
+        when(
+          () => mockApiClient.post(cost, title, categoryId),
+        ).thenAnswer((_) async => jsonResponse);
 
         // Act
-        final purchase =
-            await repository.createPurchase(cost, title, categoryId);
+        final purchase = await repository.createPurchase(
+          cost,
+          title,
+          categoryId,
+        );
 
         // Assert
         expect(purchase.id, 3);
@@ -108,7 +115,8 @@ void main() {
         // Arrange
         const cost = 2000.0;
         const title = 'カテゴリなし購入';
-        final jsonResponse = '''
+        final jsonResponse =
+            '''
         {
           "id": 4,
           "title": "$title",
@@ -118,8 +126,9 @@ void main() {
         }
         ''';
 
-        when(() => mockApiClient.post(cost, title, null))
-            .thenAnswer((_) async => jsonResponse);
+        when(
+          () => mockApiClient.post(cost, title, null),
+        ).thenAnswer((_) async => jsonResponse);
 
         // Act
         final purchase = await repository.createPurchase(cost, title, null);

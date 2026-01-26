@@ -40,8 +40,9 @@ void main() {
         ]
         ''';
 
-        when(() => mockApiClient.list(startDate, endDate))
-            .thenAnswer((_) async => jsonResponse);
+        when(
+          () => mockApiClient.list(startDate, endDate),
+        ).thenAnswer((_) async => jsonResponse);
 
         // Act
         final links = await repository.fetchLinks(startDate, endDate);
@@ -61,8 +62,9 @@ void main() {
         // Arrange
         final startDate = DateTime(2024, 1, 1);
         final endDate = DateTime(2024, 1, 31);
-        when(() => mockApiClient.list(startDate, endDate))
-            .thenAnswer((_) async => '[]');
+        when(
+          () => mockApiClient.list(startDate, endDate),
+        ).thenAnswer((_) async => '[]');
 
         // Act
         final links = await repository.fetchLinks(startDate, endDate);
@@ -79,7 +81,8 @@ void main() {
         const url = 'https://example.com/new';
         const title = '新しいリンク';
         final tagIds = [1, 2];
-        final jsonResponse = '''
+        final jsonResponse =
+            '''
         {
           "id": 3,
           "title": "$title",
@@ -89,8 +92,9 @@ void main() {
         }
         ''';
 
-        when(() => mockApiClient.post(url, title, tagIds))
-            .thenAnswer((_) async => jsonResponse);
+        when(
+          () => mockApiClient.post(url, title, tagIds),
+        ).thenAnswer((_) async => jsonResponse);
 
         // Act
         final link = await repository.createLink(url, title, tagIds);

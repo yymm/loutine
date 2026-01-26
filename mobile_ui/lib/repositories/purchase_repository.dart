@@ -20,7 +20,9 @@ class PurchaseRepository {
   ///
   /// APIから取得したJSONをパースしてPurchaseのリストに変換して返す
   Future<List<Purchase>> fetchPurchases(
-      DateTime startDate, DateTime endDate) async {
+    DateTime startDate,
+    DateTime endDate,
+  ) async {
     final resBody = await _apiClient.list(startDate, endDate);
     final List<dynamic> json = jsonDecode(resBody);
     return json
@@ -32,7 +34,10 @@ class PurchaseRepository {
   ///
   /// APIに送信して作成されたPurchaseを返す
   Future<Purchase> createPurchase(
-      double cost, String title, int? categoryId) async {
+    double cost,
+    String title,
+    int? categoryId,
+  ) async {
     final resBody = await _apiClient.post(cost, title, categoryId);
     final Map<String, dynamic> json = jsonDecode(resBody);
     return Purchase.fromJson(json);
