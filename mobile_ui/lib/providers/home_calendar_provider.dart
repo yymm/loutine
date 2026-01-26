@@ -39,8 +39,7 @@ class CalendarStateManager extends _$CalendarStateManager {
       return CalendarEventItem.fromNote(note);
     }).toList();
 
-    final calendarEventItemList =
-        calendarEventItemLinkList +
+    final calendarEventItemList = calendarEventItemLinkList +
         calendarEventItemPurchaseList +
         calendarEventItemNoteList;
 

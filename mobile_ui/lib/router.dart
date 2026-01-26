@@ -32,14 +32,13 @@ final router = GoRouter(
   routes: <RouteBase>[
     StatefulShellRoute.indexedStack(
       parentNavigatorKey: _rootNavigationKey,
-      builder:
-          (
-            BuildContext context,
-            GoRouterState state,
-            StatefulNavigationShell navigationShell,
-          ) {
-            return BottomNavWidget(navigationShell: navigationShell);
-          },
+      builder: (
+        BuildContext context,
+        GoRouterState state,
+        StatefulNavigationShell navigationShell,
+      ) {
+        return BottomNavWidget(navigationShell: navigationShell);
+      },
       branches: [
         StatefulShellBranch(
           navigatorKey: _homeNavigationKey,
