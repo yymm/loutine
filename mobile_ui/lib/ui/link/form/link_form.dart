@@ -72,8 +72,9 @@ class _LinkForm extends ConsumerState<LinkForm> {
             // >> Paste from clipboard {{{
             TextButton(
               onPressed: () async {
-                final pastedUrl =
-                    await ref.read(linkNewProvider.notifier).pasteByClipBoard();
+                final pastedUrl = await ref
+                    .read(linkNewProvider.notifier)
+                    .pasteByClipBoard();
                 _urlController.value = _urlController.value.copyWith(
                   text: pastedUrl,
                 );
@@ -107,8 +108,9 @@ class _LinkForm extends ConsumerState<LinkForm> {
             // >> Get title via url {{{
             TextButton(
               onPressed: () async {
-                final String titleViaUrl =
-                    await ref.read(linkNewProvider.notifier).getTitleFromUrl();
+                final String titleViaUrl = await ref
+                    .read(linkNewProvider.notifier)
+                    .getTitleFromUrl();
                 _titleController.value = _titleController.value.copyWith(
                   text: titleViaUrl,
                 );
@@ -171,28 +173,29 @@ class _LinkForm extends ConsumerState<LinkForm> {
                     .read(linkNewProvider.notifier)
                     .add(tagIds: tagIds)
                     .then((v) {
-                  ref.read(linkNewProvider.notifier).reset();
-                  _urlController.clear();
-                  _titleController.clear();
-                  _tabController.clearAll();
-                  dropdownformfieldValue = null;
-                  if (!context.mounted) return;
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    getSnackBar(
-                      context: context,
-                      text: 'Success to add link',
-                    ),
-                  );
-                }).catchError((err) {
-                  if (!context.mounted) return;
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    getSnackBar(
-                      context: context,
-                      text: err.toString(),
-                      error: true,
-                    ),
-                  );
-                });
+                      ref.read(linkNewProvider.notifier).reset();
+                      _urlController.clear();
+                      _titleController.clear();
+                      _tabController.clearAll();
+                      dropdownformfieldValue = null;
+                      if (!context.mounted) return;
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        getSnackBar(
+                          context: context,
+                          text: 'Success to add link',
+                        ),
+                      );
+                    })
+                    .catchError((err) {
+                      if (!context.mounted) return;
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        getSnackBar(
+                          context: context,
+                          text: err.toString(),
+                          error: true,
+                        ),
+                      );
+                    });
               },
               style: ElevatedButton.styleFrom(fixedSize: Size(100, 100)),
               child: const Text('Submit'),

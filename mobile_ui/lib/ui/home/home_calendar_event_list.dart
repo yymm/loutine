@@ -17,27 +17,27 @@ class HomeCalendarEventList extends ConsumerWidget {
             child: ListTile(
               leading: switch (event.itemType) {
                 CalendarEventItemType.link => Icon(
-                    Icons.link,
-                    color: Colors.lightBlue,
-                  ),
+                  Icons.link,
+                  color: Colors.lightBlue,
+                ),
                 CalendarEventItemType.purchase => Icon(
-                    Icons.shopping_cart,
-                    color: Colors.orange,
-                  ),
+                  Icons.shopping_cart,
+                  color: Colors.orange,
+                ),
                 CalendarEventItemType.note => Icon(
-                    Icons.note,
-                    color: Colors.lightGreen,
-                  ),
+                  Icons.note,
+                  color: Colors.lightGreen,
+                ),
               },
               title: switch (event.itemType) {
                 CalendarEventItemType.link => GestureDetector(
-                    onTap: () => launchUrlString(event.data),
-                    child: Text(
-                      event.title,
-                      style: TextStyle(color: Colors.teal),
-                      overflow: TextOverflow.ellipsis,
-                    ),
+                  onTap: () => launchUrlString(event.data),
+                  child: Text(
+                    event.title,
+                    style: TextStyle(color: Colors.teal),
+                    overflow: TextOverflow.ellipsis,
                   ),
+                ),
                 CalendarEventItemType.purchase => Text('¥ ${event.data}'),
                 CalendarEventItemType.note => Text(event.title),
               },

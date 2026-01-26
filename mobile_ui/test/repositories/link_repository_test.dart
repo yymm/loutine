@@ -81,7 +81,8 @@ void main() {
         const url = 'https://example.com/new';
         const title = '新しいリンク';
         final tagIds = [1, 2];
-        final jsonResponse = '''
+        final jsonResponse =
+            '''
         {
           "id": 3,
           "title": "$title",

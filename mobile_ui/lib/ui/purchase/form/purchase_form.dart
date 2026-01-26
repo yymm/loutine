@@ -122,29 +122,30 @@ class _PurchaseForm extends ConsumerState<PurchaseForm> {
                     .read(purchaseNewProvider.notifier)
                     .add(categoryId: categoryId)
                     .then((v) {
-                  ref.read(purchaseNewProvider.notifier).reset();
-                  _costController.clear();
-                  _titleController.clear();
-                  setState(() {
-                    dropdownformfieldValue = null;
-                  });
-                  if (!context.mounted) return;
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    getSnackBar(
-                      context: context,
-                      text: 'Success to add purchase',
-                    ),
-                  );
-                }).catchError((err) {
-                  if (!context.mounted) return;
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    getSnackBar(
-                      context: context,
-                      text: err.toString(),
-                      error: true,
-                    ),
-                  );
-                });
+                      ref.read(purchaseNewProvider.notifier).reset();
+                      _costController.clear();
+                      _titleController.clear();
+                      setState(() {
+                        dropdownformfieldValue = null;
+                      });
+                      if (!context.mounted) return;
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        getSnackBar(
+                          context: context,
+                          text: 'Success to add purchase',
+                        ),
+                      );
+                    })
+                    .catchError((err) {
+                      if (!context.mounted) return;
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        getSnackBar(
+                          context: context,
+                          text: err.toString(),
+                          error: true,
+                        ),
+                      );
+                    });
               },
               style: ElevatedButton.styleFrom(fixedSize: Size(100, 100)),
               child: const Text('Submit'),

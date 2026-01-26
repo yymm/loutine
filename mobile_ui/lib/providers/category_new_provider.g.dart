@@ -15,15 +15,15 @@ final categoryNewNameProvider = CategoryNewNameProvider._();
 final class CategoryNewNameProvider
     extends $NotifierProvider<CategoryNewName, String> {
   CategoryNewNameProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'categoryNewNameProvider',
-          isAutoDispose: true,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'categoryNewNameProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
   @override
   String debugGetCreateSourceHash() => _$categoryNewNameHash();
@@ -49,8 +49,14 @@ abstract class _$CategoryNewName extends $Notifier<String> {
   @override
   void runBuild() {
     final ref = this.ref as $Ref<String, String>;
-    final element = ref.element as $ClassProviderElement<
-        AnyNotifier<String, String>, String, Object?, Object?>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<String, String>,
+              String,
+              Object?,
+              Object?
+            >;
     element.handleCreate(ref, build);
   }
 }
@@ -61,15 +67,15 @@ final categoryNewDescriptionProvider = CategoryNewDescriptionProvider._();
 final class CategoryNewDescriptionProvider
     extends $NotifierProvider<CategoryNewDescription, String> {
   CategoryNewDescriptionProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'categoryNewDescriptionProvider',
-          isAutoDispose: true,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'categoryNewDescriptionProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
   @override
   String debugGetCreateSourceHash() => _$categoryNewDescriptionHash();
@@ -96,8 +102,14 @@ abstract class _$CategoryNewDescription extends $Notifier<String> {
   @override
   void runBuild() {
     final ref = this.ref as $Ref<String, String>;
-    final element = ref.element as $ClassProviderElement<
-        AnyNotifier<String, String>, String, Object?, Object?>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<String, String>,
+              String,
+              Object?,
+              Object?
+            >;
     element.handleCreate(ref, build);
   }
 }

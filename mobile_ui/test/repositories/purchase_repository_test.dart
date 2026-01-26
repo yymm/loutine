@@ -82,7 +82,8 @@ void main() {
         const cost = 1500.0;
         const title = '新しい購入';
         const categoryId = 1;
-        final jsonResponse = '''
+        final jsonResponse =
+            '''
         {
           "id": 3,
           "title": "$title",
@@ -114,7 +115,8 @@ void main() {
         // Arrange
         const cost = 2000.0;
         const title = 'カテゴリなし購入';
-        final jsonResponse = '''
+        final jsonResponse =
+            '''
         {
           "id": 4,
           "title": "$title",
