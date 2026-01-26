@@ -58,6 +58,5 @@ class ServerException extends AppException {
 /// この例外が発生した場合、通常はアプリ側のバグか、
 /// APIのバージョン不一致を示します。
 class ParseException extends AppException {
-  const ParseException([String message = 'データの解析に失敗しました'])
-      : super(message);
+  const ParseException([String message = 'データの解析に失敗しました']) : super(message);
 }

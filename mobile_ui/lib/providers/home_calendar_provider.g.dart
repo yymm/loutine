@@ -15,15 +15,15 @@ final calendarStateManagerProvider = CalendarStateManagerProvider._();
 final class CalendarStateManagerProvider
     extends $NotifierProvider<CalendarStateManager, CalendarState> {
   CalendarStateManagerProvider._()
-    : super(
-        from: null,
-        argument: null,
-        retry: null,
-        name: r'calendarStateManagerProvider',
-        isAutoDispose: true,
-        dependencies: null,
-        $allTransitiveDependencies: null,
-      );
+      : super(
+          from: null,
+          argument: null,
+          retry: null,
+          name: r'calendarStateManagerProvider',
+          isAutoDispose: true,
+          dependencies: null,
+          $allTransitiveDependencies: null,
+        );
 
   @override
   String debugGetCreateSourceHash() => _$calendarStateManagerHash();
@@ -50,14 +50,11 @@ abstract class _$CalendarStateManager extends $Notifier<CalendarState> {
   @override
   void runBuild() {
     final ref = this.ref as $Ref<CalendarState, CalendarState>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<CalendarState, CalendarState>,
-              CalendarState,
-              Object?,
-              Object?
-            >;
+    final element = ref.element as $ClassProviderElement<
+        AnyNotifier<CalendarState, CalendarState>,
+        CalendarState,
+        Object?,
+        Object?>;
     element.handleCreate(ref, build);
   }
 }
@@ -68,15 +65,15 @@ final calendarFocusDayProvider = CalendarFocusDayProvider._();
 final class CalendarFocusDayProvider
     extends $NotifierProvider<CalendarFocusDay, DateTime> {
   CalendarFocusDayProvider._()
-    : super(
-        from: null,
-        argument: null,
-        retry: null,
-        name: r'calendarFocusDayProvider',
-        isAutoDispose: true,
-        dependencies: null,
-        $allTransitiveDependencies: null,
-      );
+      : super(
+          from: null,
+          argument: null,
+          retry: null,
+          name: r'calendarFocusDayProvider',
+          isAutoDispose: true,
+          dependencies: null,
+          $allTransitiveDependencies: null,
+        );
 
   @override
   String debugGetCreateSourceHash() => _$calendarFocusDayHash();
@@ -102,14 +99,8 @@ abstract class _$CalendarFocusDay extends $Notifier<DateTime> {
   @override
   void runBuild() {
     final ref = this.ref as $Ref<DateTime, DateTime>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<DateTime, DateTime>,
-              DateTime,
-              Object?,
-              Object?
-            >;
+    final element = ref.element as $ClassProviderElement<
+        AnyNotifier<DateTime, DateTime>, DateTime, Object?, Object?>;
     element.handleCreate(ref, build);
   }
 }
@@ -120,15 +111,15 @@ final calendarFormatManagerProvider = CalendarFormatManagerProvider._();
 final class CalendarFormatManagerProvider
     extends $NotifierProvider<CalendarFormatManager, CalendarFormat> {
   CalendarFormatManagerProvider._()
-    : super(
-        from: null,
-        argument: null,
-        retry: null,
-        name: r'calendarFormatManagerProvider',
-        isAutoDispose: true,
-        dependencies: null,
-        $allTransitiveDependencies: null,
-      );
+      : super(
+          from: null,
+          argument: null,
+          retry: null,
+          name: r'calendarFormatManagerProvider',
+          isAutoDispose: true,
+          dependencies: null,
+          $allTransitiveDependencies: null,
+        );
 
   @override
   String debugGetCreateSourceHash() => _$calendarFormatManagerHash();
@@ -155,14 +146,11 @@ abstract class _$CalendarFormatManager extends $Notifier<CalendarFormat> {
   @override
   void runBuild() {
     final ref = this.ref as $Ref<CalendarFormat, CalendarFormat>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<CalendarFormat, CalendarFormat>,
-              CalendarFormat,
-              Object?,
-              Object?
-            >;
+    final element = ref.element as $ClassProviderElement<
+        AnyNotifier<CalendarFormat, CalendarFormat>,
+        CalendarFormat,
+        Object?,
+        Object?>;
     element.handleCreate(ref, build);
   }
 }
@@ -173,15 +161,15 @@ final calendarEventListProvider = CalendarEventListProvider._();
 final class CalendarEventListProvider
     extends $NotifierProvider<CalendarEventList, List<CalendarEventItem>> {
   CalendarEventListProvider._()
-    : super(
-        from: null,
-        argument: null,
-        retry: null,
-        name: r'calendarEventListProvider',
-        isAutoDispose: true,
-        dependencies: null,
-        $allTransitiveDependencies: null,
-      );
+      : super(
+          from: null,
+          argument: null,
+          retry: null,
+          name: r'calendarEventListProvider',
+          isAutoDispose: true,
+          dependencies: null,
+          $allTransitiveDependencies: null,
+        );
 
   @override
   String debugGetCreateSourceHash() => _$calendarEventListHash();
@@ -208,14 +196,11 @@ abstract class _$CalendarEventList extends $Notifier<List<CalendarEventItem>> {
   void runBuild() {
     final ref =
         this.ref as $Ref<List<CalendarEventItem>, List<CalendarEventItem>>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<List<CalendarEventItem>, List<CalendarEventItem>>,
-              List<CalendarEventItem>,
-              Object?,
-              Object?
-            >;
+    final element = ref.element as $ClassProviderElement<
+        AnyNotifier<List<CalendarEventItem>, List<CalendarEventItem>>,
+        List<CalendarEventItem>,
+        Object?,
+        Object?>;
     element.handleCreate(ref, build);
   }
 }

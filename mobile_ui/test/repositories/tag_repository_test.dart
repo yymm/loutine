@@ -77,8 +77,7 @@ void main() {
         // Arrange
         const name = '新しいタグ';
         const description = '新しい説明';
-        final jsonResponse =
-            '''
+        final jsonResponse = '''
         {
           "id": 3,
           "name": "$name",
@@ -119,7 +118,8 @@ void main() {
 
       test('不正なJSON形式の場合にParseExceptionを投げる', () async {
         // Arrange: 不正なJSONレスポンス
-        when(() => mockApiClient.list()).thenAnswer((_) async => 'invalid json');
+        when(() => mockApiClient.list())
+            .thenAnswer((_) async => 'invalid json');
 
         // Act & Assert
         expect(
