@@ -4,11 +4,26 @@ import 'package:mobile_ui/models/calendar_event_item.dart';
 import 'package:mobile_ui/providers/home_calendar_provider.dart';
 import 'package:table_calendar/table_calendar.dart';
 
-class HomeCalendarWidget extends ConsumerWidget {
+class HomeCalendarWidget extends ConsumerStatefulWidget {
   const HomeCalendarWidget({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<HomeCalendarWidget> createState() => _HomeCalendarWidgetState();
+}
+
+class _HomeCalendarWidgetState extends ConsumerState<HomeCalendarWidget> {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      ref
+          .read(calendarStateManagerProvider.notifier)
+          .getAllEventItem(DateTime.now());
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final focusDay = ref.watch(calendarFocusDayProvider);
     final format = ref.watch(calendarFormatManagerProvider);
 
@@ -23,16 +38,22 @@ class HomeCalendarWidget extends ConsumerWidget {
         ref.read(calendarFormatManagerProvider.notifier).change(format);
       },
       eventLoader: (date) {
-        return calendarState.calendarEvents[date] ?? [];
+        final localDate = DateTime(date.year, date.month, date.day);
+        return calendarState.calendarEvents[localDate] ?? [];
       },
       selectedDayPredicate: (day) {
         return isSameDay(focusDay, day);
       },
       onDaySelected: (selectedDay, focusDay) {
         ref.read(calendarFocusDayProvider.notifier).change(selectedDay);
+        final localSelectedDay = DateTime(
+          selectedDay.year,
+          selectedDay.month,
+          selectedDay.day,
+        );
         ref
             .read(calendarEventListProvider.notifier)
-            .change(calendarState.calendarEvents[selectedDay] ?? []);
+            .change(calendarState.calendarEvents[localSelectedDay] ?? []);
       },
       onPageChanged: (focusedDay) {
         ref.read(calendarFocusDayProvider.notifier).change(focusedDay);

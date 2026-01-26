@@ -11,11 +11,18 @@ abstract class Link with _$Link {
     required int id,
     required String title,
     required String url,
-    @JsonKey(name: 'created_at') required DateTime createdAt,
-    @JsonKey(name: 'updated_at') required DateTime updatedAt,
+    @JsonKey(name: 'created_at', fromJson: _dateTimeFromJson)
+    required DateTime createdAt,
+    @JsonKey(name: 'updated_at', fromJson: _dateTimeFromJson)
+    required DateTime updatedAt,
     // TODO: タグ機能を実装する際にコメントを外す
     // required List<Tag> tags,
   }) = _Link;
 
   factory Link.fromJson(Map<String, dynamic> json) => _$LinkFromJson(json);
+}
+
+DateTime _dateTimeFromJson(String dateTimeString) {
+  final utcDateTime = DateTime.parse(dateTimeString);
+  return utcDateTime.toLocal();
 }

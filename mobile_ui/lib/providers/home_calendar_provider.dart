@@ -46,15 +46,15 @@ class CalendarStateManager extends _$CalendarStateManager {
 
     Map<DateTime, List<CalendarEventItem>> events = {};
     final _ = calendarEventItemList.map((item) {
-      final dateTimeUtc = DateTime.utc(
+      final dateTimeLocal = DateTime(
         item.createdAt.year,
         item.createdAt.month,
         item.createdAt.day,
       );
-      if (events.containsKey(dateTimeUtc)) {
-        events[dateTimeUtc]!.add(item);
+      if (events.containsKey(dateTimeLocal)) {
+        events[dateTimeLocal]!.add(item);
       } else {
-        events[dateTimeUtc] = [item];
+        events[dateTimeLocal] = [item];
       }
     }).toList();
 
@@ -64,9 +64,9 @@ class CalendarStateManager extends _$CalendarStateManager {
 
   Future<List<Link>> getLinkList(DateTime dateTime) async {
     final apiClient = LinkApiClient();
-    // 月初日
+    // 月初日（ローカルタイム）
     final startDate = DateTime(dateTime.year, dateTime.month, 1);
-    // 月末日
+    // 月末日（ローカルタイム）
     final endDate = DateTime(
       dateTime.year,
       dateTime.month + 1,
@@ -84,9 +84,9 @@ class CalendarStateManager extends _$CalendarStateManager {
 
   Future<List<Purchase>> getPurchaseList(DateTime dateTime) async {
     final apiClient = PurchaseApiClient();
-    // 月初日
+    // 月初日（ローカルタイム）
     final startDate = DateTime(dateTime.year, dateTime.month, 1);
-    // 月末日
+    // 月末日（ローカルタイム）
     final endDate = DateTime(
       dateTime.year,
       dateTime.month + 1,
@@ -104,9 +104,9 @@ class CalendarStateManager extends _$CalendarStateManager {
 
   Future<List<Note>> getNoteList(DateTime dateTime) async {
     final apiClient = NoteApiClient();
-    // 月初日
+    // 月初日（ローカルタイム）
     final startDate = DateTime(dateTime.year, dateTime.month, 1);
-    // 月末日
+    // 月末日（ローカルタイム）
     final endDate = DateTime(
       dateTime.year,
       dateTime.month + 1,

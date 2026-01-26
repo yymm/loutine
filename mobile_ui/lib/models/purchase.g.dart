@@ -10,8 +10,8 @@ _Purchase _$PurchaseFromJson(Map<String, dynamic> json) => _Purchase(
   id: (json['id'] as num).toInt(),
   title: json['title'] as String,
   cost: (json['cost'] as num).toInt(),
-  createdAt: DateTime.parse(json['created_at'] as String),
-  updatedAt: DateTime.parse(json['updated_at'] as String),
+  createdAt: _dateTimeFromJson(json['created_at'] as String),
+  updatedAt: _dateTimeFromJson(json['updated_at'] as String),
 );
 
 Map<String, dynamic> _$PurchaseToJson(_Purchase instance) => <String, dynamic>{
