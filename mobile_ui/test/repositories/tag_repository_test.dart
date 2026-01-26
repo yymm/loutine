@@ -1,7 +1,10 @@
+import 'dart:io';
+
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:mobile_ui/api/vanilla_api.dart';
 import 'package:mobile_ui/repositories/tag_repository.dart';
+import 'package:mobile_ui/exceptions/app_exceptions.dart';
 
 /// TagApiClientのモック
 /// mocktailを使って実際のAPIコールを避ける
@@ -97,6 +100,45 @@ void main() {
         expect(tag.name, name);
         expect(tag.description, description);
         verify(() => mockApiClient.post(name, description)).called(1);
+      });
+    });
+
+    group('エラーハンドリング', () {
+      test('ネットワークエラー時にNetworkExceptionを投げる', () async {
+        // Arrange: SocketExceptionをシミュレート
+        when(() => mockApiClient.list()).thenThrow(
+          const SocketException('Network unreachable'),
+        );
+
+        // Act & Assert
+        expect(
+          () => repository.fetchTags(),
+          throwsA(isA<NetworkException>()),
+        );
+      });
+
+      test('不正なJSON形式の場合にParseExceptionを投げる', () async {
+        // Arrange: 不正なJSONレスポンス
+        when(() => mockApiClient.list()).thenAnswer((_) async => 'invalid json');
+
+        // Act & Assert
+        expect(
+          () => repository.fetchTags(),
+          throwsA(isA<ParseException>()),
+        );
+      });
+
+      test('JSONの型が期待と異なる場合にParseExceptionを投げる', () async {
+        // Arrange: 配列ではなく文字列を返す
+        when(() => mockApiClient.list()).thenAnswer(
+          (_) async => '"this should be an array"',
+        );
+
+        // Act & Assert
+        expect(
+          () => repository.fetchTags(),
+          throwsA(isA<ParseException>()),
+        );
       });
     });
   });
