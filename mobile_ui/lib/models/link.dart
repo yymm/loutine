@@ -1,32 +1,21 @@
-class Link {
-  Link({
-    required this.id,
-    required this.title,
-    required this.url,
-    required this.createdAt,
-    required this.updatedAt,
-    // required this.tags,
-  });
+// ignore_for_file: invalid_annotation_target
 
-  final int id;
-  final String title;
-  final String url;
-  final DateTime createdAt;
-  final DateTime updatedAt;
-  // final List<Tag> tags;
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-  factory Link.fromJson(Map<String, dynamic> json) {
-    // final List<dynamic> tagsJson = jsonDecode(json['tags']);
-    // final tags = tagsJson.map((tagJson) {
-    //   return Tag.fromJson(tagJson);
-    // }).toList();
-    return Link(
-      id: json['id'] as int,
-      title: json['title'] as String,
-      url: json['url'] as String,
-      createdAt: DateTime.parse(json['created_at']),
-      updatedAt: DateTime.parse(json['updated_at']),
-      // tags: tags,
-    );
-  }
+part 'link.freezed.dart';
+part 'link.g.dart';
+
+@freezed
+abstract class Link with _$Link {
+  const factory Link({
+    required int id,
+    required String title,
+    required String url,
+    @JsonKey(name: 'created_at') required DateTime createdAt,
+    @JsonKey(name: 'updated_at') required DateTime updatedAt,
+    // TODO: タグ機能を実装する際にコメントを外す
+    // required List<Tag> tags,
+  }) = _Link;
+
+  factory Link.fromJson(Map<String, dynamic> json) => _$LinkFromJson(json);
 }

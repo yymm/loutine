@@ -1,27 +1,22 @@
-class Purchase {
-  Purchase({
-    required this.id,
-    required this.title,
-    required this.cost,
-    required this.createdAt,
-    required this.updatedAt,
-    // required this.tags,
-  });
+// ignore_for_file: invalid_annotation_target
 
-  final int id;
-  final String title;
-  final int cost;
-  final DateTime createdAt;
-  final DateTime updatedAt;
-  // final List<Tag> tags;
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-  factory Purchase.fromJson(Map<String, dynamic> json) {
-    return Purchase(
-      id: json['id'] as int,
-      title: json['title'] as String,
-      cost: json['cost'] as int,
-      createdAt: DateTime.parse(json['created_at']),
-      updatedAt: DateTime.parse(json['updated_at']),
-    );
-  }
+part 'purchase.freezed.dart';
+part 'purchase.g.dart';
+
+@freezed
+abstract class Purchase with _$Purchase {
+  const factory Purchase({
+    required int id,
+    required String title,
+    required int cost,
+    @JsonKey(name: 'created_at') required DateTime createdAt,
+    @JsonKey(name: 'updated_at') required DateTime updatedAt,
+    // TODO: タグ機能を実装する際にコメントを外す
+    // required List<Tag> tags,
+  }) = _Purchase;
+
+  factory Purchase.fromJson(Map<String, dynamic> json) =>
+      _$PurchaseFromJson(json);
 }

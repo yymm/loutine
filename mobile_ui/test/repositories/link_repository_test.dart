@@ -1,7 +1,10 @@
+import 'dart:io';
+
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:mobile_ui/api/vanilla_api.dart';
 import 'package:mobile_ui/repositories/link_repository.dart';
+import 'package:mobile_ui/exceptions/app_exceptions.dart';
 
 /// LinkApiClientのモック
 class MockLinkApiClient extends Mock implements LinkApiClient {}
@@ -104,6 +107,53 @@ void main() {
         expect(link.title, title);
         expect(link.url, url);
         verify(() => mockApiClient.post(url, title, tagIds)).called(1);
+      });
+    });
+
+    group('エラーハンドリング', () {
+      test('ネットワークエラー時にNetworkExceptionを投げる', () async {
+        // Arrange
+        final startDate = DateTime(2024, 1, 1);
+        final endDate = DateTime(2024, 1, 31);
+        when(
+          () => mockApiClient.list(startDate, endDate),
+        ).thenThrow(const SocketException('Network unreachable'));
+
+        // Act & Assert
+        expect(
+          () => repository.fetchLinks(startDate, endDate),
+          throwsA(isA<NetworkException>()),
+        );
+      });
+
+      test('不正なJSON形式の場合にParseExceptionを投げる', () async {
+        // Arrange
+        final startDate = DateTime(2024, 1, 1);
+        final endDate = DateTime(2024, 1, 31);
+        when(
+          () => mockApiClient.list(startDate, endDate),
+        ).thenAnswer((_) async => 'invalid json');
+
+        // Act & Assert
+        expect(
+          () => repository.fetchLinks(startDate, endDate),
+          throwsA(isA<ParseException>()),
+        );
+      });
+
+      test('JSONの型が期待と異なる場合にParseExceptionを投げる', () async {
+        // Arrange
+        final startDate = DateTime(2024, 1, 1);
+        final endDate = DateTime(2024, 1, 31);
+        when(
+          () => mockApiClient.list(startDate, endDate),
+        ).thenAnswer((_) async => '"this should be an array"');
+
+        // Act & Assert
+        expect(
+          () => repository.fetchLinks(startDate, endDate),
+          throwsA(isA<ParseException>()),
+        );
       });
     });
   });
