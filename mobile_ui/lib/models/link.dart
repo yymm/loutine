@@ -1,3 +1,5 @@
+// ignore_for_file: invalid_annotation_target
+
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'link.freezed.dart';
@@ -9,9 +11,7 @@ abstract class Link with _$Link {
     required int id,
     required String title,
     required String url,
-    // ignore: invalid_annotation_target
     @JsonKey(name: 'created_at') required DateTime createdAt,
-    // ignore: invalid_annotation_target
     @JsonKey(name: 'updated_at') required DateTime updatedAt,
     // TODO: タグ機能を実装する際にコメントを外す
     // required List<Tag> tags,

@@ -1,7 +1,7 @@
+// ignore_for_file: invalid_annotation_target
+
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-// Freezedが生成するコードを参照するための宣言
-// tag.freezed.dart と tag.g.dart が自動生成される
 part 'tag.freezed.dart';
 part 'tag.g.dart';
 
@@ -15,11 +15,6 @@ part 'tag.g.dart';
 /// 5. イミュータブルが保証される - 予期しない変更を防ぐ
 @freezed
 abstract class Tag with _$Tag {
-  /// Tagのファクトリコンストラクタ
-  ///
-  /// @Defaultアノテーションでデフォルト値を指定できます
-  /// @JsonSerializable(fieldRename: FieldRename.snake)により
-  /// createdAt -> created_at、updatedAt -> updated_at に自動変換
   const factory Tag({
     required int id,
     required String name,
@@ -28,8 +23,5 @@ abstract class Tag with _$Tag {
     @JsonKey(name: "updated_at") required DateTime updatedAt,
   }) = _Tag;
 
-  /// JSONからTagオブジェクトを生成
-  ///
-  /// json_serializableが自動生成するヘルパー関数を使用
   factory Tag.fromJson(Map<String, dynamic> json) => _$TagFromJson(json);
 }

@@ -1,3 +1,5 @@
+// ignore_for_file: invalid_annotation_target
+
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'category.freezed.dart';
@@ -9,9 +11,7 @@ abstract class Category with _$Category {
     required int id,
     required String name,
     @Default('') String description,
-    // ignore: invalid_annotation_target
     @JsonKey(name: 'created_at') required DateTime createdAt,
-    // ignore: invalid_annotation_target
     @JsonKey(name: 'updated_at') required DateTime updatedAt,
   }) = _Category;
 
