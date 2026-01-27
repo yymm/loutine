@@ -118,7 +118,7 @@ class NoteListPage extends ConsumerWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          context.push('/note/new');
+          context.go('/note');
         },
         child: const Icon(Icons.add),
       ),

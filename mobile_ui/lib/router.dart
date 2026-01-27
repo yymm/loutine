@@ -112,14 +112,14 @@ final router = GoRouter(
               name: 'note',
               path: '/note',
               builder: (BuildContext context, GoRouterState state) {
-                return const NoteListPage();
+                return const NoteFormMain();
               },
               routes: [
                 GoRoute(
-                  name: 'note-new',
-                  path: 'new',
+                  name: 'note-list',
+                  path: 'list',
                   builder: (BuildContext context, GoRouterState state) {
-                    return const NoteFormMain();
+                    return const NoteListPage();
                   },
                 ),
                 GoRoute(

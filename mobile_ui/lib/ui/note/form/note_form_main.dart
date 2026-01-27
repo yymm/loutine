@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:mobile_ui/ui/note/form/note_form.dart';
 
 class NoteFormMain extends StatelessWidget {
@@ -10,7 +11,16 @@ class NoteFormMain extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(noteId != null ? 'ノートを編集' : '新しいノート'),
+        title: const Text('Note'),
+        leading: const Icon(Icons.note_add),
+        actions: [
+          IconButton(
+            onPressed: () {
+              context.go('/note/list');
+            },
+            icon: const Icon(Icons.format_list_bulleted),
+          ),
+        ],
       ),
       body: NoteForm(noteId: noteId),
     );
