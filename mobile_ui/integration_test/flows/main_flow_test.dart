@@ -204,7 +204,7 @@ void main() {
           await tester.tap(listTiles.first);
           await tester.pumpAndSettle();
           print('  ✓ タグを選択しました');
-          
+
           // ドロップダウンを閉じる（外側をタップ）
           await tester.tapAt(const Offset(10, 10));
           await tester.pumpAndSettle();
@@ -215,7 +215,7 @@ void main() {
             await tester.tap(checkboxes.first);
             await tester.pumpAndSettle();
             print('  ✓ タグを選択しました');
-            
+
             // ドロップダウンを閉じる
             await tester.tapAt(const Offset(10, 10));
             await tester.pumpAndSettle();
