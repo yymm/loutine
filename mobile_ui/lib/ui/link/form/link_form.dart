@@ -130,7 +130,7 @@ class _LinkForm extends ConsumerState<LinkForm> {
             AppDividerWidget(),
             SizedBox(height: 20),
             // >> Tags selector {{{
-            MultiDropdown(
+            MultiDropdown<String>(
               searchEnabled: true,
               controller: _tabController,
               chipDecoration: ChipDecoration(
