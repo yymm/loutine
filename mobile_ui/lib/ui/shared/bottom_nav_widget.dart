@@ -17,17 +17,11 @@ class BottomNavWidget extends ConsumerWidget {
           .read(calendarStateManagerProvider.notifier)
           .getAllEventItem(ref.read(calendarFocusDayProvider));
     } else if (index == 1) {
-      // Link tab - fetch tags if empty
-      final tags = ref.read(tagListProvider);
-      if (tags.isEmpty) {
-        ref.read(tagListProvider.notifier).getList();
-      }
+      // Link tab - fetch tags
+      ref.read(tagListProvider.notifier).getList();
     } else if (index == 2) {
-      // Purchase tab - fetch categories if empty
-      final categories = ref.read(categoryListProvider);
-      if (categories.isEmpty) {
-        ref.read(categoryListProvider.notifier).getList();
-      }
+      // Purchase tab - fetch categories
+      ref.read(categoryListProvider.notifier).getList();
     }
     // Note tab (index == 3) - add initialization if needed
 
