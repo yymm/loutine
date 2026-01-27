@@ -23,8 +23,8 @@ class _PurchaseForm extends ConsumerState<PurchaseForm> {
   void initState() {
     super.initState();
     // Fetch categories when the form is initialized
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      ref.read(categoryListProvider.notifier).getList();
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      await ref.read(categoryListProvider.notifier).getList();
     });
   }
 
