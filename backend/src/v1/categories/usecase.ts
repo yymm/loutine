@@ -19,10 +19,7 @@ export class CategoriesUsecase {
 	}
 
 	async get_all() {
-		const all_categories = await this.db
-			.select()
-			.from(categories)
-			.all();
+		const all_categories = await this.db.select().from(categories).all();
 		return all_categories;
 	}
 
