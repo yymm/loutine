@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:mobile_ui/providers/category_list_provider.dart';
 import 'package:mobile_ui/providers/home_calendar_provider.dart';
-import 'package:mobile_ui/providers/tag_list_provider.dart';
 
 class BottomNavWidget extends ConsumerWidget {
   const BottomNavWidget({super.key, required this.navigationShell});
