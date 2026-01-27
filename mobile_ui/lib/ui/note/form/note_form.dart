@@ -186,16 +186,21 @@ class _NoteFormState extends ConsumerState<NoteForm> {
       body: Column(
         children: [
           Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: TextField(
+            padding: const EdgeInsets.all(15.0),
+            child: TextFormField(
               controller: _titleController,
-              decoration: const InputDecoration(
-                hintText: 'タイトル',
-                border: OutlineInputBorder(),
-              ),
+              keyboardType: TextInputType.multiline,
+              maxLines: null,
               style: const TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
+              ),
+              decoration: const InputDecoration(
+                hintText: 'Enter a title',
+                hintStyle: TextStyle(fontSize: 20),
+                labelText: 'Title',
+                labelStyle: TextStyle(fontSize: 20),
+                border: InputBorder.none,
               ),
             ),
           ),
@@ -217,6 +222,15 @@ class _NoteFormState extends ConsumerState<NoteForm> {
             ),
             toolbarSize: 40, // ツールバーの高さを小さく
             multiRowsDisplay: false, // 1行表示
+            // Markdown対応: 構造
+            showHeaderStyle: true, // 見出し (# ## ###)
+            showListNumbers: true, // 順序付きリスト (1. 2. 3.)
+            showListBullets: true, // 箇条書き (- or *)
+            showListCheck: true, // チェックリスト (- [ ])
+            showCodeBlock: true, // コードブロック (```)
+            showQuote: true, // 引用 (>)
+            showIndent: false, // インデント（リストで自動対応）
+            showLink: true, // リンク ([text](url))
             // Markdown対応: テキスト装飾
             showBoldButton: true, // 太字 (**text**)
             showItalicButton: true, // 斜体 (*text*)
@@ -233,15 +247,6 @@ class _NoteFormState extends ConsumerState<NoteForm> {
             showCenterAlignment: false,
             showRightAlignment: false,
             showJustifyAlignment: false,
-            // Markdown対応: 構造
-            showHeaderStyle: true, // 見出し (# ## ###)
-            showListNumbers: true, // 順序付きリスト (1. 2. 3.)
-            showListBullets: true, // 箇条書き (- or *)
-            showListCheck: true, // チェックリスト (- [ ])
-            showCodeBlock: true, // コードブロック (```)
-            showQuote: true, // 引用 (>)
-            showIndent: false, // インデント（リストで自動対応）
-            showLink: true, // リンク ([text](url))
             // 操作
             showUndo: false, // 元に戻す
             showRedo: false, // やり直し
@@ -262,7 +267,19 @@ class _NoteFormState extends ConsumerState<NoteForm> {
               controller: _quillController,
               config: const QuillEditorConfig(
                 padding: EdgeInsets.zero,
-                placeholder: 'ノートを書く...',
+                placeholder: 'free write...',
+                customStyles: DefaultStyles(
+                  placeHolder: DefaultTextBlockStyle(
+                    TextStyle(
+                      fontSize: 16,
+                      color: Colors.grey,
+                    ),
+                    HorizontalSpacing(0, 0),
+                    VerticalSpacing(0, 0),
+                    VerticalSpacing(0, 0),
+                    null,
+                  ),
+                ),
               ),
             ),
           ),
