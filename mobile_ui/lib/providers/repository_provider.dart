@@ -4,6 +4,7 @@ import 'package:mobile_ui/repositories/tag_repository.dart';
 import 'package:mobile_ui/repositories/category_repository.dart';
 import 'package:mobile_ui/repositories/link_repository.dart';
 import 'package:mobile_ui/repositories/purchase_repository.dart';
+import 'package:mobile_ui/repositories/note_repository.dart';
 
 part 'repository_provider.g.dart';
 
@@ -73,4 +74,10 @@ PurchaseApiClient purchaseApiClient(Ref ref) {
 @riverpod
 PurchaseRepository purchaseRepository(Ref ref) {
   return PurchaseRepository(ref.watch(purchaseApiClientProvider));
+}
+
+/// NoteRepositoryのインスタンスを提供
+@riverpod
+NoteRepository noteRepository(Ref ref) {
+  return NoteRepository();
 }

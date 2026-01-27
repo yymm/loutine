@@ -461,3 +461,49 @@ final class PurchaseRepositoryProvider
 
 String _$purchaseRepositoryHash() =>
     r'0e652b2cede3232e1905701fdb1a4a816c9e7348';
+
+/// NoteRepositoryのインスタンスを提供
+
+@ProviderFor(noteRepository)
+final noteRepositoryProvider = NoteRepositoryProvider._();
+
+/// NoteRepositoryのインスタンスを提供
+
+final class NoteRepositoryProvider
+    extends $FunctionalProvider<NoteRepository, NoteRepository, NoteRepository>
+    with $Provider<NoteRepository> {
+  /// NoteRepositoryのインスタンスを提供
+  NoteRepositoryProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'noteRepositoryProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$noteRepositoryHash();
+
+  @$internal
+  @override
+  $ProviderElement<NoteRepository> $createElement($ProviderPointer pointer) =>
+      $ProviderElement(pointer);
+
+  @override
+  NoteRepository create(Ref ref) {
+    return noteRepository(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(NoteRepository value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<NoteRepository>(value),
+    );
+  }
+}
+
+String _$noteRepositoryHash() => r'cf883481505a8ca5829dae87a4fc24365b450347';

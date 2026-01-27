@@ -4,6 +4,7 @@ import 'package:mobile_ui/ui/category/category_main.dart';
 import 'package:mobile_ui/ui/home/home_main.dart';
 import 'package:mobile_ui/ui/link/list/link_list_main.dart';
 import 'package:mobile_ui/ui/link/form/link_form_main.dart';
+import 'package:mobile_ui/ui/note/note_list_page.dart';
 import 'package:mobile_ui/ui/note/form/note_form_main.dart';
 import 'package:mobile_ui/ui/purchase/form/purchase_form_main.dart';
 import 'package:mobile_ui/ui/setting/setting_main.dart';
@@ -111,8 +112,25 @@ final router = GoRouter(
               name: 'note',
               path: '/note',
               builder: (BuildContext context, GoRouterState state) {
-                return const NoteFormMain();
+                return const NoteListPage();
               },
+              routes: [
+                GoRoute(
+                  name: 'note-new',
+                  path: 'new',
+                  builder: (BuildContext context, GoRouterState state) {
+                    return const NoteFormMain();
+                  },
+                ),
+                GoRoute(
+                  name: 'note-edit',
+                  path: 'edit/:id',
+                  builder: (BuildContext context, GoRouterState state) {
+                    final noteId = state.pathParameters['id']!;
+                    return NoteFormMain(noteId: noteId);
+                  },
+                ),
+              ],
             ),
           ],
         ),

@@ -1,27 +1,22 @@
-class Note {
-  Note({
-    required this.id,
-    required this.title,
-    required this.text,
-    required this.createdAt,
-    required this.updatedAt,
-    // required this.tags,
-  });
+// ignore_for_file: invalid_annotation_target
 
-  final int id;
-  final String title;
-  final String text;
-  final DateTime createdAt;
-  final DateTime updatedAt;
-  // final List<Tag> tags;
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-  factory Note.fromJson(Map<String, dynamic> json) {
-    return Note(
-      id: json['id'] as int,
-      title: json['title'] as String,
-      text: json['text'] as String,
-      createdAt: DateTime.parse(json['created_at']).toLocal(),
-      updatedAt: DateTime.parse(json['updated_at']).toLocal(),
-    );
-  }
+part 'note.freezed.dart';
+part 'note.g.dart';
+
+/// Noteモデル - Freezedを使用したイミュータブルなデータクラス
+@freezed
+abstract class Note with _$Note {
+  const factory Note({
+    required String id,
+    required String title,
+    @JsonKey(name: 'content') required String content,
+    @Default([]) List<String> tagIds,
+    DateTime? date,
+    @JsonKey(name: 'created_at') required DateTime createdAt,
+    @JsonKey(name: 'updated_at') required DateTime updatedAt,
+  }) = _Note;
+
+  factory Note.fromJson(Map<String, dynamic> json) => _$NoteFromJson(json);
 }

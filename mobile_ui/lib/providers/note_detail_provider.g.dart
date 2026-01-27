@@ -1,0 +1,108 @@
+// GENERATED CODE - DO NOT MODIFY BY HAND
+
+part of 'note_detail_provider.dart';
+
+// **************************************************************************
+// RiverpodGenerator
+// **************************************************************************
+
+// GENERATED CODE - DO NOT MODIFY BY HAND
+// ignore_for_file: type=lint, type=warning
+/// 特定のノートを取得するProvider
+
+@ProviderFor(NoteDetail)
+final noteDetailProvider = NoteDetailFamily._();
+
+/// 特定のノートを取得するProvider
+final class NoteDetailProvider
+    extends $AsyncNotifierProvider<NoteDetail, Note?> {
+  /// 特定のノートを取得するProvider
+  NoteDetailProvider._({
+    required NoteDetailFamily super.from,
+    required String super.argument,
+  }) : super(
+         retry: null,
+         name: r'noteDetailProvider',
+         isAutoDispose: true,
+         dependencies: null,
+         $allTransitiveDependencies: null,
+       );
+
+  @override
+  String debugGetCreateSourceHash() => _$noteDetailHash();
+
+  @override
+  String toString() {
+    return r'noteDetailProvider'
+        ''
+        '($argument)';
+  }
+
+  @$internal
+  @override
+  NoteDetail create() => NoteDetail();
+
+  @override
+  bool operator ==(Object other) {
+    return other is NoteDetailProvider && other.argument == argument;
+  }
+
+  @override
+  int get hashCode {
+    return argument.hashCode;
+  }
+}
+
+String _$noteDetailHash() => r'9822b53fc7a5506c2c6c2286e340f2c59b3ddb52';
+
+/// 特定のノートを取得するProvider
+
+final class NoteDetailFamily extends $Family
+    with
+        $ClassFamilyOverride<
+          NoteDetail,
+          AsyncValue<Note?>,
+          Note?,
+          FutureOr<Note?>,
+          String
+        > {
+  NoteDetailFamily._()
+    : super(
+        retry: null,
+        name: r'noteDetailProvider',
+        dependencies: null,
+        $allTransitiveDependencies: null,
+        isAutoDispose: true,
+      );
+
+  /// 特定のノートを取得するProvider
+
+  NoteDetailProvider call(String noteId) =>
+      NoteDetailProvider._(argument: noteId, from: this);
+
+  @override
+  String toString() => r'noteDetailProvider';
+}
+
+/// 特定のノートを取得するProvider
+
+abstract class _$NoteDetail extends $AsyncNotifier<Note?> {
+  late final _$args = ref.$arg as String;
+  String get noteId => _$args;
+
+  FutureOr<Note?> build(String noteId);
+  @$mustCallSuper
+  @override
+  void runBuild() {
+    final ref = this.ref as $Ref<AsyncValue<Note?>, Note?>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<AsyncValue<Note?>, Note?>,
+              AsyncValue<Note?>,
+              Object?,
+              Object?
+            >;
+    element.handleCreate(ref, () => build(_$args));
+  }
+}
