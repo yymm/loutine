@@ -22,6 +22,15 @@ class _LinkForm extends ConsumerState<LinkForm> {
   String? dropdownformfieldValue;
 
   @override
+  void initState() {
+    super.initState();
+    // Fetch tags when the form is initialized
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      ref.read(tagListProvider.notifier).getList();
+    });
+  }
+
+  @override
   void dispose() {
     _urlController.dispose();
     _titleController.dispose();

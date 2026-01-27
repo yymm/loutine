@@ -16,13 +16,9 @@ class BottomNavWidget extends ConsumerWidget {
       ref
           .read(calendarStateManagerProvider.notifier)
           .getAllEventItem(ref.read(calendarFocusDayProvider));
-    } else if (index == 1) {
-      // Link tab - fetch tags
-      ref.read(tagListProvider.notifier).getList();
-    } else if (index == 2) {
-      // Purchase tab - fetch categories
-      ref.read(categoryListProvider.notifier).getList();
     }
+    // Link tab (index == 1) - tags fetched in LinkForm.initState
+    // Purchase tab (index == 2) - categories fetched in PurchaseForm.initState
     // Note tab (index == 3) - add initialization if needed
 
     navigationShell.goBranch(
