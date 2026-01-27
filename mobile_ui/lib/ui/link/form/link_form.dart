@@ -28,7 +28,11 @@ class _LinkForm extends ConsumerState<LinkForm> {
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       final tags = await ref.read(tagListProvider.notifier).getList();
       _tabController.setItems(
-        tags.map((tag) => DropdownItem(label: tag.name, value: tag.id.toString())).toList(),
+        tags
+            .map(
+              (tag) => DropdownItem(label: tag.name, value: tag.id.toString()),
+            )
+            .toList(),
       );
     });
   }
