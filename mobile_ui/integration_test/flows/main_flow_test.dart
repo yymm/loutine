@@ -172,7 +172,7 @@ void main() {
         final linkTab = find.text('Link');
         expect(linkTab, findsOneWidget);
         await tester.tap(linkTab);
-        await tester.pumpAndSettle();
+        await tester.pumpAndSettle(const Duration(seconds: 2));
 
         // Link Form画面にいることを確認
         expect(find.text('Link Form'), findsOneWidget);
@@ -188,6 +188,41 @@ void main() {
         expect(titleField, findsOneWidget);
         await tester.enterText(titleField, uniqueLinkTitle);
         await tester.pumpAndSettle();
+
+        // Tagフィールドまでスクロール
+        final tagIcon = find.byIcon(Icons.tag);
+        await tester.ensureVisible(tagIcon);
+        await tester.pumpAndSettle();
+
+        // Tagを選択 - MultiDropdownフィールドをタップして開く
+        await tester.tap(tagIcon);
+        await tester.pumpAndSettle(const Duration(seconds: 2));
+
+        // ドロップダウンメニューが開いたら、ListTileを探して最初のアイテムをタップ
+        final listTiles = find.byType(ListTile);
+        if (listTiles.evaluate().isNotEmpty) {
+          await tester.tap(listTiles.first);
+          await tester.pumpAndSettle();
+          print('  ✓ タグを選択しました');
+
+          // ドロップダウンを閉じる（外側をタップ）
+          await tester.tapAt(const Offset(10, 10));
+          await tester.pumpAndSettle();
+        } else {
+          // ListTileがない場合はCheckboxを試す
+          final checkboxes = find.byType(Checkbox);
+          if (checkboxes.evaluate().isNotEmpty) {
+            await tester.tap(checkboxes.first);
+            await tester.pumpAndSettle();
+            print('  ✓ タグを選択しました');
+
+            // ドロップダウンを閉じる
+            await tester.tapAt(const Offset(10, 10));
+            await tester.pumpAndSettle();
+          } else {
+            print('  ⚠ タグのアイテムが見つかりませんでした');
+          }
+        }
 
         // Submitボタンをタップ
         final submitButton = find.widgetWithText(ElevatedButton, 'Submit');
@@ -223,7 +258,7 @@ void main() {
         final purchaseTab = find.text('Purchase');
         expect(purchaseTab, findsOneWidget);
         await tester.tap(purchaseTab);
-        await tester.pumpAndSettle();
+        await tester.pumpAndSettle(const Duration(seconds: 2));
 
         // Purchase Form画面にいることを確認
         expect(find.text('Purchase Form'), findsOneWidget);
@@ -239,6 +274,24 @@ void main() {
         expect(titleField, findsOneWidget);
         await tester.enterText(titleField, uniquePurchaseTitle);
         await tester.pumpAndSettle();
+
+        // Categoryを選択 - DropdownButtonFormFieldをタップ
+        final categoryDropdown = find.ancestor(
+          of: find.text('Category'),
+          matching: find.byType(DropdownButtonFormField<String>),
+        );
+        if (categoryDropdown.evaluate().isNotEmpty) {
+          await tester.tap(categoryDropdown.first);
+          await tester.pumpAndSettle(const Duration(seconds: 1));
+
+          // ドロップダウンメニューが開いたら、最初のカテゴリを選択
+          final dropdownItems = find.byType(DropdownMenuItem<String>);
+          if (dropdownItems.evaluate().isNotEmpty) {
+            await tester.tap(dropdownItems.first);
+            await tester.pumpAndSettle();
+            print('  ✓ カテゴリを選択しました');
+          }
+        }
 
         // Submitボタンをタップ
         final submitButton = find.widgetWithText(ElevatedButton, 'Submit');

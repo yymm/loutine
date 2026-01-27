@@ -20,6 +20,15 @@ class _PurchaseForm extends ConsumerState<PurchaseForm> {
   String? dropdownformfieldValue;
 
   @override
+  void initState() {
+    super.initState();
+    // Fetch categories when the form is initialized
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      await ref.read(categoryListProvider.notifier).getList();
+    });
+  }
+
+  @override
   void dispose() {
     _costController.dispose();
     _titleController.dispose();

@@ -22,6 +22,22 @@ class _LinkForm extends ConsumerState<LinkForm> {
   String? dropdownformfieldValue;
 
   @override
+  void initState() {
+    super.initState();
+    // Fetch tags when the form is initialized
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      final tags = await ref.read(tagListProvider.notifier).getList();
+      _tabController.setItems(
+        tags
+            .map(
+              (tag) => DropdownItem(label: tag.name, value: tag.id.toString()),
+            )
+            .toList(),
+      );
+    });
+  }
+
+  @override
   void dispose() {
     _urlController.dispose();
     _titleController.dispose();
@@ -31,10 +47,7 @@ class _LinkForm extends ConsumerState<LinkForm> {
 
   @override
   Widget build(BuildContext context) {
-    // final state = Provider.of<LinkFormState>(context, listen: true);
     ref.watch(linkNewProvider); // Watch provider for rebuilds
-    final tags = ref.watch(tagListProvider);
-    // final categories = ref.watch(categoryListProvider);
 
     return Container(
       padding: EdgeInsets.all(25),
@@ -121,7 +134,7 @@ class _LinkForm extends ConsumerState<LinkForm> {
             AppDividerWidget(),
             SizedBox(height: 20),
             // >> Tags selector {{{
-            MultiDropdown(
+            MultiDropdown<String>(
               searchEnabled: true,
               controller: _tabController,
               chipDecoration: ChipDecoration(
@@ -137,9 +150,7 @@ class _LinkForm extends ConsumerState<LinkForm> {
                 textColor: Colors.black54,
                 selectedTextColor: Colors.black87,
               ),
-              items: tags.map((tag) {
-                return DropdownItem(label: tag.name, value: tag.id.toString());
-              }).toList(),
+              items: const [],
             ),
             // }}}
             SizedBox(height: 20),
