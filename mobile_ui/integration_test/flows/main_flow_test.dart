@@ -189,33 +189,39 @@ void main() {
         await tester.enterText(titleField, uniqueLinkTitle);
         await tester.pumpAndSettle();
 
+        // Tagフィールドまでスクロール
+        final tagIcon = find.byIcon(Icons.tag);
+        await tester.ensureVisible(tagIcon);
+        await tester.pumpAndSettle();
+
         // Tagを選択 - MultiDropdownフィールドをタップして開く
-        final tagField = find.descendant(
-          of: find.ancestor(
-            of: find.text('Tag'),
-            matching: find.byType(InkWell),
-          ),
-          matching: find.byType(InkWell),
-        );
-        if (tagField.evaluate().isEmpty) {
-          // 別の方法でMultiDropdownを探す
-          final tagIcon = find.byIcon(Icons.tag);
-          await tester.tap(tagIcon);
-        } else {
-          await tester.tap(tagField.first);
-        }
+        await tester.tap(tagIcon);
         await tester.pumpAndSettle(const Duration(seconds: 2));
 
-        // ドロップダウンが開いたことを確認し、最初のタグを選択
-        final firstTagCheckbox = find.byType(Checkbox).first;
-        if (firstTagCheckbox.evaluate().isNotEmpty) {
-          await tester.tap(firstTagCheckbox);
+        // ドロップダウンメニューが開いたら、ListTileを探して最初のアイテムをタップ
+        final listTiles = find.byType(ListTile);
+        if (listTiles.evaluate().isNotEmpty) {
+          await tester.tap(listTiles.first);
           await tester.pumpAndSettle();
           print('  ✓ タグを選択しました');
-
+          
           // ドロップダウンを閉じる（外側をタップ）
           await tester.tapAt(const Offset(10, 10));
           await tester.pumpAndSettle();
+        } else {
+          // ListTileがない場合はCheckboxを試す
+          final checkboxes = find.byType(Checkbox);
+          if (checkboxes.evaluate().isNotEmpty) {
+            await tester.tap(checkboxes.first);
+            await tester.pumpAndSettle();
+            print('  ✓ タグを選択しました');
+            
+            // ドロップダウンを閉じる
+            await tester.tapAt(const Offset(10, 10));
+            await tester.pumpAndSettle();
+          } else {
+            print('  ⚠ タグのアイテムが見つかりませんでした');
+          }
         }
 
         // Submitボタンをタップ
