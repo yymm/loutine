@@ -466,6 +466,16 @@ void main() {
           }
         }
 
+        // 今月に戻る
+        final prevMonthButton = find.descendant(
+          of: tableCalendar,
+          matching: find.byIcon(Icons.chevron_left),
+        );
+        expect(prevMonthButton, findsOneWidget);
+        await tester.tap(prevMonthButton);
+        await tester.pumpAndSettle(const Duration(seconds: 3));
+        print('  ✓ 今月に戻る');
+
         // 今日の日付をタップ（LinkとPurchaseとNoteを作成した日）
         final todayStr = today.day.toString();
         final todayFinder = find.descendant(
