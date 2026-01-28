@@ -33,9 +33,7 @@ class LoutineApp extends ConsumerWidget {
       theme: _getThemeData(Brightness.light),
       themeMode: ref.watch(themeModeManagerProvider),
       routerConfig: router,
-      localizationsDelegates: const [
-        FlutterQuillLocalizations.delegate,
-      ],
+      localizationsDelegates: const [FlutterQuillLocalizations.delegate],
     );
   }
 }

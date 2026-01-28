@@ -5,16 +5,12 @@ import 'package:multi_dropdown/multi_dropdown.dart';
 
 /// タグ選択ダイアログ
 class TagSelectionDialog extends ConsumerStatefulWidget {
-  const TagSelectionDialog({
-    super.key,
-    required this.onSave,
-  });
+  const TagSelectionDialog({super.key, required this.onSave});
 
   final Future<void> Function(List<int> tagIds) onSave;
 
   @override
-  ConsumerState<TagSelectionDialog> createState() =>
-      _TagSelectionDialogState();
+  ConsumerState<TagSelectionDialog> createState() => _TagSelectionDialogState();
 }
 
 class _TagSelectionDialogState extends ConsumerState<TagSelectionDialog> {
@@ -36,13 +32,11 @@ class _TagSelectionDialogState extends ConsumerState<TagSelectionDialog> {
 
   Future<void> _loadTags() async {
     final tags = await ref.read(tagListProvider.notifier).getList();
-    
+
     final items = tags
-        .map(
-          (tag) => DropdownItem(label: tag.name, value: tag.id.toString()),
-        )
+        .map((tag) => DropdownItem(label: tag.name, value: tag.id.toString()))
         .toList();
-    
+
     if (mounted) {
       setState(() {
         _items = items;

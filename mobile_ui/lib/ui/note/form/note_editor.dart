@@ -3,10 +3,7 @@ import 'package:flutter_quill/flutter_quill.dart';
 
 /// Quillエディタとツールバーを含むWidget
 class NoteEditor extends StatefulWidget {
-  const NoteEditor({
-    super.key,
-    required this.controller,
-  });
+  const NoteEditor({super.key, required this.controller});
 
   final QuillController controller;
 
@@ -30,9 +27,7 @@ class _NoteEditorState extends State<NoteEditor> {
     return Column(
       children: [
         _buildToolbar(),
-        Expanded(
-          child: _buildEditor(),
-        ),
+        Expanded(child: _buildEditor()),
       ],
     );
   }
@@ -43,9 +38,7 @@ class _NoteEditorState extends State<NoteEditor> {
       config: QuillSimpleToolbarConfig(
         decoration: const BoxDecoration(
           color: Colors.white,
-          border: Border(
-            bottom: BorderSide(color: Colors.grey, width: 0.5),
-          ),
+          border: Border(bottom: BorderSide(color: Colors.grey, width: 0.5)),
         ),
         buttonOptions: const QuillSimpleToolbarButtonOptions(
           base: QuillToolbarBaseButtonOptions(
@@ -103,10 +96,7 @@ class _NoteEditorState extends State<NoteEditor> {
           placeholder: 'free write...',
           customStyles: DefaultStyles(
             placeHolder: DefaultTextBlockStyle(
-              TextStyle(
-                fontSize: 16,
-                color: Colors.grey,
-              ),
+              TextStyle(fontSize: 16, color: Colors.grey),
               HorizontalSpacing(0, 0),
               VerticalSpacing(0, 0),
               VerticalSpacing(0, 0),

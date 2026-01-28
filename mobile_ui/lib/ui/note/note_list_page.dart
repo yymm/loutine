@@ -27,15 +27,11 @@ class NoteListPage extends ConsumerWidget {
     final notesAsync = ref.watch(noteListProvider);
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('ノート'),
-      ),
+      appBar: AppBar(title: const Text('ノート')),
       body: notesAsync.when(
         data: (notes) {
           if (notes.isEmpty) {
-            return const Center(
-              child: Text('ノートがありません\n下のボタンから作成してください'),
-            );
+            return const Center(child: Text('ノートがありません\n下のボタンから作成してください'));
           }
 
           return ListView.builder(
@@ -60,18 +56,15 @@ class NoteListPage extends ConsumerWidget {
                         plainText.isEmpty
                             ? '(内容なし)'
                             : plainText.length > 100
-                                ? '${plainText.substring(0, 100)}...'
-                                : plainText,
+                            ? '${plainText.substring(0, 100)}...'
+                            : plainText,
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                       ),
                       const SizedBox(height: 8),
                       Text(
                         '更新: ${dateFormat.format(note.updatedAt)}',
-                        style: TextStyle(
-                          fontSize: 12,
-                          color: Colors.grey[600],
-                        ),
+                        style: TextStyle(fontSize: 12, color: Colors.grey[600]),
                       ),
                     ],
                   ),
@@ -112,9 +105,7 @@ class NoteListPage extends ConsumerWidget {
           );
         },
         loading: () => const Center(child: CircularProgressIndicator()),
-        error: (error, stack) => Center(
-          child: Text('エラーが発生しました: $error'),
-        ),
+        error: (error, stack) => Center(child: Text('エラーが発生しました: $error')),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {

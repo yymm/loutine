@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 SnackBar getSnackBar({required context, required text, bool error = false}) {
   // contextが有効な間にScaffoldMessengerの参照を取得
   final scaffoldMessenger = ScaffoldMessenger.of(context);
-  
+
   return SnackBar(
     content: Text(text),
     duration: Duration(seconds: error ? 5 : 3),

@@ -69,15 +69,13 @@ class _NoteFormState extends ConsumerState<NoteForm> {
   Future<void> _showTagSelectionDialog() async {
     await showDialog(
       context: context,
-      builder: (context) => TagSelectionDialog(
-        onSave: _saveNote,
-      ),
+      builder: (context) => TagSelectionDialog(onSave: _saveNote),
     );
   }
 
   Future<void> _saveNote(List<int> tagIds) async {
     if (!mounted) return;
-    
+
     final title = _titleController.text;
     final text = _getDeltaJson();
     final notifier = ref.read(noteListProvider.notifier);
@@ -111,11 +109,7 @@ class _NoteFormState extends ConsumerState<NoteForm> {
     String text,
     List<int> tagIds,
   ) async {
-    await notifier.createNote(
-      title: title,
-      text: text,
-      tagIds: tagIds,
-    );
+    await notifier.createNote(title: title, text: text, tagIds: tagIds);
   }
 
   Future<void> _updateNote(
@@ -129,13 +123,13 @@ class _NoteFormState extends ConsumerState<NoteForm> {
     final currentNote = currentNoteAsync.value;
 
     if (currentNote == null) return;
-    
+
     final updatedNote = currentNote.copyWith(
       title: title,
       text: text,
       tagIds: tagIds,
     );
-    
+
     await notifier.updateNote(updatedNote);
   }
 
@@ -151,21 +145,14 @@ class _NoteFormState extends ConsumerState<NoteForm> {
   }
 
   void _showSuccessMessage() {
-    ScaffoldMessenger.of(context).showSnackBar(
-      getSnackBar(
-        context: context,
-        text: 'Success to save note',
-      ),
-    );
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(getSnackBar(context: context, text: 'Success to save note'));
   }
 
   void _showErrorMessage(Object error) {
     ScaffoldMessenger.of(context).showSnackBar(
-      getSnackBar(
-        context: context,
-        text: error.toString(),
-        error: true,
-      ),
+      getSnackBar(context: context, text: error.toString(), error: true),
     );
   }
 
@@ -175,9 +162,7 @@ class _NoteFormState extends ConsumerState<NoteForm> {
       body: Column(
         children: [
           _buildTitleField(),
-          Expanded(
-            child: NoteEditor(controller: _quillController),
-          ),
+          Expanded(child: NoteEditor(controller: _quillController)),
         ],
       ),
       floatingActionButton: FloatingActionButton(
@@ -194,10 +179,7 @@ class _NoteFormState extends ConsumerState<NoteForm> {
         controller: _titleController,
         keyboardType: TextInputType.multiline,
         maxLines: null,
-        style: const TextStyle(
-          fontSize: 20,
-          fontWeight: FontWeight.bold,
-        ),
+        style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
         decoration: const InputDecoration(
           hintText: 'Enter a title',
           hintStyle: TextStyle(fontSize: 20),

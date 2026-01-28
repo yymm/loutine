@@ -363,7 +363,7 @@ void main() {
 
         // タグ選択はスキップして直接保存
         // （タグなしでも保存できることを確認）
-        
+
         // 保存ボタンをタップ
         final dialogSaveButton = find.widgetWithText(ElevatedButton, '保存');
         expect(dialogSaveButton, findsOneWidget);
@@ -376,7 +376,7 @@ void main() {
         // エラーが表示されていないことも確認
         final successMessage = find.text('Success to save note');
         final errorText = find.textContaining('エラー');
-        
+
         if (errorText.evaluate().isNotEmpty) {
           print('  ❌ エラーメッセージが表示されています');
           // エラー内容を確認するため、全てのTextウィジェットを列挙
@@ -388,7 +388,7 @@ void main() {
             }
           }
         }
-        
+
         expect(successMessage, findsOneWidget);
         print('  ✓ 保存成功メッセージを確認');
 

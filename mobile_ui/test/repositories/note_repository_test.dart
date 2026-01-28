@@ -127,11 +127,7 @@ void main() {
         ''';
 
         when(
-          () => mockApiClient.post(
-            '[{"insert":"新規内容\\n"}]',
-            '新規ノート',
-            [1],
-          ),
+          () => mockApiClient.post('[{"insert":"新規内容\\n"}]', '新規ノート', [1]),
         ).thenAnswer((_) async => jsonResponse);
 
         // Act
@@ -148,11 +144,7 @@ void main() {
         expect(note.tagIds, [1]);
 
         verify(
-          () => mockApiClient.post(
-            '[{"insert":"新規内容\\n"}]',
-            '新規ノート',
-            [1],
-          ),
+          () => mockApiClient.post('[{"insert":"新規内容\\n"}]', '新規ノート', [1]),
         ).called(1);
       });
 
@@ -170,11 +162,7 @@ void main() {
         ''';
 
         when(
-          () => mockApiClient.post(
-            '[{"insert":"内容\\n"}]',
-            'タグなし',
-            [],
-          ),
+          () => mockApiClient.post('[{"insert":"内容\\n"}]', 'タグなし', []),
         ).thenAnswer((_) async => jsonResponse);
 
         // Act
@@ -227,30 +215,21 @@ void main() {
     group('updateNote', () {
       test('未実装のため例外をスローする', () async {
         // Act & Assert
-        expect(
-          () => repository.updateNote,
-          isA<Function>(),
-        );
+        expect(() => repository.updateNote, isA<Function>());
       });
     });
 
     group('deleteNote', () {
       test('未実装のため例外をスローする', () async {
-        // Act & Assert  
-        expect(
-          () => repository.deleteNote,
-          isA<Function>(),
-        );
+        // Act & Assert
+        expect(() => repository.deleteNote, isA<Function>());
       });
     });
 
     group('getNoteById', () {
       test('未実装のため例外をスローする', () async {
         // Act & Assert
-        expect(
-          () => repository.getNoteById,
-          isA<Function>(),
-        );
+        expect(() => repository.getNoteById, isA<Function>());
       });
     });
   });

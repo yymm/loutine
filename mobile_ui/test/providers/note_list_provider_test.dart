@@ -44,9 +44,7 @@ void main() {
       ).thenAnswer((_) async => mockNotes);
 
       final container = ProviderContainer(
-        overrides: [
-          noteRepositoryProvider.overrideWithValue(mockRepository),
-        ],
+        overrides: [noteRepositoryProvider.overrideWithValue(mockRepository)],
       );
       addTearDown(container.dispose);
 
@@ -84,14 +82,14 @@ void main() {
       ).thenAnswer((_) async => [newNote]);
 
       final container = ProviderContainer(
-        overrides: [
-          noteRepositoryProvider.overrideWithValue(mockRepository),
-        ],
+        overrides: [noteRepositoryProvider.overrideWithValue(mockRepository)],
       );
       addTearDown(container.dispose);
 
       // Act
-      final result = await container.read(noteListProvider.notifier).createNote(
+      final result = await container
+          .read(noteListProvider.notifier)
+          .createNote(
             title: '新規ノート',
             text: '[{"insert":"新規内容\\n"}]',
             tagIds: [1, 2],
@@ -112,7 +110,9 @@ void main() {
 
       // invalidateSelfが呼ばれることを確認（間接的に）
       await Future.delayed(const Duration(milliseconds: 100));
-      verify(() => mockRepository.fetchNotes(any(), any())).called(greaterThanOrEqualTo(1));
+      verify(
+        () => mockRepository.fetchNotes(any(), any()),
+      ).called(greaterThanOrEqualTo(1));
     });
 
     test('タグなしでノートを作成できる', () async {
@@ -140,17 +140,14 @@ void main() {
       ).thenAnswer((_) async => [newNote]);
 
       final container = ProviderContainer(
-        overrides: [
-          noteRepositoryProvider.overrideWithValue(mockRepository),
-        ],
+        overrides: [noteRepositoryProvider.overrideWithValue(mockRepository)],
       );
       addTearDown(container.dispose);
 
       // Act
-      final result = await container.read(noteListProvider.notifier).createNote(
-            title: 'タグなし',
-            text: '[{"insert":"内容\\n"}]',
-          );
+      final result = await container
+          .read(noteListProvider.notifier)
+          .createNote(title: 'タグなし', text: '[{"insert":"内容\\n"}]');
 
       // Assert
       expect(result.id, 2);
@@ -159,18 +156,14 @@ void main() {
 
     test('deleteNote()はノートを削除して状態を更新する', () async {
       // Arrange
-      when(
-        () => mockRepository.deleteNote(1),
-      ).thenAnswer((_) async {});
+      when(() => mockRepository.deleteNote(1)).thenAnswer((_) async {});
 
       when(
         () => mockRepository.fetchNotes(any(), any()),
       ).thenAnswer((_) async => []);
 
       final container = ProviderContainer(
-        overrides: [
-          noteRepositoryProvider.overrideWithValue(mockRepository),
-        ],
+        overrides: [noteRepositoryProvider.overrideWithValue(mockRepository)],
       );
       addTearDown(container.dispose);
 
@@ -182,7 +175,9 @@ void main() {
 
       // invalidateSelfが呼ばれることを確認（間接的に）
       await Future.delayed(const Duration(milliseconds: 100));
-      verify(() => mockRepository.fetchNotes(any(), any())).called(greaterThanOrEqualTo(1));
+      verify(
+        () => mockRepository.fetchNotes(any(), any()),
+      ).called(greaterThanOrEqualTo(1));
     });
   });
 }
