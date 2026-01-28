@@ -20,6 +20,7 @@ class TagSelectionDialog extends ConsumerStatefulWidget {
 class _TagSelectionDialogState extends ConsumerState<TagSelectionDialog> {
   final _tagController = MultiSelectController<String>();
   bool _isLoading = true;
+  List<DropdownItem<String>> _items = [];
 
   @override
   void initState() {
@@ -34,18 +35,24 @@ class _TagSelectionDialogState extends ConsumerState<TagSelectionDialog> {
   }
 
   Future<void> _loadTags() async {
+    print('[TagSelectionDialog] Loading tags...');
     final tags = await ref.read(tagListProvider.notifier).getList();
-    _tagController.setItems(
-      tags
-          .map(
-            (tag) => DropdownItem(label: tag.name, value: tag.id.toString()),
-          )
-          .toList(),
-    );
+    print('[TagSelectionDialog] Loaded ${tags.length} tags: ${tags.map((t) => t.name).toList()}');
+    
+    final items = tags
+        .map(
+          (tag) => DropdownItem(label: tag.name, value: tag.id.toString()),
+        )
+        .toList();
+    
+    print('[TagSelectionDialog] Created ${items.length} dropdown items');
+    
     if (mounted) {
       setState(() {
+        _items = items;
         _isLoading = false;
       });
+      print('[TagSelectionDialog] setState called, items count: ${_items.length}');
     }
   }
 
@@ -57,6 +64,8 @@ class _TagSelectionDialogState extends ConsumerState<TagSelectionDialog> {
 
   @override
   Widget build(BuildContext context) {
+    print('[TagSelectionDialog] build() called, _isLoading: $_isLoading, items: ${_items.length}');
+    
     return AlertDialog(
       title: const Text('タグを選択'),
       content: _isLoading
@@ -66,6 +75,7 @@ class _TagSelectionDialogState extends ConsumerState<TagSelectionDialog> {
               child: MultiDropdown<String>(
                 searchEnabled: true,
                 controller: _tagController,
+                items: _items,
                 chipDecoration: const ChipDecoration(
                   backgroundColor: Colors.teal,
                   labelStyle: TextStyle(color: Colors.white),
