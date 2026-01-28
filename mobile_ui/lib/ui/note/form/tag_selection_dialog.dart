@@ -54,7 +54,7 @@ class _TagSelectionDialogState extends ConsumerState<TagSelectionDialog> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: const Text('タグを選択'),
+      title: const Text('Select tags'),
       content: _isLoading
           ? const Center(child: CircularProgressIndicator())
           : SizedBox(
@@ -81,7 +81,7 @@ class _TagSelectionDialogState extends ConsumerState<TagSelectionDialog> {
       actions: [
         TextButton(
           onPressed: () => Navigator.of(context).pop(),
-          child: const Text('キャンセル'),
+          child: const Text('Cancel'),
         ),
         ElevatedButton(
           onPressed: _isLoading
@@ -90,7 +90,7 @@ class _TagSelectionDialogState extends ConsumerState<TagSelectionDialog> {
                   Navigator.of(context).pop();
                   await widget.onSave(_getSelectedTagIds());
                 },
-          child: const Text('保存'),
+          child: const Text('Submit'),
         ),
       ],
     );

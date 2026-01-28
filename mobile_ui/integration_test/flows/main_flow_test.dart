@@ -484,7 +484,15 @@ void main() {
         );
         // 月をまたぐ場合、同じ日付が複数表示される可能性があるため、findsWidgetsを使用
         expect(todayFinder, findsWidgets);
-        await tester.tap(todayFinder.first);
+        
+        // 月初（1-7日）の場合は前月の日付も表示されるため.last（当月）を使用
+        // 月末（21-31日）の場合は翌月の日付も表示されるため.first（当月）を使用
+        // 月中（8-20日）の場合は.firstで問題なし
+        final todayIndex = today.day <= 7 
+            ? todayFinder.evaluate().length - 1  // 月初: last
+            : 0;  // 月中・月末: first
+        
+        await tester.tap(todayFinder.at(todayIndex));
         await tester.pumpAndSettle(const Duration(seconds: 3));
         print('  ✓ 今日($todayStr日)をタップ');
 
