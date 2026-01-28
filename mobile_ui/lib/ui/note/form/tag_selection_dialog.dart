@@ -59,8 +59,6 @@ class _TagSelectionDialogState extends ConsumerState<TagSelectionDialog> {
 
   @override
   Widget build(BuildContext context) {
-    print('[TagSelectionDialog] build() called, _isLoading: $_isLoading, items: ${_items.length}');
-    
     return AlertDialog(
       title: const Text('タグを選択'),
       content: _isLoading

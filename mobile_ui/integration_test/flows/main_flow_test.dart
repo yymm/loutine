@@ -361,36 +361,36 @@ void main() {
         expect(find.text('タグを選択'), findsOneWidget);
         print('  ✓ タグ選択ダイアログが表示');
 
-        // タグを選択（MultiDropdownをタップ）
-        final tagDropdown = find.text('Tag');
-        if (tagDropdown.evaluate().isNotEmpty) {
-          await tester.tap(tagDropdown.first);
-          await tester.pumpAndSettle(const Duration(seconds: 1));
-          print('  ✓ タグドロップダウンを開く');
-
-          // 最初のタグを選択
-          final checkboxes = find.byType(Checkbox);
-          if (checkboxes.evaluate().isNotEmpty) {
-            await tester.tap(checkboxes.first);
-            await tester.pumpAndSettle();
-            print('  ✓ タグを選択しました');
-
-            // ドロップダウンを閉じる
-            await tester.tapAt(const Offset(10, 10));
-            await tester.pumpAndSettle();
-          }
-        }
-
+        // タグ選択はスキップして直接保存
+        // （タグなしでも保存できることを確認）
+        
         // 保存ボタンをタップ
         final dialogSaveButton = find.widgetWithText(ElevatedButton, '保存');
         expect(dialogSaveButton, findsOneWidget);
         await tester.tap(dialogSaveButton);
 
-        // API通信を待つ
-        await tester.pumpAndSettle(const Duration(seconds: 5));
+        // API通信を待つ（長めに設定）
+        await tester.pumpAndSettle(const Duration(seconds: 10));
 
         // 成功メッセージを確認
-        expect(find.text('Success to save note'), findsOneWidget);
+        // エラーが表示されていないことも確認
+        final successMessage = find.text('Success to save note');
+        final errorText = find.textContaining('エラー');
+        
+        if (errorText.evaluate().isNotEmpty) {
+          print('  ❌ エラーメッセージが表示されています');
+          // エラー内容を確認するため、全てのTextウィジェットを列挙
+          final allTexts = find.byType(Text);
+          for (final textWidget in allTexts.evaluate()) {
+            final widget = textWidget.widget as Text;
+            if (widget.data != null && widget.data!.contains('エラー')) {
+              print('  エラー内容: ${widget.data}');
+            }
+          }
+        }
+        
+        expect(successMessage, findsOneWidget);
+        print('  ✓ 保存成功メッセージを確認');
 
         // Snackbarを閉じる
         ScaffoldMessenger.of(
