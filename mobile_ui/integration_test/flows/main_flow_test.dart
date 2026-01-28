@@ -358,14 +358,14 @@ void main() {
         await tester.pumpAndSettle(const Duration(seconds: 1));
 
         // タグ選択ダイアログが表示されることを確認
-        expect(find.text('タグを選択'), findsOneWidget);
+        expect(find.text('Select tags'), findsOneWidget);
         print('  ✓ タグ選択ダイアログが表示');
 
         // タグ選択はスキップして直接保存
         // （タグなしでも保存できることを確認）
 
-        // 保存ボタンをタップ
-        final dialogSaveButton = find.widgetWithText(ElevatedButton, '保存');
+        // Submitボタンをタップ
+        final dialogSaveButton = find.widgetWithText(ElevatedButton, 'Submit');
         expect(dialogSaveButton, findsOneWidget);
         await tester.tap(dialogSaveButton);
 
@@ -484,14 +484,15 @@ void main() {
         );
         // 月をまたぐ場合、同じ日付が複数表示される可能性があるため、findsWidgetsを使用
         expect(todayFinder, findsWidgets);
-        
+
         // 月初（1-7日）の場合は前月の日付も表示されるため.last（当月）を使用
         // 月末（21-31日）の場合は翌月の日付も表示されるため.first（当月）を使用
         // 月中（8-20日）の場合は.firstで問題なし
-        final todayIndex = today.day <= 7 
-            ? todayFinder.evaluate().length - 1  // 月初: last
-            : 0;  // 月中・月末: first
-        
+        final todayIndex = today.day > 7
+            ? todayFinder.evaluate().length -
+                  1 // 月初: last
+            : 0; // 月中・月末: first
+
         await tester.tap(todayFinder.at(todayIndex));
         await tester.pumpAndSettle(const Duration(seconds: 3));
         print('  ✓ 今日($todayStr日)をタップ');
