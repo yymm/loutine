@@ -153,13 +153,20 @@ class _NoteFormState extends ConsumerState<NoteForm> {
 
   void _showSuccessMessage() {
     ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('保存しました')),
+      getSnackBar(
+        context: context,
+        text: 'Success to save note',
+      ),
     );
   }
 
   void _showErrorMessage(Object error) {
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('エラーが発生しました: $error')),
+      getSnackBar(
+        context: context,
+        text: error.toString(),
+        error: true,
+      ),
     );
   }
 
@@ -198,6 +205,7 @@ class _NoteFormState extends ConsumerState<NoteForm> {
           labelText: 'Title',
           labelStyle: TextStyle(fontSize: 20),
           border: InputBorder.none,
+          prefixIcon: Icon(Icons.headphones_outlined),
         ),
       ),
     );

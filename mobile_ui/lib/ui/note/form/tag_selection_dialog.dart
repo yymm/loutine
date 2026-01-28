@@ -79,7 +79,6 @@ class _TagSelectionDialogState extends ConsumerState<TagSelectionDialog> {
                   textColor: Colors.black54,
                   selectedTextColor: Colors.black87,
                 ),
-                items: const [],
               ),
             ),
       actions: [
