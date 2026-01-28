@@ -287,7 +287,10 @@ void main() {
           // ドロップダウンメニューが開いたら、最初のカテゴリを選択
           final dropdownItems = find.byType(DropdownMenuItem<String>);
           if (dropdownItems.evaluate().isNotEmpty) {
-            await tester.tap(dropdownItems.first);
+            // 画面内に表示されるようスクロール
+            await tester.ensureVisible(dropdownItems.first);
+            await tester.pumpAndSettle();
+            await tester.tap(dropdownItems.first, warnIfMissed: false);
             await tester.pumpAndSettle();
             print('  ✓ カテゴリを選択しました');
           }
