@@ -476,7 +476,7 @@ void main() {
         await tester.pumpAndSettle(const Duration(seconds: 3));
         print('  ✓ 前月に戻る');
 
-        // 今日の日付をタップ（LinkとPurchaseを作成した日）
+        // 今日の日付をタップ（LinkとPurchaseとNoteを作成した日）
         final todayStr = today.day.toString();
         final todayFinder = find.descendant(
           of: tableCalendar,
@@ -485,10 +485,13 @@ void main() {
         // 月をまたぐ場合、同じ日付が複数表示される可能性があるため、findsWidgetsを使用
         expect(todayFinder, findsWidgets);
         await tester.tap(todayFinder.first);
-        await tester.pumpAndSettle(const Duration(seconds: 2));
+        await tester.pumpAndSettle(const Duration(seconds: 3));
         print('  ✓ 今日($todayStr日)をタップ');
 
-        // イベントリストにLinkとPurchaseが表示されることを確認
+        // イベント一覧の読み込みを待つ
+        await tester.pumpAndSettle(const Duration(seconds: 2));
+
+        // イベントリストにLink、Purchase、Noteが表示されることを確認
         // Linkのアイコンを確認
         final linkIcon = find.byIcon(Icons.link);
         expect(linkIcon, findsAtLeastNWidgets(1));
@@ -498,6 +501,11 @@ void main() {
         final purchaseIcon = find.byIcon(Icons.shopping_cart);
         expect(purchaseIcon, findsAtLeastNWidgets(1));
         print('  ✓ Purchaseイベントが表示されています');
+
+        // Noteのアイコンを確認
+        final noteIcon = find.byIcon(Icons.note);
+        expect(noteIcon, findsAtLeastNWidgets(1));
+        print('  ✓ Noteイベントが表示されています');
 
         print('✅ シナリオ6完了: カレンダー操作とイベント確認成功');
       }
