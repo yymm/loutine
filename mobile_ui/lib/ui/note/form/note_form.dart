@@ -141,7 +141,13 @@ class _NoteFormState extends ConsumerState<NoteForm> {
 
   void _clearForm() {
     _titleController.clear();
-    _quillController.document.delete(0, _quillController.document.length);
+    // ドキュメントを削除する代わりに、新しい空のドキュメントで置き換える
+    _quillController.document = Document();
+    // カーソル位置をリセット
+    _quillController.updateSelection(
+      const TextSelection.collapsed(offset: 0),
+      ChangeSource.local,
+    );
   }
 
   void _showSuccessMessage() {
