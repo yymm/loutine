@@ -1,14 +1,30 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 
 /// Quillエディタとツールバーを含むWidget
-class NoteEditor extends StatelessWidget {
+class NoteEditor extends StatefulWidget {
   const NoteEditor({
     super.key,
     required this.controller,
   });
 
   final QuillController controller;
+
+  @override
+  State<NoteEditor> createState() => _NoteEditorState();
+}
+
+class _NoteEditorState extends State<NoteEditor> {
+  final _scrollController = ScrollController();
+  final _focusNode = FocusNode();
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    _focusNode.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +40,7 @@ class NoteEditor extends StatelessWidget {
 
   Widget _buildToolbar() {
     return QuillSimpleToolbar(
-      controller: controller,
+      controller: widget.controller,
       config: QuillSimpleToolbarConfig(
         decoration: const BoxDecoration(
           color: Colors.white,
@@ -82,7 +98,7 @@ class NoteEditor extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: QuillEditor.basic(
-        controller: controller,
+        controller: widget.controller,
         config: const QuillEditorConfig(
           padding: EdgeInsets.zero,
           placeholder: 'free write...',
