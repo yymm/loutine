@@ -35,9 +35,7 @@ class _TagSelectionDialogState extends ConsumerState<TagSelectionDialog> {
   }
 
   Future<void> _loadTags() async {
-    print('[TagSelectionDialog] Loading tags...');
     final tags = await ref.read(tagListProvider.notifier).getList();
-    print('[TagSelectionDialog] Loaded ${tags.length} tags: ${tags.map((t) => t.name).toList()}');
     
     final items = tags
         .map(
@@ -45,14 +43,11 @@ class _TagSelectionDialogState extends ConsumerState<TagSelectionDialog> {
         )
         .toList();
     
-    print('[TagSelectionDialog] Created ${items.length} dropdown items');
-    
     if (mounted) {
       setState(() {
         _items = items;
         _isLoading = false;
       });
-      print('[TagSelectionDialog] setState called, items count: ${_items.length}');
     }
   }
 
