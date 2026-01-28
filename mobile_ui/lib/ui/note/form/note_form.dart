@@ -76,6 +76,8 @@ class _NoteFormState extends ConsumerState<NoteForm> {
   }
 
   Future<void> _saveNote(List<int> tagIds) async {
+    if (!mounted) return;
+    
     final title = _titleController.text;
     final text = _getDeltaJson();
     final notifier = ref.read(noteListProvider.notifier);
@@ -85,18 +87,16 @@ class _NoteFormState extends ConsumerState<NoteForm> {
         await _updateNote(notifier, title, text, tagIds);
       } else {
         await _createNote(notifier, title, text, tagIds);
+        // 新規作成時のみフォームクリア
+        if (!mounted) return;
+        _clearForm();
       }
 
-      if (mounted) {
-        _showSuccessMessage();
-        if (widget.noteId == null) {
-          context.go('/note/list');
-        }
-      }
+      if (!mounted) return;
+      _showSuccessMessage();
     } catch (e) {
-      if (mounted) {
-        _showErrorMessage(e);
-      }
+      if (!mounted) return;
+      _showErrorMessage(e);
     }
   }
 
