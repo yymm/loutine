@@ -314,12 +314,105 @@ void main() {
       }
 
       // ======================
-      // シナリオ5: カレンダー操作とイベント確認
+      // シナリオ5: Note作成
       // ======================
       {
-        print('📝 シナリオ5: カレンダー操作とイベント確認を開始');
+        print('📝 シナリオ5: Note作成を開始');
+        final timestamp = DateTime.now().millisecondsSinceEpoch;
+        final uniqueNoteTitle = 'E2Eノート_$timestamp';
+        final testNoteContent = 'これはE2Eテストで作成されたノートです。';
 
-        // PurchaseタブからHomeタブに戻る
+        // Noteタブへ移動
+        await tester.pumpAndSettle(const Duration(seconds: 1));
+        final noteTab = find.text('Note');
+        expect(noteTab, findsOneWidget);
+        await tester.tap(noteTab);
+        await tester.pumpAndSettle(const Duration(seconds: 2));
+
+        print('  ✓ Noteタブに移動');
+
+        // Note画面にいることを確認
+        expect(find.text('Note'), findsWidgets);
+
+        // Titleフィールドに入力
+        final titleField = find.widgetWithText(TextFormField, 'Title');
+        expect(titleField, findsOneWidget);
+        await tester.enterText(titleField, uniqueNoteTitle);
+        await tester.pumpAndSettle();
+        print('  ✓ タイトルを入力: $uniqueNoteTitle');
+
+        // Quillエディタに内容を入力
+        // QuillEditorを見つける
+        final quillEditor = find.byType(TextField).last;
+        expect(quillEditor, findsOneWidget);
+        await tester.tap(quillEditor);
+        await tester.pumpAndSettle();
+        await tester.enterText(quillEditor, testNoteContent);
+        await tester.pumpAndSettle();
+        print('  ✓ 本文を入力: $testNoteContent');
+
+        // 保存ボタン（FloatingActionButton）をタップ
+        final saveButton = find.byType(FloatingActionButton);
+        expect(saveButton, findsOneWidget);
+        await tester.tap(saveButton);
+        await tester.pumpAndSettle(const Duration(seconds: 1));
+
+        // タグ選択ダイアログが表示されることを確認
+        expect(find.text('タグを選択'), findsOneWidget);
+        print('  ✓ タグ選択ダイアログが表示');
+
+        // タグを選択（MultiDropdownをタップ）
+        final tagDropdown = find.text('Tag');
+        if (tagDropdown.evaluate().isNotEmpty) {
+          await tester.tap(tagDropdown.first);
+          await tester.pumpAndSettle(const Duration(seconds: 1));
+          print('  ✓ タグドロップダウンを開く');
+
+          // 最初のタグを選択
+          final checkboxes = find.byType(Checkbox);
+          if (checkboxes.evaluate().isNotEmpty) {
+            await tester.tap(checkboxes.first);
+            await tester.pumpAndSettle();
+            print('  ✓ タグを選択しました');
+
+            // ドロップダウンを閉じる
+            await tester.tapAt(const Offset(10, 10));
+            await tester.pumpAndSettle();
+          }
+        }
+
+        // 保存ボタンをタップ
+        final dialogSaveButton = find.widgetWithText(ElevatedButton, '保存');
+        expect(dialogSaveButton, findsOneWidget);
+        await tester.tap(dialogSaveButton);
+
+        // API通信を待つ
+        await tester.pumpAndSettle(const Duration(seconds: 5));
+
+        // 成功メッセージを確認
+        expect(find.text('Success to save note'), findsOneWidget);
+
+        // Snackbarを閉じる
+        ScaffoldMessenger.of(
+          tester.element(find.byType(Scaffold).first),
+        ).clearSnackBars();
+        await tester.pumpAndSettle();
+
+        // タイトルがクリアされていることを確認（新規作成時）
+        final clearedTitleField = find.widgetWithText(TextFormField, 'Title');
+        final titleWidget = tester.widget<TextFormField>(clearedTitleField);
+        expect(titleWidget.controller?.text, isEmpty);
+
+        print('✅ シナリオ5完了: Note作成成功 - $uniqueNoteTitle');
+      }
+
+      // ======================
+      // シナリオ6: カレンダー操作とイベント確認
+      // ======================
+      {
+        print('📝 シナリオ6: カレンダー操作とイベント確認を開始');
+
+        // NoteタブからHomeタブに戻る
         await tester.pumpAndSettle(const Duration(seconds: 1));
         final homeTab = find.text('Home');
         expect(homeTab, findsOneWidget);
