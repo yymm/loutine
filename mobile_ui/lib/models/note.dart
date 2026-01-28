@@ -9,10 +9,10 @@ part 'note.g.dart';
 @freezed
 abstract class Note with _$Note {
   const factory Note({
-    required String id,
+    required int id,
     required String title,
-    @JsonKey(name: 'content') required String content,
-    @Default([]) List<String> tagIds,
+    @JsonKey(name: 'text') required String text,
+    @JsonKey(name: 'tag_ids') @Default([]) List<int> tagIds,
     DateTime? date,
     @JsonKey(name: 'created_at') required DateTime createdAt,
     @JsonKey(name: 'updated_at') required DateTime updatedAt,

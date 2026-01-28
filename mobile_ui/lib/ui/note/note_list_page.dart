@@ -11,14 +11,14 @@ class NoteListPage extends ConsumerWidget {
   const NoteListPage({super.key});
 
   /// Delta JSONからプレーンテキストを抽出
-  String _extractPlainText(String content) {
+  String _extractPlainText(String text) {
     try {
-      final deltaJson = jsonDecode(content) as List;
+      final deltaJson = jsonDecode(text) as List;
       final delta = Delta.fromJson(deltaJson);
       final document = Document.fromDelta(delta);
       return document.toPlainText();
     } catch (e) {
-      return content;
+      return text;
     }
   }
 
@@ -43,7 +43,7 @@ class NoteListPage extends ConsumerWidget {
             itemBuilder: (context, index) {
               final note = notes[index];
               final dateFormat = DateFormat('yyyy/MM/dd HH:mm');
-              final plainText = _extractPlainText(note.content);
+              final plainText = _extractPlainText(note.text);
 
               return Card(
                 margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),

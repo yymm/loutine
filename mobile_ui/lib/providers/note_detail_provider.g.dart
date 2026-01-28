@@ -19,7 +19,7 @@ final class NoteDetailProvider
   /// 特定のノートを取得するProvider
   NoteDetailProvider._({
     required NoteDetailFamily super.from,
-    required String super.argument,
+    required int super.argument,
   }) : super(
          retry: null,
          name: r'noteDetailProvider',
@@ -53,7 +53,7 @@ final class NoteDetailProvider
   }
 }
 
-String _$noteDetailHash() => r'9822b53fc7a5506c2c6c2286e340f2c59b3ddb52';
+String _$noteDetailHash() => r'3fa8ed547b02bdf39d5512adf5fa53c6157a6fca';
 
 /// 特定のノートを取得するProvider
 
@@ -64,7 +64,7 @@ final class NoteDetailFamily extends $Family
           AsyncValue<Note?>,
           Note?,
           FutureOr<Note?>,
-          String
+          int
         > {
   NoteDetailFamily._()
     : super(
@@ -77,7 +77,7 @@ final class NoteDetailFamily extends $Family
 
   /// 特定のノートを取得するProvider
 
-  NoteDetailProvider call(String noteId) =>
+  NoteDetailProvider call(int noteId) =>
       NoteDetailProvider._(argument: noteId, from: this);
 
   @override
@@ -87,10 +87,10 @@ final class NoteDetailFamily extends $Family
 /// 特定のノートを取得するProvider
 
 abstract class _$NoteDetail extends $AsyncNotifier<Note?> {
-  late final _$args = ref.$arg as String;
-  String get noteId => _$args;
+  late final _$args = ref.$arg as int;
+  int get noteId => _$args;
 
-  FutureOr<Note?> build(String noteId);
+  FutureOr<Note?> build(int noteId);
   @$mustCallSuper
   @override
   void runBuild() {

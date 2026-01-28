@@ -112,20 +112,21 @@ class _NoteFormState extends ConsumerState<NoteForm> {
   Future<void> _saveNote(MultiSelectController<String> tagController) async {
     final title = _titleController.text;
     final delta = _quillController.document.toDelta();
-    final content = jsonEncode(delta.toJson());
+    final text = jsonEncode(delta.toJson());
     final tagIds = tagController.selectedItems
-        .map((v) => v.value)
+        .map((v) => int.parse(v.value))
         .toList();
 
     try {
       if (widget.noteId != null) {
         // 更新
-        final currentNoteAsync = ref.read(noteDetailProvider(widget.noteId!));
+        final noteId = int.parse(widget.noteId!);
+        final currentNoteAsync = ref.read(noteDetailProvider(noteId));
         final currentNote = currentNoteAsync.value;
         if (currentNote != null) {
           final updatedNote = currentNote.copyWith(
             title: title,
-            content: content,
+            text: text,
             tagIds: tagIds,
           );
           await ref.read(noteListProvider.notifier).updateNote(updatedNote);
@@ -134,7 +135,7 @@ class _NoteFormState extends ConsumerState<NoteForm> {
         // 新規作成
         await ref.read(noteListProvider.notifier).createNote(
               title: title,
-              content: content,
+              text: text,
               tagIds: tagIds,
             );
       }
@@ -158,13 +159,14 @@ class _NoteFormState extends ConsumerState<NoteForm> {
   Widget build(BuildContext context) {
     // 編集モードの場合、既存のノートデータを読み込む
     if (widget.noteId != null && !_isInitialized) {
-      final noteAsync = ref.watch(noteDetailProvider(widget.noteId!));
+      final noteId = int.parse(widget.noteId!);
+      final noteAsync = ref.watch(noteDetailProvider(noteId));
       noteAsync.whenData((note) {
         if (note != null && !_isInitialized) {
           _titleController.text = note.title;
           try {
             // JSON文字列からDeltaを復元
-            final deltaJson = jsonDecode(note.content) as List;
+            final deltaJson = jsonDecode(note.text) as List;
             final delta = Delta.fromJson(deltaJson);
             _quillController = QuillController(
               document: Document.fromDelta(delta),
@@ -172,7 +174,7 @@ class _NoteFormState extends ConsumerState<NoteForm> {
             );
           } catch (e) {
             // JSONのパースに失敗した場合はプレーンテキストとして表示
-            _quillController.document.insert(0, note.content);
+            _quillController.document.insert(0, note.text);
           }
           _isInitialized = true;
           if (mounted) {

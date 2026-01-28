@@ -76,8 +76,19 @@ PurchaseRepository purchaseRepository(Ref ref) {
   return PurchaseRepository(ref.watch(purchaseApiClientProvider));
 }
 
+/// NoteApiClientのインスタンスを提供
+///
+/// テスト時はこのProviderをオーバーライドしてモックを注入できる
+@riverpod
+NoteApiClient noteApiClient(Ref ref) {
+  return NoteApiClient();
+}
+
 /// NoteRepositoryのインスタンスを提供
+///
+/// noteApiClientProviderに依存しており、
+/// APIクライアントを自動的に注入する
 @riverpod
 NoteRepository noteRepository(Ref ref) {
-  return NoteRepository();
+  return NoteRepository(ref.watch(noteApiClientProvider));
 }

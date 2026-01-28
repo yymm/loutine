@@ -10,11 +10,14 @@ class NoteList extends _$NoteList {
   @override
   Future<List<Note>> build() async {
     final repository = ref.watch(noteRepositoryProvider);
-    return repository.fetchNotes();
+    final now = DateTime.now();
+    final startDate = now.subtract(const Duration(days: 365));
+    final endDate = now.add(const Duration(days: 365));
+    return repository.fetchNotes(startDate, endDate);
   }
 
   /// ノートを削除
-  Future<void> deleteNote(String noteId) async {
+  Future<void> deleteNote(int noteId) async {
     final repository = ref.read(noteRepositoryProvider);
     await repository.deleteNote(noteId);
     ref.invalidateSelf();
@@ -23,14 +26,14 @@ class NoteList extends _$NoteList {
   /// ノートを作成
   Future<Note> createNote({
     required String title,
-    required String content,
-    List<String> tagIds = const [],
+    required String text,
+    List<int> tagIds = const [],
     DateTime? date,
   }) async {
     final repository = ref.read(noteRepositoryProvider);
     final note = await repository.createNote(
       title: title,
-      content: content,
+      text: text,
       tagIds: tagIds,
       date: date,
     );

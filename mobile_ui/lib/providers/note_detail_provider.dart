@@ -8,7 +8,7 @@ part 'note_detail_provider.g.dart';
 @riverpod
 class NoteDetail extends _$NoteDetail {
   @override
-  Future<Note?> build(String noteId) async {
+  Future<Note?> build(int noteId) async {
     final repository = ref.watch(noteRepositoryProvider);
     return repository.getNoteById(noteId);
   }
