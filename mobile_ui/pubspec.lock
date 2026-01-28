@@ -748,6 +748,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "7.3.0"
+  markdown_quill:
+    dependency: "direct main"
+    description:
+      name: markdown_quill
+      sha256: b378c3f268f488f1146bf8e2abdc0d45133a914e2efaa4f601cc9e6118af2fbe
+      url: "https://pub.dev"
+    source: hosted
+    version: "4.3.0"
   matcher:
     dependency: transitive
     description:
@@ -924,14 +932,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.5.0"
-  quill_markdown:
-    dependency: "direct main"
-    description:
-      name: quill_markdown
-      sha256: "209831b93e3ec7b003d2d783743dd6b7e9700c92d55d69a10347c03a39cf1915"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.1.0"
   quill_native_bridge:
     dependency: transitive
     description:

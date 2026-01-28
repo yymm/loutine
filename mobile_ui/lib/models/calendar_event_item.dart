@@ -51,9 +51,9 @@ class CalendarEventItem {
     return CalendarEventItem(
       createdAt: note.createdAt,
       itemType: CalendarEventItemType.note,
-      id: note.id,
+      id: note.id.toString(),
       title: note.title,
-      data: note.content,
+      data: note.text,
       // tags: link.tags,
     );
   }
