@@ -6,8 +6,8 @@ import 'package:dart_quill_delta/dart_quill_delta.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mobile_ui/providers/note_list_provider.dart';
 import 'package:mobile_ui/providers/note_detail_provider.dart';
-import 'package:mobile_ui/providers/tag_list_provider.dart';
-import 'package:multi_dropdown/multi_dropdown.dart';
+import 'package:mobile_ui/ui/note/form/note_editor.dart';
+import 'package:mobile_ui/ui/note/form/tag_selection_dialog.dart';
 
 class NoteForm extends ConsumerStatefulWidget {
   const NoteForm({super.key, this.noteId});
@@ -19,278 +19,182 @@ class NoteForm extends ConsumerStatefulWidget {
 }
 
 class _NoteFormState extends ConsumerState<NoteForm> {
-  final TextEditingController _titleController = TextEditingController();
+  final _titleController = TextEditingController();
   late QuillController _quillController;
-  final MultiSelectController<String> _tagController =
-      MultiSelectController<String>();
   bool _isInitialized = false;
 
   @override
   void initState() {
     super.initState();
     _quillController = QuillController.basic();
-    // Fetch tags when the form is initialized
-    WidgetsBinding.instance.addPostFrameCallback((_) async {
-      final tags = await ref.read(tagListProvider.notifier).getList();
-      _tagController.setItems(
-        tags
-            .map(
-              (tag) => DropdownItem(label: tag.name, value: tag.id.toString()),
-            )
-            .toList(),
-      );
-    });
+    _loadNoteIfEditing();
   }
 
   @override
   void dispose() {
     _titleController.dispose();
     _quillController.dispose();
-    _tagController.dispose();
     super.dispose();
   }
 
+  /// 編集モードの場合、既存のノートデータを読み込む
+  Future<void> _loadNoteIfEditing() async {
+    if (widget.noteId == null || _isInitialized) return;
+
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      final noteId = int.parse(widget.noteId!);
+      final noteAsync = ref.read(noteDetailProvider(noteId));
+      final note = noteAsync.value;
+
+      if (note != null && mounted && !_isInitialized) {
+        _titleController.text = note.title;
+        try {
+          final deltaJson = jsonDecode(note.text) as List;
+          final delta = Delta.fromJson(deltaJson);
+          _quillController = QuillController(
+            document: Document.fromDelta(delta),
+            selection: const TextSelection.collapsed(offset: 0),
+          );
+        } catch (e) {
+          _quillController.document.insert(0, note.text);
+        }
+        _isInitialized = true;
+        if (mounted) {
+          setState(() {});
+        }
+      }
+    });
+  }
+
   Future<void> _showTagSelectionDialog() async {
-    final tagController = MultiSelectController<String>();
-    
-    // 既存のタグを取得してコントローラーにセット
-    final tags = await ref.read(tagListProvider.notifier).getList();
-    tagController.setItems(
-      tags
-          .map(
-            (tag) => DropdownItem(label: tag.name, value: tag.id.toString()),
-          )
-          .toList(),
-    );
-
-    if (!mounted) return;
-
     await showDialog(
       context: context,
-      builder: (context) {
-        return AlertDialog(
-          title: const Text('タグを選択'),
-          content: SizedBox(
-            width: double.maxFinite,
-            child: MultiDropdown<String>(
-              searchEnabled: true,
-              controller: tagController,
-              chipDecoration: const ChipDecoration(
-                backgroundColor: Colors.teal,
-                labelStyle: TextStyle(color: Colors.white),
-              ),
-              fieldDecoration: const FieldDecoration(
-                hintText: 'Tag',
-                prefixIcon: Icon(Icons.tag),
-              ),
-              dropdownItemDecoration: const DropdownItemDecoration(
-                selectedIcon: Icon(Icons.check_box),
-                textColor: Colors.black54,
-                selectedTextColor: Colors.black87,
-              ),
-              items: const [],
-            ),
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.of(context).pop(),
-              child: const Text('キャンセル'),
-            ),
-            ElevatedButton(
-              onPressed: () async {
-                Navigator.of(context).pop();
-                await _saveNote(tagController);
-              },
-              child: const Text('保存'),
-            ),
-          ],
-        );
-      },
+      builder: (context) => TagSelectionDialog(
+        onSave: _saveNote,
+      ),
     );
   }
 
-  Future<void> _saveNote(MultiSelectController<String> tagController) async {
+  Future<void> _saveNote(List<int> tagIds) async {
     final title = _titleController.text;
-    final delta = _quillController.document.toDelta();
-    final text = jsonEncode(delta.toJson());
-    final tagIds = tagController.selectedItems
-        .map((v) => int.parse(v.value))
-        .toList();
+    final text = _getDeltaJson();
+    final notifier = ref.read(noteListProvider.notifier);
 
     try {
       if (widget.noteId != null) {
-        // 更新
-        final noteId = int.parse(widget.noteId!);
-        final currentNoteAsync = ref.read(noteDetailProvider(noteId));
-        final currentNote = currentNoteAsync.value;
-        if (currentNote != null) {
-          final updatedNote = currentNote.copyWith(
-            title: title,
-            text: text,
-            tagIds: tagIds,
-          );
-          await ref.read(noteListProvider.notifier).updateNote(updatedNote);
-        }
+        await _updateNote(notifier, title, text, tagIds);
       } else {
-        // 新規作成
-        await ref.read(noteListProvider.notifier).createNote(
-              title: title,
-              text: text,
-              tagIds: tagIds,
-            );
+        await _createNote(notifier, title, text, tagIds);
       }
 
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('保存しました')),
-        );
-        context.go('/note/list');
+        _showSuccessMessage();
+        if (widget.noteId == null) {
+          context.go('/note/list');
+        }
       }
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('エラーが発生しました: $e')),
-        );
+        _showErrorMessage(e);
       }
     }
+  }
+
+  String _getDeltaJson() {
+    final delta = _quillController.document.toDelta();
+    return jsonEncode(delta.toJson());
+  }
+
+  Future<void> _createNote(
+    dynamic notifier,
+    String title,
+    String text,
+    List<int> tagIds,
+  ) async {
+    await notifier.createNote(
+      title: title,
+      text: text,
+      tagIds: tagIds,
+    );
+
+    if (mounted) {
+      _clearForm();
+    }
+  }
+
+  Future<void> _updateNote(
+    dynamic notifier,
+    String title,
+    String text,
+    List<int> tagIds,
+  ) async {
+    final noteId = int.parse(widget.noteId!);
+    final currentNoteAsync = ref.read(noteDetailProvider(noteId));
+    final currentNote = currentNoteAsync.value;
+
+    if (currentNote != null) {
+      final updatedNote = currentNote.copyWith(
+        title: title,
+        text: text,
+        tagIds: tagIds,
+      );
+      await notifier.updateNote(updatedNote);
+    }
+  }
+
+  void _clearForm() {
+    _titleController.clear();
+    _quillController.document.delete(0, _quillController.document.length);
+  }
+
+  void _showSuccessMessage() {
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('保存しました')),
+    );
+  }
+
+  void _showErrorMessage(Object error) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('エラーが発生しました: $error')),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    // 編集モードの場合、既存のノートデータを読み込む
-    if (widget.noteId != null && !_isInitialized) {
-      final noteId = int.parse(widget.noteId!);
-      final noteAsync = ref.watch(noteDetailProvider(noteId));
-      noteAsync.whenData((note) {
-        if (note != null && !_isInitialized) {
-          _titleController.text = note.title;
-          try {
-            // JSON文字列からDeltaを復元
-            final deltaJson = jsonDecode(note.text) as List;
-            final delta = Delta.fromJson(deltaJson);
-            _quillController = QuillController(
-              document: Document.fromDelta(delta),
-              selection: const TextSelection.collapsed(offset: 0),
-            );
-          } catch (e) {
-            // JSONのパースに失敗した場合はプレーンテキストとして表示
-            _quillController.document.insert(0, note.text);
-          }
-          _isInitialized = true;
-          if (mounted) {
-            setState(() {});
-          }
-        }
-      });
-    }
-
     return Scaffold(
       body: Column(
         children: [
-          Padding(
-            padding: const EdgeInsets.all(15.0),
-            child: TextFormField(
-              controller: _titleController,
-              keyboardType: TextInputType.multiline,
-              maxLines: null,
-              style: const TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-              ),
-              decoration: const InputDecoration(
-                hintText: 'Enter a title',
-                hintStyle: TextStyle(fontSize: 20),
-                labelText: 'Title',
-                labelStyle: TextStyle(fontSize: 20),
-                border: InputBorder.none,
-              ),
-            ),
+          _buildTitleField(),
+          Expanded(
+            child: NoteEditor(controller: _quillController),
           ),
-        QuillSimpleToolbar(
-          controller: _quillController,
-          config: QuillSimpleToolbarConfig(
-            decoration: const BoxDecoration(
-              color: Colors.white,
-              border: Border(
-                bottom: BorderSide(color: Colors.grey, width: 0.5),
-              ),
-            ),
-            // ボタンサイズとアイコンサイズの設定
-            buttonOptions: const QuillSimpleToolbarButtonOptions(
-              base: QuillToolbarBaseButtonOptions(
-                iconSize: 18, // アイコンサイズを小さく
-                iconButtonFactor: 1.2, // ボタンの余白調整
-              ),
-            ),
-            toolbarSize: 40, // ツールバーの高さを小さく
-            multiRowsDisplay: false, // 1行表示
-            // Markdown対応: 構造
-            showHeaderStyle: true, // 見出し (# ## ###)
-            showListNumbers: true, // 順序付きリスト (1. 2. 3.)
-            showListBullets: true, // 箇条書き (- or *)
-            showListCheck: true, // チェックリスト (- [ ])
-            showCodeBlock: true, // コードブロック (```)
-            showQuote: true, // 引用 (>)
-            showIndent: false, // インデント（リストで自動対応）
-            showLink: true, // リンク ([text](url))
-            // Markdown対応: テキスト装飾
-            showBoldButton: true, // 太字 (**text**)
-            showItalicButton: true, // 斜体 (*text*)
-            showUnderLineButton: false, // 下線（Markdown非対応）
-            showStrikeThrough: true, // 取り消し線 (~~text~~)
-            showInlineCode: true, // インラインコード (`code`)
-            // 色関連（Markdown非対応）
-            showColorButton: false, // 文字色
-            showBackgroundColorButton: false, // 背景色
-            showClearFormat: false, // 書式クリア
-            // 配置（Markdown非対応）
-            showAlignmentButtons: false,
-            showLeftAlignment: false,
-            showCenterAlignment: false,
-            showRightAlignment: false,
-            showJustifyAlignment: false,
-            // 操作
-            showUndo: false, // 元に戻す
-            showRedo: false, // やり直し
-            // その他（非表示）
-            showDirection: false, // テキスト方向
-            showSearchButton: false, // 検索
-            showSubscript: false, // 下付き文字
-            showSuperscript: false, // 上付き文字
-            showFontFamily: false, // フォント
-            showFontSize: false, // フォントサイズ
-            showDividers: false, // 区切り線
-          ),
-        ),
-        Expanded(
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: QuillEditor.basic(
-              controller: _quillController,
-              config: const QuillEditorConfig(
-                padding: EdgeInsets.zero,
-                placeholder: 'free write...',
-                customStyles: DefaultStyles(
-                  placeHolder: DefaultTextBlockStyle(
-                    TextStyle(
-                      fontSize: 16,
-                      color: Colors.grey,
-                    ),
-                    HorizontalSpacing(0, 0),
-                    VerticalSpacing(0, 0),
-                    VerticalSpacing(0, 0),
-                    null,
-                  ),
-                ),
-              ),
-            ),
-          ),
-        ),
         ],
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: _showTagSelectionDialog,
         child: const Icon(Icons.save),
+      ),
+    );
+  }
+
+  Widget _buildTitleField() {
+    return Padding(
+      padding: const EdgeInsets.all(15.0),
+      child: TextFormField(
+        controller: _titleController,
+        keyboardType: TextInputType.multiline,
+        maxLines: null,
+        style: const TextStyle(
+          fontSize: 20,
+          fontWeight: FontWeight.bold,
+        ),
+        decoration: const InputDecoration(
+          hintText: 'Enter a title',
+          hintStyle: TextStyle(fontSize: 20),
+          labelText: 'Title',
+          labelStyle: TextStyle(fontSize: 20),
+          border: InputBorder.none,
+        ),
       ),
     );
   }
