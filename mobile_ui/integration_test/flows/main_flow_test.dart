@@ -482,7 +482,8 @@ void main() {
           of: tableCalendar,
           matching: find.text(todayStr),
         );
-        expect(todayFinder, findsOneWidget);
+        // 月をまたぐ場合、同じ日付が複数表示される可能性があるため、findsWidgetsを使用
+        expect(todayFinder, findsWidgets);
         await tester.tap(todayFinder.first);
         await tester.pumpAndSettle(const Duration(seconds: 2));
         print('  ✓ 今日($todayStr日)をタップ');
@@ -498,7 +499,7 @@ void main() {
         expect(purchaseIcon, findsAtLeastNWidgets(1));
         print('  ✓ Purchaseイベントが表示されています');
 
-        print('✅ シナリオ5完了: カレンダー操作とイベント確認成功');
+        print('✅ シナリオ6完了: カレンダー操作とイベント確認成功');
       }
 
       print('🎉 全テストシナリオ完了！');
