@@ -20,7 +20,12 @@ class NoteList extends _$NoteList {
   Future<void> deleteNote(int noteId) async {
     final repository = ref.read(noteRepositoryProvider);
     await repository.deleteNote(noteId);
-    ref.invalidateSelf();
+    // 非同期でinvalidate
+    Future.microtask(() {
+      if (ref.mounted) {
+        ref.invalidateSelf();
+      }
+    });
   }
 
   /// ノートを作成
@@ -37,15 +42,29 @@ class NoteList extends _$NoteList {
       tagIds: tagIds,
       date: date,
     );
-    ref.invalidateSelf();
-    return note;
+    // invalidateSelfの前に値を保存
+    final result = note;
+    // 非同期でinvalidate（呼び出し元に影響しない）
+    Future.microtask(() {
+      if (ref.mounted) {
+        ref.invalidateSelf();
+      }
+    });
+    return result;
   }
 
   /// ノートを更新
   Future<Note> updateNote(Note note) async {
     final repository = ref.read(noteRepositoryProvider);
     final updatedNote = await repository.updateNote(note);
-    ref.invalidateSelf();
-    return updatedNote;
+    // invalidateSelfの前に値を保存
+    final result = updatedNote;
+    // 非同期でinvalidate（呼び出し元に影響しない）
+    Future.microtask(() {
+      if (ref.mounted) {
+        ref.invalidateSelf();
+      }
+    });
+    return result;
   }
 }

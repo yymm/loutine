@@ -116,10 +116,6 @@ class _NoteFormState extends ConsumerState<NoteForm> {
       text: text,
       tagIds: tagIds,
     );
-
-    if (mounted) {
-      _clearForm();
-    }
   }
 
   Future<void> _updateNote(
@@ -132,14 +128,15 @@ class _NoteFormState extends ConsumerState<NoteForm> {
     final currentNoteAsync = ref.read(noteDetailProvider(noteId));
     final currentNote = currentNoteAsync.value;
 
-    if (currentNote != null) {
-      final updatedNote = currentNote.copyWith(
-        title: title,
-        text: text,
-        tagIds: tagIds,
-      );
-      await notifier.updateNote(updatedNote);
-    }
+    if (currentNote == null) return;
+    
+    final updatedNote = currentNote.copyWith(
+      title: title,
+      text: text,
+      tagIds: tagIds,
+    );
+    
+    await notifier.updateNote(updatedNote);
   }
 
   void _clearForm() {
