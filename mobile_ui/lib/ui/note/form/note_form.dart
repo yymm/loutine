@@ -8,6 +8,7 @@ import 'package:mobile_ui/providers/note_list_provider.dart';
 import 'package:mobile_ui/providers/note_detail_provider.dart';
 import 'package:mobile_ui/ui/note/form/note_editor.dart';
 import 'package:mobile_ui/ui/note/form/tag_selection_dialog.dart';
+import 'package:mobile_ui/ui/shared/snack_bar_widget.dart';
 
 class NoteForm extends ConsumerStatefulWidget {
   const NoteForm({super.key, this.noteId});
