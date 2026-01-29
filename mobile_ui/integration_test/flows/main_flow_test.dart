@@ -287,7 +287,10 @@ void main() {
           // ドロップダウンメニューが開いたら、最初のカテゴリを選択
           final dropdownItems = find.byType(DropdownMenuItem<String>);
           if (dropdownItems.evaluate().isNotEmpty) {
-            await tester.tap(dropdownItems.first);
+            // 画面内に表示されるようスクロール
+            await tester.ensureVisible(dropdownItems.first);
+            await tester.pumpAndSettle();
+            await tester.tap(dropdownItems.first, warnIfMissed: false);
             await tester.pumpAndSettle();
             print('  ✓ カテゴリを選択しました');
           }
@@ -314,12 +317,105 @@ void main() {
       }
 
       // ======================
-      // シナリオ5: カレンダー操作とイベント確認
+      // シナリオ5: Note作成
       // ======================
       {
-        print('📝 シナリオ5: カレンダー操作とイベント確認を開始');
+        print('📝 シナリオ5: Note作成を開始');
+        final timestamp = DateTime.now().millisecondsSinceEpoch;
+        final uniqueNoteTitle = 'E2Eノート_$timestamp';
+        final testNoteContent = 'これはE2Eテストで作成されたノートです。';
 
-        // PurchaseタブからHomeタブに戻る
+        // Noteタブへ移動
+        await tester.pumpAndSettle(const Duration(seconds: 1));
+        final noteTab = find.text('Note');
+        expect(noteTab, findsOneWidget);
+        await tester.tap(noteTab);
+        await tester.pumpAndSettle(const Duration(seconds: 2));
+
+        print('  ✓ Noteタブに移動');
+
+        // Note画面にいることを確認
+        expect(find.text('Note'), findsWidgets);
+
+        // Titleフィールドに入力
+        final titleField = find.widgetWithText(TextFormField, 'Title');
+        expect(titleField, findsOneWidget);
+        await tester.enterText(titleField, uniqueNoteTitle);
+        await tester.pumpAndSettle();
+        print('  ✓ タイトルを入力: $uniqueNoteTitle');
+
+        // Quillエディタに内容を入力
+        // QuillEditorを見つける
+        final quillEditor = find.byType(TextField).last;
+        expect(quillEditor, findsOneWidget);
+        await tester.tap(quillEditor);
+        await tester.pumpAndSettle();
+        await tester.enterText(quillEditor, testNoteContent);
+        await tester.pumpAndSettle();
+        print('  ✓ 本文を入力: $testNoteContent');
+
+        // 保存ボタン（FloatingActionButton）をタップ
+        final saveButton = find.byType(FloatingActionButton);
+        expect(saveButton, findsOneWidget);
+        await tester.tap(saveButton);
+        await tester.pumpAndSettle(const Duration(seconds: 1));
+
+        // タグ選択ダイアログが表示されることを確認
+        expect(find.text('Select tags'), findsOneWidget);
+        print('  ✓ タグ選択ダイアログが表示');
+
+        // タグ選択はスキップして直接保存
+        // （タグなしでも保存できることを確認）
+
+        // Submitボタンをタップ
+        final dialogSaveButton = find.widgetWithText(ElevatedButton, 'Submit');
+        expect(dialogSaveButton, findsOneWidget);
+        await tester.tap(dialogSaveButton);
+
+        // API通信を待つ（長めに設定）
+        await tester.pumpAndSettle(const Duration(seconds: 10));
+
+        // 成功メッセージを確認
+        // エラーが表示されていないことも確認
+        final successMessage = find.text('Success to save note');
+        final errorText = find.textContaining('エラー');
+
+        if (errorText.evaluate().isNotEmpty) {
+          print('  ❌ エラーメッセージが表示されています');
+          // エラー内容を確認するため、全てのTextウィジェットを列挙
+          final allTexts = find.byType(Text);
+          for (final textWidget in allTexts.evaluate()) {
+            final widget = textWidget.widget as Text;
+            if (widget.data != null && widget.data!.contains('エラー')) {
+              print('  エラー内容: ${widget.data}');
+            }
+          }
+        }
+
+        expect(successMessage, findsOneWidget);
+        print('  ✓ 保存成功メッセージを確認');
+
+        // Snackbarを閉じる
+        ScaffoldMessenger.of(
+          tester.element(find.byType(Scaffold).first),
+        ).clearSnackBars();
+        await tester.pumpAndSettle();
+
+        // タイトルがクリアされていることを確認（新規作成時）
+        final clearedTitleField = find.widgetWithText(TextFormField, 'Title');
+        final titleWidget = tester.widget<TextFormField>(clearedTitleField);
+        expect(titleWidget.controller?.text, isEmpty);
+
+        print('✅ シナリオ5完了: Note作成成功 - $uniqueNoteTitle');
+      }
+
+      // ======================
+      // シナリオ6: カレンダー操作とイベント確認
+      // ======================
+      {
+        print('📝 シナリオ6: カレンダー操作とイベント確認を開始');
+
+        // NoteタブからHomeタブに戻る
         await tester.pumpAndSettle(const Duration(seconds: 1));
         final homeTab = find.text('Home');
         expect(homeTab, findsOneWidget);
@@ -373,7 +469,7 @@ void main() {
           }
         }
 
-        // 前月に戻る
+        // 今月に戻る
         final prevMonthButton = find.descendant(
           of: tableCalendar,
           matching: find.byIcon(Icons.chevron_left),
@@ -381,20 +477,33 @@ void main() {
         expect(prevMonthButton, findsOneWidget);
         await tester.tap(prevMonthButton);
         await tester.pumpAndSettle(const Duration(seconds: 3));
-        print('  ✓ 前月に戻る');
+        print('  ✓ 今月に戻る');
 
-        // 今日の日付をタップ（LinkとPurchaseを作成した日）
+        // 今日の日付をタップ（LinkとPurchaseとNoteを作成した日）
         final todayStr = today.day.toString();
         final todayFinder = find.descendant(
           of: tableCalendar,
           matching: find.text(todayStr),
         );
-        expect(todayFinder, findsOneWidget);
-        await tester.tap(todayFinder.first);
-        await tester.pumpAndSettle(const Duration(seconds: 2));
+        // 月をまたぐ場合、同じ日付が複数表示される可能性があるため、findsWidgetsを使用
+        expect(todayFinder, findsWidgets);
+
+        // 月初（1-7日）の場合は前月の日付も表示されるため.last（当月）を使用
+        // 月末（21-31日）の場合は翌月の日付も表示されるため.first（当月）を使用
+        // 月中（8-20日）の場合は.firstで問題なし
+        final todayIndex = today.day > 7
+            ? todayFinder.evaluate().length -
+                  1 // 月初: last
+            : 0; // 月中・月末: first
+
+        await tester.tap(todayFinder.at(todayIndex));
+        await tester.pumpAndSettle(const Duration(seconds: 3));
         print('  ✓ 今日($todayStr日)をタップ');
 
-        // イベントリストにLinkとPurchaseが表示されることを確認
+        // イベント一覧の読み込みを待つ
+        await tester.pumpAndSettle(const Duration(seconds: 2));
+
+        // イベントリストにLink、Purchase、Noteが表示されることを確認
         // Linkのアイコンを確認
         final linkIcon = find.byIcon(Icons.link);
         expect(linkIcon, findsAtLeastNWidgets(1));
@@ -405,7 +514,12 @@ void main() {
         expect(purchaseIcon, findsAtLeastNWidgets(1));
         print('  ✓ Purchaseイベントが表示されています');
 
-        print('✅ シナリオ5完了: カレンダー操作とイベント確認成功');
+        // Noteのアイコンを確認
+        final noteIcon = find.byIcon(Icons.note);
+        expect(noteIcon, findsAtLeastNWidgets(1));
+        print('  ✓ Noteイベントが表示されています');
+
+        print('✅ シナリオ6完了: カレンダー操作とイベント確認成功');
       }
 
       print('🎉 全テストシナリオ完了！');

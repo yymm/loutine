@@ -4,6 +4,7 @@ import 'package:mobile_ui/repositories/tag_repository.dart';
 import 'package:mobile_ui/repositories/category_repository.dart';
 import 'package:mobile_ui/repositories/link_repository.dart';
 import 'package:mobile_ui/repositories/purchase_repository.dart';
+import 'package:mobile_ui/repositories/note_repository.dart';
 
 part 'repository_provider.g.dart';
 
@@ -73,4 +74,21 @@ PurchaseApiClient purchaseApiClient(Ref ref) {
 @riverpod
 PurchaseRepository purchaseRepository(Ref ref) {
   return PurchaseRepository(ref.watch(purchaseApiClientProvider));
+}
+
+/// NoteApiClientのインスタンスを提供
+///
+/// テスト時はこのProviderをオーバーライドしてモックを注入できる
+@riverpod
+NoteApiClient noteApiClient(Ref ref) {
+  return NoteApiClient();
+}
+
+/// NoteRepositoryのインスタンスを提供
+///
+/// noteApiClientProviderに依存しており、
+/// APIクライアントを自動的に注入する
+@riverpod
+NoteRepository noteRepository(Ref ref) {
+  return NoteRepository(ref.watch(noteApiClientProvider));
 }

@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 
 SnackBar getSnackBar({required context, required text, bool error = false}) {
+  // contextが有効な間にScaffoldMessengerの参照を取得
+  final scaffoldMessenger = ScaffoldMessenger.of(context);
+
   return SnackBar(
     content: Text(text),
     duration: Duration(seconds: error ? 5 : 3),
@@ -9,7 +12,8 @@ SnackBar getSnackBar({required context, required text, bool error = false}) {
     behavior: SnackBarBehavior.floating,
     action: SnackBarAction(
       label: "close",
-      onPressed: () => ScaffoldMessenger.of(context).hideCurrentSnackBar(),
+      // 保存した参照を使用（contextは使わない）
+      onPressed: () => scaffoldMessenger.hideCurrentSnackBar(),
     ),
     backgroundColor: error ? Colors.red : Colors.green,
   );

@@ -461,3 +461,110 @@ final class PurchaseRepositoryProvider
 
 String _$purchaseRepositoryHash() =>
     r'0e652b2cede3232e1905701fdb1a4a816c9e7348';
+
+/// NoteApiClientのインスタンスを提供
+///
+/// テスト時はこのProviderをオーバーライドしてモックを注入できる
+
+@ProviderFor(noteApiClient)
+final noteApiClientProvider = NoteApiClientProvider._();
+
+/// NoteApiClientのインスタンスを提供
+///
+/// テスト時はこのProviderをオーバーライドしてモックを注入できる
+
+final class NoteApiClientProvider
+    extends $FunctionalProvider<NoteApiClient, NoteApiClient, NoteApiClient>
+    with $Provider<NoteApiClient> {
+  /// NoteApiClientのインスタンスを提供
+  ///
+  /// テスト時はこのProviderをオーバーライドしてモックを注入できる
+  NoteApiClientProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'noteApiClientProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$noteApiClientHash();
+
+  @$internal
+  @override
+  $ProviderElement<NoteApiClient> $createElement($ProviderPointer pointer) =>
+      $ProviderElement(pointer);
+
+  @override
+  NoteApiClient create(Ref ref) {
+    return noteApiClient(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(NoteApiClient value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<NoteApiClient>(value),
+    );
+  }
+}
+
+String _$noteApiClientHash() => r'a38fe7be56df6218d8cfe781d73eadef7e3907b5';
+
+/// NoteRepositoryのインスタンスを提供
+///
+/// noteApiClientProviderに依存しており、
+/// APIクライアントを自動的に注入する
+
+@ProviderFor(noteRepository)
+final noteRepositoryProvider = NoteRepositoryProvider._();
+
+/// NoteRepositoryのインスタンスを提供
+///
+/// noteApiClientProviderに依存しており、
+/// APIクライアントを自動的に注入する
+
+final class NoteRepositoryProvider
+    extends $FunctionalProvider<NoteRepository, NoteRepository, NoteRepository>
+    with $Provider<NoteRepository> {
+  /// NoteRepositoryのインスタンスを提供
+  ///
+  /// noteApiClientProviderに依存しており、
+  /// APIクライアントを自動的に注入する
+  NoteRepositoryProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'noteRepositoryProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$noteRepositoryHash();
+
+  @$internal
+  @override
+  $ProviderElement<NoteRepository> $createElement($ProviderPointer pointer) =>
+      $ProviderElement(pointer);
+
+  @override
+  NoteRepository create(Ref ref) {
+    return noteRepository(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(NoteRepository value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<NoteRepository>(value),
+    );
+  }
+}
+
+String _$noteRepositoryHash() => r'd2f7e9f4a47a8c72266134ec4b5f72af279b9adb';

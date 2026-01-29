@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_quill/flutter_quill.dart';
 import 'package:mobile_ui/router.dart';
 import 'package:mobile_ui/providers/category_list_provider.dart';
 import 'package:mobile_ui/providers/home_calendar_provider.dart';
@@ -32,6 +33,7 @@ class LoutineApp extends ConsumerWidget {
       theme: _getThemeData(Brightness.light),
       themeMode: ref.watch(themeModeManagerProvider),
       routerConfig: router,
+      localizationsDelegates: const [FlutterQuillLocalizations.delegate],
     );
   }
 }

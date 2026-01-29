@@ -19,7 +19,7 @@ class CalendarEventItem {
 
   final DateTime createdAt;
   final CalendarEventItemType itemType;
-  final int id;
+  final String id;
   final String title;
   final String data;
   final List<Tag>? tags;
@@ -29,7 +29,7 @@ class CalendarEventItem {
     return CalendarEventItem(
       createdAt: link.createdAt,
       itemType: CalendarEventItemType.link,
-      id: link.id,
+      id: link.id.toString(),
       title: link.title,
       data: link.url,
       // tags: link.tags,
@@ -40,7 +40,7 @@ class CalendarEventItem {
     return CalendarEventItem(
       createdAt: purchase.createdAt,
       itemType: CalendarEventItemType.purchase,
-      id: purchase.id,
+      id: purchase.id.toString(),
       title: purchase.title,
       data: purchase.cost.toString(),
       // tags: link.tags,
@@ -51,7 +51,7 @@ class CalendarEventItem {
     return CalendarEventItem(
       createdAt: note.createdAt,
       itemType: CalendarEventItemType.note,
-      id: note.id,
+      id: note.id.toString(),
       title: note.title,
       data: note.text,
       // tags: link.tags,
