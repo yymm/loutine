@@ -47,10 +47,8 @@ dependencies:
   url_launcher: ^6.3.1
   freezed_annotation: ^3.1.0
   json_annotation: ^4.9.0
-  uuid: ^4.5.2
   flutter_quill: 11.5.0
   flutter_quill_extensions: 11.0.0
-  markdown_quill: ^4.3.0
 
 dev_dependencies:
   flutter_test:

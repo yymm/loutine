@@ -12,8 +12,6 @@ abstract class Note with _$Note {
     required int id,
     required String title,
     @JsonKey(name: 'text') required String text,
-    @JsonKey(name: 'tag_ids') @Default([]) List<int> tagIds,
-    DateTime? date,
     @JsonKey(name: 'created_at') required DateTime createdAt,
     @JsonKey(name: 'updated_at') required DateTime updatedAt,
   }) = _Note;
