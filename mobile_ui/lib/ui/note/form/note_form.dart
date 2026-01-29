@@ -127,7 +127,6 @@ class _NoteFormState extends ConsumerState<NoteForm> {
     final updatedNote = currentNote.copyWith(
       title: title,
       text: text,
-      tagIds: tagIds,
     );
 
     await notifier.updateNote(updatedNote);
