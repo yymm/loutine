@@ -25,7 +25,6 @@ void main() {
           id: 1,
           title: 'ノート1',
           text: '[{"insert":"内容1\\n"}]',
-          tagIds: [1],
           createdAt: now,
           updatedAt: now,
         ),
@@ -33,7 +32,6 @@ void main() {
           id: 2,
           title: 'ノート2',
           text: '[{"insert":"内容2\\n"}]',
-          tagIds: [],
           createdAt: now,
           updatedAt: now,
         ),
@@ -64,7 +62,6 @@ void main() {
         id: 1,
         title: '新規ノート',
         text: '[{"insert":"新規内容\\n"}]',
-        tagIds: [1, 2],
         createdAt: now,
         updatedAt: now,
       );
@@ -73,7 +70,6 @@ void main() {
         () => mockRepository.createNote(
           title: '新規ノート',
           text: '[{"insert":"新規内容\\n"}]',
-          tagIds: [1, 2],
         ),
       ).thenAnswer((_) async => newNote);
 
@@ -92,19 +88,16 @@ void main() {
           .createNote(
             title: '新規ノート',
             text: '[{"insert":"新規内容\\n"}]',
-            tagIds: [1, 2],
           );
 
       // Assert
       expect(result.id, 1);
       expect(result.title, '新規ノート');
-      expect(result.tagIds, [1, 2]);
 
       verify(
         () => mockRepository.createNote(
           title: '新規ノート',
           text: '[{"insert":"新規内容\\n"}]',
-          tagIds: [1, 2],
         ),
       ).called(1);
 
@@ -122,7 +115,6 @@ void main() {
         id: 2,
         title: 'タグなし',
         text: '[{"insert":"内容\\n"}]',
-        tagIds: [],
         createdAt: now,
         updatedAt: now,
       );
@@ -131,7 +123,6 @@ void main() {
         () => mockRepository.createNote(
           title: 'タグなし',
           text: '[{"insert":"内容\\n"}]',
-          tagIds: [],
         ),
       ).thenAnswer((_) async => newNote);
 
@@ -151,7 +142,6 @@ void main() {
 
       // Assert
       expect(result.id, 2);
-      expect(result.tagIds, isEmpty);
     });
 
     test('deleteNote()はノートを削除して状態を更新する', () async {
