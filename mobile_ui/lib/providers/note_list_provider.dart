@@ -33,14 +33,12 @@ class NoteList extends _$NoteList {
     required String title,
     required String text,
     List<int> tagIds = const [],
-    DateTime? date,
   }) async {
     final repository = ref.read(noteRepositoryProvider);
     final note = await repository.createNote(
       title: title,
       text: text,
       tagIds: tagIds,
-      date: date,
     );
     // invalidateSelfの前に値を保存
     final result = note;
