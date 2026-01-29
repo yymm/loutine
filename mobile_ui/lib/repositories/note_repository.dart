@@ -53,7 +53,6 @@ class NoteRepository {
     required String title,
     required String text,
     List<int> tagIds = const [],
-    DateTime? date,
   }) async {
     try {
       final resBody = await _apiClient.post(text, title, tagIds);

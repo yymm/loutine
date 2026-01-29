@@ -129,6 +129,7 @@ void main() {
         final note = await repository.createNote(
           title: '新規ノート',
           text: '[{"insert":"新規内容\\n"}]',
+          tagIds: [1],
         );
 
         // Assert
