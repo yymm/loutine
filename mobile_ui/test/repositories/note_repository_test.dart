@@ -30,7 +30,6 @@ void main() {
             "id": 1,
             "title": "ノート1",
             "text": "[{\\"insert\\":\\"テスト内容\\\\n\\"}]",
-            "tag_ids": [1, 2],
             "created_at": "2024-01-01T00:00:00Z",
             "updated_at": "2024-01-01T00:00:00Z"
           },
@@ -38,7 +37,6 @@ void main() {
             "id": 2,
             "title": "ノート2",
             "text": "[{\\"insert\\":\\"内容2\\\\n\\"}]",
-            "tag_ids": [],
             "created_at": "2024-01-02T00:00:00Z",
             "updated_at": "2024-01-02T00:00:00Z"
           }
@@ -57,10 +55,8 @@ void main() {
         expect(notes[0].id, 1);
         expect(notes[0].title, 'ノート1');
         expect(notes[0].text, '[{"insert":"テスト内容\\n"}]');
-        expect(notes[0].tagIds, [1, 2]);
         expect(notes[1].id, 2);
         expect(notes[1].title, 'ノート2');
-        expect(notes[1].tagIds, isEmpty);
 
         verify(() => mockApiClient.list(startDate, endDate)).called(1);
       });
@@ -120,7 +116,6 @@ void main() {
           "id": 1,
           "title": "新規ノート",
           "text": "[{\\"insert\\":\\"新規内容\\\\n\\"}]",
-          "tag_ids": [1],
           "created_at": "2024-01-01T00:00:00Z",
           "updated_at": "2024-01-01T00:00:00Z"
         }
@@ -134,14 +129,12 @@ void main() {
         final note = await repository.createNote(
           title: '新規ノート',
           text: '[{"insert":"新規内容\\n"}]',
-          tagIds: [1],
         );
 
         // Assert
         expect(note.id, 1);
         expect(note.title, '新規ノート');
         expect(note.text, '[{"insert":"新規内容\\n"}]');
-        expect(note.tagIds, [1]);
 
         verify(
           () => mockApiClient.post('[{"insert":"新規内容\\n"}]', '新規ノート', [1]),
@@ -155,7 +148,6 @@ void main() {
           "id": 2,
           "title": "タグなし",
           "text": "[{\\"insert\\":\\"内容\\\\n\\"}]",
-          "tag_ids": [],
           "created_at": "2024-01-01T00:00:00Z",
           "updated_at": "2024-01-01T00:00:00Z"
         }
@@ -169,12 +161,10 @@ void main() {
         final note = await repository.createNote(
           title: 'タグなし',
           text: '[{"insert":"内容\\n"}]',
-          tagIds: [],
         );
 
         // Assert
         expect(note.id, 2);
-        expect(note.tagIds, isEmpty);
       });
 
       test('ネットワークエラーの場合にNetworkExceptionをスローする', () async {
@@ -188,7 +178,6 @@ void main() {
           () => repository.createNote(
             title: 'テスト',
             text: '[{"insert":"test\\n"}]',
-            tagIds: [],
           ),
           throwsA(isA<NetworkException>()),
         );
@@ -205,7 +194,6 @@ void main() {
           () => repository.createNote(
             title: 'テスト',
             text: '[{"insert":"test\\n"}]',
-            tagIds: [],
           ),
           throwsA(isA<ParseException>()),
         );

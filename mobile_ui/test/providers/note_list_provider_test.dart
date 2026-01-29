@@ -85,10 +85,7 @@ void main() {
       // Act
       final result = await container
           .read(noteListProvider.notifier)
-          .createNote(
-            title: '新規ノート',
-            text: '[{"insert":"新規内容\\n"}]',
-          );
+          .createNote(title: '新規ノート', text: '[{"insert":"新規内容\\n"}]');
 
       // Assert
       expect(result.id, 1);
