@@ -42,7 +42,7 @@ app.put('/', zValidator('json', updateCategoriesSchema), async (c) => {
 app.delete('/:id', zValidator('param', categoriesIdSchema), async (c) => {
 	const { id } = c.req.valid('param');
 	const { categoriesUsecase } = c.var;
-	const deleted_category = categoriesUsecase.delete(id);
+	const deleted_category = await categoriesUsecase.delete(id);
 	return c.json(deleted_category, 200);
 });
 

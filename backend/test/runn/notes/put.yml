@@ -9,7 +9,7 @@ steps:
           application/json:
             id: 1
             title: updated note runn
-            text: [{"insert":"テスト内容\n"}]
+            text: '[{"insert":"テスト内容\n"}]'
   test: |
     current.res.status == 200
     && current.res.headers["Content-Type"][0] == "application/json"
