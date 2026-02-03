@@ -82,4 +82,14 @@ describe('categories router', () => {
 		expect(category.name).toBe(put_body.name);
 		expect(category.description).toBe(put_body.description);
 	});
+
+	it('DELETE /:id', async () => {
+		const res = await categories_router.request(
+			`/${createdCategoryId}`,
+			{},
+			env,
+		);
+		await res.json();
+		expect(res.status).toBe(200);
+	});
 });
