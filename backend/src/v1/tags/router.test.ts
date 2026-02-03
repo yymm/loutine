@@ -78,4 +78,13 @@ describe('tags router', () => {
 		expect(tag.name).toBe(put_body.name);
 		expect(tag.description).toBe(put_body.description);
 	});
+
+	it('DELETE /:id', async () => {
+		const res = await tags_router.request(
+			`/${createdTagId}`,
+			{ method: 'DELETE' },
+			env,
+		);
+		expect(res.status).toBe(200);
+	});
 });

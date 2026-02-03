@@ -35,4 +35,11 @@ app.put('/', zValidator('json', updateTagsSchema), async (c) => {
 	return c.json(updated_tag, 200);
 });
 
+app.delete('/:id', zValidator('param', tagsIdSchema), async (c) => {
+	const { id } = c.req.valid('param');
+	const { tagsUsecase } = c.var;
+	const deleted_tag = await tagsUsecase.delete(id);
+	return c.json(deleted_tag, 200);
+});
+
 export { app as tags_router };

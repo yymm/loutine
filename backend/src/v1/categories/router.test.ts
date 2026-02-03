@@ -86,10 +86,9 @@ describe('categories router', () => {
 	it('DELETE /:id', async () => {
 		const res = await categories_router.request(
 			`/${createdCategoryId}`,
-			{},
+			{ method: 'DELETE' },
 			env,
 		);
-		await res.json();
 		expect(res.status).toBe(200);
 	});
 });

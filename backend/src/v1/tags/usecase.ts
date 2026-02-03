@@ -51,4 +51,9 @@ export class TagsUsecase {
 			.get();
 		return updated_tag;
 	}
+
+	async delete(id: number) {
+		const deleted_tag = await this.db.delete(tags).where(eq(tags.id, id)).get();
+		return deleted_tag;
+	}
 }
