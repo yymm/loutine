@@ -26,7 +26,24 @@ export const createNotesSchema = insertNotesSchema
 		tag_ids: true,
 	});
 
+export const updateNotesSchema = insertNotesSchema
+	.extend({
+		tag_ids: z.number().array().nullish(),
+	})
+	.pick({
+		id: true,
+		title: true,
+		text: true,
+		tag_ids: true,
+	});
+
 export const notesListSchema = z.object({
 	start_date: z.string().date(), // YYYY-MM-DD
 	end_date: z.string().date(), // YYYY-MM-DD
 });
+
+export const notesIdSchema = insertNotesSchema.pick({
+	id: true,
+});
+
+export type Note = z.infer<typeof insertNotesSchema>;

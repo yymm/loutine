@@ -84,27 +84,6 @@ describe('links router', () => {
 		expect(Array.isArray(links)).toBe(true);
 	});
 
-	it('PUT /:id', async () => {
-		const updateBody = {
-			id: createdLinkId,
-			title: 'updated link title',
-			url: 'https://updated.example.com',
-		};
-		const res = await links_router.request(
-			`/${createdLinkId}`,
-			{
-				method: 'PUT',
-				body: JSON.stringify(updateBody),
-				headers: new Headers({ 'Content-Type': 'application/json' }),
-			},
-			env,
-		);
-		const link: Link = await res.json();
-		expect(res.status).toBe(200);
-		expect(link.title).toBe(updateBody.title);
-		expect(link.url).toBe(updateBody.url);
-	});
-
 	it('POST / without required fields', async () => {
 		const invalidBody = {
 			title: 'no url provided',
@@ -119,6 +98,27 @@ describe('links router', () => {
 			env,
 		);
 		expect(res.status).toBe(400);
+	});
+
+	it('PUT /', async () => {
+		const updateBody = {
+			id: createdLinkId,
+			title: 'updated link title',
+			url: 'https://updated.example.com',
+		};
+		const res = await links_router.request(
+			`/`,
+			{
+				method: 'PUT',
+				body: JSON.stringify(updateBody),
+				headers: new Headers({ 'Content-Type': 'application/json' }),
+			},
+			env,
+		);
+		const link: Link = await res.json();
+		expect(res.status).toBe(200);
+		expect(link.title).toBe(updateBody.title);
+		expect(link.url).toBe(updateBody.url);
 	});
 
 	it('DELETE /:id', async () => {

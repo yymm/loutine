@@ -60,6 +60,7 @@ export class CategoriesUsecase {
 		const deleted_category = await this.db
 			.delete(categories)
 			.where(eq(categories.id, id))
+			.returning()
 			.get();
 		return deleted_category;
 	}

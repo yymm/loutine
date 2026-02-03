@@ -34,14 +34,14 @@ app.post('/', zValidator('json', createLinksSchema), async (c) => {
 	return c.json(new_link, 201);
 });
 
-app.put('/:id', zValidator('json', updateLinksSchema), async (c) => {
+app.put('/', zValidator('json', updateLinksSchema), async (c) => {
 	const { id, title, url } = c.req.valid('json');
 	const { linksUsecase } = c.var;
 	const updated_link = await linksUsecase.update({ id, title, url });
 	return c.json(updated_link, 200);
 });
 
-app.get('/:id', zValidator('param', linksIdSchema), async (c) => {
+app.delete('/:id', zValidator('param', linksIdSchema), async (c) => {
 	const { id } = c.req.valid('param');
 	const { linksUsecase } = c.var;
 	const link = await linksUsecase.delete(id);

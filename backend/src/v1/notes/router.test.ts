@@ -1,13 +1,14 @@
 import { env } from 'cloudflare:test';
 import { beforeEach, describe, expect, it } from 'vitest';
 import { notes_router } from './router';
+import { Note } from './types';
 
 describe('notes router', () => {
 	const body = {
 		title: 'test note',
 		text: 'test note content',
 	};
-	let _createdNoteId: number;
+	let createdNoteId: number;
 
 	beforeEach(async () => {
 		const res = await notes_router.request(
@@ -20,7 +21,7 @@ describe('notes router', () => {
 			env,
 		);
 		const note = (await res.json()) as { id: number };
-		_createdNoteId = note.id;
+		createdNoteId = note.id;
 	});
 
 	it('POST /', async () => {
@@ -64,6 +65,14 @@ describe('notes router', () => {
 		expect(note.text).toBe(newBody.text);
 	});
 
+	it('GET /:id', async () => {
+		const res = await notes_router.request(`/${createdNoteId}`, {}, env);
+		const note: Note = await res.json();
+		expect(res.status).toBe(200);
+		expect(note.title).toBe(body.title);
+		expect(note.text).toBe(body.text);
+	});
+
 	it('GET / with date range', async () => {
 		const res = await notes_router.request(
 			'/?start_date=2020-01-01&end_date=2099-12-31',
@@ -89,5 +98,36 @@ describe('notes router', () => {
 			env,
 		);
 		expect(res.status).toBe(400);
+	});
+
+	it('PUT /', async () => {
+		const updateBody = {
+			id: createdNoteId,
+			title: 'updated note title',
+			text: '[{\\"insert\\":\\"テスト内容\\\\n\\"}]',
+			tag_ids: [],
+		};
+		const res = await notes_router.request(
+			`/`,
+			{
+				method: 'PUT',
+				body: JSON.stringify(updateBody),
+				headers: new Headers({ 'Content-Type': 'application/json' }),
+			},
+			env,
+		);
+		const note: Note = await res.json();
+		expect(res.status).toBe(200);
+		expect(note.title).toBe(updateBody.title);
+		expect(note.text).toBe(updateBody.text);
+	});
+
+	it('DELETE /:id', async () => {
+		const res = await notes_router.request(
+			`/${createdNoteId}`,
+			{ method: 'DELETE' },
+			env,
+		);
+		expect(res.status).toBe(200);
 	});
 });

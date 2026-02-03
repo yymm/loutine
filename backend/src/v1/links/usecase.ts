@@ -48,7 +48,7 @@ export class LinksUsecase {
 			.get();
 		if (tag_ids !== null && tag_ids !== undefined) {
 			for (const tag_id of tag_ids) {
-				this.db
+				await this.db
 					.insert(link_tag)
 					.values({ link_id: new_link.id, tag_id })
 					.returning()
@@ -72,6 +72,7 @@ export class LinksUsecase {
 		const deleted_link = await this.db
 			.delete(links)
 			.where(eq(links.id, id))
+			.returning()
 			.get();
 		return deleted_link;
 	}

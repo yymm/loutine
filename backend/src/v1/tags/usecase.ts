@@ -10,12 +10,12 @@ export class TagsUsecase {
 	}
 
 	async get_by_id(id: number) {
-		const tag = this.db.select().from(tags).where(eq(tags.id, id)).get();
+		const tag = await this.db.select().from(tags).where(eq(tags.id, id)).get();
 		return tag;
 	}
 
 	async get_all() {
-		const all_tags = this.db.select().from(tags).limit(100).all();
+		const all_tags = await this.db.select().from(tags).limit(100).all();
 		return all_tags;
 	}
 
@@ -26,7 +26,7 @@ export class TagsUsecase {
 		name: string;
 		description: string | null;
 	}) {
-		const new_tag = this.db
+		const new_tag = await this.db
 			.insert(tags)
 			.values(description === null ? { name } : { name, description })
 			.returning()
@@ -53,7 +53,11 @@ export class TagsUsecase {
 	}
 
 	async delete(id: number) {
-		const deleted_tag = await this.db.delete(tags).where(eq(tags.id, id)).get();
+		const deleted_tag = await this.db
+			.delete(tags)
+			.where(eq(tags.id, id))
+			.returning()
+			.get();
 		return deleted_tag;
 	}
 }
