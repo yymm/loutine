@@ -27,11 +27,16 @@ export const createLinksSchema = insertLinksSchema
 		tag_ids: true,
 	});
 
-export const updateLinksSchema = insertLinksSchema.pick({
-	id: true,
-	title: true,
-	url: true,
-});
+export const updateLinksSchema = insertLinksSchema
+	.extend({
+		tag_ids: z.number().array().nullish(),
+	})
+	.pick({
+		id: true,
+		title: true,
+		url: true,
+		tag_ids: true,
+	});
 
 export const linksIdSchema = insertLinksSchema.pick({
 	id: true,

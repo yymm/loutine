@@ -35,9 +35,9 @@ app.post('/', zValidator('json', createLinksSchema), async (c) => {
 });
 
 app.put('/', zValidator('json', updateLinksSchema), async (c) => {
-	const { id, title, url } = c.req.valid('json');
+	const { id, title, url, tag_ids } = c.req.valid('json');
 	const { linksUsecase } = c.var;
-	const updated_link = await linksUsecase.update({ id, title, url });
+	const updated_link = await linksUsecase.update({ id, title, url, tag_ids });
 	return c.json(updated_link, 200);
 });
 

@@ -58,13 +58,36 @@ export class LinksUsecase {
 		return new_link;
 	}
 
-	async update({ id, title, url }: { id: number; title: string; url: string }) {
+	async update({
+		id,
+		title,
+		url,
+		tag_ids,
+	}: {
+		id: number;
+		title: string;
+		url: string;
+		tag_ids: Array<number> | null | undefined;
+	}) {
+		// FIXME: Since D1 lacks transaction functionality,
+		// you'll either have to implement your own rollback mechanism
+		// or wait for transactions to be implemented.
 		const updated_link = await this.db
 			.update(links)
 			.set({ title, url })
 			.where(eq(links.id, id))
 			.returning()
 			.get();
+		if (tag_ids !== null && tag_ids !== undefined) {
+			await this.db.delete(link_tag).where(eq(link_tag.link_id, id));
+			for (const tag_id of tag_ids) {
+				await this.db
+					.insert(link_tag)
+					.values({ link_id: id, tag_id })
+					.returning()
+					.get();
+			}
+		}
 		return updated_link;
 	}
 

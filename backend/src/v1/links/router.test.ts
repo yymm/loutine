@@ -105,6 +105,7 @@ describe('links router', () => {
 			id: createdLinkId,
 			title: 'updated link title',
 			url: 'https://updated.example.com',
+			tag_ids: [],
 		};
 		const res = await links_router.request(
 			`/`,
