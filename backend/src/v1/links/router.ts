@@ -41,4 +41,11 @@ app.put('/:id', zValidator('json', updateLinksSchema), async (c) => {
 	return c.json(updated_link, 200);
 });
 
+app.get('/:id', zValidator('param', linksIdSchema), async (c) => {
+	const { id } = c.req.valid('param');
+	const { linksUsecase } = c.var;
+	const link = await linksUsecase.delete(id);
+	return c.json(link, 200);
+});
+
 export { app as links_router };

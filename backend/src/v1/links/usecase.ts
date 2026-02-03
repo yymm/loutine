@@ -67,4 +67,12 @@ export class LinksUsecase {
 			.get();
 		return updated_link;
 	}
+
+	async delete(id: number) {
+		const deleted_link = await this.db
+			.delete(links)
+			.where(eq(links.id, id))
+			.get();
+		return deleted_link;
+	}
 }

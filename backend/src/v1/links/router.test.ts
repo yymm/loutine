@@ -120,4 +120,13 @@ describe('links router', () => {
 		);
 		expect(res.status).toBe(400);
 	});
+
+	it('DELETE /:id', async () => {
+		const res = await links_router.request(
+			`/${createdLinkId}`,
+			{ method: 'DELETE' },
+			env,
+		);
+		expect(res.status).toBe(200);
+	});
 });
