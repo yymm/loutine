@@ -122,6 +122,22 @@ describe('links router', () => {
 		expect(link.url).toBe(updateBody.url);
 	});
 
+	it('PUT /', async () => {
+		const updateBody = {
+			title: 'no id and url provided',
+		};
+		const res = await links_router.request(
+			`/`,
+			{
+				method: 'PUT',
+				body: JSON.stringify(updateBody),
+				headers: new Headers({ 'Content-Type': 'application/json' }),
+			},
+			env,
+		);
+		expect(res.status).toBe(400);
+	});
+
 	it('DELETE /:id', async () => {
 		const res = await links_router.request(
 			`/${createdLinkId}`,

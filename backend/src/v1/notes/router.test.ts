@@ -122,6 +122,22 @@ describe('notes router', () => {
 		expect(note.text).toBe(updateBody.text);
 	});
 
+	it('PUT /', async () => {
+		const updateBody = {
+			title: 'no id and text provided',
+		};
+		const res = await notes_router.request(
+			`/`,
+			{
+				method: 'PUT',
+				body: JSON.stringify(updateBody),
+				headers: new Headers({ 'Content-Type': 'application/json' }),
+			},
+			env,
+		);
+		expect(res.status).toBe(400);
+	});
+
 	it('DELETE /:id', async () => {
 		const res = await notes_router.request(
 			`/${createdNoteId}`,

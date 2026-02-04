@@ -23,7 +23,24 @@ export const createPurchasesSchema = insertPurchasesSchema
 		category_id: true,
 	});
 
+export const updatePurchasesSchema = insertPurchasesSchema
+	.extend({
+		category_id: z.number().nullish(),
+	})
+	.pick({
+		id: true,
+		title: true,
+		cost: true,
+		category_id: true,
+	});
+
 export const purchasesListSchema = z.object({
 	start_date: z.string().date(), // YYYY-MM-DD
 	end_date: z.string().date(), // YYYY-MM-DD
 });
+
+export const purchasesIdSchema = insertPurchasesSchema.pick({
+	id: true,
+});
+
+export type Purchase = z.infer<typeof insertPurchasesSchema>;
