@@ -29,7 +29,6 @@ app.get('/:id', zValidator('param', notesIdSchema), async (c) => {
 	const { id } = c.req.valid('param');
 	const { notesUsecase } = c.var;
 	const note = await notesUsecase.get_by_id(id);
-	console.log(note);
 	return c.json(note, 200);
 });
 
