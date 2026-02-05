@@ -19,7 +19,7 @@ const insertLinksSchema = createInsertSchema(links, {
 
 export const createLinksSchema = insertLinksSchema
 	.extend({
-		tag_ids: z.number().array().nullish(),
+		tag_ids: z.coerce.number().array().nullish(),
 	})
 	.pick({
 		title: true,
@@ -29,7 +29,7 @@ export const createLinksSchema = insertLinksSchema
 
 export const updateLinksSchema = insertLinksSchema
 	.extend({
-		tag_ids: z.number().array().nullish(),
+		tag_ids: z.coerce.number().array().nullish(),
 	})
 	.pick({
 		id: true,

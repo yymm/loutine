@@ -8,14 +8,14 @@ export const insertPurchasesSchema = createInsertSchema(purchases, {
 		.string()
 		.min(1, 'titleは必須です')
 		.max(2048, 'titleは2048文字以内にしてください'),
-	cost: z.number(),
+	cost: z.coerce.number(),
 	created_at: z.string().datetime(),
 	updated_at: z.string().datetime(),
 });
 
 export const createPurchasesSchema = insertPurchasesSchema
 	.extend({
-		category_id: z.number().nullish(),
+		category_id: z.coerce.number().nullish(),
 	})
 	.pick({
 		title: true,
@@ -25,7 +25,7 @@ export const createPurchasesSchema = insertPurchasesSchema
 
 export const updatePurchasesSchema = insertPurchasesSchema
 	.extend({
-		category_id: z.number().nullish(),
+		category_id: z.coerce.number().nullish(),
 	})
 	.pick({
 		id: true,
