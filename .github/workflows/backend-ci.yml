@@ -116,11 +116,13 @@ jobs:
         env:
           WRANGLER_SEND_METRICS: false
       
-      - name: Wait for server
-        run: |
-          timeout 60 bash -c 'until curl -f http://127.0.0.1:8787/health 2>/dev/null; do sleep 2; done' || \
-          timeout 60 bash -c 'until nc -z 127.0.0.1 8787; do sleep 2; done'
-
+      # - name: Wait for server
+      #   run: |
+      #     timeout 60 bash -c 'until curl -f http://127.0.0.1:8787/health 2>/dev/null; do sleep 2; done' || \
+      #     timeout 60 bash -c 'until nc -z 127.0.0.1 8787; do sleep 2; done'
+      - name: Wait
+        run: sleep 10
+      
       - name: Prepare E2E tests
         run: |
           runn run ./test/runn/categories/post.yml
@@ -129,6 +131,9 @@ jobs:
           runn run ./test/runn/purchases/post.yml
           runn run ./test/runn/tags/post.yml
       
+      - name: Wait
+        run: sleep 10
+
       - name: Run E2E tests
         run: npm run ci:test:e2e
 
