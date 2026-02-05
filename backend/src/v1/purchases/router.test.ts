@@ -107,7 +107,7 @@ describe('purchases router', () => {
 	it('PUT /', async () => {
 		const updateBody = {
 			id: createdPurchaseId,
-			title: 'updated link title',
+			title: 'updated purchase title',
 			cost: 9999,
 			category_id: null,
 		};
