@@ -55,4 +55,13 @@ export class CategoriesUsecase {
 			.get();
 		return updated_category;
 	}
+
+	async delete(id: number) {
+		const deleted_category = await this.db
+			.delete(categories)
+			.where(eq(categories.id, id))
+			.returning()
+			.get();
+		return deleted_category;
+	}
 }

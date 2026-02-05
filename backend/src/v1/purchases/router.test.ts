@@ -1,13 +1,14 @@
 import { env } from 'cloudflare:test';
 import { beforeEach, describe, expect, it } from 'vitest';
 import { purchases_router } from './router';
+import type { Purchase } from './types';
 
 describe('purchases router', () => {
 	const body = {
 		title: 'test purchase',
 		cost: 1000,
 	};
-	let _createdPurchaseId: number;
+	let createdPurchaseId: number;
 
 	beforeEach(async () => {
 		const res = await purchases_router.request(
@@ -20,7 +21,7 @@ describe('purchases router', () => {
 			env,
 		);
 		const purchase = (await res.json()) as { id: number };
-		_createdPurchaseId = purchase.id;
+		createdPurchaseId = purchase.id;
 	});
 
 	it('POST /', async () => {
@@ -64,6 +65,23 @@ describe('purchases router', () => {
 		expect(purchase.cost).toBe(newBody.cost);
 	});
 
+	it('GET /:id', async () => {
+		const res = await purchases_router.request(
+			`/${createdPurchaseId}`,
+			{},
+			env,
+		);
+		const purchase: Purchase = await res.json();
+		expect(res.status).toBe(200);
+		expect(purchase.title).toBe(body.title);
+		expect(purchase.cost).toBe(body.cost);
+	});
+
+	it('GET /:id 404', async () => {
+		const res = await purchases_router.request(`/9999`, {}, env);
+		expect(res.status).toBe(404);
+	});
+
 	it('GET / with date range', async () => {
 		const res = await purchases_router.request(
 			'/?start_date=2020-01-01&end_date=2099-12-31',
@@ -89,5 +107,61 @@ describe('purchases router', () => {
 			env,
 		);
 		expect(res.status).toBe(400);
+	});
+
+	it('PUT /', async () => {
+		const updateBody = {
+			id: createdPurchaseId,
+			title: 'updated purchase title',
+			cost: 9999,
+			category_id: null,
+		};
+		const res = await purchases_router.request(
+			`/`,
+			{
+				method: 'PUT',
+				body: JSON.stringify(updateBody),
+				headers: new Headers({ 'Content-Type': 'application/json' }),
+			},
+			env,
+		);
+		const purchase: Purchase = await res.json();
+		expect(res.status).toBe(200);
+		expect(purchase.title).toBe(updateBody.title);
+		expect(purchase.cost).toBe(updateBody.cost);
+	});
+
+	it('PUT / without required field', async () => {
+		const updateBody = {
+			title: 'no id and cost provided',
+		};
+		const res = await purchases_router.request(
+			`/`,
+			{
+				method: 'PUT',
+				body: JSON.stringify(updateBody),
+				headers: new Headers({ 'Content-Type': 'application/json' }),
+			},
+			env,
+		);
+		expect(res.status).toBe(400);
+	});
+
+	it('DELETE /:id', async () => {
+		const res = await purchases_router.request(
+			`/${createdPurchaseId}`,
+			{ method: 'DELETE' },
+			env,
+		);
+		expect(res.status).toBe(200);
+	});
+
+	it('DELETE /:id 404', async () => {
+		const res = await purchases_router.request(
+			`/9999`,
+			{ method: 'DELETE' },
+			env,
+		);
+		expect(res.status).toBe(404);
 	});
 });

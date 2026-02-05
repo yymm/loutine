@@ -1,7 +1,9 @@
 import { zValidator } from '@hono/zod-validator';
 import { createHono } from '../../utils/app_factory';
+import { send_404 } from '../../utils/errors';
 import {
 	createLinksSchema,
+	linksCursorSchema,
 	linksIdSchema,
 	linksListSchema,
 	updateLinksSchema,
@@ -16,10 +18,21 @@ app.get('/', zValidator('query', linksListSchema), async (c) => {
 	return c.json(all_links, 200);
 });
 
+app.get('/latest', zValidator('query', linksCursorSchema), async (c) => {
+	const { cursor, limit } = c.req.valid('query');
+	const { linksUsecase } = c.var;
+	const { links, next_cursor, has_next_page } =
+		await linksUsecase.get_latest_by_cursor(cursor, limit);
+	return c.json({ links, next_cursor, has_next_page }, 200);
+});
+
 app.get('/:id', zValidator('param', linksIdSchema), async (c) => {
 	const { id } = c.req.valid('param');
 	const { linksUsecase } = c.var;
 	const link = await linksUsecase.get_by_id(id);
+	if (!link) {
+		return send_404(c, 'Link Not Found');
+	}
 	return c.json(link, 200);
 });
 
@@ -34,11 +47,21 @@ app.post('/', zValidator('json', createLinksSchema), async (c) => {
 	return c.json(new_link, 201);
 });
 
-app.put('/:id', zValidator('json', updateLinksSchema), async (c) => {
-	const { id, title, url } = c.req.valid('json');
+app.put('/', zValidator('json', updateLinksSchema), async (c) => {
+	const { id, title, url, tag_ids } = c.req.valid('json');
 	const { linksUsecase } = c.var;
-	const updated_link = await linksUsecase.update({ id, title, url });
+	const updated_link = await linksUsecase.update({ id, title, url, tag_ids });
 	return c.json(updated_link, 200);
+});
+
+app.delete('/:id', zValidator('param', linksIdSchema), async (c) => {
+	const { id } = c.req.valid('param');
+	const { linksUsecase } = c.var;
+	const deleted_link = await linksUsecase.delete(id);
+	if (!deleted_link) {
+		return send_404(c, 'Link Not Found');
+	}
+	return c.json(deleted_link, 200);
 });
 
 export { app as links_router };

@@ -1,15 +1,15 @@
-desc: Update a link
+desc: Update a purchase
 runners:
   req: http://localhost:8787
 steps:
 - req:
-    /api/v1/links:
+    /api/v1/purchases:
       put:
         body:
           application/json:
             id: 1
-            title: updated link runn
-            url: https://updated.example.com
+            title: updated purchase runn
+            cost: 9999
   test: |
     current.res.status == 200
     && current.res.headers["Content-Type"][0] == "application/json"

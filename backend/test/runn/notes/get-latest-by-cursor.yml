@@ -1,0 +1,11 @@
+desc: Get latest notes by cursor
+runners:
+  req: http://localhost:8787
+steps:
+- req:
+    /api/v1/notes/latest:
+      get:
+        body: null
+  test: |
+    current.res.status == 200
+    && current.res.headers["Content-Type"][0] == "application/json"

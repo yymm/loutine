@@ -19,7 +19,7 @@ const insertLinksSchema = createInsertSchema(links, {
 
 export const createLinksSchema = insertLinksSchema
 	.extend({
-		tag_ids: z.number().array().nullish(),
+		tag_ids: z.coerce.number().array().nullish(),
 	})
 	.pick({
 		title: true,
@@ -27,11 +27,16 @@ export const createLinksSchema = insertLinksSchema
 		tag_ids: true,
 	});
 
-export const updateLinksSchema = insertLinksSchema.pick({
-	id: true,
-	title: true,
-	url: true,
-});
+export const updateLinksSchema = insertLinksSchema
+	.extend({
+		tag_ids: z.coerce.number().array().nullish(),
+	})
+	.pick({
+		id: true,
+		title: true,
+		url: true,
+		tag_ids: true,
+	});
 
 export const linksIdSchema = insertLinksSchema.pick({
 	id: true,
@@ -40,6 +45,11 @@ export const linksIdSchema = insertLinksSchema.pick({
 export const linksListSchema = z.object({
 	start_date: z.string().date(), // YYYY-MM-DD
 	end_date: z.string().date(), // YYYY-MM-DD
+});
+
+export const linksCursorSchema = z.object({
+	cursor: z.string().nullish(),
+	limit: z.coerce.number().lte(100).default(10),
 });
 
 export type Link = z.infer<typeof insertLinksSchema>;

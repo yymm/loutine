@@ -1,5 +1,6 @@
 import { zValidator } from '@hono/zod-validator';
 import { createHono } from '../../utils/app_factory';
+import { send_404 } from '../../utils/errors';
 import {
 	categoriesIdSchema,
 	createCategoriesSchema,
@@ -18,6 +19,9 @@ app.get('/:id', zValidator('param', categoriesIdSchema), async (c) => {
 	const { id } = c.req.valid('param');
 	const { categoriesUsecase } = c.var;
 	const category = await categoriesUsecase.get_by_id(id);
+	if (!category) {
+		return send_404(c, 'Category Not Found');
+	}
 	return c.json(category, 200);
 });
 
@@ -37,6 +41,16 @@ app.put('/', zValidator('json', updateCategoriesSchema), async (c) => {
 		description,
 	});
 	return c.json(updated_category, 200);
+});
+
+app.delete('/:id', zValidator('param', categoriesIdSchema), async (c) => {
+	const { id } = c.req.valid('param');
+	const { categoriesUsecase } = c.var;
+	const deleted_category = await categoriesUsecase.delete(id);
+	if (!deleted_category) {
+		return send_404(c, 'Category Not Found');
+	}
+	return c.json(deleted_category, 200);
 });
 
 export { app as categories_router };

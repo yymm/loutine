@@ -1,5 +1,6 @@
 import { zValidator } from '@hono/zod-validator';
 import { createHono } from '../../utils/app_factory';
+import { send_404 } from '../../utils/errors';
 import { createTagsSchema, tagsIdSchema, updateTagsSchema } from './types';
 
 const app = createHono();
@@ -14,6 +15,9 @@ app.get('/:id', zValidator('param', tagsIdSchema), async (c) => {
 	const { id } = c.req.valid('param');
 	const { tagsUsecase } = c.var;
 	const tag = await tagsUsecase.get_by_id(id);
+	if (!tag) {
+		return send_404(c, 'Tag Not Found');
+	}
 	return c.json(tag, 200);
 });
 
@@ -33,6 +37,16 @@ app.put('/', zValidator('json', updateTagsSchema), async (c) => {
 		description,
 	});
 	return c.json(updated_tag, 200);
+});
+
+app.delete('/:id', zValidator('param', tagsIdSchema), async (c) => {
+	const { id } = c.req.valid('param');
+	const { tagsUsecase } = c.var;
+	const deleted_tag = await tagsUsecase.delete(id);
+	if (!deleted_tag) {
+		return send_404(c, 'Tag Not Found');
+	}
+	return c.json(deleted_tag, 200);
 });
 
 export { app as tags_router };
