@@ -1,8 +1,6 @@
 desc: Get latest notes by cursor
 runners:
   req: http://localhost:8787
-needs:
-  post: ./get.yml
 steps:
 - req:
     /api/v1/notes/latest:

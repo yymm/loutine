@@ -1,8 +1,6 @@
 desc: Get all tags
 runners:
   req: http://localhost:8787
-needs:
-  post: ./get-by-id.yml
 steps:
 - req:
     /api/v1/tags:
