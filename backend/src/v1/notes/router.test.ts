@@ -68,9 +68,6 @@ describe('notes router', () => {
 			text: '[{\\"insert\\":\\"テスト内容\\\\n\\"}]',
 			tag_ids: [created_tag_id],
 		};
-		console.log('=======================');
-		console.log(newBody);
-		console.log('=======================');
 		const res = await notes_router.request(
 			'/',
 			{
