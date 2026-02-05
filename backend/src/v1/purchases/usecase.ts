@@ -71,6 +71,7 @@ export class PurchasesUsecase {
 		const new_purchase = await this.db
 			.update(purchases)
 			.set(values)
+			.where(eq(purchases.id, id))
 			.returning()
 			.get();
 		return new_purchase;

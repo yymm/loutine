@@ -2,6 +2,7 @@ import { zValidator } from '@hono/zod-validator';
 import { createHono } from '../../utils/app_factory';
 import {
 	createLinksSchema,
+	linksCursorSchema,
 	linksIdSchema,
 	linksListSchema,
 	updateLinksSchema,
@@ -14,6 +15,14 @@ app.get('/', zValidator('query', linksListSchema), async (c) => {
 	const { linksUsecase } = c.var;
 	const all_links = await linksUsecase.get_date_range(start_date, end_date);
 	return c.json(all_links, 200);
+});
+
+app.get('/latest', zValidator('query', linksCursorSchema), async (c) => {
+	const { cursor, limit } = c.req.valid('query');
+	const { linksUsecase } = c.var;
+	const { links, next_cursor, has_next_page } =
+		await linksUsecase.get_latest_by_cursor(cursor, limit);
+	return c.json({ links, next_cursor, has_next_page }, 200);
 });
 
 app.get('/:id', zValidator('param', linksIdSchema), async (c) => {

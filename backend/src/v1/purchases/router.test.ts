@@ -1,7 +1,7 @@
 import { env } from 'cloudflare:test';
 import { beforeEach, describe, expect, it } from 'vitest';
 import { purchases_router } from './router';
-import { Purchase } from './types';
+import type { Purchase } from './types';
 
 describe('purchases router', () => {
 	const body = {

@@ -1,6 +1,11 @@
-import { and, eq, gte, lt } from 'drizzle-orm';
+import { and, desc, eq, gte, lt, sql } from 'drizzle-orm';
 import type { DrizzleD1Database } from 'drizzle-orm/d1';
 import { link_tag, links } from '../../schema';
+
+type CursorPayload = {
+	last_created_at: string;
+	last_id: number;
+};
 
 export class LinksUsecase {
 	db: DrizzleD1Database;
@@ -27,6 +32,43 @@ export class LinksUsecase {
 			)
 			.all();
 		return all_links;
+	}
+
+	async get_latest_by_cursor(
+		cursor_str: string | null | undefined,
+		limit = 10,
+	) {
+		const query = this.db
+			.select()
+			.from(links)
+			.orderBy(desc(links.created_at), desc(links.id))
+			.limit(limit + 1);
+
+		if (cursor_str !== null && cursor_str !== undefined) {
+			const { last_created_at, last_id } = JSON.parse(
+				atob(cursor_str),
+			) as CursorPayload;
+			query.where(
+				sql`(${links.created_at}, ${links.id}) < (${last_created_at}, ${last_id})`,
+			);
+		}
+
+		const all_links = await query.all();
+
+		const has_next_page = all_links.length > limit;
+		const return_links = has_next_page ? all_links.slice(0, limit) : all_links;
+		let next_cursor: string | null = null;
+		if (has_next_page && return_links.length > 0) {
+			const last_link = return_links[return_links.length - 1];
+			next_cursor = btoa(
+				JSON.stringify({
+					last_created_at: last_link.created_at,
+					last_id: last_link.id,
+				}),
+			);
+		}
+
+		return { links: return_links, next_cursor, has_next_page };
 	}
 
 	async create({
@@ -97,6 +139,7 @@ export class LinksUsecase {
 			.where(eq(links.id, id))
 			.returning()
 			.get();
+		await this.db.delete(link_tag).where(eq(link_tag.link_id, id));
 		return deleted_link;
 	}
 }

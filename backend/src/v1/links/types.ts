@@ -47,4 +47,9 @@ export const linksListSchema = z.object({
 	end_date: z.string().date(), // YYYY-MM-DD
 });
 
+export const linksCursorSchema = z.object({
+	cursor: z.string().nullish(),
+	limit: z.coerce.number().lte(100).default(10),
+});
+
 export type Link = z.infer<typeof insertLinksSchema>;
