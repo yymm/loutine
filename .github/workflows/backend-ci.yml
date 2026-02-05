@@ -123,17 +123,6 @@ jobs:
       - name: Wait
         run: sleep 10
       
-      - name: Prepare E2E tests
-        run: |
-          runn run ./test/runn/categories/post.yml
-          runn run ./test/runn/links/post.yml
-          runn run ./test/runn/notes/post.yml
-          runn run ./test/runn/purchases/post.yml
-          runn run ./test/runn/tags/post.yml
-      
-      - name: Wait
-        run: sleep 10
-
       - name: Run E2E tests
         run: npm run ci:test:e2e
 

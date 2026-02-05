@@ -1,6 +1,8 @@
 desc: Get latest links by cursor
 runners:
   req: http://localhost:8787
+needs:
+  post: ./test/runn/links/post.yml
 steps:
 - req:
     /api/v1/links/latest:
