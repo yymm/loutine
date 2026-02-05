@@ -1,12 +1,12 @@
 import { zValidator } from '@hono/zod-validator';
 import { createHono } from '../../utils/app_factory';
+import { send_404 } from '../../utils/errors';
 import {
 	createPurchasesSchema,
 	purchasesIdSchema,
 	purchasesListSchema,
 	updatePurchasesSchema,
 } from './types';
-import { send_404 } from '../../utils/errors';
 
 const app = createHono();
 
