@@ -43,6 +43,22 @@ describe('categories router', () => {
 		expect(category.description).toBe(newBody.description);
 	});
 
+	it('POST / without required fields', async () => {
+		const newBody = {
+			description: 'no name provided',
+		};
+		const res = await categories_router.request(
+			'/',
+			{
+				method: 'POST',
+				body: JSON.stringify(newBody),
+				headers: new Headers({ 'Content-Type': 'application/json' }),
+			},
+			env,
+		);
+		expect(res.status).toBe(400);
+	});
+
 	it('GET /:id', async () => {
 		const res = await categories_router.request(
 			`/${createdCategoryId}`,
@@ -53,6 +69,16 @@ describe('categories router', () => {
 		expect(res.status).toBe(200);
 		expect(category.name).toBe(body.name);
 		expect(category.description).toBe(body.description);
+	});
+
+	it('GET /:id unmatch param', async () => {
+		const res = await categories_router.request(`/xxxx`, {}, env);
+		expect(res.status).toBe(400);
+	});
+
+	it('GET /:id 404', async () => {
+		const res = await categories_router.request(`/9999`, {}, env);
+		expect(res.status).toBe(404);
 	});
 
 	it('GET /', async () => {
@@ -90,5 +116,14 @@ describe('categories router', () => {
 			env,
 		);
 		expect(res.status).toBe(200);
+	});
+
+	it('DELETE /:id 404', async () => {
+		const res = await categories_router.request(
+			`/9999`,
+			{ method: 'DELETE' },
+			env,
+		);
+		expect(res.status).toBe(404);
 	});
 });

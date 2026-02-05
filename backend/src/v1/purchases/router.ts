@@ -6,6 +6,7 @@ import {
 	purchasesListSchema,
 	updatePurchasesSchema,
 } from './types';
+import { send_404 } from '../../utils/errors';
 
 const app = createHono();
 
@@ -23,6 +24,9 @@ app.get('/:id', zValidator('param', purchasesIdSchema), async (c) => {
 	const { id } = c.req.valid('param');
 	const { purchasesUsecase } = c.var;
 	const purchase = await purchasesUsecase.get_by_id(id);
+	if (!purchase) {
+		return send_404(c, 'Purchase Not Found');
+	}
 	return c.json(purchase, 200);
 });
 
@@ -53,6 +57,9 @@ app.delete('/:id', zValidator('param', purchasesIdSchema), async (c) => {
 	const { id } = c.req.valid('param');
 	const { purchasesUsecase } = c.var;
 	const deleted_purchase = await purchasesUsecase.delete(id);
+	if (!deleted_purchase) {
+		return send_404(c, 'Purchase Not Found');
+	}
 	return c.json(deleted_purchase, 200);
 });
 

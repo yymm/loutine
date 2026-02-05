@@ -43,12 +43,38 @@ describe('tags router', () => {
 		expect(tag.description).toBe(newBody.description);
 	});
 
+	it('POST / without required fields', async () => {
+		const newBody = {
+			description: 'no name provided',
+		};
+		const res = await tags_router.request(
+			'/',
+			{
+				method: 'POST',
+				body: JSON.stringify(newBody),
+				headers: new Headers({ 'Content-Type': 'application/json' }),
+			},
+			env,
+		);
+		expect(res.status).toBe(400);
+	});
+
 	it('GET /:id', async () => {
 		const res = await tags_router.request(`/${createdTagId}`, {}, env);
 		const tag: Tag = await res.json();
 		expect(res.status).toBe(200);
 		expect(tag.name).toBe(body.name);
 		expect(tag.description).toBe(body.description);
+	});
+
+	it('GET /:id mismatch param', async () => {
+		const res = await tags_router.request(`/xxxx`, {}, env);
+		expect(res.status).toBe(400);
+	});
+
+	it('GET /:id 404', async () => {
+		const res = await tags_router.request(`/9999`, {}, env);
+		expect(res.status).toBe(404);
 	});
 
 	it('GET /', async () => {
@@ -86,5 +112,10 @@ describe('tags router', () => {
 			env,
 		);
 		expect(res.status).toBe(200);
+	});
+
+	it('DELETE /:id 404', async () => {
+		const res = await tags_router.request(`/9999`, { method: 'DELETE' }, env);
+		expect(res.status).toBe(404);
 	});
 });

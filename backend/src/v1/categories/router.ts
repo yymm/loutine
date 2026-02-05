@@ -5,6 +5,7 @@ import {
 	createCategoriesSchema,
 	updateCategoriesSchema,
 } from './types';
+import { send_404 } from '../../utils/errors';
 
 const app = createHono();
 
@@ -18,6 +19,9 @@ app.get('/:id', zValidator('param', categoriesIdSchema), async (c) => {
 	const { id } = c.req.valid('param');
 	const { categoriesUsecase } = c.var;
 	const category = await categoriesUsecase.get_by_id(id);
+	if (!category) {
+		return send_404(c, 'Category Not Found');
+	}
 	return c.json(category, 200);
 });
 
@@ -43,6 +47,9 @@ app.delete('/:id', zValidator('param', categoriesIdSchema), async (c) => {
 	const { id } = c.req.valid('param');
 	const { categoriesUsecase } = c.var;
 	const deleted_category = await categoriesUsecase.delete(id);
+	if (!deleted_category) {
+		return send_404(c, 'Category Not Found');
+	}
 	return c.json(deleted_category, 200);
 });
 

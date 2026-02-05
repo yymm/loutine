@@ -7,6 +7,7 @@ import {
 	linksListSchema,
 	updateLinksSchema,
 } from './types';
+import { send_404 } from '../../utils/errors';
 
 const app = createHono();
 
@@ -29,6 +30,9 @@ app.get('/:id', zValidator('param', linksIdSchema), async (c) => {
 	const { id } = c.req.valid('param');
 	const { linksUsecase } = c.var;
 	const link = await linksUsecase.get_by_id(id);
+	if (!link) {
+		return send_404(c, 'Link Not Found');
+	}
 	return c.json(link, 200);
 });
 
@@ -53,8 +57,11 @@ app.put('/', zValidator('json', updateLinksSchema), async (c) => {
 app.delete('/:id', zValidator('param', linksIdSchema), async (c) => {
 	const { id } = c.req.valid('param');
 	const { linksUsecase } = c.var;
-	const link = await linksUsecase.delete(id);
-	return c.json(link, 200);
+	const deleted_link = await linksUsecase.delete(id);
+	if (!deleted_link) {
+		return send_404(c, 'Link Not Found');
+	}
+	return c.json(deleted_link, 200);
 });
 
 export { app as links_router };

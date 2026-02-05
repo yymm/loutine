@@ -7,6 +7,7 @@ import {
 	notesListSchema,
 	updateNotesSchema,
 } from './types';
+import { send_404 } from '../../utils/errors';
 
 const app = createHono();
 
@@ -29,6 +30,9 @@ app.get('/:id', zValidator('param', notesIdSchema), async (c) => {
 	const { id } = c.req.valid('param');
 	const { notesUsecase } = c.var;
 	const note = await notesUsecase.get_by_id(id);
+	if (!note) {
+		return send_404(c, 'Note Not Found');
+	}
 	return c.json(note, 200);
 });
 
@@ -59,6 +63,9 @@ app.delete('/:id', zValidator('param', notesIdSchema), async (c) => {
 	const { id } = c.req.valid('param');
 	const { notesUsecase } = c.var;
 	const deleted_note = await notesUsecase.delete(id);
+	if (!deleted_note) {
+		return send_404(c, 'Note Not Found');
+	}
 	return c.json(deleted_note, 200);
 });
 

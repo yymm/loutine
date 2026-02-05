@@ -77,6 +77,11 @@ describe('purchases router', () => {
 		expect(purchase.cost).toBe(body.cost);
 	});
 
+	it('GET /:id 404', async () => {
+		const res = await purchases_router.request(`/9999`, {}, env);
+		expect(res.status).toBe(404);
+	});
+
 	it('GET / with date range', async () => {
 		const res = await purchases_router.request(
 			'/?start_date=2020-01-01&end_date=2099-12-31',
@@ -149,5 +154,14 @@ describe('purchases router', () => {
 			env,
 		);
 		expect(res.status).toBe(200);
+	});
+
+	it('DELETE /:id 404', async () => {
+		const res = await purchases_router.request(
+			`/9999`,
+			{ method: 'DELETE' },
+			env,
+		);
+		expect(res.status).toBe(404);
 	});
 });

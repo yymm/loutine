@@ -96,6 +96,11 @@ describe('links router', () => {
 		expect(res.status).toBe(400);
 	});
 
+	it('GET /:id 404', async () => {
+		const res = await links_router.request(`/9999`, {}, env);
+		expect(res.status).toBe(404);
+	});
+
 	it('GET / with date range', async () => {
 		const res = await links_router.request(
 			'/?start_date=2020-01-01&end_date=2099-12-31',
@@ -198,5 +203,10 @@ describe('links router', () => {
 			env,
 		);
 		expect(res.status).toBe(200);
+	});
+
+	it('DELETE /:id 404', async () => {
+		const res = await links_router.request(`/9999`, { method: 'DELETE' }, env);
+		expect(res.status).toBe(404);
 	});
 });
