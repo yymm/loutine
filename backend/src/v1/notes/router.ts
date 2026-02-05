@@ -2,6 +2,7 @@ import { zValidator } from '@hono/zod-validator';
 import { createHono } from '../../utils/app_factory';
 import {
 	createNotesSchema,
+	notesCursorSchema,
 	notesIdSchema,
 	notesListSchema,
 	updateNotesSchema,
@@ -16,10 +17,19 @@ app.get('/', zValidator('query', notesListSchema), async (c) => {
 	return c.json(all_notes, 200);
 });
 
+app.get('/latest', zValidator('query', notesCursorSchema), async (c) => {
+	const { cursor, limit } = c.req.valid('query');
+	const { notesUsecase } = c.var;
+	const { notes, next_cursor, has_next_page } =
+		await notesUsecase.get_latest_by_cursor(cursor, limit);
+	return c.json({ notes, next_cursor, has_next_page }, 200);
+});
+
 app.get('/:id', zValidator('param', notesIdSchema), async (c) => {
 	const { id } = c.req.valid('param');
 	const { notesUsecase } = c.var;
 	const note = await notesUsecase.get_by_id(id);
+	console.log(note);
 	return c.json(note, 200);
 });
 

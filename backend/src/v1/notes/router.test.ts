@@ -2,16 +2,23 @@ import { env } from 'cloudflare:test';
 import { beforeEach, describe, expect, it } from 'vitest';
 import { notes_router } from './router';
 import { Note } from './types';
+import { tags_router } from '../tags/router';
+import { Tag } from '../tags/types';
 
 describe('notes router', () => {
 	const body = {
 		title: 'test note',
 		text: 'test note content',
 	};
-	let createdNoteId: number;
+	const tag_body = {
+		name: 'test tag',
+		description: 'test tag description',
+	};
+	let created_note_id: number;
+	let created_tag_id: number;
 
 	beforeEach(async () => {
-		const res = await notes_router.request(
+		const resNote = await notes_router.request(
 			'/',
 			{
 				method: 'POST',
@@ -20,14 +27,25 @@ describe('notes router', () => {
 			},
 			env,
 		);
-		const note = (await res.json()) as { id: number };
-		createdNoteId = note.id;
+		const note: Note = await resNote.json();
+		created_note_id = note.id;
+		const resTag = await tags_router.request(
+			'/',
+			{
+				method: 'POST',
+				body: JSON.stringify(tag_body),
+				headers: new Headers({ 'Content-Type': 'application/json' }),
+			},
+			env,
+		);
+		const tag: Tag = await resTag.json();
+		created_tag_id = tag.id;
 	});
 
 	it('POST /', async () => {
 		const newBody = {
 			title: 'another note',
-			text: 'another note content',
+			text: '[{\\"insert\\":\\"テスト内容\\\\n\\"}]',
 		};
 		const res = await notes_router.request(
 			'/',
@@ -38,7 +56,7 @@ describe('notes router', () => {
 			},
 			env,
 		);
-		const note = (await res.json()) as { title: string; text: string };
+		const note: Note = await res.json();
 		expect(res.status).toBe(201);
 		expect(note.title).toBe(newBody.title);
 		expect(note.text).toBe(newBody.text);
@@ -47,9 +65,12 @@ describe('notes router', () => {
 	it('POST / with tag_ids', async () => {
 		const newBody = {
 			title: 'note with tags',
-			text: 'note content with tags',
-			tag_ids: [],
+			text: '[{\\"insert\\":\\"テスト内容\\\\n\\"}]',
+			tag_ids: [created_tag_id],
 		};
+		console.log('=======================');
+		console.log(newBody);
+		console.log('=======================');
 		const res = await notes_router.request(
 			'/',
 			{
@@ -59,18 +80,23 @@ describe('notes router', () => {
 			},
 			env,
 		);
-		const note = (await res.json()) as { title: string; text: string };
+		const note: Note = await res.json();
 		expect(res.status).toBe(201);
 		expect(note.title).toBe(newBody.title);
 		expect(note.text).toBe(newBody.text);
 	});
 
 	it('GET /:id', async () => {
-		const res = await notes_router.request(`/${createdNoteId}`, {}, env);
+		const res = await notes_router.request(`/${created_note_id}`, {}, env);
 		const note: Note = await res.json();
 		expect(res.status).toBe(200);
 		expect(note.title).toBe(body.title);
 		expect(note.text).toBe(body.text);
+	});
+
+	it('GET /:id mismatch param', async () => {
+		const res = await notes_router.request(`/xxxx`, {}, env);
+		expect(res.status).toBe(400);
 	});
 
 	it('GET / with date range', async () => {
@@ -82,6 +108,36 @@ describe('notes router', () => {
 		const notes = await res.json();
 		expect(res.status).toBe(200);
 		expect(Array.isArray(notes)).toBe(true);
+	});
+
+	it('GET / missing param', async () => {
+		const res = await notes_router.request('/?start_date=2020-01-01', {}, env);
+		expect(res.status).toBe(400);
+	});
+
+	it('GET / mismatch param', async () => {
+		const res = await notes_router.request(
+			'/?start_date=xxx&end_date=xxxx',
+			{},
+			env,
+		);
+		expect(res.status).toBe(400);
+	});
+
+	it('GET /latest ', async () => {
+		const res = await notes_router.request('/latest?limit=5', {}, env);
+		const cursor_res = (await res.json()) as {
+			notes: Array<Note>;
+			next_cursor: string;
+			has_next_page: boolean;
+		};
+		expect(res.status).toBe(200);
+		expect(Array.isArray(cursor_res.notes)).toBe(true);
+	});
+
+	it('GET /latest mismatch param', async () => {
+		const res = await notes_router.request('/latest?limit=xxxx', {}, env);
+		expect(res.status).toBe(400);
 	});
 
 	it('POST / without required fields', async () => {
@@ -102,7 +158,7 @@ describe('notes router', () => {
 
 	it('PUT /', async () => {
 		const updateBody = {
-			id: createdNoteId,
+			id: created_note_id,
 			title: 'updated note title',
 			text: '[{\\"insert\\":\\"テスト内容\\\\n\\"}]',
 			tag_ids: [],
@@ -122,7 +178,7 @@ describe('notes router', () => {
 		expect(note.text).toBe(updateBody.text);
 	});
 
-	it('PUT /', async () => {
+	it('PUT / missing param', async () => {
 		const updateBody = {
 			title: 'no id and text provided',
 		};
@@ -140,7 +196,7 @@ describe('notes router', () => {
 
 	it('DELETE /:id', async () => {
 		const res = await notes_router.request(
-			`/${createdNoteId}`,
+			`/${created_note_id}`,
 			{ method: 'DELETE' },
 			env,
 		);
