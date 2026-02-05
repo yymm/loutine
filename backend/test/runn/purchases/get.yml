@@ -2,7 +2,7 @@ desc: Get purchases by date range
 runners:
   req: http://localhost:8787
 needs:
-  post: ./post.yml
+  post: ./get-by-id.yml
 steps:
 - req:
     /api/v1/purchases?start_date=2025-01-01&end_date=2025-12-31:
