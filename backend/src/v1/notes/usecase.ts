@@ -131,12 +131,12 @@ export class NotesUsecase {
 	}
 
 	async delete(id: number) {
+		await this.db.delete(note_tag).where(eq(note_tag.note_id, id));
 		const deleted_note = await this.db
 			.delete(notes)
 			.where(eq(notes.id, id))
 			.returning()
 			.get();
-		await this.db.delete(note_tag).where(eq(note_tag.note_id, id));
 		return deleted_note;
 	}
 }

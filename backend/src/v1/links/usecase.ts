@@ -134,12 +134,12 @@ export class LinksUsecase {
 	}
 
 	async delete(id: number) {
+		await this.db.delete(link_tag).where(eq(link_tag.link_id, id));
 		const deleted_link = await this.db
 			.delete(links)
 			.where(eq(links.id, id))
 			.returning()
 			.get();
-		await this.db.delete(link_tag).where(eq(link_tag.link_id, id));
 		return deleted_link;
 	}
 }
