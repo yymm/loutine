@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:mobile_ui/router.dart';
-import 'package:mobile_ui/providers/category_list_provider.dart';
 import 'package:mobile_ui/providers/home_calendar_provider.dart';
-import 'package:mobile_ui/providers/tag_list_provider.dart';
 import 'package:mobile_ui/storage.dart';
 import 'package:mobile_ui/providers/theme_mode_provider.dart';
 

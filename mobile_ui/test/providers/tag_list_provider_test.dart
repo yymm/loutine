@@ -13,38 +13,11 @@ class MockTagRepository extends Mock implements TagRepository {}
 
 void main() {
   group('TagList', () {
-    test('初期値は空のリスト', () {
-      final container = ProviderContainer();
-      addTearDown(container.dispose);
-
-      expect(container.read(tagListProvider), []);
-    });
-
-    test('状態は直接更新できる', () {
-      final container = ProviderContainer();
-      addTearDown(container.dispose);
-
+    test('buildでRepositoryからタグ一覧を取得する', () async {
+      // Arrange
+      final mockRepository = MockTagRepository();
       final now = DateTime.now();
-      final testTag = Tag(
-        id: 1,
-        name: 'テストタグ',
-        description: '説明',
-        createdAt: now,
-        updatedAt: now,
-      );
-      container.read(tagListProvider.notifier).state = [testTag];
-
-      final state = container.read(tagListProvider);
-      expect(state.length, 1);
-      expect(state[0].name, 'テストタグ');
-    });
-
-    test('複数のタグを設定できる', () {
-      final container = ProviderContainer();
-      addTearDown(container.dispose);
-
-      final now = DateTime.now();
-      final tags = [
+      final mockTags = [
         Tag(
           id: 1,
           name: 'タグ1',
@@ -60,12 +33,21 @@ void main() {
           updatedAt: now,
         ),
       ];
-      container.read(tagListProvider.notifier).state = tags;
+      when(() => mockRepository.fetchTags()).thenAnswer((_) async => mockTags);
 
-      final state = container.read(tagListProvider);
+      final container = ProviderContainer(
+        overrides: [tagRepositoryProvider.overrideWithValue(mockRepository)],
+      );
+      addTearDown(container.dispose);
+
+      // Act: Providerを読み込むとbuildが実行される
+      final state = await container.read(tagListProvider.future);
+
+      // Assert
       expect(state.length, 2);
       expect(state[0].name, 'タグ1');
       expect(state[1].name, 'タグ2');
+      verify(() => mockRepository.fetchTags()).called(1);
     });
 
     group('Repositoryを使った操作', () {
@@ -75,61 +57,30 @@ void main() {
         mockRepository = MockTagRepository();
       });
 
-      test('getList()はRepositoryからタグ一覧を取得して状態を更新する', () async {
-        // Arrange: モックRepositoryの振る舞いを定義
+      test('add()はRepositoryで新しいタグを作成してinvalidateする', () async {
+        // Arrange
         final now = DateTime.now();
-        final mockTags = [
+        final initialTags = [
           Tag(
             id: 1,
-            name: 'リポジトリタグ1',
-            description: '説明1',
-            createdAt: now,
-            updatedAt: now,
-          ),
-          Tag(
-            id: 2,
-            name: 'リポジトリタグ2',
-            description: '説明2',
+            name: '既存タグ',
+            description: '既存説明',
             createdAt: now,
             updatedAt: now,
           ),
         ];
-        when(
-          () => mockRepository.fetchTags(),
-        ).thenAnswer((_) async => mockTags);
-
-        // ProviderContainerでRepositoryをオーバーライド
-        final container = ProviderContainer(
-          overrides: [tagRepositoryProvider.overrideWithValue(mockRepository)],
-        );
-        addTearDown(container.dispose);
-
-        // Act: getList()を実行
-        final result = await container.read(tagListProvider.notifier).getList();
-
-        // Assert: 正しく状態が更新されているか検証
-        expect(result.length, 2);
-        expect(result[0].name, 'リポジトリタグ1');
-        expect(result[1].name, 'リポジトリタグ2');
-
-        final state = container.read(tagListProvider);
-        expect(state.length, 2);
-        expect(state[0].name, 'リポジトリタグ1');
-
-        // Repositoryが1回呼ばれたことを確認
-        verify(() => mockRepository.fetchTags()).called(1);
-      });
-
-      test('add()はRepositoryで新しいタグを作成して状態に追加する', () async {
-        // Arrange
-        final now = DateTime.now();
         final newTag = Tag(
-          id: 3,
+          id: 2,
           name: '新規タグ',
           description: '新規説明',
           createdAt: now,
           updatedAt: now,
         );
+
+        // 初回のbuildとinvalidate後の両方をモック
+        when(
+          () => mockRepository.fetchTags(),
+        ).thenAnswer((_) async => initialTags);
         when(
           () => mockRepository.createTag('新規タグ', '新規説明'),
         ).thenAnswer((_) async => newTag);
@@ -139,26 +90,30 @@ void main() {
         );
         addTearDown(container.dispose);
 
-        // 初期状態を設定
-        final existingTag = Tag(
-          id: 1,
-          name: '既存タグ',
-          description: '既存説明',
-          createdAt: now,
-          updatedAt: now,
-        );
-        container.read(tagListProvider.notifier).state = [existingTag];
+        // 初期状態を取得
+        await container.read(tagListProvider.future);
 
-        // Act
-        await container.read(tagListProvider.notifier).add('新規タグ', '新規説明');
+        // invalidate後は新しいデータを返す
+        when(
+          () => mockRepository.fetchTags(),
+        ).thenAnswer((_) async => [...initialTags, newTag]);
+
+        // Act: タグを追加
+        final result = await container
+            .read(tagListProvider.notifier)
+            .add('新規タグ', '新規説明');
 
         // Assert
-        final state = container.read(tagListProvider);
-        expect(state.length, 2);
-        expect(state[0].name, '既存タグ');
-        expect(state[1].name, '新規タグ');
-
+        expect(result.name, '新規タグ');
         verify(() => mockRepository.createTag('新規タグ', '新規説明')).called(1);
+
+        // invalidateSelfが非同期で実行されるので少し待つ
+        await Future.delayed(Duration(milliseconds: 100));
+
+        // 再取得されたデータを確認
+        final updatedState = await container.read(tagListProvider.future);
+        expect(updatedState.length, 2);
+        expect(updatedState[1].name, '新規タグ');
       });
     });
   });
