@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mobile_ui/models/category.dart';
 import 'package:mobile_ui/providers/category_list_provider.dart';
 import 'package:mobile_ui/providers/purchase_new_provider.dart';
 import 'package:mobile_ui/ui/shared/app_divider_widget.dart';
@@ -32,6 +33,14 @@ class _PurchaseForm extends ConsumerState<PurchaseForm> {
     ref.watch(purchaseNewProvider); // Watch provider for rebuilds
     final categoriesAsync = ref.watch(categoryListProvider);
 
+    return categoriesAsync.when(
+      data: (categories) => _buildForm(context, categories),
+      loading: () => const Center(child: CircularProgressIndicator()),
+      error: (error, stack) => Center(child: Text('Error: $error')),
+    );
+  }
+
+  Widget _buildForm(BuildContext context, List<Category> categories) {
     return Container(
       padding: EdgeInsets.all(25),
       child: Form(
@@ -97,18 +106,12 @@ class _PurchaseForm extends ConsumerState<PurchaseForm> {
                 prefixIcon: Icon(Icons.category),
                 border: InputBorder.none,
               ),
-              items: categoriesAsync.when(
-                data: (categories) {
-                  return categories.map((category) {
-                    return DropdownMenuItem(
-                      value: category.id.toString(),
-                      child: Text(category.name),
-                    );
-                  }).toList();
-                },
-                loading: () => [] as List<DropdownMenuItem>,
-                error: (error, stack) => [] as List<DropdownMenuItem>,
-              ),
+              items: categories.map((category) {
+                return DropdownMenuItem(
+                  value: category.id.toString(),
+                  child: Text(category.name),
+                );
+              }).toList(),
               onChanged: (value) {
                 setState(() {
                   dropdownformfieldValue = value;
