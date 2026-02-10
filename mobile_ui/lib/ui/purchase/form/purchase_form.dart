@@ -20,15 +20,6 @@ class _PurchaseForm extends ConsumerState<PurchaseForm> {
   String? dropdownformfieldValue;
 
   @override
-  void initState() {
-    super.initState();
-    // Fetch categories when the form is initialized
-    WidgetsBinding.instance.addPostFrameCallback((_) async {
-      await ref.read(categoryListProvider.notifier).getList();
-    });
-  }
-
-  @override
   void dispose() {
     _costController.dispose();
     _titleController.dispose();
@@ -39,7 +30,7 @@ class _PurchaseForm extends ConsumerState<PurchaseForm> {
   Widget build(BuildContext context) {
     // final state = Provider.of<PurcaseFormState>(context, listen: true);
     ref.watch(purchaseNewProvider); // Watch provider for rebuilds
-    final categories = ref.watch(categoryListProvider);
+    final categoriesAsync = ref.watch(categoryListProvider);
 
     return Container(
       padding: EdgeInsets.all(25),
@@ -106,12 +97,18 @@ class _PurchaseForm extends ConsumerState<PurchaseForm> {
                 prefixIcon: Icon(Icons.category),
                 border: InputBorder.none,
               ),
-              items: categories.map((category) {
-                return DropdownMenuItem(
-                  value: category.id.toString(),
-                  child: Text(category.name),
-                );
-              }).toList(),
+              items: categoriesAsync.when(
+                data: (categories) {
+                  return categories.map((category) {
+                    return DropdownMenuItem(
+                      value: category.id.toString(),
+                      child: Text(category.name),
+                    );
+                  }).toList();
+                },
+                loading: () => [] as List<DropdownMenuItem>,
+                error: (error, stack) => [] as List<DropdownMenuItem>,
+              ),
               onChanged: (value) {
                 setState(() {
                   dropdownformfieldValue = value;

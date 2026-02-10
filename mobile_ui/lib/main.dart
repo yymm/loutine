@@ -22,7 +22,6 @@ class LoutineApp extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     // Initial load of tags
     ref.read(tagListProvider.notifier).getList();
-    ref.read(categoryListProvider.notifier).getList();
     ref
         .read(calendarStateManagerProvider.notifier)
         .getAllEventItem(DateTime.now());
