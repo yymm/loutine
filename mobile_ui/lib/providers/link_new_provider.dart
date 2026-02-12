@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:flutter/services.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:mobile_ui/api/vanilla_api.dart';
-import 'package:mobile_ui/providers/link_list_provider.dart';
+import 'package:mobile_ui/providers/link_list_paginated_provider.dart';
 
 part 'link_new_provider.g.dart';
 
@@ -54,13 +54,18 @@ class LinkNew extends _$LinkNew {
   }
 
   Future<void> add({required List<int> tagIds}) async {
-    print('press add(): url => ${state.url}, ttile => ${state.title}');
-    // LinkListProviderのcreateメソッドを使用
-    // これにより、LinkListProviderが更新され、それを監視している
-    // CalendarEventDataも自動的に更新される
-    await ref
-        .read(linkListProvider.notifier)
-        .createLink(state.url, state.title, tagIds);
+    print('press add(): url => ${state.url}, title => ${state.title}');
+    
+    // LinkListPaginatedProviderのcreateメソッドを使用
+    // これにより:
+    // 1. リスト画面が楽観的更新される
+    // 2. LinkListProviderが無効化される
+    // 3. home_calendarが自動的に更新される
+    await ref.read(linkListPaginatedProvider.notifier).createLink(
+      state.url,
+      state.title,
+      tagIds,
+    );
     return;
   }
 }

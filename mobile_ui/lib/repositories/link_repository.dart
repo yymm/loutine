@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:mobile_ui/api/vanilla_api.dart';
 import 'package:mobile_ui/models/link.dart';
+import 'package:mobile_ui/models/paginated_result.dart';
 import 'package:mobile_ui/exceptions/app_exceptions.dart';
 
 /// Link関連のデータ取得を担当するRepository
@@ -60,6 +61,41 @@ class LinkRepository {
       throw ParseException('作成されたリンクデータの解析に失敗しました: ${e.message}');
     } on TypeError catch (e) {
       throw ParseException('作成されたリンクデータの形式が不正です: $e');
+    }
+  }
+
+  /// cursor/limitベースでリンク一覧を取得（無限スクロール用）
+  ///
+  /// APIから取得したJSONをパースしてPaginatedResultに変換して返す
+  ///
+  /// 発生する可能性のある例外:
+  /// - [NetworkException]: ネットワークエラー
+  /// - [ServerException]: サーバーエラー
+  /// - [ParseException]: JSONパースエラー
+  Future<PaginatedResult<Link>> fetchLinksPaginated({
+    String? cursor,
+    int limit = 20,
+  }) async {
+    try {
+      final resBody = await _apiClient.listPaginated(cursor: cursor, limit: limit);
+      final Map<String, dynamic> json = jsonDecode(resBody);
+      
+      final List<dynamic> linksJson = json['items'] as List;
+      final links = linksJson
+          .map((e) => Link.fromJson(e as Map<String, dynamic>))
+          .toList();
+      
+      return PaginatedResult(
+        items: links,
+        nextCursor: json['next_cursor'] as String?,
+        hasMore: json['has_more'] as bool? ?? false,
+      );
+    } on SocketException {
+      throw const NetworkException('インターネット接続を確認してください');
+    } on FormatException catch (e) {
+      throw ParseException('リンクデータの解析に失敗しました: ${e.message}');
+    } on TypeError catch (e) {
+      throw ParseException('リンクデータの形式が不正です: $e');
     }
   }
 }
