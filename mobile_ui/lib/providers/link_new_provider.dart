@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/services.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:mobile_ui/api/vanilla_api.dart';
+import 'package:mobile_ui/providers/link_list_provider.dart';
 
 part 'link_new_provider.g.dart';
 
@@ -54,8 +55,14 @@ class LinkNew extends _$LinkNew {
 
   Future<void> add({required List<int> tagIds}) async {
     print('press add(): url => ${state.url}, ttile => ${state.title}');
-    final apiClient = LinkApiClient();
-    await apiClient.post(state.url, state.title, tagIds);
+    // LinkListProviderのcreateメソッドを使用
+    // これにより、LinkListProviderが更新され、それを監視している
+    // CalendarEventDataも自動的に更新される
+    await ref.read(linkListProvider.notifier).createLink(
+      state.url,
+      state.title,
+      tagIds,
+    );
     return;
   }
 }

@@ -1,125 +1,72 @@
-import 'dart:convert';
-
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:mobile_ui/api/vanilla_api.dart';
 import 'package:mobile_ui/models/calendar_event_item.dart';
 import 'package:mobile_ui/models/link.dart';
 import 'package:mobile_ui/models/note.dart';
 import 'package:mobile_ui/models/purchase.dart';
+import 'package:mobile_ui/providers/repository_provider.dart';
+import 'package:mobile_ui/providers/link_list_provider.dart';
+import 'package:mobile_ui/providers/purchase_list_provider.dart';
+import 'package:mobile_ui/providers/note_list_provider.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 part 'home_calendar_provider.g.dart';
 
-class CalendarState {
-  CalendarState({required this.calendarEvents, required this.linkList});
-  Map<DateTime, List<CalendarEventItem>> calendarEvents;
-  List<Link> linkList;
-}
-
+/// カレンダーに表示する月のイベント一覧を管理するProvider
+///
+/// buildパターンを使うことで:
+/// - 同じ月のデータは自動的にキャッシュされる
+/// - Link/Purchase/Noteの追加・更新時に自動的に再取得される
 @riverpod
-class CalendarStateManager extends _$CalendarStateManager {
+class CalendarEventData extends _$CalendarEventData {
   @override
-  CalendarState build() => CalendarState(calendarEvents: {}, linkList: []);
+  Future<Map<DateTime, List<CalendarEventItem>>> build(
+    DateTime focusedMonth,
+  ) async {
+    // Link/Purchase/Noteの追加・更新・削除を検知するため空watch
+    // 値は使わないが、これらのProviderが更新されたらカレンダーも再取得する
+    ref.watch(linkListProvider);
+    ref.watch(purchaseListProvider);
+    ref.watch(noteListProvider);
 
-  Future<void> addLink() async {}
+    // 月初日（ローカルタイム）
+    final startDate = DateTime(focusedMonth.year, focusedMonth.month, 1);
+    // 月末日（ローカルタイム）
+    final endDate = DateTime(focusedMonth.year, focusedMonth.month + 1, 0);
 
-  Future<void> getAllEventItem(DateTime dateTime) async {
-    final linkList = await getLinkList(dateTime);
-    final calendarEventItemLinkList = linkList.map((link) {
-      return CalendarEventItem.fromLink(link);
-    }).toList();
+    final linkRepo = ref.watch(linkRepositoryProvider);
+    final purchaseRepo = ref.watch(purchaseRepositoryProvider);
+    final noteRepo = ref.watch(noteRepositoryProvider);
 
-    final purchaseList = await getPurchaseList(dateTime);
-    final calendarEventItemPurchaseList = purchaseList.map((purchase) {
-      return CalendarEventItem.fromPurchase(purchase);
-    }).toList();
+    // 並列取得
+    final results = await Future.wait([
+      linkRepo.fetchLinks(startDate, endDate),
+      purchaseRepo.fetchPurchases(startDate, endDate),
+      noteRepo.fetchNotes(startDate, endDate),
+    ]);
 
-    final noteList = await getNoteList(dateTime);
-    final calendarEventItemNoteList = noteList.map((note) {
-      return CalendarEventItem.fromNote(note);
-    }).toList();
+    final links = results[0] as List<Link>;
+    final purchases = results[1] as List<Purchase>;
+    final notes = results[2] as List<Note>;
 
-    final calendarEventItemList =
-        calendarEventItemLinkList +
-        calendarEventItemPurchaseList +
-        calendarEventItemNoteList;
+    // CalendarEventItemに変換
+    final eventItems = [
+      ...links.map((e) => CalendarEventItem.fromLink(e)),
+      ...purchases.map((e) => CalendarEventItem.fromPurchase(e)),
+      ...notes.map((e) => CalendarEventItem.fromNote(e)),
+    ];
 
-    Map<DateTime, List<CalendarEventItem>> events = {};
-    final _ = calendarEventItemList.map((item) {
-      final dateTimeLocal = DateTime(
+    // 日付ごとにグルーピング
+    final Map<DateTime, List<CalendarEventItem>> events = {};
+    for (final item in eventItems) {
+      final dateKey = DateTime(
         item.createdAt.year,
         item.createdAt.month,
         item.createdAt.day,
       );
-      if (events.containsKey(dateTimeLocal)) {
-        events[dateTimeLocal]!.add(item);
-      } else {
-        events[dateTimeLocal] = [item];
-      }
-    }).toList();
+      events[dateKey] = [...(events[dateKey] ?? []), item];
+    }
 
-    if (!ref.mounted) return;
-    state = CalendarState(calendarEvents: events, linkList: linkList);
-  }
-
-  Future<List<Link>> getLinkList(DateTime dateTime) async {
-    final apiClient = LinkApiClient();
-    // 月初日（ローカルタイム）
-    final startDate = DateTime(dateTime.year, dateTime.month, 1);
-    // 月末日（ローカルタイム）
-    final endDate = DateTime(
-      dateTime.year,
-      dateTime.month + 1,
-      1,
-    ).add(Duration(days: -1));
-    final res = await apiClient.list(startDate, endDate);
-
-    final List<dynamic> linkListJson = jsonDecode(res);
-    final linkList = linkListJson.map((link) {
-      return Link.fromJson(link);
-    }).toList();
-
-    return linkList;
-  }
-
-  Future<List<Purchase>> getPurchaseList(DateTime dateTime) async {
-    final apiClient = PurchaseApiClient();
-    // 月初日（ローカルタイム）
-    final startDate = DateTime(dateTime.year, dateTime.month, 1);
-    // 月末日（ローカルタイム）
-    final endDate = DateTime(
-      dateTime.year,
-      dateTime.month + 1,
-      1,
-    ).add(Duration(days: -1));
-    final res = await apiClient.list(startDate, endDate);
-
-    final List<dynamic> purchaseListJson = jsonDecode(res);
-    final purchaseList = purchaseListJson.map((purchase) {
-      return Purchase.fromJson(purchase);
-    }).toList();
-
-    return purchaseList;
-  }
-
-  Future<List<Note>> getNoteList(DateTime dateTime) async {
-    final apiClient = NoteApiClient();
-    // 月初日（ローカルタイム）
-    final startDate = DateTime(dateTime.year, dateTime.month, 1);
-    // 月末日（ローカルタイム）
-    final endDate = DateTime(
-      dateTime.year,
-      dateTime.month + 1,
-      1,
-    ).add(Duration(days: -1));
-    final res = await apiClient.list(startDate, endDate);
-
-    final List<dynamic> noteListJson = jsonDecode(res);
-    final noteList = noteListJson.map((note) {
-      return Note.fromJson(note);
-    }).toList();
-
-    return noteList;
+    return events;
   }
 }
 

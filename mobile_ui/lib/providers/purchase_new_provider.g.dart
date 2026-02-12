@@ -41,7 +41,7 @@ final class PurchaseNewProvider
   }
 }
 
-String _$purchaseNewHash() => r'2b6eb3710a838c3c4b8c692fbc114e4e0a05c3f8';
+String _$purchaseNewHash() => r'8ec8b68a5a928c2b4dfce4e31ced84878694f988';
 
 abstract class _$PurchaseNew extends $Notifier<PurchaseNewData> {
   PurchaseNewData build();

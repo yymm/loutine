@@ -8,57 +8,139 @@ part of 'home_calendar_provider.dart';
 
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint, type=warning
+/// カレンダーに表示する月のイベント一覧を管理するProvider
+///
+/// buildパターンを使うことで:
+/// - 同じ月のデータは自動的にキャッシュされる
+/// - Link/Purchase/Noteの追加・更新時に自動的に再取得される
 
-@ProviderFor(CalendarStateManager)
-final calendarStateManagerProvider = CalendarStateManagerProvider._();
+@ProviderFor(CalendarEventData)
+final calendarEventDataProvider = CalendarEventDataFamily._();
 
-final class CalendarStateManagerProvider
-    extends $NotifierProvider<CalendarStateManager, CalendarState> {
-  CalendarStateManagerProvider._()
-    : super(
-        from: null,
-        argument: null,
-        retry: null,
-        name: r'calendarStateManagerProvider',
-        isAutoDispose: true,
-        dependencies: null,
-        $allTransitiveDependencies: null,
-      );
+/// カレンダーに表示する月のイベント一覧を管理するProvider
+///
+/// buildパターンを使うことで:
+/// - 同じ月のデータは自動的にキャッシュされる
+/// - Link/Purchase/Noteの追加・更新時に自動的に再取得される
+final class CalendarEventDataProvider
+    extends
+        $AsyncNotifierProvider<
+          CalendarEventData,
+          Map<DateTime, List<CalendarEventItem>>
+        > {
+  /// カレンダーに表示する月のイベント一覧を管理するProvider
+  ///
+  /// buildパターンを使うことで:
+  /// - 同じ月のデータは自動的にキャッシュされる
+  /// - Link/Purchase/Noteの追加・更新時に自動的に再取得される
+  CalendarEventDataProvider._({
+    required CalendarEventDataFamily super.from,
+    required DateTime super.argument,
+  }) : super(
+         retry: null,
+         name: r'calendarEventDataProvider',
+         isAutoDispose: true,
+         dependencies: null,
+         $allTransitiveDependencies: null,
+       );
 
   @override
-  String debugGetCreateSourceHash() => _$calendarStateManagerHash();
+  String debugGetCreateSourceHash() => _$calendarEventDataHash();
+
+  @override
+  String toString() {
+    return r'calendarEventDataProvider'
+        ''
+        '($argument)';
+  }
 
   @$internal
   @override
-  CalendarStateManager create() => CalendarStateManager();
+  CalendarEventData create() => CalendarEventData();
 
-  /// {@macro riverpod.override_with_value}
-  Override overrideWithValue(CalendarState value) {
-    return $ProviderOverride(
-      origin: this,
-      providerOverride: $SyncValueProvider<CalendarState>(value),
-    );
+  @override
+  bool operator ==(Object other) {
+    return other is CalendarEventDataProvider && other.argument == argument;
+  }
+
+  @override
+  int get hashCode {
+    return argument.hashCode;
   }
 }
 
-String _$calendarStateManagerHash() =>
-    r'8129263d01feb27ff5c0d8202f743fff489f3c2b';
+String _$calendarEventDataHash() => r'2e98b540889e8302df6b90a7e540adc5801b87f7';
 
-abstract class _$CalendarStateManager extends $Notifier<CalendarState> {
-  CalendarState build();
+/// カレンダーに表示する月のイベント一覧を管理するProvider
+///
+/// buildパターンを使うことで:
+/// - 同じ月のデータは自動的にキャッシュされる
+/// - Link/Purchase/Noteの追加・更新時に自動的に再取得される
+
+final class CalendarEventDataFamily extends $Family
+    with
+        $ClassFamilyOverride<
+          CalendarEventData,
+          AsyncValue<Map<DateTime, List<CalendarEventItem>>>,
+          Map<DateTime, List<CalendarEventItem>>,
+          FutureOr<Map<DateTime, List<CalendarEventItem>>>,
+          DateTime
+        > {
+  CalendarEventDataFamily._()
+    : super(
+        retry: null,
+        name: r'calendarEventDataProvider',
+        dependencies: null,
+        $allTransitiveDependencies: null,
+        isAutoDispose: true,
+      );
+
+  /// カレンダーに表示する月のイベント一覧を管理するProvider
+  ///
+  /// buildパターンを使うことで:
+  /// - 同じ月のデータは自動的にキャッシュされる
+  /// - Link/Purchase/Noteの追加・更新時に自動的に再取得される
+
+  CalendarEventDataProvider call(DateTime focusedMonth) =>
+      CalendarEventDataProvider._(argument: focusedMonth, from: this);
+
+  @override
+  String toString() => r'calendarEventDataProvider';
+}
+
+/// カレンダーに表示する月のイベント一覧を管理するProvider
+///
+/// buildパターンを使うことで:
+/// - 同じ月のデータは自動的にキャッシュされる
+/// - Link/Purchase/Noteの追加・更新時に自動的に再取得される
+
+abstract class _$CalendarEventData
+    extends $AsyncNotifier<Map<DateTime, List<CalendarEventItem>>> {
+  late final _$args = ref.$arg as DateTime;
+  DateTime get focusedMonth => _$args;
+
+  FutureOr<Map<DateTime, List<CalendarEventItem>>> build(DateTime focusedMonth);
   @$mustCallSuper
   @override
   void runBuild() {
-    final ref = this.ref as $Ref<CalendarState, CalendarState>;
+    final ref =
+        this.ref
+            as $Ref<
+              AsyncValue<Map<DateTime, List<CalendarEventItem>>>,
+              Map<DateTime, List<CalendarEventItem>>
+            >;
     final element =
         ref.element
             as $ClassProviderElement<
-              AnyNotifier<CalendarState, CalendarState>,
-              CalendarState,
+              AnyNotifier<
+                AsyncValue<Map<DateTime, List<CalendarEventItem>>>,
+                Map<DateTime, List<CalendarEventItem>>
+              >,
+              AsyncValue<Map<DateTime, List<CalendarEventItem>>>,
               Object?,
               Object?
             >;
-    element.handleCreate(ref, build);
+    element.handleCreate(ref, () => build(_$args));
   }
 }
 
