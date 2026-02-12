@@ -68,6 +68,15 @@ class LinkRepository {
   ///
   /// APIから取得したJSONをパースしてPaginatedResultに変換して返す
   ///
+  /// バックエンドのレスポンス形式:
+  /// ```json
+  /// {
+  ///   "links": [...],
+  ///   "next_cursor": "cursor_string",
+  ///   "has_next_page": true
+  /// }
+  /// ```
+  ///
   /// 発生する可能性のある例外:
   /// - [NetworkException]: ネットワークエラー
   /// - [ServerException]: サーバーエラー
@@ -80,7 +89,8 @@ class LinkRepository {
       final resBody = await _apiClient.listPaginated(cursor: cursor, limit: limit);
       final Map<String, dynamic> json = jsonDecode(resBody);
       
-      final List<dynamic> linksJson = json['items'] as List;
+      // バックエンドは { links, next_cursor, has_next_page } の形式
+      final List<dynamic> linksJson = json['links'] as List;
       final links = linksJson
           .map((e) => Link.fromJson(e as Map<String, dynamic>))
           .toList();
@@ -88,7 +98,7 @@ class LinkRepository {
       return PaginatedResult(
         items: links,
         nextCursor: json['next_cursor'] as String?,
-        hasMore: json['has_more'] as bool? ?? false,
+        hasMore: json['has_next_page'] as bool? ?? false,
       );
     } on SocketException {
       throw const NetworkException('インターネット接続を確認してください');
