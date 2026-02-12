@@ -58,11 +58,9 @@ class LinkNew extends _$LinkNew {
     // LinkListProviderのcreateメソッドを使用
     // これにより、LinkListProviderが更新され、それを監視している
     // CalendarEventDataも自動的に更新される
-    await ref.read(linkListProvider.notifier).createLink(
-      state.url,
-      state.title,
-      tagIds,
-    );
+    await ref
+        .read(linkListProvider.notifier)
+        .createLink(state.url, state.title, tagIds);
     return;
   }
 }

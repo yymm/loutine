@@ -14,7 +14,9 @@ class HomeCalendarWidget extends ConsumerWidget {
 
     // 月の初日を取得してProviderに渡す
     final focusedMonth = DateTime(focusDay.year, focusDay.month, 1);
-    final calendarEventsAsync = ref.watch(calendarEventDataProvider(focusedMonth));
+    final calendarEventsAsync = ref.watch(
+      calendarEventDataProvider(focusedMonth),
+    );
 
     return calendarEventsAsync.when(
       data: (calendarEvents) {

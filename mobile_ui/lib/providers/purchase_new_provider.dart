@@ -32,11 +32,9 @@ class PurchaseNew extends _$PurchaseNew {
     // PurchaseListProviderのcreateメソッドを使用
     // これにより、PurchaseListProviderが更新され、それを監視している
     // CalendarEventDataも自動的に更新される
-    await ref.read(purchaseListProvider.notifier).createPurchase(
-      state.cost,
-      state.title,
-      categoryId,
-    );
+    await ref
+        .read(purchaseListProvider.notifier)
+        .createPurchase(state.cost, state.title, categoryId);
     return;
   }
 }
