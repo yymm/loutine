@@ -1,6 +1,5 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:mobile_ui/models/link.dart';
-import 'package:mobile_ui/models/paginated_result.dart';
 import 'package:mobile_ui/providers/repository_provider.dart';
 import 'package:mobile_ui/providers/link_list_provider.dart';
 
@@ -93,7 +92,7 @@ class LinkListPaginated extends _$LinkListPaginated {
         hasMore: result.hasMore,
         isLoadingMore: false,
       ));
-    } catch (error, stackTrace) {
+    } catch (error) {
       // エラー時は元の状態に戻す（ローディングだけ解除）
       state = AsyncValue.data(currentState.copyWith(isLoadingMore: false));
       rethrow;
