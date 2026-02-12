@@ -1,5 +1,5 @@
 /// ページネーション結果の汎用クラス
-/// 
+///
 /// cursor/limit APIのレスポンスを表現する
 class PaginatedResult<T> {
   final List<T> items;

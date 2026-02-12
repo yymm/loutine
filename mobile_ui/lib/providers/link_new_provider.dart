@@ -55,17 +55,15 @@ class LinkNew extends _$LinkNew {
 
   Future<void> add({required List<int> tagIds}) async {
     print('press add(): url => ${state.url}, title => ${state.title}');
-    
+
     // LinkListPaginatedProviderのcreateメソッドを使用
     // これにより:
     // 1. リスト画面が楽観的更新される
     // 2. LinkListProviderが無効化される
     // 3. home_calendarが自動的に更新される
-    await ref.read(linkListPaginatedProvider.notifier).createLink(
-      state.url,
-      state.title,
-      tagIds,
-    );
+    await ref
+        .read(linkListPaginatedProvider.notifier)
+        .createLink(state.url, state.title, tagIds);
     return;
   }
 }

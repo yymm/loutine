@@ -27,7 +27,7 @@ class _LinkListState extends ConsumerState<LinkList> {
 
   void _onScroll() {
     // 80%スクロールしたら次のページを読み込む
-    if (_scrollController.position.pixels >= 
+    if (_scrollController.position.pixels >=
         _scrollController.position.maxScrollExtent * 0.8) {
       ref.read(linkListPaginatedProvider.notifier).loadMore();
     }
@@ -40,17 +40,16 @@ class _LinkListState extends ConsumerState<LinkList> {
     return linksAsync.when(
       data: (paginatedState) {
         if (paginatedState.items.isEmpty) {
-          return const Center(
-            child: Text('リンクがありません\n下のボタンから追加してください'),
-          );
+          return const Center(child: Text('リンクがありません\n下のボタンから追加してください'));
         }
 
         return RefreshIndicator(
-          onRefresh: () => ref.read(linkListPaginatedProvider.notifier).refresh(),
+          onRefresh: () =>
+              ref.read(linkListPaginatedProvider.notifier).refresh(),
           child: ListView.builder(
             controller: _scrollController,
-            itemCount: paginatedState.items.length + 
-                       (paginatedState.hasMore ? 1 : 0),
+            itemCount:
+                paginatedState.items.length + (paginatedState.hasMore ? 1 : 0),
             itemBuilder: (context, index) {
               // ローディングインジケータ
               if (index == paginatedState.items.length) {

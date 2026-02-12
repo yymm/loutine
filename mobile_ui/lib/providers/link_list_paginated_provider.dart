@@ -35,14 +35,14 @@ class PaginatedState<T> {
 }
 
 /// リンク一覧の無限スクロール用Provider
-/// 
+///
 /// **リンクのCRUD操作はこのProviderを使用してください**
-/// 
+///
 /// 役割:
 /// - リスト画面での表示
 /// - リンクの作成・更新・削除
 /// - cursor/limitでのページネーション
-/// 
+///
 /// 使い分け:
 /// - [LinkList]: home_calendar用、日付範囲で全件取得（読み取り専用）
 /// - [LinkListPaginated]: リスト画面用、cursor/limitでページネーション（CRUD操作あり）
@@ -53,7 +53,7 @@ class LinkListPaginated extends _$LinkListPaginated {
   @override
   Future<PaginatedState<Link>> build() async {
     final repository = ref.watch(linkRepositoryProvider);
-    
+
     // 初回ロード
     final result = await repository.fetchLinksPaginated(
       cursor: null,
@@ -70,8 +70,8 @@ class LinkListPaginated extends _$LinkListPaginated {
   /// 次のページを読み込む
   Future<void> loadMore() async {
     final currentState = state.value;
-    if (currentState == null || 
-        !currentState.hasMore || 
+    if (currentState == null ||
+        !currentState.hasMore ||
         currentState.isLoadingMore) {
       return;
     }
@@ -86,12 +86,14 @@ class LinkListPaginated extends _$LinkListPaginated {
         limit: _pageSize,
       );
 
-      state = AsyncValue.data(PaginatedState(
-        items: [...currentState.items, ...result.items],
-        nextCursor: result.nextCursor,
-        hasMore: result.hasMore,
-        isLoadingMore: false,
-      ));
+      state = AsyncValue.data(
+        PaginatedState(
+          items: [...currentState.items, ...result.items],
+          nextCursor: result.nextCursor,
+          hasMore: result.hasMore,
+          isLoadingMore: false,
+        ),
+      );
     } catch (error) {
       // エラー時は元の状態に戻す（ローディングだけ解除）
       state = AsyncValue.data(currentState.copyWith(isLoadingMore: false));
@@ -118,25 +120,25 @@ class LinkListPaginated extends _$LinkListPaginated {
   }
 
   /// リンクを作成
-  /// 
+  ///
   /// リスト画面での作成処理を担当
   /// home_calendarの更新も自動的にトリガーされる
   Future<Link> createLink(String url, String title, List<int> tagIds) async {
     final repository = ref.read(linkRepositoryProvider);
     final link = await repository.createLink(url, title, tagIds);
-    
+
     // 1. このProviderを更新（楽観的更新）
     final currentState = state.value;
     if (currentState != null) {
-      state = AsyncValue.data(currentState.copyWith(
-        items: [link, ...currentState.items],
-      ));
+      state = AsyncValue.data(
+        currentState.copyWith(items: [link, ...currentState.items]),
+      );
     }
-    
+
     // 2. カレンダー用のLinkListを無効化
     // これによりhome_calendarのref.listenが反応して自動更新される
     ref.invalidate(linkListProvider);
-    
+
     return link;
   }
 }

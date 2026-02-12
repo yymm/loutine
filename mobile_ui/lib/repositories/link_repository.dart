@@ -86,15 +86,18 @@ class LinkRepository {
     int limit = 20,
   }) async {
     try {
-      final resBody = await _apiClient.listPaginated(cursor: cursor, limit: limit);
+      final resBody = await _apiClient.listPaginated(
+        cursor: cursor,
+        limit: limit,
+      );
       final Map<String, dynamic> json = jsonDecode(resBody);
-      
+
       // バックエンドは { links, next_cursor, has_next_page } の形式
       final List<dynamic> linksJson = json['links'] as List;
       final links = linksJson
           .map((e) => Link.fromJson(e as Map<String, dynamic>))
           .toList();
-      
+
       return PaginatedResult(
         items: links,
         nextCursor: json['next_cursor'] as String?,
