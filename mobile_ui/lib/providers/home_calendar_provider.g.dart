@@ -39,7 +39,7 @@ final class CalendarEventDataProvider
   }) : super(
          retry: null,
          name: r'calendarEventDataProvider',
-         isAutoDispose: true,
+         isAutoDispose: false,
          dependencies: null,
          $allTransitiveDependencies: null,
        );
@@ -69,7 +69,7 @@ final class CalendarEventDataProvider
   }
 }
 
-String _$calendarEventDataHash() => r'2e98b540889e8302df6b90a7e540adc5801b87f7';
+String _$calendarEventDataHash() => r'f798679e8b257443f44cd5eca9be1d3e053040ce';
 
 /// カレンダーに表示する月のイベント一覧を管理するProvider
 ///
@@ -92,7 +92,7 @@ final class CalendarEventDataFamily extends $Family
         name: r'calendarEventDataProvider',
         dependencies: null,
         $allTransitiveDependencies: null,
-        isAutoDispose: true,
+        isAutoDispose: false,
       );
 
   /// カレンダーに表示する月のイベント一覧を管理するProvider

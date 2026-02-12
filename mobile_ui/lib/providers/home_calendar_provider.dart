@@ -16,17 +16,35 @@ part 'home_calendar_provider.g.dart';
 /// buildパターンを使うことで:
 /// - 同じ月のデータは自動的にキャッシュされる
 /// - Link/Purchase/Noteの追加・更新時に自動的に再取得される
-@riverpod
+@Riverpod(keepAlive: true)
 class CalendarEventData extends _$CalendarEventData {
   @override
   Future<Map<DateTime, List<CalendarEventItem>>> build(
     DateTime focusedMonth,
   ) async {
-    // Link/Purchase/Noteの追加・更新・削除を検知するため空watch
-    // 値は使わないが、これらのProviderが更新されたらカレンダーも再取得する
-    ref.watch(linkListProvider);
-    ref.watch(purchaseListProvider);
-    ref.watch(noteListProvider);
+    // Link/Purchase/Noteの追加・更新・削除を検知するためlisten
+    // watchだと毎回依存関係が作られるので、listenで変更時のみinvalidate
+    ref.listen(linkListProvider, (_, __) {
+      Future.microtask(() {
+        if (ref.mounted) {
+          ref.invalidateSelf();
+        }
+      });
+    });
+    ref.listen(purchaseListProvider, (_, __) {
+      Future.microtask(() {
+        if (ref.mounted) {
+          ref.invalidateSelf();
+        }
+      });
+    });
+    ref.listen(noteListProvider, (_, __) {
+      Future.microtask(() {
+        if (ref.mounted) {
+          ref.invalidateSelf();
+        }
+      });
+    });
 
     // 月初日（ローカルタイム）
     final startDate = DateTime(focusedMonth.year, focusedMonth.month, 1);
