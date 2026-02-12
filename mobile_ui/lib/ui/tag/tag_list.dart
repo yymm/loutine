@@ -9,15 +9,14 @@ class TagList extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final AsyncValue<List<Tag>> tagList = ref.watch(tagListFutureProvider);
-    final tags = ref.watch(tagListProvider);
+    final tagsAsync = ref.watch(tagListProvider);
 
     return SingleChildScrollView(
-      child: switch (tagList) {
-        AsyncData() => TagListWidget(tags),
-        AsyncError() => const Text('Some error happened...'),
-        _ => LoadingWidget(true),
-      },
+      child: tagsAsync.when(
+        data: (tags) => TagListWidget(tags),
+        error: (error, stack) => const Text('Some error happened... %error'),
+        loading: () => LoadingWidget(true),
+      ),
     );
   }
 }

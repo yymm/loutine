@@ -1,5 +1,5 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:mobile_ui/api/vanilla_api.dart';
+import 'package:mobile_ui/providers/purchase_list_provider.dart';
 
 part 'purchase_new_provider.g.dart';
 
@@ -29,8 +29,12 @@ class PurchaseNew extends _$PurchaseNew {
 
   Future<void> add({categoryId}) async {
     print('press add(): cost => ${state.cost}, title => ${state.title}');
-    final apiClient = PurchaseApiClient();
-    await apiClient.post(state.cost, state.title, categoryId);
+    // PurchaseListProviderのcreateメソッドを使用
+    // これにより、PurchaseListProviderが更新され、それを監視している
+    // CalendarEventDataも自動的に更新される
+    await ref
+        .read(purchaseListProvider.notifier)
+        .createPurchase(state.cost, state.title, categoryId);
     return;
   }
 }

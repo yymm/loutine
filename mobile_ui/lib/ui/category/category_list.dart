@@ -9,17 +9,14 @@ class CategoryList extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final AsyncValue<List<Category>> categoryList = ref.watch(
-      categoryListFutureProvider,
-    );
-    final categories = ref.watch(categoryListProvider);
+    final categoriesAsync = ref.watch(categoryListProvider);
 
     return SingleChildScrollView(
-      child: switch (categoryList) {
-        AsyncData() => CategoryListWidget(categories),
-        AsyncError() => const Text('Some error happened...'),
-        _ => LoadingWidget(true),
-      },
+      child: categoriesAsync.when(
+        data: (categories) => CategoryListWidget(categories),
+        loading: () => LoadingWidget(true),
+        error: (error, stack) => const Text('Some error happened...'),
+      ),
     );
   }
 }

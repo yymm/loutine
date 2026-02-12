@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:mobile_ui/providers/home_calendar_provider.dart';
 
 class BottomNavWidget extends ConsumerWidget {
   const BottomNavWidget({super.key, required this.navigationShell});
@@ -9,16 +8,7 @@ class BottomNavWidget extends ConsumerWidget {
   final StatefulNavigationShell navigationShell;
 
   void _onTabTapped(WidgetRef ref, int index) {
-    if (index == 0) {
-      // Home tab - refresh calendar data
-      ref
-          .read(calendarStateManagerProvider.notifier)
-          .getAllEventItem(ref.read(calendarFocusDayProvider));
-    }
-    // Link tab (index == 1) - tags fetched in LinkForm.initState
-    // Purchase tab (index == 2) - categories fetched in PurchaseForm.initState
-    // Note tab (index == 3) - add initialization if needed
-
+    // buildパターンでは自動的にデータが取得されるため、手動更新は不要
     navigationShell.goBranch(
       index,
       initialLocation: index == navigationShell.currentIndex,

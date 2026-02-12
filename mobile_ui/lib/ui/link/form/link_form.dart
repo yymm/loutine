@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mobile_ui/models/tag.dart';
 import 'package:mobile_ui/providers/link_new_provider.dart';
 import 'package:mobile_ui/providers/tag_list_provider.dart';
 import 'package:mobile_ui/ui/shared/app_divider_widget.dart';
@@ -22,22 +23,6 @@ class _LinkForm extends ConsumerState<LinkForm> {
   String? dropdownformfieldValue;
 
   @override
-  void initState() {
-    super.initState();
-    // Fetch tags when the form is initialized
-    WidgetsBinding.instance.addPostFrameCallback((_) async {
-      final tags = await ref.read(tagListProvider.notifier).getList();
-      _tabController.setItems(
-        tags
-            .map(
-              (tag) => DropdownItem(label: tag.name, value: tag.id.toString()),
-            )
-            .toList(),
-      );
-    });
-  }
-
-  @override
   void dispose() {
     _urlController.dispose();
     _titleController.dispose();
@@ -48,7 +33,19 @@ class _LinkForm extends ConsumerState<LinkForm> {
   @override
   Widget build(BuildContext context) {
     ref.watch(linkNewProvider); // Watch provider for rebuilds
+    final tagAsync = ref.watch(tagListProvider);
 
+    return tagAsync.when(
+      data: (tags) => _buildForm(tags),
+      error: (error, stack) => Center(child: Text('Error: %error')),
+      loading: () => Center(child: CircularProgressIndicator()),
+    );
+  }
+
+  Widget _buildForm(List<Tag> tags) {
+    final dropdownItems = tags
+        .map((tag) => DropdownItem(label: tag.name, value: tag.id.toString()))
+        .toList();
     return Container(
       padding: EdgeInsets.all(25),
       child: Form(
@@ -150,7 +147,7 @@ class _LinkForm extends ConsumerState<LinkForm> {
                 textColor: Colors.black54,
                 selectedTextColor: Colors.black87,
               ),
-              items: const [],
+              items: dropdownItems,
             ),
             // }}}
             SizedBox(height: 20),

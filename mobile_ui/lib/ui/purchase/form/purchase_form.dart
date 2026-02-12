@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mobile_ui/models/category.dart';
 import 'package:mobile_ui/providers/category_list_provider.dart';
 import 'package:mobile_ui/providers/purchase_new_provider.dart';
 import 'package:mobile_ui/ui/shared/app_divider_widget.dart';
@@ -20,15 +21,6 @@ class _PurchaseForm extends ConsumerState<PurchaseForm> {
   String? dropdownformfieldValue;
 
   @override
-  void initState() {
-    super.initState();
-    // Fetch categories when the form is initialized
-    WidgetsBinding.instance.addPostFrameCallback((_) async {
-      await ref.read(categoryListProvider.notifier).getList();
-    });
-  }
-
-  @override
   void dispose() {
     _costController.dispose();
     _titleController.dispose();
@@ -39,8 +31,16 @@ class _PurchaseForm extends ConsumerState<PurchaseForm> {
   Widget build(BuildContext context) {
     // final state = Provider.of<PurcaseFormState>(context, listen: true);
     ref.watch(purchaseNewProvider); // Watch provider for rebuilds
-    final categories = ref.watch(categoryListProvider);
+    final categoriesAsync = ref.watch(categoryListProvider);
 
+    return categoriesAsync.when(
+      data: (categories) => _buildForm(context, categories),
+      loading: () => const Center(child: CircularProgressIndicator()),
+      error: (error, stack) => Center(child: Text('Error: $error')),
+    );
+  }
+
+  Widget _buildForm(BuildContext context, List<Category> categories) {
     return Container(
       padding: EdgeInsets.all(25),
       child: Form(

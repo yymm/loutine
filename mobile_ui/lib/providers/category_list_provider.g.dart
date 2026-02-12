@@ -25,7 +25,7 @@ final categoryListProvider = CategoryListProvider._();
 /// - JSONパース処理はRepositoryに委譲
 /// - Providerはデータの状態管理に専念
 final class CategoryListProvider
-    extends $NotifierProvider<CategoryList, List<Category>> {
+    extends $AsyncNotifierProvider<CategoryList, List<Category>> {
   /// カテゴリ一覧の状態を管理するProvider
   ///
   /// 変更点:
@@ -49,17 +49,9 @@ final class CategoryListProvider
   @$internal
   @override
   CategoryList create() => CategoryList();
-
-  /// {@macro riverpod.override_with_value}
-  Override overrideWithValue(List<Category> value) {
-    return $ProviderOverride(
-      origin: this,
-      providerOverride: $SyncValueProvider<List<Category>>(value),
-    );
-  }
 }
 
-String _$categoryListHash() => r'5880d994e84d476b2c018e242f7aaa4da96222a7';
+String _$categoryListHash() => r'1902aa4c76c95562bb3e268665dd69dd5e109acb';
 
 /// カテゴリ一覧の状態を管理するProvider
 ///
@@ -68,71 +60,20 @@ String _$categoryListHash() => r'5880d994e84d476b2c018e242f7aaa4da96222a7';
 /// - JSONパース処理はRepositoryに委譲
 /// - Providerはデータの状態管理に専念
 
-abstract class _$CategoryList extends $Notifier<List<Category>> {
-  List<Category> build();
+abstract class _$CategoryList extends $AsyncNotifier<List<Category>> {
+  FutureOr<List<Category>> build();
   @$mustCallSuper
   @override
   void runBuild() {
-    final ref = this.ref as $Ref<List<Category>, List<Category>>;
+    final ref = this.ref as $Ref<AsyncValue<List<Category>>, List<Category>>;
     final element =
         ref.element
             as $ClassProviderElement<
-              AnyNotifier<List<Category>, List<Category>>,
-              List<Category>,
+              AnyNotifier<AsyncValue<List<Category>>, List<Category>>,
+              AsyncValue<List<Category>>,
               Object?,
               Object?
             >;
     element.handleCreate(ref, build);
   }
 }
-
-/// カテゴリ一覧をFutureとして提供するProvider
-///
-/// 初回表示時などに使用
-
-@ProviderFor(categoryListFuture)
-final categoryListFutureProvider = CategoryListFutureProvider._();
-
-/// カテゴリ一覧をFutureとして提供するProvider
-///
-/// 初回表示時などに使用
-
-final class CategoryListFutureProvider
-    extends
-        $FunctionalProvider<
-          AsyncValue<List<Category>>,
-          List<Category>,
-          FutureOr<List<Category>>
-        >
-    with $FutureModifier<List<Category>>, $FutureProvider<List<Category>> {
-  /// カテゴリ一覧をFutureとして提供するProvider
-  ///
-  /// 初回表示時などに使用
-  CategoryListFutureProvider._()
-    : super(
-        from: null,
-        argument: null,
-        retry: null,
-        name: r'categoryListFutureProvider',
-        isAutoDispose: true,
-        dependencies: null,
-        $allTransitiveDependencies: null,
-      );
-
-  @override
-  String debugGetCreateSourceHash() => _$categoryListFutureHash();
-
-  @$internal
-  @override
-  $FutureProviderElement<List<Category>> $createElement(
-    $ProviderPointer pointer,
-  ) => $FutureProviderElement(pointer);
-
-  @override
-  FutureOr<List<Category>> create(Ref ref) {
-    return categoryListFuture(ref);
-  }
-}
-
-String _$categoryListFutureHash() =>
-    r'd0c253df57f7c123fbb6c9972579e9c84985547f';
