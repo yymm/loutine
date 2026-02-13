@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:dart_quill_delta/dart_quill_delta.dart';
-import 'package:mobile_ui/providers/note_list_provider.dart';
+import 'package:mobile_ui/providers/note_list_paginated_provider.dart';
 import 'package:mobile_ui/providers/note_detail_provider.dart';
 import 'package:mobile_ui/ui/note/form/note_editor.dart';
 import 'package:mobile_ui/ui/note/form/tag_selection_dialog.dart';
@@ -78,7 +78,7 @@ class _NoteFormState extends ConsumerState<NoteForm> {
 
     final title = _titleController.text;
     final text = _getDeltaJson();
-    final notifier = ref.read(noteListProvider.notifier);
+    final notifier = ref.read(noteListPaginatedProvider.notifier);
 
     try {
       if (widget.noteId != null) {

@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:mobile_ui/api/vanilla_api.dart';
 import 'package:mobile_ui/models/note.dart';
+import 'package:mobile_ui/models/paginated_result.dart';
 import 'package:mobile_ui/exceptions/app_exceptions.dart';
 
 /// Note関連のデータ取得を担当するRepository
@@ -64,6 +65,51 @@ class NoteRepository {
       throw ParseException('作成されたノートデータの解析に失敗しました: ${e.message}');
     } on TypeError catch (e) {
       throw ParseException('作成されたノートデータの形式が不正です: $e');
+    }
+  }
+
+  /// cursor/limitベースでノート一覧を取得（無限スクロール用）
+  ///
+  /// APIから取得したJSONをパースしてPaginatedResultに変換して返す
+  ///
+  /// バックエンドのレスポンス形式:
+  /// ```json
+  /// {
+  ///   "notes": [...],
+  ///   "next_cursor": "cursor_string",
+  ///   "has_next_page": true
+  /// }
+  /// ```
+  ///
+  /// 発生する可能性のある例外:
+  /// - [NetworkException]: ネットワークエラー
+  /// - [ServerException]: サーバーエラー
+  /// - [ParseException]: JSONパースエラー
+  Future<PaginatedResult<Note>> fetchNotesPaginated({
+    String? cursor,
+    int limit = 20,
+  }) async {
+    try {
+      final resBody = await _apiClient.listPaginated(cursor: cursor, limit: limit);
+      final Map<String, dynamic> json = jsonDecode(resBody);
+      
+      // バックエンドは { notes, next_cursor, has_next_page } の形式
+      final List<dynamic> notesJson = json['notes'] as List;
+      final notes = notesJson
+          .map((e) => Note.fromJson(e as Map<String, dynamic>))
+          .toList();
+      
+      return PaginatedResult(
+        items: notes,
+        nextCursor: json['next_cursor'] as String?,
+        hasMore: json['has_next_page'] as bool? ?? false,
+      );
+    } on SocketException {
+      throw const NetworkException('インターネット接続を確認してください');
+    } on FormatException catch (e) {
+      throw ParseException('ノートデータの解析に失敗しました: ${e.message}');
+    } on TypeError catch (e) {
+      throw ParseException('ノートデータの形式が不正です: $e');
     }
   }
 
