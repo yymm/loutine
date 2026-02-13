@@ -12,16 +12,6 @@ class LinkListMain extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Links List'),
-        actions: <Widget>[
-          IconButton(
-            onPressed: () {
-              // リフレッシュボタン
-              ref.read(linkListPaginatedProvider.notifier).refresh();
-            },
-            icon: const Icon(Icons.refresh),
-            tooltip: 'リフレッシュ',
-          ),
-        ],
       ),
       body: Stack(
         children: [
@@ -30,20 +20,6 @@ class LinkListMain extends ConsumerWidget {
             child: Column(
               children: [
                 const Expanded(child: LinkList()),
-                Container(
-                  alignment: Alignment.bottomRight,
-                  padding: const EdgeInsets.all(10),
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      shape: const CircleBorder(),
-                      padding: const EdgeInsets.all(24),
-                    ),
-                    onPressed: () {
-                      context.go('/link/list');
-                    },
-                    child: const Icon(Icons.add),
-                  ),
-                ),
               ],
             ),
           ),

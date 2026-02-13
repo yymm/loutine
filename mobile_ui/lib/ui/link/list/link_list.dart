@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:mobile_ui/providers/link_list_paginated_provider.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 class LinkList extends ConsumerStatefulWidget {
   const LinkList({super.key});
@@ -70,35 +71,55 @@ class _LinkListState extends ConsumerState<LinkList> {
                 margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                 child: ListTile(
                   title: Text(
-                    link.title.isEmpty ? '(タイトルなし)' : link.title,
-                    style: const TextStyle(fontWeight: FontWeight.bold),
+                    link.title.isEmpty ? '(No title...)' : link.title,
+                    style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.teal),
                   ),
                   subtitle: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const SizedBox(height: 4),
-                      Text(
-                        link.url,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(color: Colors.blue[700]),
-                      ),
+                      // const SizedBox(height: 4),
+                      // Text(
+                      //   link.url,
+                      //   maxLines: 1,
+                      //   overflow: TextOverflow.ellipsis,
+                      //   style: TextStyle(color: Colors.blue[700]),
+                      // ),
                       const SizedBox(height: 8),
                       Text(
-                        '作成: ${dateFormat.format(link.createdAt)}',
+                        'Created: ${dateFormat.format(link.createdAt)}',
                         style: TextStyle(fontSize: 12, color: Colors.grey[600]),
                       ),
                     ],
                   ),
                   trailing: IconButton(
-                    icon: const Icon(Icons.open_in_browser),
-                    onPressed: () {
-                      // TODO: ブラウザで開く機能
+                    icon: const Icon(Icons.delete_forever),
+                    onPressed: () async {
+                      final confirm = await showDialog<bool>(
+                        context: context,
+                        builder: (context) => AlertDialog(
+                          title: const Text('Are you sure you want to delete?'),
+                          content: Text('Title: ${link.title}'),
+                          actions: [
+                            TextButton(
+                              onPressed: () => Navigator.of(context).pop(false),
+                              child: const Text('Cancel'),
+                            ),
+                            TextButton(
+                              onPressed: () => Navigator.of(context).pop(true),
+                              style: TextButton.styleFrom(backgroundColor: Colors.red, foregroundColor: Colors.white70),
+                              child: const Text('DELETE'),
+                            ),
+                          ],
+                        ),
+                      );
+                      if (confirm == true && mounted) {
+                        // await ref
+                        //     .read(noteListPaginatedProvider.notifier)
+                        //     .deleteNote(note.id);
+                      }
                     },
                   ),
-                  onTap: () {
-                    // TODO: 詳細画面へ
-                  },
+                  onTap: () => launchUrlString(link.url),
                 ),
               );
             },

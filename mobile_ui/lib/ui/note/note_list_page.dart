@@ -55,16 +55,7 @@ class _NoteListPageState extends ConsumerState<NoteListPage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('ノート'),
-        actions: [
-          IconButton(
-            onPressed: () {
-              ref.read(noteListPaginatedProvider.notifier).refresh();
-            },
-            icon: const Icon(Icons.refresh),
-            tooltip: 'リフレッシュ',
-          ),
-        ],
+        title: const Text('Notes List'),
       ),
       body: notesAsync.when(
         data: (paginatedState) {
@@ -101,7 +92,7 @@ class _NoteListPageState extends ConsumerState<NoteListPage> {
                   margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                   child: ListTile(
                     title: Text(
-                      note.title.isEmpty ? '(タイトルなし)' : note.title,
+                      note.title.isEmpty ? '(No title...)' : note.title,
                       style: const TextStyle(fontWeight: FontWeight.bold),
                     ),
                     subtitle: Column(
@@ -110,7 +101,7 @@ class _NoteListPageState extends ConsumerState<NoteListPage> {
                         const SizedBox(height: 4),
                         Text(
                           plainText.isEmpty
-                              ? '(内容なし)'
+                              ? '(No content...)'
                               : plainText.length > 100
                               ? '${plainText.substring(0, 100)}...'
                               : plainText,
@@ -119,32 +110,32 @@ class _NoteListPageState extends ConsumerState<NoteListPage> {
                         ),
                         const SizedBox(height: 8),
                         Text(
-                          '更新: ${dateFormat.format(note.updatedAt)}',
+                          'Created: ${dateFormat.format(note.createdAt)}',
                           style: TextStyle(fontSize: 12, color: Colors.grey[600]),
                         ),
                       ],
                     ),
                     trailing: IconButton(
-                      icon: const Icon(Icons.delete_outline),
+                      icon: const Icon(Icons.delete_forever),
                       onPressed: () async {
                         final confirm = await showDialog<bool>(
                           context: context,
                           builder: (context) => AlertDialog(
-                            title: const Text('削除確認'),
-                            content: const Text('このノートを削除しますか？'),
+                            title: const Text('Are you sure you want to delete?'),
+                            content: Text('Title: ${note.title}'),
                             actions: [
                               TextButton(
                                 onPressed: () => Navigator.of(context).pop(false),
-                                child: const Text('キャンセル'),
+                                child: const Text('Cancel'),
                               ),
                               TextButton(
                                 onPressed: () => Navigator.of(context).pop(true),
-                                child: const Text('削除'),
+                              style: TextButton.styleFrom(backgroundColor: Colors.red, foregroundColor: Colors.white70),
+                                child: const Text('DELETE'),
                               ),
                             ],
                           ),
                         );
-
                         if (confirm == true && mounted) {
                           await ref
                               .read(noteListPaginatedProvider.notifier)
@@ -179,12 +170,6 @@ class _NoteListPageState extends ConsumerState<NoteListPage> {
             ],
           ),
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          context.go('/note');
-        },
-        child: const Icon(Icons.add),
       ),
     );
   }
