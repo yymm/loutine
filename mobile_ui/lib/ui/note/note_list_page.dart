@@ -31,7 +31,7 @@ class _NoteListPageState extends ConsumerState<NoteListPage> {
 
   void _onScroll() {
     // 80%スクロールしたら次のページを読み込む
-    if (_scrollController.position.pixels >= 
+    if (_scrollController.position.pixels >=
         _scrollController.position.maxScrollExtent * 0.8) {
       ref.read(noteListPaginatedProvider.notifier).loadMore();
     }
@@ -54,23 +54,21 @@ class _NoteListPageState extends ConsumerState<NoteListPage> {
     final notesAsync = ref.watch(noteListPaginatedProvider);
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Notes List'),
-      ),
+      appBar: AppBar(title: const Text('Notes List')),
       body: notesAsync.when(
         data: (paginatedState) {
           if (paginatedState.items.isEmpty) {
-            return const Center(
-              child: Text('ノートがありません\n下のボタンから作成してください'),
-            );
+            return const Center(child: Text('ノートがありません\n下のボタンから作成してください'));
           }
 
           return RefreshIndicator(
-            onRefresh: () => ref.read(noteListPaginatedProvider.notifier).refresh(),
+            onRefresh: () =>
+                ref.read(noteListPaginatedProvider.notifier).refresh(),
             child: ListView.builder(
               controller: _scrollController,
-              itemCount: paginatedState.items.length + 
-                         (paginatedState.hasMore ? 1 : 0),
+              itemCount:
+                  paginatedState.items.length +
+                  (paginatedState.hasMore ? 1 : 0),
               itemBuilder: (context, index) {
                 // ローディングインジケータ
                 if (index == paginatedState.items.length) {
@@ -89,7 +87,10 @@ class _NoteListPageState extends ConsumerState<NoteListPage> {
                 final plainText = _extractPlainText(note.text);
 
                 return Card(
-                  margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  margin: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 8,
+                  ),
                   child: ListTile(
                     title: Text(
                       note.title.isEmpty ? '(No title...)' : note.title,
@@ -111,7 +112,10 @@ class _NoteListPageState extends ConsumerState<NoteListPage> {
                         const SizedBox(height: 8),
                         Text(
                           'Created: ${dateFormat.format(note.createdAt)}',
-                          style: TextStyle(fontSize: 12, color: Colors.grey[600]),
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: Colors.grey[600],
+                          ),
                         ),
                       ],
                     ),
@@ -121,16 +125,23 @@ class _NoteListPageState extends ConsumerState<NoteListPage> {
                         final confirm = await showDialog<bool>(
                           context: context,
                           builder: (context) => AlertDialog(
-                            title: const Text('Are you sure you want to delete?'),
+                            title: const Text(
+                              'Are you sure you want to delete?',
+                            ),
                             content: Text('Title: ${note.title}'),
                             actions: [
                               TextButton(
-                                onPressed: () => Navigator.of(context).pop(false),
+                                onPressed: () =>
+                                    Navigator.of(context).pop(false),
                                 child: const Text('Cancel'),
                               ),
                               TextButton(
-                                onPressed: () => Navigator.of(context).pop(true),
-                              style: TextButton.styleFrom(backgroundColor: Colors.red, foregroundColor: Colors.white70),
+                                onPressed: () =>
+                                    Navigator.of(context).pop(true),
+                                style: TextButton.styleFrom(
+                                  backgroundColor: Colors.red,
+                                  foregroundColor: Colors.white70,
+                                ),
                                 child: const Text('DELETE'),
                               ),
                             ],

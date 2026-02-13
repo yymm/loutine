@@ -109,9 +109,9 @@ class NoteApiClient {
       'limit': limit.toString(),
       if (cursor != null) 'cursor': cursor,
     };
-    final url = Uri.parse('$baseUrl/api/v1/notes/latest').replace(
-      queryParameters: queryParams,
-    );
+    final url = Uri.parse(
+      '$baseUrl/api/v1/notes/latest',
+    ).replace(queryParameters: queryParams);
     final res = await http.get(url);
     if (res.statusCode == 200) {
       return utf8.decode(res.bodyBytes);

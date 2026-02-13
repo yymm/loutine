@@ -90,15 +90,18 @@ class NoteRepository {
     int limit = 20,
   }) async {
     try {
-      final resBody = await _apiClient.listPaginated(cursor: cursor, limit: limit);
+      final resBody = await _apiClient.listPaginated(
+        cursor: cursor,
+        limit: limit,
+      );
       final Map<String, dynamic> json = jsonDecode(resBody);
-      
+
       // バックエンドは { notes, next_cursor, has_next_page } の形式
       final List<dynamic> notesJson = json['notes'] as List;
       final notes = notesJson
           .map((e) => Note.fromJson(e as Map<String, dynamic>))
           .toList();
-      
+
       return PaginatedResult(
         items: notes,
         nextCursor: json['next_cursor'] as String?,

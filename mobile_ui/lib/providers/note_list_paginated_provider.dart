@@ -35,14 +35,14 @@ class PaginatedState<T> {
 }
 
 /// ノート一覧の無限スクロール用Provider
-/// 
+///
 /// **ノートのCRUD操作はこのProviderを使用してください**
-/// 
+///
 /// 役割:
 /// - リスト画面での表示
 /// - ノートの作成・更新・削除
 /// - cursor/limitでのページネーション
-/// 
+///
 /// 使い分け:
 /// - [NoteList]: home_calendar用、日付範囲で全件取得（読み取り専用）
 /// - [NoteListPaginated]: リスト画面用、cursor/limitでページネーション（CRUD操作あり）
@@ -53,7 +53,7 @@ class NoteListPaginated extends _$NoteListPaginated {
   @override
   Future<PaginatedState<Note>> build() async {
     final repository = ref.watch(noteRepositoryProvider);
-    
+
     // 初回ロード
     final result = await repository.fetchNotesPaginated(
       cursor: null,
@@ -70,8 +70,8 @@ class NoteListPaginated extends _$NoteListPaginated {
   /// 次のページを読み込む
   Future<void> loadMore() async {
     final currentState = state.value;
-    if (currentState == null || 
-        !currentState.hasMore || 
+    if (currentState == null ||
+        !currentState.hasMore ||
         currentState.isLoadingMore) {
       return;
     }
@@ -86,12 +86,14 @@ class NoteListPaginated extends _$NoteListPaginated {
         limit: _pageSize,
       );
 
-      state = AsyncValue.data(PaginatedState(
-        items: [...currentState.items, ...result.items],
-        nextCursor: result.nextCursor,
-        hasMore: result.hasMore,
-        isLoadingMore: false,
-      ));
+      state = AsyncValue.data(
+        PaginatedState(
+          items: [...currentState.items, ...result.items],
+          nextCursor: result.nextCursor,
+          hasMore: result.hasMore,
+          isLoadingMore: false,
+        ),
+      );
     } catch (error) {
       // エラー時は元の状態に戻す（ローディングだけ解除）
       state = AsyncValue.data(currentState.copyWith(isLoadingMore: false));
@@ -118,7 +120,7 @@ class NoteListPaginated extends _$NoteListPaginated {
   }
 
   /// ノートを作成
-  /// 
+  ///
   /// リスト画面での作成処理を担当
   /// home_calendarの更新も自動的にトリガーされる
   Future<Note> createNote({
@@ -132,19 +134,19 @@ class NoteListPaginated extends _$NoteListPaginated {
       text: text,
       tagIds: tagIds,
     );
-    
+
     // 1. このProviderを更新（楽観的更新）
     final currentState = state.value;
     if (currentState != null) {
-      state = AsyncValue.data(currentState.copyWith(
-        items: [note, ...currentState.items],
-      ));
+      state = AsyncValue.data(
+        currentState.copyWith(items: [note, ...currentState.items]),
+      );
     }
-    
+
     // 2. カレンダー用のNoteListを無効化
     // これによりhome_calendarのref.listenが反応して自動更新される
     ref.invalidate(noteListProvider);
-    
+
     return note;
   }
 
@@ -152,15 +154,17 @@ class NoteListPaginated extends _$NoteListPaginated {
   Future<void> deleteNote(int noteId) async {
     final repository = ref.read(noteRepositoryProvider);
     await repository.deleteNote(noteId);
-    
+
     // リストから削除（楽観的更新）
     final currentState = state.value;
     if (currentState != null) {
-      state = AsyncValue.data(currentState.copyWith(
-        items: currentState.items.where((note) => note.id != noteId).toList(),
-      ));
+      state = AsyncValue.data(
+        currentState.copyWith(
+          items: currentState.items.where((note) => note.id != noteId).toList(),
+        ),
+      );
     }
-    
+
     // カレンダー用のNoteListを無効化
     ref.invalidate(noteListProvider);
   }
@@ -169,7 +173,7 @@ class NoteListPaginated extends _$NoteListPaginated {
   Future<Note> updateNote(Note note) async {
     final repository = ref.read(noteRepositoryProvider);
     final updatedNote = await repository.updateNote(note);
-    
+
     // リストを更新（楽観的更新）
     final currentState = state.value;
     if (currentState != null) {
@@ -178,10 +182,10 @@ class NoteListPaginated extends _$NoteListPaginated {
       }).toList();
       state = AsyncValue.data(currentState.copyWith(items: updatedItems));
     }
-    
+
     // カレンダー用のNoteListを無効化
     ref.invalidate(noteListProvider);
-    
+
     return updatedNote;
   }
 }

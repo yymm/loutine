@@ -72,7 +72,10 @@ class _LinkListState extends ConsumerState<LinkList> {
                 child: ListTile(
                   title: Text(
                     link.title.isEmpty ? '(No title...)' : link.title,
-                    style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.teal),
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: Colors.teal,
+                    ),
                   ),
                   subtitle: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -106,7 +109,10 @@ class _LinkListState extends ConsumerState<LinkList> {
                             ),
                             TextButton(
                               onPressed: () => Navigator.of(context).pop(true),
-                              style: TextButton.styleFrom(backgroundColor: Colors.red, foregroundColor: Colors.white70),
+                              style: TextButton.styleFrom(
+                                backgroundColor: Colors.red,
+                                foregroundColor: Colors.white70,
+                              ),
                               child: const Text('DELETE'),
                             ),
                           ],
