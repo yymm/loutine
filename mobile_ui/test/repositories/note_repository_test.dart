@@ -221,5 +221,188 @@ void main() {
         expect(() => repository.getNoteById, isA<Function>());
       });
     });
+
+    group('fetchNotesPaginated', () {
+      test('APIから取得したJSONをPaginatedResultに変換する', () async {
+        // Arrange
+        const cursor = null;
+        const limit = 20;
+        final jsonResponse = '''
+        {
+          "notes": [
+            {
+              "id": 1,
+              "title": "ノート1",
+              "text": "[{\\"insert\\":\\"内容1\\\\n\\"}]",
+              "created_at": "2024-01-01T00:00:00Z",
+              "updated_at": "2024-01-01T00:00:00Z"
+            },
+            {
+              "id": 2,
+              "title": "ノート2",
+              "text": "[{\\"insert\\":\\"内容2\\\\n\\"}]",
+              "created_at": "2024-01-02T00:00:00Z",
+              "updated_at": "2024-01-02T00:00:00Z"
+            }
+          ],
+          "next_cursor": "cursor_string",
+          "has_next_page": true
+        }
+        ''';
+
+        when(
+          () => mockApiClient.listPaginated(cursor: cursor, limit: limit),
+        ).thenAnswer((_) async => jsonResponse);
+
+        // Act
+        final result = await repository.fetchNotesPaginated(
+          cursor: cursor,
+          limit: limit,
+        );
+
+        // Assert
+        expect(result.items.length, 2);
+        expect(result.items[0].id, 1);
+        expect(result.items[0].title, 'ノート1');
+        expect(result.items[1].id, 2);
+        expect(result.nextCursor, 'cursor_string');
+        expect(result.hasMore, true);
+        verify(
+          () => mockApiClient.listPaginated(cursor: cursor, limit: limit),
+        ).called(1);
+      });
+
+      test('cursorを指定して次のページを取得できる', () async {
+        // Arrange
+        const cursor = 'existing_cursor';
+        const limit = 20;
+        final jsonResponse = '''
+        {
+          "notes": [
+            {
+              "id": 3,
+              "title": "ノート3",
+              "text": "[{\\"insert\\":\\"内容3\\\\n\\"}]",
+              "created_at": "2024-01-03T00:00:00Z",
+              "updated_at": "2024-01-03T00:00:00Z"
+            }
+          ],
+          "next_cursor": "next_cursor_string",
+          "has_next_page": true
+        }
+        ''';
+
+        when(
+          () => mockApiClient.listPaginated(cursor: cursor, limit: limit),
+        ).thenAnswer((_) async => jsonResponse);
+
+        // Act
+        final result = await repository.fetchNotesPaginated(
+          cursor: cursor,
+          limit: limit,
+        );
+
+        // Assert
+        expect(result.items.length, 1);
+        expect(result.items[0].id, 3);
+        expect(result.nextCursor, 'next_cursor_string');
+        expect(result.hasMore, true);
+      });
+
+      test('最終ページではhas_next_pageがfalseになる', () async {
+        // Arrange
+        const cursor = 'last_cursor';
+        const limit = 20;
+        final jsonResponse = '''
+        {
+          "notes": [
+            {
+              "id": 100,
+              "title": "最後のノート",
+              "text": "[{\\"insert\\":\\"最後の内容\\\\n\\"}]",
+              "created_at": "2024-01-31T00:00:00Z",
+              "updated_at": "2024-01-31T00:00:00Z"
+            }
+          ],
+          "next_cursor": null,
+          "has_next_page": false
+        }
+        ''';
+
+        when(
+          () => mockApiClient.listPaginated(cursor: cursor, limit: limit),
+        ).thenAnswer((_) async => jsonResponse);
+
+        // Act
+        final result = await repository.fetchNotesPaginated(
+          cursor: cursor,
+          limit: limit,
+        );
+
+        // Assert
+        expect(result.items.length, 1);
+        expect(result.nextCursor, null);
+        expect(result.hasMore, false);
+      });
+
+      test('空のリストを正しく処理できる', () async {
+        // Arrange
+        const cursor = null;
+        const limit = 20;
+        final jsonResponse = '''
+        {
+          "notes": [],
+          "next_cursor": null,
+          "has_next_page": false
+        }
+        ''';
+
+        when(
+          () => mockApiClient.listPaginated(cursor: cursor, limit: limit),
+        ).thenAnswer((_) async => jsonResponse);
+
+        // Act
+        final result = await repository.fetchNotesPaginated(
+          cursor: cursor,
+          limit: limit,
+        );
+
+        // Assert
+        expect(result.items, isEmpty);
+        expect(result.hasMore, false);
+      });
+
+      test('ネットワークエラー時にNetworkExceptionを投げる', () async {
+        // Arrange
+        when(
+          () => mockApiClient.listPaginated(
+            cursor: any(named: 'cursor'),
+            limit: any(named: 'limit'),
+          ),
+        ).thenThrow(const SocketException('Network unreachable'));
+
+        // Act & Assert
+        expect(
+          () => repository.fetchNotesPaginated(),
+          throwsA(isA<NetworkException>()),
+        );
+      });
+
+      test('不正なJSON形式の場合にParseExceptionを投げる', () async {
+        // Arrange
+        when(
+          () => mockApiClient.listPaginated(
+            cursor: any(named: 'cursor'),
+            limit: any(named: 'limit'),
+          ),
+        ).thenAnswer((_) async => 'invalid json');
+
+        // Act & Assert
+        expect(
+          () => repository.fetchNotesPaginated(),
+          throwsA(isA<ParseException>()),
+        );
+      });
+    });
   });
 }

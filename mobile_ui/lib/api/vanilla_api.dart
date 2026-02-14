@@ -23,6 +23,23 @@ class LinkApiClient {
     }
   }
 
+  /// cursor/limitベースのページネーションAPI
+  Future<String> listPaginated({String? cursor, int limit = 20}) async {
+    final queryParams = <String, String>{
+      'limit': limit.toString(),
+      if (cursor != null) 'cursor': cursor,
+    };
+    final url = Uri.parse(
+      '$baseUrl/api/v1/links/latest',
+    ).replace(queryParameters: queryParams);
+    final res = await http.get(url);
+    if (res.statusCode == 200) {
+      return utf8.decode(res.bodyBytes);
+    } else {
+      throw StateError('Failure to load paginated links');
+    }
+  }
+
   Future<String> post(String url, String title, List<int> tagIds) async {
     final postUrl = Uri.parse('$baseUrl/api/v1/links');
     final headers = {'content-type': 'application/json'};
@@ -82,7 +99,24 @@ class NoteApiClient {
     if (res.statusCode == 200) {
       return utf8.decode(res.bodyBytes);
     } else {
-      throw StateError('Failure to load purchases');
+      throw StateError('Failure to load notes');
+    }
+  }
+
+  /// cursor/limitベースのページネーションAPI
+  Future<String> listPaginated({String? cursor, int limit = 20}) async {
+    final queryParams = <String, String>{
+      'limit': limit.toString(),
+      if (cursor != null) 'cursor': cursor,
+    };
+    final url = Uri.parse(
+      '$baseUrl/api/v1/notes/latest',
+    ).replace(queryParameters: queryParams);
+    final res = await http.get(url);
+    if (res.statusCode == 200) {
+      return utf8.decode(res.bodyBytes);
+    } else {
+      throw StateError('Failure to load paginated notes');
     }
   }
 

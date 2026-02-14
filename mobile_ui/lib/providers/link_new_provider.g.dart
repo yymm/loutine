@@ -40,7 +40,7 @@ final class LinkNewProvider extends $NotifierProvider<LinkNew, LinkNewData> {
   }
 }
 
-String _$linkNewHash() => r'6661baef2acd4a19e484abc9c7aff4dd3f5030a1';
+String _$linkNewHash() => r'7be258f4b6586d9590576dc67ebfc32452c8ca22';
 
 abstract class _$LinkNew extends $Notifier<LinkNewData> {
   LinkNewData build();

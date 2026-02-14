@@ -3,12 +3,39 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
-import 'package:mobile_ui/providers/note_list_provider.dart';
+import 'package:mobile_ui/providers/note_list_paginated_provider.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:dart_quill_delta/dart_quill_delta.dart';
 
-class NoteListPage extends ConsumerWidget {
+class NoteListPage extends ConsumerStatefulWidget {
   const NoteListPage({super.key});
+
+  @override
+  ConsumerState<NoteListPage> createState() => _NoteListPageState();
+}
+
+class _NoteListPageState extends ConsumerState<NoteListPage> {
+  final _scrollController = ScrollController();
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollController.addListener(_onScroll);
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  void _onScroll() {
+    // 80%スクロールしたら次のページを読み込む
+    if (_scrollController.position.pixels >=
+        _scrollController.position.maxScrollExtent * 0.8) {
+      ref.read(noteListPaginatedProvider.notifier).loadMore();
+    }
+  }
 
   /// Delta JSONからプレーンテキストを抽出
   String _extractPlainText(String text) {
@@ -23,95 +50,137 @@ class NoteListPage extends ConsumerWidget {
   }
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final notesAsync = ref.watch(noteListProvider);
+  Widget build(BuildContext context) {
+    final notesAsync = ref.watch(noteListPaginatedProvider);
 
     return Scaffold(
-      appBar: AppBar(title: const Text('ノート')),
+      appBar: AppBar(title: const Text('Notes List')),
       body: notesAsync.when(
-        data: (notes) {
-          if (notes.isEmpty) {
+        data: (paginatedState) {
+          if (paginatedState.items.isEmpty) {
             return const Center(child: Text('ノートがありません\n下のボタンから作成してください'));
           }
 
-          return ListView.builder(
-            itemCount: notes.length,
-            itemBuilder: (context, index) {
-              final note = notes[index];
-              final dateFormat = DateFormat('yyyy/MM/dd HH:mm');
-              final plainText = _extractPlainText(note.text);
+          return RefreshIndicator(
+            onRefresh: () =>
+                ref.read(noteListPaginatedProvider.notifier).refresh(),
+            child: ListView.builder(
+              controller: _scrollController,
+              itemCount:
+                  paginatedState.items.length +
+                  (paginatedState.hasMore ? 1 : 0),
+              itemBuilder: (context, index) {
+                // ローディングインジケータ
+                if (index == paginatedState.items.length) {
+                  return Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Center(
+                      child: paginatedState.isLoadingMore
+                          ? const CircularProgressIndicator()
+                          : const SizedBox.shrink(),
+                    ),
+                  );
+                }
 
-              return Card(
-                margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                child: ListTile(
-                  title: Text(
-                    note.title.isEmpty ? '(タイトルなし)' : note.title,
-                    style: const TextStyle(fontWeight: FontWeight.bold),
+                final note = paginatedState.items[index];
+                final dateFormat = DateFormat('yyyy/MM/dd HH:mm');
+                final plainText = _extractPlainText(note.text);
+
+                return Card(
+                  margin: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 8,
                   ),
-                  subtitle: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const SizedBox(height: 4),
-                      Text(
-                        plainText.isEmpty
-                            ? '(内容なし)'
-                            : plainText.length > 100
-                            ? '${plainText.substring(0, 100)}...'
-                            : plainText,
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                      const SizedBox(height: 8),
-                      Text(
-                        '更新: ${dateFormat.format(note.updatedAt)}',
-                        style: TextStyle(fontSize: 12, color: Colors.grey[600]),
-                      ),
-                    ],
-                  ),
-                  trailing: IconButton(
-                    icon: const Icon(Icons.delete_outline),
-                    onPressed: () async {
-                      final confirm = await showDialog<bool>(
-                        context: context,
-                        builder: (context) => AlertDialog(
-                          title: const Text('削除確認'),
-                          content: const Text('このノートを削除しますか？'),
-                          actions: [
-                            TextButton(
-                              onPressed: () => Navigator.of(context).pop(false),
-                              child: const Text('キャンセル'),
-                            ),
-                            TextButton(
-                              onPressed: () => Navigator.of(context).pop(true),
-                              child: const Text('削除'),
-                            ),
-                          ],
+                  child: ListTile(
+                    title: Text(
+                      note.title.isEmpty ? '(No title...)' : note.title,
+                      style: const TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    subtitle: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const SizedBox(height: 4),
+                        Text(
+                          plainText.isEmpty
+                              ? '(No content...)'
+                              : plainText.length > 100
+                              ? '${plainText.substring(0, 100)}...'
+                              : plainText,
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
                         ),
-                      );
-
-                      if (confirm == true && context.mounted) {
-                        await ref
-                            .read(noteListProvider.notifier)
-                            .deleteNote(note.id);
-                      }
+                        const SizedBox(height: 8),
+                        Text(
+                          'Created: ${dateFormat.format(note.createdAt)}',
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: Colors.grey[600],
+                          ),
+                        ),
+                      ],
+                    ),
+                    trailing: IconButton(
+                      icon: const Icon(Icons.delete_forever),
+                      onPressed: () async {
+                        final confirm = await showDialog<bool>(
+                          context: context,
+                          builder: (context) => AlertDialog(
+                            title: const Text(
+                              'Are you sure you want to delete?',
+                            ),
+                            content: Text('Title: ${note.title}'),
+                            actions: [
+                              TextButton(
+                                onPressed: () =>
+                                    Navigator.of(context).pop(false),
+                                child: const Text('Cancel'),
+                              ),
+                              TextButton(
+                                onPressed: () =>
+                                    Navigator.of(context).pop(true),
+                                style: TextButton.styleFrom(
+                                  backgroundColor: Colors.red,
+                                  foregroundColor: Colors.white70,
+                                ),
+                                child: const Text('DELETE'),
+                              ),
+                            ],
+                          ),
+                        );
+                        if (confirm == true && mounted) {
+                          await ref
+                              .read(noteListPaginatedProvider.notifier)
+                              .deleteNote(note.id);
+                        }
+                      },
+                    ),
+                    onTap: () {
+                      context.push('/note/edit/${note.id}');
                     },
                   ),
-                  onTap: () {
-                    context.push('/note/edit/${note.id}');
-                  },
-                ),
-              );
-            },
+                );
+              },
+            ),
           );
         },
         loading: () => const Center(child: CircularProgressIndicator()),
-        error: (error, stack) => Center(child: Text('エラーが発生しました: $error')),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          context.go('/note');
-        },
-        child: const Icon(Icons.add),
+        error: (error, stack) => Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Icon(Icons.error_outline, size: 48, color: Colors.red),
+              const SizedBox(height: 16),
+              Text('エラーが発生しました\n$error'),
+              const SizedBox(height: 16),
+              ElevatedButton(
+                onPressed: () {
+                  ref.invalidate(noteListPaginatedProvider);
+                },
+                child: const Text('再試行'),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }

@@ -4,7 +4,18 @@ import 'package:mobile_ui/providers/repository_provider.dart';
 
 part 'note_list_provider.g.dart';
 
-/// ノート一覧を取得するProvider
+/// ノート一覧を取得するProvider（カレンダー用）
+///
+/// **このProviderは読み取り専用です**
+/// ノートの作成・更新・削除は [NoteListPaginated] を使用してください
+///
+/// 役割:
+/// - home_calendarでの更新検知（ref.listenで監視）
+/// - 日付範囲での全件取得
+///
+/// 使い分け:
+/// - [NoteList]: home_calendar用、日付範囲で全件取得（読み取り専用）
+/// - [NoteListPaginated]: リスト画面用、cursor/limitでページネーション（CRUD操作あり）
 @riverpod
 class NoteList extends _$NoteList {
   @override
@@ -14,55 +25,5 @@ class NoteList extends _$NoteList {
     final startDate = now.subtract(const Duration(days: 365));
     final endDate = now.add(const Duration(days: 365));
     return repository.fetchNotes(startDate, endDate);
-  }
-
-  /// ノートを削除
-  Future<void> deleteNote(int noteId) async {
-    final repository = ref.read(noteRepositoryProvider);
-    await repository.deleteNote(noteId);
-    // 非同期でinvalidate
-    Future.microtask(() {
-      if (ref.mounted) {
-        ref.invalidateSelf();
-      }
-    });
-  }
-
-  /// ノートを作成
-  Future<Note> createNote({
-    required String title,
-    required String text,
-    List<int> tagIds = const [],
-  }) async {
-    final repository = ref.read(noteRepositoryProvider);
-    final note = await repository.createNote(
-      title: title,
-      text: text,
-      tagIds: tagIds,
-    );
-    // invalidateSelfの前に値を保存
-    final result = note;
-    // 非同期でinvalidate（呼び出し元に影響しない）
-    Future.microtask(() {
-      if (ref.mounted) {
-        ref.invalidateSelf();
-      }
-    });
-    return result;
-  }
-
-  /// ノートを更新
-  Future<Note> updateNote(Note note) async {
-    final repository = ref.read(noteRepositoryProvider);
-    final updatedNote = await repository.updateNote(note);
-    // invalidateSelfの前に値を保存
-    final result = updatedNote;
-    // 非同期でinvalidate（呼び出し元に影響しない）
-    Future.microtask(() {
-      if (ref.mounted) {
-        ref.invalidateSelf();
-      }
-    });
-    return result;
   }
 }
