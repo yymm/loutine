@@ -64,35 +64,59 @@ void main() {
       expect(state.nextCursor, 'cursor1');
       expect(state.hasMore, true);
       expect(state.isLoadingMore, false);
-      verify(() => mockRepository.fetchLinksPaginated(cursor: null, limit: 20)).called(1);
+      verify(
+        () => mockRepository.fetchLinksPaginated(cursor: null, limit: 20),
+      ).called(1);
     });
 
     test('loadMore()で次のページを読み込む', () async {
       // Arrange
       final now = DateTime.now();
       final firstPageLinks = [
-        Link(id: 1, title: 'リンク1', url: 'https://example.com/1', createdAt: now, updatedAt: now),
-        Link(id: 2, title: 'リンク2', url: 'https://example.com/2', createdAt: now, updatedAt: now),
+        Link(
+          id: 1,
+          title: 'リンク1',
+          url: 'https://example.com/1',
+          createdAt: now,
+          updatedAt: now,
+        ),
+        Link(
+          id: 2,
+          title: 'リンク2',
+          url: 'https://example.com/2',
+          createdAt: now,
+          updatedAt: now,
+        ),
       ];
       final secondPageLinks = [
-        Link(id: 3, title: 'リンク3', url: 'https://example.com/3', createdAt: now, updatedAt: now),
+        Link(
+          id: 3,
+          title: 'リンク3',
+          url: 'https://example.com/3',
+          createdAt: now,
+          updatedAt: now,
+        ),
       ];
 
       when(
         () => mockRepository.fetchLinksPaginated(cursor: null, limit: 20),
-      ).thenAnswer((_) async => PaginatedResult(
-        items: firstPageLinks,
-        nextCursor: 'cursor1',
-        hasMore: true,
-      ));
+      ).thenAnswer(
+        (_) async => PaginatedResult(
+          items: firstPageLinks,
+          nextCursor: 'cursor1',
+          hasMore: true,
+        ),
+      );
 
       when(
         () => mockRepository.fetchLinksPaginated(cursor: 'cursor1', limit: 20),
-      ).thenAnswer((_) async => PaginatedResult(
-        items: secondPageLinks,
-        nextCursor: 'cursor2',
-        hasMore: true,
-      ));
+      ).thenAnswer(
+        (_) async => PaginatedResult(
+          items: secondPageLinks,
+          nextCursor: 'cursor2',
+          hasMore: true,
+        ),
+      );
 
       final container = ProviderContainer(
         overrides: [linkRepositoryProvider.overrideWithValue(mockRepository)],
@@ -119,16 +143,21 @@ void main() {
       // Arrange
       final now = DateTime.now();
       final mockLinks = [
-        Link(id: 1, title: 'リンク1', url: 'https://example.com/1', createdAt: now, updatedAt: now),
+        Link(
+          id: 1,
+          title: 'リンク1',
+          url: 'https://example.com/1',
+          createdAt: now,
+          updatedAt: now,
+        ),
       ];
 
       when(
         () => mockRepository.fetchLinksPaginated(cursor: null, limit: 20),
-      ).thenAnswer((_) async => PaginatedResult(
-        items: mockLinks,
-        nextCursor: null,
-        hasMore: false,
-      ));
+      ).thenAnswer(
+        (_) async =>
+            PaginatedResult(items: mockLinks, nextCursor: null, hasMore: false),
+      );
 
       final container = ProviderContainer(
         overrides: [linkRepositoryProvider.overrideWithValue(mockRepository)],
@@ -142,28 +171,55 @@ void main() {
 
       // Assert
       // fetchLinksPaginatedは初回のみ呼ばれる（loadMoreでは呼ばれない）
-      verify(() => mockRepository.fetchLinksPaginated(cursor: null, limit: 20)).called(1);
-      verifyNever(() => mockRepository.fetchLinksPaginated(cursor: any(named: 'cursor'), limit: 20));
+      verify(
+        () => mockRepository.fetchLinksPaginated(cursor: null, limit: 20),
+      ).called(1);
+      verifyNever(
+        () => mockRepository.fetchLinksPaginated(
+          cursor: any(named: 'cursor'),
+          limit: 20,
+        ),
+      );
     });
 
     test('refresh()でリストを再取得する', () async {
       // Arrange
       final now = DateTime.now();
       final initialLinks = [
-        Link(id: 1, title: 'リンク1', url: 'https://example.com/1', createdAt: now, updatedAt: now),
+        Link(
+          id: 1,
+          title: 'リンク1',
+          url: 'https://example.com/1',
+          createdAt: now,
+          updatedAt: now,
+        ),
       ];
       final refreshedLinks = [
-        Link(id: 2, title: '新しいリンク', url: 'https://example.com/2', createdAt: now, updatedAt: now),
-        Link(id: 1, title: 'リンク1', url: 'https://example.com/1', createdAt: now, updatedAt: now),
+        Link(
+          id: 2,
+          title: '新しいリンク',
+          url: 'https://example.com/2',
+          createdAt: now,
+          updatedAt: now,
+        ),
+        Link(
+          id: 1,
+          title: 'リンク1',
+          url: 'https://example.com/1',
+          createdAt: now,
+          updatedAt: now,
+        ),
       ];
 
       when(
         () => mockRepository.fetchLinksPaginated(cursor: null, limit: 20),
-      ).thenAnswer((_) async => PaginatedResult(
-        items: initialLinks,
-        nextCursor: 'cursor1',
-        hasMore: true,
-      ));
+      ).thenAnswer(
+        (_) async => PaginatedResult(
+          items: initialLinks,
+          nextCursor: 'cursor1',
+          hasMore: true,
+        ),
+      );
 
       final container = ProviderContainer(
         overrides: [linkRepositoryProvider.overrideWithValue(mockRepository)],
@@ -175,11 +231,13 @@ void main() {
       // リフレッシュ時は新しいデータを返す
       when(
         () => mockRepository.fetchLinksPaginated(cursor: null, limit: 20),
-      ).thenAnswer((_) async => PaginatedResult(
-        items: refreshedLinks,
-        nextCursor: 'cursor2',
-        hasMore: true,
-      ));
+      ).thenAnswer(
+        (_) async => PaginatedResult(
+          items: refreshedLinks,
+          nextCursor: 'cursor2',
+          hasMore: true,
+        ),
+      );
 
       // Act
       await container.read(linkListPaginatedProvider.notifier).refresh();
@@ -195,7 +253,13 @@ void main() {
       // Arrange
       final now = DateTime.now();
       final existingLinks = [
-        Link(id: 1, title: 'リンク1', url: 'https://example.com/1', createdAt: now, updatedAt: now),
+        Link(
+          id: 1,
+          title: 'リンク1',
+          url: 'https://example.com/1',
+          createdAt: now,
+          updatedAt: now,
+        ),
       ];
       final newLink = Link(
         id: 2,
@@ -207,14 +271,17 @@ void main() {
 
       when(
         () => mockRepository.fetchLinksPaginated(cursor: null, limit: 20),
-      ).thenAnswer((_) async => PaginatedResult(
-        items: existingLinks,
-        nextCursor: 'cursor1',
-        hasMore: false,
-      ));
+      ).thenAnswer(
+        (_) async => PaginatedResult(
+          items: existingLinks,
+          nextCursor: 'cursor1',
+          hasMore: false,
+        ),
+      );
 
       when(
-        () => mockRepository.createLink('https://example.com/new', '新しいリンク', [1]),
+        () =>
+            mockRepository.createLink('https://example.com/new', '新しいリンク', [1]),
       ).thenAnswer((_) async => newLink);
 
       final container = ProviderContainer(

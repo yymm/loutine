@@ -143,7 +143,10 @@ void main() {
         ).thenAnswer((_) async => jsonResponse);
 
         // Act
-        final result = await repository.fetchLinksPaginated(cursor: cursor, limit: limit);
+        final result = await repository.fetchLinksPaginated(
+          cursor: cursor,
+          limit: limit,
+        );
 
         // Assert
         expect(result.items.length, 2);
@@ -152,7 +155,9 @@ void main() {
         expect(result.items[1].id, 2);
         expect(result.nextCursor, 'cursor_string');
         expect(result.hasMore, true);
-        verify(() => mockApiClient.listPaginated(cursor: cursor, limit: limit)).called(1);
+        verify(
+          () => mockApiClient.listPaginated(cursor: cursor, limit: limit),
+        ).called(1);
       });
 
       test('cursorを指定して次のページを取得できる', () async {
@@ -180,7 +185,10 @@ void main() {
         ).thenAnswer((_) async => jsonResponse);
 
         // Act
-        final result = await repository.fetchLinksPaginated(cursor: cursor, limit: limit);
+        final result = await repository.fetchLinksPaginated(
+          cursor: cursor,
+          limit: limit,
+        );
 
         // Assert
         expect(result.items.length, 1);
@@ -214,7 +222,10 @@ void main() {
         ).thenAnswer((_) async => jsonResponse);
 
         // Act
-        final result = await repository.fetchLinksPaginated(cursor: cursor, limit: limit);
+        final result = await repository.fetchLinksPaginated(
+          cursor: cursor,
+          limit: limit,
+        );
 
         // Assert
         expect(result.items.length, 1);
@@ -239,7 +250,10 @@ void main() {
         ).thenAnswer((_) async => jsonResponse);
 
         // Act
-        final result = await repository.fetchLinksPaginated(cursor: cursor, limit: limit);
+        final result = await repository.fetchLinksPaginated(
+          cursor: cursor,
+          limit: limit,
+        );
 
         // Assert
         expect(result.items, isEmpty);
@@ -249,7 +263,10 @@ void main() {
       test('ネットワークエラー時にNetworkExceptionを投げる', () async {
         // Arrange
         when(
-          () => mockApiClient.listPaginated(cursor: any(named: 'cursor'), limit: any(named: 'limit')),
+          () => mockApiClient.listPaginated(
+            cursor: any(named: 'cursor'),
+            limit: any(named: 'limit'),
+          ),
         ).thenThrow(const SocketException('Network unreachable'));
 
         // Act & Assert
@@ -262,7 +279,10 @@ void main() {
       test('不正なJSON形式の場合にParseExceptionを投げる', () async {
         // Arrange
         when(
-          () => mockApiClient.listPaginated(cursor: any(named: 'cursor'), limit: any(named: 'limit')),
+          () => mockApiClient.listPaginated(
+            cursor: any(named: 'cursor'),
+            limit: any(named: 'limit'),
+          ),
         ).thenAnswer((_) async => 'invalid json');
 
         // Act & Assert

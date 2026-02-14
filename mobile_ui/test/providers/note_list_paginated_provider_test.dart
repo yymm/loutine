@@ -72,35 +72,59 @@ void main() {
       expect(state.nextCursor, 'cursor1');
       expect(state.hasMore, true);
       expect(state.isLoadingMore, false);
-      verify(() => mockRepository.fetchNotesPaginated(cursor: null, limit: 20)).called(1);
+      verify(
+        () => mockRepository.fetchNotesPaginated(cursor: null, limit: 20),
+      ).called(1);
     });
 
     test('loadMore()で次のページを読み込む', () async {
       // Arrange
       final now = DateTime.now();
       final firstPageNotes = [
-        Note(id: 1, title: 'ノート1', text: '[{"insert":"内容1\\n"}]', createdAt: now, updatedAt: now),
-        Note(id: 2, title: 'ノート2', text: '[{"insert":"内容2\\n"}]', createdAt: now, updatedAt: now),
+        Note(
+          id: 1,
+          title: 'ノート1',
+          text: '[{"insert":"内容1\\n"}]',
+          createdAt: now,
+          updatedAt: now,
+        ),
+        Note(
+          id: 2,
+          title: 'ノート2',
+          text: '[{"insert":"内容2\\n"}]',
+          createdAt: now,
+          updatedAt: now,
+        ),
       ];
       final secondPageNotes = [
-        Note(id: 3, title: 'ノート3', text: '[{"insert":"内容3\\n"}]', createdAt: now, updatedAt: now),
+        Note(
+          id: 3,
+          title: 'ノート3',
+          text: '[{"insert":"内容3\\n"}]',
+          createdAt: now,
+          updatedAt: now,
+        ),
       ];
 
       when(
         () => mockRepository.fetchNotesPaginated(cursor: null, limit: 20),
-      ).thenAnswer((_) async => PaginatedResult(
-        items: firstPageNotes,
-        nextCursor: 'cursor1',
-        hasMore: true,
-      ));
+      ).thenAnswer(
+        (_) async => PaginatedResult(
+          items: firstPageNotes,
+          nextCursor: 'cursor1',
+          hasMore: true,
+        ),
+      );
 
       when(
         () => mockRepository.fetchNotesPaginated(cursor: 'cursor1', limit: 20),
-      ).thenAnswer((_) async => PaginatedResult(
-        items: secondPageNotes,
-        nextCursor: 'cursor2',
-        hasMore: true,
-      ));
+      ).thenAnswer(
+        (_) async => PaginatedResult(
+          items: secondPageNotes,
+          nextCursor: 'cursor2',
+          hasMore: true,
+        ),
+      );
 
       final container = ProviderContainer(
         overrides: [noteRepositoryProvider.overrideWithValue(mockRepository)],
@@ -127,16 +151,21 @@ void main() {
       // Arrange
       final now = DateTime.now();
       final mockNotes = [
-        Note(id: 1, title: 'ノート1', text: '[{"insert":"内容1\\n"}]', createdAt: now, updatedAt: now),
+        Note(
+          id: 1,
+          title: 'ノート1',
+          text: '[{"insert":"内容1\\n"}]',
+          createdAt: now,
+          updatedAt: now,
+        ),
       ];
 
       when(
         () => mockRepository.fetchNotesPaginated(cursor: null, limit: 20),
-      ).thenAnswer((_) async => PaginatedResult(
-        items: mockNotes,
-        nextCursor: null,
-        hasMore: false,
-      ));
+      ).thenAnswer(
+        (_) async =>
+            PaginatedResult(items: mockNotes, nextCursor: null, hasMore: false),
+      );
 
       final container = ProviderContainer(
         overrides: [noteRepositoryProvider.overrideWithValue(mockRepository)],
@@ -150,28 +179,55 @@ void main() {
 
       // Assert
       // fetchNotesPaginatedは初回のみ呼ばれる（loadMoreでは呼ばれない）
-      verify(() => mockRepository.fetchNotesPaginated(cursor: null, limit: 20)).called(1);
-      verifyNever(() => mockRepository.fetchNotesPaginated(cursor: any(named: 'cursor'), limit: 20));
+      verify(
+        () => mockRepository.fetchNotesPaginated(cursor: null, limit: 20),
+      ).called(1);
+      verifyNever(
+        () => mockRepository.fetchNotesPaginated(
+          cursor: any(named: 'cursor'),
+          limit: 20,
+        ),
+      );
     });
 
     test('refresh()でリストを再取得する', () async {
       // Arrange
       final now = DateTime.now();
       final initialNotes = [
-        Note(id: 1, title: 'ノート1', text: '[{"insert":"内容1\\n"}]', createdAt: now, updatedAt: now),
+        Note(
+          id: 1,
+          title: 'ノート1',
+          text: '[{"insert":"内容1\\n"}]',
+          createdAt: now,
+          updatedAt: now,
+        ),
       ];
       final refreshedNotes = [
-        Note(id: 2, title: '新しいノート', text: '[{"insert":"新しい内容\\n"}]', createdAt: now, updatedAt: now),
-        Note(id: 1, title: 'ノート1', text: '[{"insert":"内容1\\n"}]', createdAt: now, updatedAt: now),
+        Note(
+          id: 2,
+          title: '新しいノート',
+          text: '[{"insert":"新しい内容\\n"}]',
+          createdAt: now,
+          updatedAt: now,
+        ),
+        Note(
+          id: 1,
+          title: 'ノート1',
+          text: '[{"insert":"内容1\\n"}]',
+          createdAt: now,
+          updatedAt: now,
+        ),
       ];
 
       when(
         () => mockRepository.fetchNotesPaginated(cursor: null, limit: 20),
-      ).thenAnswer((_) async => PaginatedResult(
-        items: initialNotes,
-        nextCursor: 'cursor1',
-        hasMore: true,
-      ));
+      ).thenAnswer(
+        (_) async => PaginatedResult(
+          items: initialNotes,
+          nextCursor: 'cursor1',
+          hasMore: true,
+        ),
+      );
 
       final container = ProviderContainer(
         overrides: [noteRepositoryProvider.overrideWithValue(mockRepository)],
@@ -183,11 +239,13 @@ void main() {
       // リフレッシュ時は新しいデータを返す
       when(
         () => mockRepository.fetchNotesPaginated(cursor: null, limit: 20),
-      ).thenAnswer((_) async => PaginatedResult(
-        items: refreshedNotes,
-        nextCursor: 'cursor2',
-        hasMore: true,
-      ));
+      ).thenAnswer(
+        (_) async => PaginatedResult(
+          items: refreshedNotes,
+          nextCursor: 'cursor2',
+          hasMore: true,
+        ),
+      );
 
       // Act
       await container.read(noteListPaginatedProvider.notifier).refresh();
@@ -203,7 +261,13 @@ void main() {
       // Arrange
       final now = DateTime.now();
       final existingNotes = [
-        Note(id: 1, title: 'ノート1', text: '[{"insert":"内容1\\n"}]', createdAt: now, updatedAt: now),
+        Note(
+          id: 1,
+          title: 'ノート1',
+          text: '[{"insert":"内容1\\n"}]',
+          createdAt: now,
+          updatedAt: now,
+        ),
       ];
       final newNote = Note(
         id: 2,
@@ -215,11 +279,13 @@ void main() {
 
       when(
         () => mockRepository.fetchNotesPaginated(cursor: null, limit: 20),
-      ).thenAnswer((_) async => PaginatedResult(
-        items: existingNotes,
-        nextCursor: 'cursor1',
-        hasMore: false,
-      ));
+      ).thenAnswer(
+        (_) async => PaginatedResult(
+          items: existingNotes,
+          nextCursor: 'cursor1',
+          hasMore: false,
+        ),
+      );
 
       when(
         () => mockRepository.createNote(
@@ -237,11 +303,13 @@ void main() {
       await container.read(noteListPaginatedProvider.future);
 
       // Act
-      await container.read(noteListPaginatedProvider.notifier).createNote(
-        title: '新しいノート',
-        text: '[{"insert":"新しい内容\\n"}]',
-        tagIds: [1],
-      );
+      await container
+          .read(noteListPaginatedProvider.notifier)
+          .createNote(
+            title: '新しいノート',
+            text: '[{"insert":"新しい内容\\n"}]',
+            tagIds: [1],
+          );
 
       // Assert
       final state = container.read(noteListPaginatedProvider).value!;
@@ -255,8 +323,20 @@ void main() {
       // Arrange
       final now = DateTime.now();
       final existingNotes = [
-        Note(id: 1, title: 'ノート1', text: '[{"insert":"内容1\\n"}]', createdAt: now, updatedAt: now),
-        Note(id: 2, title: 'ノート2', text: '[{"insert":"内容2\\n"}]', createdAt: now, updatedAt: now),
+        Note(
+          id: 1,
+          title: 'ノート1',
+          text: '[{"insert":"内容1\\n"}]',
+          createdAt: now,
+          updatedAt: now,
+        ),
+        Note(
+          id: 2,
+          title: 'ノート2',
+          text: '[{"insert":"内容2\\n"}]',
+          createdAt: now,
+          updatedAt: now,
+        ),
       ];
       final updatedNote = Note(
         id: 1,
@@ -268,13 +348,17 @@ void main() {
 
       when(
         () => mockRepository.fetchNotesPaginated(cursor: null, limit: 20),
-      ).thenAnswer((_) async => PaginatedResult(
-        items: existingNotes,
-        nextCursor: null,
-        hasMore: false,
-      ));
+      ).thenAnswer(
+        (_) async => PaginatedResult(
+          items: existingNotes,
+          nextCursor: null,
+          hasMore: false,
+        ),
+      );
 
-      when(() => mockRepository.updateNote(any())).thenAnswer((_) async => updatedNote);
+      when(
+        () => mockRepository.updateNote(any()),
+      ).thenAnswer((_) async => updatedNote);
 
       final container = ProviderContainer(
         overrides: [noteRepositoryProvider.overrideWithValue(mockRepository)],
@@ -284,7 +368,9 @@ void main() {
       await container.read(noteListPaginatedProvider.future);
 
       // Act
-      await container.read(noteListPaginatedProvider.notifier).updateNote(updatedNote);
+      await container
+          .read(noteListPaginatedProvider.notifier)
+          .updateNote(updatedNote);
 
       // Assert
       final state = container.read(noteListPaginatedProvider).value!;
@@ -298,17 +384,31 @@ void main() {
       // Arrange
       final now = DateTime.now();
       final existingNotes = [
-        Note(id: 1, title: 'ノート1', text: '[{"insert":"内容1\\n"}]', createdAt: now, updatedAt: now),
-        Note(id: 2, title: 'ノート2', text: '[{"insert":"内容2\\n"}]', createdAt: now, updatedAt: now),
+        Note(
+          id: 1,
+          title: 'ノート1',
+          text: '[{"insert":"内容1\\n"}]',
+          createdAt: now,
+          updatedAt: now,
+        ),
+        Note(
+          id: 2,
+          title: 'ノート2',
+          text: '[{"insert":"内容2\\n"}]',
+          createdAt: now,
+          updatedAt: now,
+        ),
       ];
 
       when(
         () => mockRepository.fetchNotesPaginated(cursor: null, limit: 20),
-      ).thenAnswer((_) async => PaginatedResult(
-        items: existingNotes,
-        nextCursor: null,
-        hasMore: false,
-      ));
+      ).thenAnswer(
+        (_) async => PaginatedResult(
+          items: existingNotes,
+          nextCursor: null,
+          hasMore: false,
+        ),
+      );
 
       when(() => mockRepository.deleteNote(1)).thenAnswer((_) async {});
 
