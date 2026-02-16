@@ -5,8 +5,7 @@ import 'package:mobile_ui/providers/home_calendar_provider.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class HomeCalendarWidget extends ConsumerWidget {
-  HomeCalendarWidget({super.key});
-  bool _isInitialized = false;
+  const HomeCalendarWidget({super.key});
 
   void _setCalendarEventList(WidgetRef ref, DateTime focusDay, Map<DateTime, List<CalendarEventItem>> calendarEvents) {
      final today = DateTime(
@@ -30,15 +29,18 @@ class HomeCalendarWidget extends ConsumerWidget {
       calendarEventDataProvider(focusedMonth),
     );
 
+    // カレンダーイベントの変更を監視して自動更新
+    ref.listen(
+      calendarEventDataProvider(focusedMonth),
+      (previous, next) {
+        next.whenData((calendarEvents) {
+          _setCalendarEventList(ref, focusDay, calendarEvents);
+        });
+      },
+    );
+
     return calendarEventsAsync.when(
       data: (calendarEvents) {
-        // 初回のみ今日のイベントを設定
-        if (!_isInitialized) {
-          WidgetsBinding.instance.addPostFrameCallback((_) {
-            _setCalendarEventList(ref, focusDay, calendarEvents);
-          });
-          _isInitialized = true;
-        }
         return TableCalendar(
           firstDay: DateTime.utc(2020, 1, 1),
           lastDay: DateTime.utc(2050, 12, 31),

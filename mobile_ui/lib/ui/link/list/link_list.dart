@@ -112,9 +112,9 @@ class _LinkListState extends ConsumerState<LinkList> {
                         ),
                       );
                       if (confirm == true && mounted) {
-                        // await ref
-                        //     .read(noteListPaginatedProvider.notifier)
-                        //     .deleteNote(note.id);
+                        await ref
+                            .read(linkListPaginatedProvider.notifier)
+                            .deleteLink(link.id);
                       }
                     },
                   ),

@@ -44,12 +44,22 @@ class LinkApiClient {
     final postUrl = Uri.parse('$baseUrl/api/v1/links');
     final headers = {'content-type': 'application/json'};
     final body = json.encode({'url': url, 'title': title, 'tag_ids': tagIds});
-    print('LinkApi(post): $body');
     final res = await http.post(postUrl, headers: headers, body: body);
     if (res.statusCode == 201) {
       return utf8.decode(res.bodyBytes);
     } else {
       throw StateError('Failure to add link');
+    }
+  }
+
+  Future<String> delete(int id) async {
+    final postUrl = Uri.parse('$baseUrl/api/v1/links/${id.toString()}');
+    final headers = {'content-type': 'application/json'};
+    final res = await http.delete(postUrl, headers: headers);
+    if (res.statusCode == 200) {
+      return utf8.decode(res.bodyBytes);
+    } else {
+      throw StateError('Failure to delete link');
     }
   }
 }
@@ -77,12 +87,22 @@ class PurchaseApiClient {
         ? {'cost': cost, 'title': title, 'categoryId': categoryId}
         : {'cost': cost, 'title': title};
     final body = json.encode(bodyObject);
-    print('PurchaseApi(post): $body');
     final res = await http.post(postUrl, headers: headers, body: body);
     if (res.statusCode == 201) {
       return utf8.decode(res.bodyBytes);
     } else {
       throw StateError('Failure to add link');
+    }
+  }
+
+  Future<String> delete(int id) async {
+    final postUrl = Uri.parse('$baseUrl/api/v1/purchases/${id.toString()}');
+    final headers = {'content-type': 'application/json'};
+    final res = await http.delete(postUrl, headers: headers);
+    if (res.statusCode == 200) {
+      return utf8.decode(res.bodyBytes);
+    } else {
+      throw StateError('Failure to delete purchase');
     }
   }
 }
@@ -124,12 +144,22 @@ class NoteApiClient {
     final postUrl = Uri.parse('$baseUrl/api/v1/notes');
     final headers = {'content-type': 'application/json'};
     final body = json.encode({'text': text, 'title': title, 'tag_ids': tagIds});
-    print('NoteApi(post): $body');
     final res = await http.post(postUrl, headers: headers, body: body);
     if (res.statusCode == 201) {
       return utf8.decode(res.bodyBytes);
     } else {
       throw StateError('Failure to add link');
+    }
+  }
+
+  Future<String> delete(int id) async {
+    final postUrl = Uri.parse('$baseUrl/api/v1/notes/${id.toString()}');
+    final headers = {'content-type': 'application/json'};
+    final res = await http.delete(postUrl, headers: headers);
+    if (res.statusCode == 200) {
+      return utf8.decode(res.bodyBytes);
+    } else {
+      throw StateError('Failure to delete note');
     }
   }
 }
@@ -151,7 +181,6 @@ class TagApiClient {
     final body = json.encode({'name': name, 'description': description});
     final res = await http.post(url, headers: headers, body: body);
     if (res.statusCode == 201) {
-      print('TagApi(post): $res.body');
       return utf8.decode(res.bodyBytes);
     } else {
       throw StateError('Failure to add tag');
@@ -176,7 +205,6 @@ class CategoryApiClient {
     final body = json.encode({'name': name, 'description': description});
     final res = await http.post(url, headers: headers, body: body);
     if (res.statusCode == 201) {
-      print('TagApi(post): $res.body');
       return utf8.decode(res.bodyBytes);
     } else {
       throw StateError('Failure to add category');

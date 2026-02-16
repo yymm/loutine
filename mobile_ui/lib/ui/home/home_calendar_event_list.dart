@@ -3,6 +3,9 @@ import 'package:intl/intl.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mobile_ui/models/calendar_event_item.dart';
 import 'package:mobile_ui/providers/home_calendar_provider.dart';
+import 'package:mobile_ui/providers/link_list_paginated_provider.dart';
+import 'package:mobile_ui/providers/note_list_paginated_provider.dart';
+import 'package:mobile_ui/providers/purchase_list_provider.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 class HomeCalendarEventList extends ConsumerWidget {
@@ -82,7 +85,14 @@ class HomeCalendarEventList extends ConsumerWidget {
                     ),
                   );
                   if (confirm == true) {
-                    // 削除関数コール
+                    final _ = switch (event.itemType) {
+                      CalendarEventItemType.link =>
+                        ref.read(linkListPaginatedProvider.notifier).deleteLink(int.parse(event.id)),
+                      CalendarEventItemType.purchase =>
+                        ref.read(purchaseListProvider.notifier).deletePurchase(int.parse(event.id)),
+                      CalendarEventItemType.note =>
+                        ref.read(noteListPaginatedProvider.notifier).deleteNote(int.parse(event.id)),
+                    };
                   }
                 },
               ),
