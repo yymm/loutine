@@ -4,8 +4,27 @@ import 'package:mobile_ui/models/calendar_event_item.dart';
 import 'package:mobile_ui/providers/home_calendar_provider.dart';
 import 'package:table_calendar/table_calendar.dart';
 
-class HomeCalendarWidget extends ConsumerWidget {
+class HomeCalendarWidget extends ConsumerStatefulWidget {
   const HomeCalendarWidget({super.key});
+
+  @override
+  ConsumerState<HomeCalendarWidget> createState() => _HomeCalendarWidgetState();
+}
+
+class _HomeCalendarWidgetState extends ConsumerState<HomeCalendarWidget> {
+  @override
+  void initState() {
+    super.initState();
+    
+    // 初回表示時に今日のイベントを設定
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final focusDay = ref.read(calendarFocusDayProvider);
+      final focusedMonth = DateTime(focusDay.year, focusDay.month, 1);
+      ref.read(calendarEventDataProvider(focusedMonth)).whenData(
+        (calendarEvents) => _setCalendarEventList(ref, focusDay, calendarEvents),
+      );
+    });
+  }
 
   void _setCalendarEventList(
     WidgetRef ref,
@@ -19,7 +38,7 @@ class HomeCalendarWidget extends ConsumerWidget {
   }
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     final focusDay = ref.watch(calendarFocusDayProvider);
     final format = ref.watch(calendarFormatManagerProvider);
 
@@ -98,6 +117,6 @@ class HomeCalendarWidget extends ConsumerWidget {
 }
 
 Widget getBadge(int cnt, Color color) {
-  if (cnt == 0) return SizedBox.shrink();
+  if (cnt == 0) return const SizedBox.shrink();
   return Badge.count(count: cnt, backgroundColor: color);
 }

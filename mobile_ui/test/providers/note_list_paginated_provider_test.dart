@@ -409,7 +409,9 @@ void main() {
         ),
       );
 
-      when(() => mockRepository.deleteNote(1)).thenAnswer((_) async {});
+      when(() => mockRepository.deleteNote(1)).thenAnswer(
+        (_) async => existingNotes.firstWhere((note) => note.id == 1),
+      );
 
       final container = ProviderContainer(
         overrides: [noteRepositoryProvider.overrideWithValue(mockRepository)],
