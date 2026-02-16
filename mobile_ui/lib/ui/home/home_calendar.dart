@@ -5,7 +5,19 @@ import 'package:mobile_ui/providers/home_calendar_provider.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class HomeCalendarWidget extends ConsumerWidget {
-  const HomeCalendarWidget({super.key});
+  HomeCalendarWidget({super.key});
+  bool _isInitialized = false;
+
+  void _setCalendarEventList(WidgetRef ref, DateTime focusDay, Map<DateTime, List<CalendarEventItem>> calendarEvents) {
+     final today = DateTime(
+       focusDay.year,
+       focusDay.month,
+       focusDay.day,
+     );
+     ref
+         .read(calendarEventListProvider.notifier)
+         .change(calendarEvents[today] ?? []);
+  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -20,6 +32,13 @@ class HomeCalendarWidget extends ConsumerWidget {
 
     return calendarEventsAsync.when(
       data: (calendarEvents) {
+        // 初回のみ今日のイベントを設定
+        if (!_isInitialized) {
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            _setCalendarEventList(ref, focusDay, calendarEvents);
+          });
+          _isInitialized = true;
+        }
         return TableCalendar(
           firstDay: DateTime.utc(2020, 1, 1),
           lastDay: DateTime.utc(2050, 12, 31),
@@ -37,18 +56,11 @@ class HomeCalendarWidget extends ConsumerWidget {
           },
           onDaySelected: (selectedDay, focusDay) {
             ref.read(calendarFocusDayProvider.notifier).change(selectedDay);
-            final localSelectedDay = DateTime(
-              selectedDay.year,
-              selectedDay.month,
-              selectedDay.day,
-            );
-            ref
-                .read(calendarEventListProvider.notifier)
-                .change(calendarEvents[localSelectedDay] ?? []);
+            _setCalendarEventList(ref, selectedDay, calendarEvents);
           },
           onPageChanged: (focusedDay) {
             ref.read(calendarFocusDayProvider.notifier).change(focusedDay);
-            // buildパターンでは自動的に新しい月のデータが取得される
+            _setCalendarEventList(ref, focusedDay, calendarEvents);
           },
           calendarBuilders: CalendarBuilders(
             markerBuilder: (context, day, events) {

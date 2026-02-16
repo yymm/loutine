@@ -53,6 +53,39 @@ class HomeCalendarEventList extends ConsumerWidget {
                   ),
                 ],
               ),
+              trailing: IconButton(
+                icon: const Icon(Icons.delete_forever),
+                onPressed: () async {
+                  final confirm = await showDialog<bool>(
+                    context: context,
+                    builder: (context) => AlertDialog(
+                      title: const Text(
+                        'Are you sure you want to delete?',
+                      ),
+                      content: Text('Title: ${event.title}'),
+                      actions: [
+                        TextButton(
+                          onPressed: () =>
+                              Navigator.of(context).pop(false),
+                          child: const Text('Cancel'),
+                        ),
+                        TextButton(
+                          onPressed: () =>
+                              Navigator.of(context).pop(true),
+                          style: TextButton.styleFrom(
+                            backgroundColor: Colors.red,
+                            foregroundColor: Colors.white70,
+                          ),
+                          child: const Text('DELETE'),
+                        ),
+                      ],
+                    ),
+                  );
+                  if (confirm == true) {
+                    // 削除関数コール
+                  }
+                },
+              ),
             ),
           );
         }).toList(),
