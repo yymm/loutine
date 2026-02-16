@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mobile_ui/models/calendar_event_item.dart';
 import 'package:mobile_ui/providers/home_calendar_provider.dart';
@@ -10,6 +11,7 @@ class HomeCalendarEventList extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final calendarEventList = ref.watch(calendarEventListProvider);
+    final dateFormat = DateFormat('yyyy/MM/dd HH:mm');
     return SingleChildScrollView(
       child: Column(
         children: calendarEventList.map((event) {
@@ -38,14 +40,19 @@ class HomeCalendarEventList extends ConsumerWidget {
                     overflow: TextOverflow.ellipsis,
                   ),
                 ),
-                CalendarEventItemType.purchase => Text('¥ ${event.data}'),
+                CalendarEventItemType.purchase => Text('${event.title} ¥${event.data}'),
                 CalendarEventItemType.note => Text(event.title),
               },
-              // subtitle: switch (event.itemType) {
-              //   CalendarEventItemType.link => SizedBox.shrink(),
-              //   CalendarEventItemType.purchase => SizedBox.shrink(),
-              //   CalendarEventItemType.note => SizedBox.shrink(),
-              // },
+              subtitle: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const SizedBox(height: 8),
+                  Text(
+                    'Created: ${dateFormat.format(event.createdAt)}',
+                    style: TextStyle(fontSize: 12, color: Colors.grey[600]),
+                  ),
+                ],
+              ),
             ),
           );
         }).toList(),

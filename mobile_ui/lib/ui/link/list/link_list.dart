@@ -80,13 +80,6 @@ class _LinkListState extends ConsumerState<LinkList> {
                   subtitle: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      // const SizedBox(height: 4),
-                      // Text(
-                      //   link.url,
-                      //   maxLines: 1,
-                      //   overflow: TextOverflow.ellipsis,
-                      //   style: TextStyle(color: Colors.blue[700]),
-                      // ),
                       const SizedBox(height: 8),
                       Text(
                         'Created: ${dateFormat.format(link.createdAt)}',
