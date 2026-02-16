@@ -113,7 +113,7 @@ class LinkRepository {
   }
 
   Future<Link> deleteLink(int linkId) async {
-     try {
+    try {
       final resBody = await _apiClient.delete(linkId);
       final Map<String, dynamic> json = jsonDecode(resBody);
       return Link.fromJson(json);

@@ -43,7 +43,9 @@ class HomeCalendarEventList extends ConsumerWidget {
                     overflow: TextOverflow.ellipsis,
                   ),
                 ),
-                CalendarEventItemType.purchase => Text('${event.title} ¥${event.data}'),
+                CalendarEventItemType.purchase => Text(
+                  '${event.title} ¥${event.data}',
+                ),
                 CalendarEventItemType.note => Text(event.title),
               },
               subtitle: Column(
@@ -62,19 +64,15 @@ class HomeCalendarEventList extends ConsumerWidget {
                   final confirm = await showDialog<bool>(
                     context: context,
                     builder: (context) => AlertDialog(
-                      title: const Text(
-                        'Are you sure you want to delete?',
-                      ),
+                      title: const Text('Are you sure you want to delete?'),
                       content: Text('Title: ${event.title}'),
                       actions: [
                         TextButton(
-                          onPressed: () =>
-                              Navigator.of(context).pop(false),
+                          onPressed: () => Navigator.of(context).pop(false),
                           child: const Text('Cancel'),
                         ),
                         TextButton(
-                          onPressed: () =>
-                              Navigator.of(context).pop(true),
+                          onPressed: () => Navigator.of(context).pop(true),
                           style: TextButton.styleFrom(
                             backgroundColor: Colors.red,
                             foregroundColor: Colors.white70,
@@ -87,11 +85,17 @@ class HomeCalendarEventList extends ConsumerWidget {
                   if (confirm == true) {
                     final _ = switch (event.itemType) {
                       CalendarEventItemType.link =>
-                        ref.read(linkListPaginatedProvider.notifier).deleteLink(int.parse(event.id)),
+                        ref
+                            .read(linkListPaginatedProvider.notifier)
+                            .deleteLink(int.parse(event.id)),
                       CalendarEventItemType.purchase =>
-                        ref.read(purchaseListProvider.notifier).deletePurchase(int.parse(event.id)),
+                        ref
+                            .read(purchaseListProvider.notifier)
+                            .deletePurchase(int.parse(event.id)),
                       CalendarEventItemType.note =>
-                        ref.read(noteListPaginatedProvider.notifier).deleteNote(int.parse(event.id)),
+                        ref
+                            .read(noteListPaginatedProvider.notifier)
+                            .deleteNote(int.parse(event.id)),
                     };
                   }
                 },

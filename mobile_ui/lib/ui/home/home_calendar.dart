@@ -7,15 +7,15 @@ import 'package:table_calendar/table_calendar.dart';
 class HomeCalendarWidget extends ConsumerWidget {
   const HomeCalendarWidget({super.key});
 
-  void _setCalendarEventList(WidgetRef ref, DateTime focusDay, Map<DateTime, List<CalendarEventItem>> calendarEvents) {
-     final today = DateTime(
-       focusDay.year,
-       focusDay.month,
-       focusDay.day,
-     );
-     ref
-         .read(calendarEventListProvider.notifier)
-         .change(calendarEvents[today] ?? []);
+  void _setCalendarEventList(
+    WidgetRef ref,
+    DateTime focusDay,
+    Map<DateTime, List<CalendarEventItem>> calendarEvents,
+  ) {
+    final today = DateTime(focusDay.year, focusDay.month, focusDay.day);
+    ref
+        .read(calendarEventListProvider.notifier)
+        .change(calendarEvents[today] ?? []);
   }
 
   @override
@@ -30,14 +30,11 @@ class HomeCalendarWidget extends ConsumerWidget {
     );
 
     // カレンダーイベントの変更を監視して自動更新
-    ref.listen(
-      calendarEventDataProvider(focusedMonth),
-      (previous, next) {
-        next.whenData((calendarEvents) {
-          _setCalendarEventList(ref, focusDay, calendarEvents);
-        });
-      },
-    );
+    ref.listen(calendarEventDataProvider(focusedMonth), (previous, next) {
+      next.whenData((calendarEvents) {
+        _setCalendarEventList(ref, focusDay, calendarEvents);
+      });
+    });
 
     return calendarEventsAsync.when(
       data: (calendarEvents) {
