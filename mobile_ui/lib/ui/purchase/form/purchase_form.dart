@@ -34,7 +34,9 @@ class _PurchaseForm extends ConsumerState<PurchaseForm> {
     final categoriesAsync = ref.watch(categoryListProvider);
 
     // カテゴリロード中でも空のフォームを表示
-    final categories = categoriesAsync.hasValue ? categoriesAsync.value! : <Category>[];
+    final categories = categoriesAsync.hasValue
+        ? categoriesAsync.value!
+        : <Category>[];
     final isLoading = categoriesAsync.isLoading;
 
     return Stack(
