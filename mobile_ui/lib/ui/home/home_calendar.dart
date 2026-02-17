@@ -15,14 +15,17 @@ class _HomeCalendarWidgetState extends ConsumerState<HomeCalendarWidget> {
   @override
   void initState() {
     super.initState();
-    
+
     // 初回表示時に今日のイベントを設定
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final focusDay = ref.read(calendarFocusDayProvider);
       final focusedMonth = DateTime(focusDay.year, focusDay.month, 1);
-      ref.read(calendarEventDataProvider(focusedMonth)).whenData(
-        (calendarEvents) => _setCalendarEventList(ref, focusDay, calendarEvents),
-      );
+      ref
+          .read(calendarEventDataProvider(focusedMonth))
+          .whenData(
+            (calendarEvents) =>
+                _setCalendarEventList(ref, focusDay, calendarEvents),
+          );
     });
   }
 
