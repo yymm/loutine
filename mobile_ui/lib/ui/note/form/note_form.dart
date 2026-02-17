@@ -44,7 +44,6 @@ class _NoteFormState extends ConsumerState<NoteForm> {
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       final noteId = int.parse(widget.noteId!);
       final note = await ref.read(noteDetailProvider(noteId).future);
-      print("_loadNoteIfEditing: ${note}");
 
       if (note != null && mounted && !_isInitialized) {
         _titleController.text = note.title;
@@ -110,7 +109,6 @@ class _NoteFormState extends ConsumerState<NoteForm> {
     final notifier = ref.read(noteListPaginatedProvider.notifier);
     final noteId = int.parse(widget.noteId!);
     final currentNote = await ref.read(noteDetailProvider(noteId).future);
-    print("_updateNote: ID> ${widget.noteId}, current> ${currentNote}");
 
     if (currentNote == null) return;
 
@@ -144,7 +142,6 @@ class _NoteFormState extends ConsumerState<NoteForm> {
 
   @override
   Widget build(BuildContext context) {
-    print("note_form build: ${widget.noteId}");
     return Scaffold(
       body: Column(
         children: [
