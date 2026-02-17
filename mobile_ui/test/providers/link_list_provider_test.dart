@@ -99,10 +99,7 @@ void main() {
         startDate.difference(now.subtract(const Duration(days: 365))).inDays,
         0,
       );
-      expect(
-        endDate.difference(now.add(const Duration(days: 365))).inDays,
-        0,
-      );
+      expect(endDate.difference(now.add(const Duration(days: 365))).inDays, 0);
     });
   });
 }

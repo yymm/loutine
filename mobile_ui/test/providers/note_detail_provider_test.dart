@@ -27,8 +27,9 @@ void main() {
         updatedAt: now,
       );
 
-      when(() => mockRepository.getNoteById(1))
-          .thenAnswer((_) async => mockNote);
+      when(
+        () => mockRepository.getNoteById(1),
+      ).thenAnswer((_) async => mockNote);
 
       final container = ProviderContainer(
         overrides: [noteRepositoryProvider.overrideWithValue(mockRepository)],
@@ -47,8 +48,7 @@ void main() {
 
     test('存在しないIDの場合はnullを返す', () async {
       // Arrange
-      when(() => mockRepository.getNoteById(999))
-          .thenAnswer((_) async => null);
+      when(() => mockRepository.getNoteById(999)).thenAnswer((_) async => null);
 
       final container = ProviderContainer(
         overrides: [noteRepositoryProvider.overrideWithValue(mockRepository)],
@@ -81,10 +81,8 @@ void main() {
         updatedAt: now,
       );
 
-      when(() => mockRepository.getNoteById(1))
-          .thenAnswer((_) async => note1);
-      when(() => mockRepository.getNoteById(2))
-          .thenAnswer((_) async => note2);
+      when(() => mockRepository.getNoteById(1)).thenAnswer((_) async => note1);
+      when(() => mockRepository.getNoteById(2)).thenAnswer((_) async => note2);
 
       final container = ProviderContainer(
         overrides: [noteRepositoryProvider.overrideWithValue(mockRepository)],

@@ -114,8 +114,7 @@ void main() {
       expect(result.title, '新規購入');
       expect(result.cost, 3000);
 
-      verify(() => mockRepository.createPurchase(3000, '新規購入', null))
-          .called(1);
+      verify(() => mockRepository.createPurchase(3000, '新規購入', null)).called(1);
 
       await Future.delayed(const Duration(milliseconds: 100));
       verify(
@@ -169,8 +168,9 @@ void main() {
         updatedAt: now,
       );
 
-      when(() => mockRepository.deletePurchase(1))
-          .thenAnswer((_) async => deletedPurchase);
+      when(
+        () => mockRepository.deletePurchase(1),
+      ).thenAnswer((_) async => deletedPurchase);
 
       when(
         () => mockRepository.fetchPurchases(any(), any()),
@@ -184,8 +184,9 @@ void main() {
       addTearDown(container.dispose);
 
       // Act
-      final result =
-          await container.read(purchaseListProvider.notifier).deletePurchase(1);
+      final result = await container
+          .read(purchaseListProvider.notifier)
+          .deletePurchase(1);
 
       // Assert
       expect(result.id, 1);
