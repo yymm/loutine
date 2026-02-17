@@ -58,7 +58,7 @@ class _NoteListPageState extends ConsumerState<NoteListPage> {
       body: notesAsync.when(
         data: (paginatedState) {
           if (paginatedState.items.isEmpty) {
-            return const Center(child: Text('ノートがありません\n下のボタンから作成してください'));
+            return const Center(child: Text('No notes here...'));
           }
 
           return RefreshIndicator(
