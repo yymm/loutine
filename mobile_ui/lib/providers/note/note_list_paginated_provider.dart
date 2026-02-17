@@ -1,7 +1,7 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:mobile_ui/models/note.dart';
 import 'package:mobile_ui/providers/repository_provider.dart';
-import 'package:mobile_ui/providers/note_list_provider.dart';
+import 'package:mobile_ui/providers/note/note_list_provider.dart';
 
 part 'note_list_paginated_provider.g.dart';
 

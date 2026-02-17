@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:mobile_ui/providers/tag_list_provider.dart';
+import 'package:mobile_ui/providers/tag/tag_list_provider.dart';
 import 'package:mobile_ui/providers/repository_provider.dart';
 import 'package:mobile_ui/repositories/tag_repository.dart';
 import 'package:mobile_ui/models/tag.dart';

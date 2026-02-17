@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:mobile_ui/providers/tag_list_provider.dart';
-import 'package:mobile_ui/providers/tag_new_provider.dart';
+import 'package:mobile_ui/providers/tag/tag_list_provider.dart';
+import 'package:mobile_ui/providers/tag/tag_new_provider.dart';
 import 'package:mobile_ui/ui/shared/snack_bar_widget.dart';
 
 class TagNewWidget extends ConsumerWidget {

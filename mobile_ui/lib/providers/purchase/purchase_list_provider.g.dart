@@ -36,7 +36,7 @@ final class PurchaseListProvider
   PurchaseList create() => PurchaseList();
 }
 
-String _$purchaseListHash() => r'e398b7d5a410246878640e655fc1c1970318bfc6';
+String _$purchaseListHash() => r'6fa9b89fdab9b1e48d29a5da797eb06e4bc1be03';
 
 /// 購入履歴一覧を取得するProvider
 

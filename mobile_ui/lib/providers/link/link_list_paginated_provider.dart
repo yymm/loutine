@@ -1,7 +1,7 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:mobile_ui/models/link.dart';
 import 'package:mobile_ui/providers/repository_provider.dart';
-import 'package:mobile_ui/providers/link_list_provider.dart';
+import 'package:mobile_ui/providers/link/link_list_provider.dart';
 
 part 'link_list_paginated_provider.g.dart';
 

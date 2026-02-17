@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mobile_ui/models/category.dart';
-import 'package:mobile_ui/providers/category_list_provider.dart';
-import 'package:mobile_ui/providers/purchase_new_provider.dart';
+import 'package:mobile_ui/providers/category/category_list_provider.dart';
+import 'package:mobile_ui/providers/purchase/purchase_new_provider.dart';
 import 'package:mobile_ui/ui/shared/app_divider_widget.dart';
 import 'package:mobile_ui/ui/shared/snack_bar_widget.dart';
 

@@ -4,9 +4,9 @@ import 'package:mobile_ui/models/link.dart';
 import 'package:mobile_ui/models/note.dart';
 import 'package:mobile_ui/models/purchase.dart';
 import 'package:mobile_ui/providers/repository_provider.dart';
-import 'package:mobile_ui/providers/link_list_provider.dart';
-import 'package:mobile_ui/providers/purchase_list_provider.dart';
-import 'package:mobile_ui/providers/note_list_provider.dart';
+import 'package:mobile_ui/providers/link/link_list_provider.dart';
+import 'package:mobile_ui/providers/purchase/purchase_list_provider.dart';
+import 'package:mobile_ui/providers/note/note_list_provider.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 part 'home_calendar_provider.g.dart';
