@@ -24,21 +24,21 @@ class CalendarEventData extends _$CalendarEventData {
   ) async {
     // Link/Purchase/Noteの追加・更新・削除を検知するためlisten
     // watchだと毎回依存関係が作られるので、listenで変更時のみinvalidate
-    ref.listen(linkListProvider, (_, __) {
+    ref.listen(linkListProvider, (previous, next) {
       Future.microtask(() {
         if (ref.mounted) {
           ref.invalidateSelf();
         }
       });
     });
-    ref.listen(purchaseListProvider, (_, __) {
+    ref.listen(purchaseListProvider, (previous, next) {
       Future.microtask(() {
         if (ref.mounted) {
           ref.invalidateSelf();
         }
       });
     });
-    ref.listen(noteListProvider, (_, __) {
+    ref.listen(noteListProvider, (previous, next) {
       Future.microtask(() {
         if (ref.mounted) {
           ref.invalidateSelf();

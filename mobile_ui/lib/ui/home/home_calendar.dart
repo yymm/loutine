@@ -58,9 +58,15 @@ class _HomeCalendarWidgetState extends ConsumerState<HomeCalendarWidget> {
       });
     });
 
-    return calendarEventsAsync.when(
-      data: (calendarEvents) {
-        return TableCalendar(
+    // データロード中でも空のカレンダーを表示
+    final calendarEvents = calendarEventsAsync.hasValue
+        ? calendarEventsAsync.value!
+        : <DateTime, List<CalendarEventItem>>{};
+    final isLoading = calendarEventsAsync.isLoading;
+
+    return Stack(
+      children: [
+        TableCalendar(
           firstDay: DateTime.utc(2020, 1, 1),
           lastDay: DateTime.utc(2050, 12, 31),
           focusedDay: focusDay,
@@ -111,10 +117,30 @@ class _HomeCalendarWidgetState extends ConsumerState<HomeCalendarWidget> {
               );
             },
           ),
-        );
-      },
-      loading: () => const Center(child: CircularProgressIndicator()),
-      error: (error, stack) => Center(child: Text('エラーが発生しました: $error')),
+        ),
+        if (isLoading)
+          Positioned(
+            top: 8,
+            right: 8,
+            child: SizedBox(
+              width: 20,
+              height: 20,
+              child: CircularProgressIndicator(strokeWidth: 2),
+            ),
+          ),
+        if (calendarEventsAsync.hasError)
+          Positioned(
+            bottom: 8,
+            left: 0,
+            right: 0,
+            child: Center(
+              child: Text(
+                'データ読み込みエラー',
+                style: TextStyle(color: Colors.red, fontSize: 12),
+              ),
+            ),
+          ),
+      ],
     );
   }
 }
