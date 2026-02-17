@@ -129,15 +129,11 @@ class _NoteFormState extends ConsumerState<NoteForm> {
   }
 
   void _showSuccessMessage() {
-    ScaffoldMessenger.of(
-      context,
-    ).showSnackBar(getSnackBar(context: context, text: 'Success to save note'));
+    showSnackBar(context, text: 'Success to save note');
   }
 
   void _showErrorMessage(Object error) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      getSnackBar(context: context, text: error.toString(), error: true),
-    );
+    showSnackBar(context, text: error.toString(), error: true);
   }
 
   @override

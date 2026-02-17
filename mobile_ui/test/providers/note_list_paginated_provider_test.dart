@@ -356,7 +356,10 @@ void main() {
       );
 
       when(
-        () => mockRepository.updateNote(note: any(named: 'note'), tagIds: any(named: 'tagIds')),
+        () => mockRepository.updateNote(
+          note: any(named: 'note'),
+          tagIds: any(named: 'tagIds'),
+        ),
       ).thenAnswer((_) async => updatedNote);
 
       final container = ProviderContainer(

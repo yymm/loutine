@@ -84,22 +84,18 @@ class CategoryNewWidget extends ConsumerWidget {
                                   .read(categoryNewDescriptionProvider.notifier)
                                   .reset();
                               if (!context.mounted) return;
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                getSnackBar(
-                                  context: context,
-                                  text: 'Success to add category',
-                                ),
+                              showSnackBar(
+                                context,
+                                text: 'Success to add category',
                               );
                               Navigator.pop(context);
                             })
                             .catchError((err) {
                               if (!context.mounted) return;
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                getSnackBar(
-                                  context: context,
-                                  text: err.toString(),
-                                  error: true,
-                                ),
+                              showSnackBar(
+                                context,
+                                text: err.toString(),
+                                error: true,
                               );
                             });
                       },

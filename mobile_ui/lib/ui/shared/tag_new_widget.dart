@@ -82,22 +82,15 @@ class TagNewWidget extends ConsumerWidget {
                                   .read(tagNewDescriptionProvider.notifier)
                                   .reset();
                               if (!context.mounted) return;
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                getSnackBar(
-                                  context: context,
-                                  text: 'Success to add tag',
-                                ),
-                              );
+                              showSnackBar(context, text: 'Success to add tag');
                               Navigator.pop(context);
                             })
                             .catchError((err) {
                               if (!context.mounted) return;
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                getSnackBar(
-                                  context: context,
-                                  text: err.toString(),
-                                  error: true,
-                                ),
+                              showSnackBar(
+                                context,
+                                text: err.toString(),
+                                error: true,
                               );
                             });
                       },
