@@ -27,7 +27,6 @@ export class NotesUsecase {
 		const all_notes = await this.db
 			.select()
 			.from(notes)
-			.limit(10)
 			.where(
 				and(gte(notes.created_at, start_date), lt(notes.created_at, end_date)),
 			)
