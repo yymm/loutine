@@ -5,8 +5,7 @@ import 'package:intl/intl.dart';
 
 // load from dart-define-from-file
 const envBaseUrl = String.fromEnvironment('baseUrl');
-// const baseUrl = envBaseUrl == "" ? 'http://10.0.2.2:8787' : envBaseUrl;
-const baseUrl = 'https://toothlessly-hydrostatic-jefferey.ngrok-free.dev';
+const baseUrl = envBaseUrl == "" ? 'http://10.0.2.2:8787' : envBaseUrl;
 
 class LinkApiClient {
   Future<String> list(DateTime startDate, DateTime endDate) async {
