@@ -177,6 +177,10 @@ void main() {
         // Link Form画面にいることを確認
         expect(find.text('Link Form'), findsOneWidget);
 
+        // タグのロードを待つ（UIロード改善により即座に表示されるが、タグデータは非同期ロード）
+        await tester.pump(const Duration(seconds: 1));
+        await tester.pumpAndSettle();
+
         // URLフィールドに入力
         final urlField = find.widgetWithText(TextFormField, 'URL');
         expect(urlField, findsOneWidget);
@@ -262,6 +266,10 @@ void main() {
 
         // Purchase Form画面にいることを確認
         expect(find.text('Purchase Form'), findsOneWidget);
+
+        // カテゴリのロードを待つ（UIロード改善により即座に表示されるが、カテゴリデータは非同期ロード）
+        await tester.pump(const Duration(seconds: 1));
+        await tester.pumpAndSettle();
 
         // Costフィールドに入力
         final costField = find.widgetWithText(TextFormField, 'Cost');
