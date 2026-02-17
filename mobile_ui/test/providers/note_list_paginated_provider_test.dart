@@ -356,7 +356,7 @@ void main() {
       );
 
       when(
-        () => mockRepository.updateNote(any()),
+        () => mockRepository.updateNote(note: any(named: 'note'), tagIds: any(named: 'tagIds')),
       ).thenAnswer((_) async => updatedNote);
 
       final container = ProviderContainer(
@@ -369,7 +369,7 @@ void main() {
       // Act
       await container
           .read(noteListPaginatedProvider.notifier)
-          .updateNote(updatedNote);
+          .updateNote(note: updatedNote);
 
       // Assert
       final state = container.read(noteListPaginatedProvider).value!;
