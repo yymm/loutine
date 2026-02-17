@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:flutter/services.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:mobile_ui/api/vanilla_api.dart';
-import 'package:mobile_ui/providers/link_list_paginated_provider.dart';
+import 'package:mobile_ui/providers/link/link_list_paginated_provider.dart';
 
 part 'link_new_provider.g.dart';
 

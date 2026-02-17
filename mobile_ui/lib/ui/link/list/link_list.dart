@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
-import 'package:mobile_ui/providers/link_list_paginated_provider.dart';
+import 'package:mobile_ui/providers/link/link_list_paginated_provider.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 class LinkList extends ConsumerStatefulWidget {

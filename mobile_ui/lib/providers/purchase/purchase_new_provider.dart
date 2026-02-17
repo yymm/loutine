@@ -1,5 +1,5 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:mobile_ui/providers/purchase_list_provider.dart';
+import 'package:mobile_ui/providers/purchase/purchase_list_provider.dart';
 
 part 'purchase_new_provider.g.dart';
 

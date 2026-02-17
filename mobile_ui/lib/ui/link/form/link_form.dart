@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mobile_ui/models/tag.dart';
-import 'package:mobile_ui/providers/link_new_provider.dart';
-import 'package:mobile_ui/providers/tag_list_provider.dart';
+import 'package:mobile_ui/providers/link/link_new_provider.dart';
+import 'package:mobile_ui/providers/tag/tag_list_provider.dart';
 import 'package:mobile_ui/ui/shared/app_divider_widget.dart';
 import 'package:mobile_ui/ui/shared/snack_bar_widget.dart';
 import 'package:multi_dropdown/multi_dropdown.dart';

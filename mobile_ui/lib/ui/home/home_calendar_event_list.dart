@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mobile_ui/models/calendar_event_item.dart';
-import 'package:mobile_ui/providers/home_calendar_provider.dart';
-import 'package:mobile_ui/providers/link_list_paginated_provider.dart';
-import 'package:mobile_ui/providers/note_list_paginated_provider.dart';
-import 'package:mobile_ui/providers/purchase_list_provider.dart';
+import 'package:mobile_ui/providers/home/home_calendar_provider.dart';
+import 'package:mobile_ui/providers/link/link_list_paginated_provider.dart';
+import 'package:mobile_ui/providers/note/note_list_paginated_provider.dart';
+import 'package:mobile_ui/providers/purchase/purchase_list_provider.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 class HomeCalendarEventList extends ConsumerWidget {
