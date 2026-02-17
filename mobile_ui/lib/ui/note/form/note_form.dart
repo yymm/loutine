@@ -43,8 +43,7 @@ class _NoteFormState extends ConsumerState<NoteForm> {
 
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       final noteId = int.parse(widget.noteId!);
-      final noteAsync = ref.read(noteDetailProvider(noteId));
-      final note = noteAsync.value;
+      final note = await ref.read(noteDetailProvider(noteId).future);
 
       if (note != null && mounted && !_isInitialized) {
         _titleController.text = note.title;
@@ -78,19 +77,17 @@ class _NoteFormState extends ConsumerState<NoteForm> {
 
     final title = _titleController.text;
     final text = _getDeltaJson();
-    final notifier = ref.read(noteListPaginatedProvider.notifier);
 
     try {
       if (widget.noteId != null) {
-        await _updateNote(notifier, title, text, tagIds);
+        await _updateNote(title, text, tagIds);
       } else {
-        await _createNote(notifier, title, text, tagIds);
+        await _createNote(title, text, tagIds);
         // 新規作成時のみフォームクリア
-        if (!mounted) return;
-        _clearForm();
       }
 
       if (!mounted) return;
+      _clearForm();
       _showSuccessMessage();
     } catch (e) {
       if (!mounted) return;
@@ -103,30 +100,21 @@ class _NoteFormState extends ConsumerState<NoteForm> {
     return jsonEncode(delta.toJson());
   }
 
-  Future<void> _createNote(
-    dynamic notifier,
-    String title,
-    String text,
-    List<int> tagIds,
-  ) async {
+  Future<void> _createNote(String title, String text, List<int> tagIds) async {
+    final notifier = ref.read(noteListPaginatedProvider.notifier);
     await notifier.createNote(title: title, text: text, tagIds: tagIds);
   }
 
-  Future<void> _updateNote(
-    dynamic notifier,
-    String title,
-    String text,
-    List<int> tagIds,
-  ) async {
+  Future<void> _updateNote(String title, String text, List<int> tagIds) async {
+    final notifier = ref.read(noteListPaginatedProvider.notifier);
     final noteId = int.parse(widget.noteId!);
-    final currentNoteAsync = ref.read(noteDetailProvider(noteId));
-    final currentNote = currentNoteAsync.value;
+    final currentNote = await ref.read(noteDetailProvider(noteId).future);
 
     if (currentNote == null) return;
 
     final updatedNote = currentNote.copyWith(title: title, text: text);
 
-    await notifier.updateNote(updatedNote);
+    await notifier.updateNote(note: updatedNote, tagIds: tagIds);
   }
 
   void _clearForm() {
@@ -141,15 +129,11 @@ class _NoteFormState extends ConsumerState<NoteForm> {
   }
 
   void _showSuccessMessage() {
-    ScaffoldMessenger.of(
-      context,
-    ).showSnackBar(getSnackBar(context: context, text: 'Success to save note'));
+    showSnackBar(context, text: 'Success to save note');
   }
 
   void _showErrorMessage(Object error) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      getSnackBar(context: context, text: error.toString(), error: true),
-    );
+    showSnackBar(context, text: error.toString(), error: true);
   }
 
   @override

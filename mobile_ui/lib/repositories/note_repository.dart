@@ -117,9 +117,26 @@ class NoteRepository {
   }
 
   /// ノートを更新
-  /// TODO: バックエンドのUpdate APIが実装されたら実装
-  Future<Note> updateNote(Note note) async {
-    throw UnimplementedError('Update API is not implemented yet');
+  Future<Note> updateNote({
+    required Note note,
+    List<int> tagIds = const [],
+  }) async {
+    try {
+      final resBody = await _apiClient.update(
+        note.id,
+        note.text,
+        note.title,
+        tagIds,
+      );
+      final Map<String, dynamic> json = jsonDecode(resBody);
+      return Note.fromJson(json);
+    } on SocketException {
+      throw const NetworkException('インターネット接続を確認してください');
+    } on FormatException catch (e) {
+      throw ParseException('更新されたノートデータの解析に失敗しました: ${e.message}');
+    } on TypeError catch (e) {
+      throw ParseException('更新されたノートデータの形式が不正です: $e');
+    }
   }
 
   /// ノートを削除
@@ -138,8 +155,17 @@ class NoteRepository {
   }
 
   /// IDでノートを取得
-  /// TODO: バックエンドのGet by ID APIが実装されたら実装
-  Future<Note?> getNoteById(int id) async {
-    throw UnimplementedError('Get by ID API is not implemented yet');
+  Future<Note?> getNoteById(int noteId) async {
+    try {
+      final resBody = await _apiClient.getById(noteId);
+      final Map<String, dynamic> json = jsonDecode(resBody);
+      return Note.fromJson(json);
+    } on SocketException {
+      throw const NetworkException('インターネット接続を確認してください');
+    } on FormatException catch (e) {
+      throw ParseException('ノートデータの解析に失敗しました: ${e.message}');
+    } on TypeError catch (e) {
+      throw ParseException('ノートデータの形式が不正です: $e');
+    }
   }
 }

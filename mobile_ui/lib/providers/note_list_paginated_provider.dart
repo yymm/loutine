@@ -172,9 +172,12 @@ class NoteListPaginated extends _$NoteListPaginated {
   }
 
   /// ノートを更新
-  Future<Note> updateNote(Note note) async {
+  Future<Note> updateNote({
+    required Note note,
+    List<int> tagIds = const [],
+  }) async {
     final repository = ref.read(noteRepositoryProvider);
-    final updatedNote = await repository.updateNote(note);
+    final updatedNote = await repository.updateNote(note: note, tagIds: tagIds);
 
     // リストを更新（楽観的更新）
     final currentState = state.value;

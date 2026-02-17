@@ -162,6 +162,39 @@ class NoteApiClient {
       throw StateError('Failure to delete note');
     }
   }
+
+  Future<String> getById(int id) async {
+    final postUrl = Uri.parse('$baseUrl/api/v1/notes/${id.toString()}');
+    final headers = {'content-type': 'application/json'};
+    final res = await http.get(postUrl, headers: headers);
+    if (res.statusCode == 200) {
+      return utf8.decode(res.bodyBytes);
+    } else {
+      throw StateError('Failure to get note by id');
+    }
+  }
+
+  Future<String> update(
+    int id,
+    String text,
+    String title,
+    List<int> tagIds,
+  ) async {
+    final postUrl = Uri.parse('$baseUrl/api/v1/notes');
+    final headers = {'content-type': 'application/json'};
+    final body = json.encode({
+      'id': id,
+      'text': text,
+      'title': title,
+      'tag_ids': tagIds,
+    });
+    final res = await http.put(postUrl, headers: headers, body: body);
+    if (res.statusCode == 200) {
+      return utf8.decode(res.bodyBytes);
+    } else {
+      throw StateError('Failure to update link');
+    }
+  }
 }
 
 class TagApiClient {
