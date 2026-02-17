@@ -163,6 +163,7 @@ class _LinkForm extends ConsumerState<LinkForm> {
             SizedBox(height: 20),
             // >> Tags selector {{{
             MultiDropdown<String>(
+              key: ValueKey('tag_dropdown_${tags.length}'), // tagsが変わったら再構築
               searchEnabled: true,
               controller: _tabController,
               chipDecoration: ChipDecoration(
