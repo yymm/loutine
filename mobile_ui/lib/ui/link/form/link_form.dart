@@ -18,15 +18,26 @@ class _LinkForm extends ConsumerState<LinkForm> {
   final _formKey = GlobalKey<FormState>();
   final _urlController = TextEditingController();
   final _titleController = TextEditingController();
-  final _tabController = MultiSelectController<String>();
+  MultiSelectController<String>? _tabController;
+  int _previousTagCount = 0;
 
   String? dropdownformfieldValue;
+
+  MultiSelectController<String> _getOrCreateController(int tagCount) {
+    // タグ数が変わったら新しいコントローラーを作成
+    if (_tabController == null || _previousTagCount != tagCount) {
+      _tabController?.dispose();
+      _tabController = MultiSelectController<String>();
+      _previousTagCount = tagCount;
+    }
+    return _tabController!;
+  }
 
   @override
   void dispose() {
     _urlController.dispose();
     _titleController.dispose();
-    _tabController.dispose();
+    _tabController?.dispose();
     super.dispose();
   }
 
@@ -77,6 +88,9 @@ class _LinkForm extends ConsumerState<LinkForm> {
     final dropdownItems = tags
         .map((tag) => DropdownItem(label: tag.name, value: tag.id.toString()))
         .toList();
+    
+    final controller = _getOrCreateController(tags.length);
+    
     return Container(
       padding: EdgeInsets.all(25),
       child: Form(
@@ -165,7 +179,7 @@ class _LinkForm extends ConsumerState<LinkForm> {
             MultiDropdown<String>(
               key: ValueKey('tag_dropdown_${tags.length}'), // tagsが変わったら再構築
               searchEnabled: true,
-              controller: _tabController,
+              controller: controller,
               chipDecoration: ChipDecoration(
                 backgroundColor: Colors.teal,
                 labelStyle: TextStyle(color: Colors.white),
@@ -205,9 +219,10 @@ class _LinkForm extends ConsumerState<LinkForm> {
             ElevatedButton(
               onPressed: () {
                 if (!_formKey.currentState!.validate()) return;
-                final tagIds = _tabController.selectedItems
-                    .map((v) => int.parse(v.value))
-                    .toList();
+                final tagIds = _tabController?.selectedItems
+                        .map((v) => int.parse(v.value))
+                        .toList() ??
+                    [];
                 // final categoryId = dropdownformfieldValue != null ? int.parse(dropdownformfieldValue!) : null;
                 ref
                     .read(linkNewProvider.notifier)
@@ -216,7 +231,7 @@ class _LinkForm extends ConsumerState<LinkForm> {
                       ref.read(linkNewProvider.notifier).reset();
                       _urlController.clear();
                       _titleController.clear();
-                      _tabController.clearAll();
+                      _tabController?.clearAll();
                       dropdownformfieldValue = null;
                       if (!context.mounted) return;
                       showSnackBar(context, text: 'Success to add link');
