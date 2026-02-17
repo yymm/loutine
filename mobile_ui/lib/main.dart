@@ -34,6 +34,6 @@ ThemeData _getThemeData(Brightness brightness) {
       seedColor: Colors.teal,
       brightness: brightness,
     ),
-    // fontFamily: 'NotoSansJP',
+    fontFamily: 'Noto Sans JP',
   );
 }
