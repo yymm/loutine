@@ -33,10 +33,41 @@ class _PurchaseForm extends ConsumerState<PurchaseForm> {
     ref.watch(purchaseNewProvider); // Watch provider for rebuilds
     final categoriesAsync = ref.watch(categoryListProvider);
 
-    return categoriesAsync.when(
-      data: (categories) => _buildForm(context, categories),
-      loading: () => const Center(child: CircularProgressIndicator()),
-      error: (error, stack) => Center(child: Text('Error: $error')),
+    // カテゴリロード中でも空のフォームを表示
+    final categories = categoriesAsync.hasValue ? categoriesAsync.value! : <Category>[];
+    final isLoading = categoriesAsync.isLoading;
+
+    return Stack(
+      children: [
+        _buildForm(context, categories),
+        if (isLoading)
+          Positioned(
+            top: 16,
+            right: 16,
+            child: SizedBox(
+              width: 20,
+              height: 20,
+              child: CircularProgressIndicator(strokeWidth: 2),
+            ),
+          ),
+        if (categoriesAsync.hasError)
+          Positioned(
+            top: 16,
+            left: 16,
+            right: 48,
+            child: Container(
+              padding: EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                color: Colors.red.shade100,
+                borderRadius: BorderRadius.circular(4),
+              ),
+              child: Text(
+                'カテゴリの読み込みに失敗しました',
+                style: TextStyle(color: Colors.red.shade900, fontSize: 12),
+              ),
+            ),
+          ),
+      ],
     );
   }
 

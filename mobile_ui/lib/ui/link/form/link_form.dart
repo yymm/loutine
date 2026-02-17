@@ -35,10 +35,41 @@ class _LinkForm extends ConsumerState<LinkForm> {
     ref.watch(linkNewProvider); // Watch provider for rebuilds
     final tagAsync = ref.watch(tagListProvider);
 
-    return tagAsync.when(
-      data: (tags) => _buildForm(tags),
-      error: (error, stack) => Center(child: Text('Error: %error')),
-      loading: () => Center(child: CircularProgressIndicator()),
+    // タグロード中でも空のフォームを表示
+    final tags = tagAsync.hasValue ? tagAsync.value! : <Tag>[];
+    final isLoading = tagAsync.isLoading;
+
+    return Stack(
+      children: [
+        _buildForm(tags),
+        if (isLoading)
+          Positioned(
+            top: 16,
+            right: 16,
+            child: SizedBox(
+              width: 20,
+              height: 20,
+              child: CircularProgressIndicator(strokeWidth: 2),
+            ),
+          ),
+        if (tagAsync.hasError)
+          Positioned(
+            top: 16,
+            left: 16,
+            right: 48,
+            child: Container(
+              padding: EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                color: Colors.red.shade100,
+                borderRadius: BorderRadius.circular(4),
+              ),
+              child: Text(
+                'タグの読み込みに失敗しました',
+                style: TextStyle(color: Colors.red.shade900, fontSize: 12),
+              ),
+            ),
+          ),
+      ],
     );
   }
 
