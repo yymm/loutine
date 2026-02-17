@@ -4,11 +4,44 @@ import 'package:mobile_ui/models/calendar_event_item.dart';
 import 'package:mobile_ui/providers/home_calendar_provider.dart';
 import 'package:table_calendar/table_calendar.dart';
 
-class HomeCalendarWidget extends ConsumerWidget {
+class HomeCalendarWidget extends ConsumerStatefulWidget {
   const HomeCalendarWidget({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<HomeCalendarWidget> createState() => _HomeCalendarWidgetState();
+}
+
+class _HomeCalendarWidgetState extends ConsumerState<HomeCalendarWidget> {
+  @override
+  void initState() {
+    super.initState();
+
+    // 初回表示時に今日のイベントを設定
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final focusDay = ref.read(calendarFocusDayProvider);
+      final focusedMonth = DateTime(focusDay.year, focusDay.month, 1);
+      ref
+          .read(calendarEventDataProvider(focusedMonth))
+          .whenData(
+            (calendarEvents) =>
+                _setCalendarEventList(ref, focusDay, calendarEvents),
+          );
+    });
+  }
+
+  void _setCalendarEventList(
+    WidgetRef ref,
+    DateTime focusDay,
+    Map<DateTime, List<CalendarEventItem>> calendarEvents,
+  ) {
+    final today = DateTime(focusDay.year, focusDay.month, focusDay.day);
+    ref
+        .read(calendarEventListProvider.notifier)
+        .change(calendarEvents[today] ?? []);
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final focusDay = ref.watch(calendarFocusDayProvider);
     final format = ref.watch(calendarFormatManagerProvider);
 
@@ -17,6 +50,13 @@ class HomeCalendarWidget extends ConsumerWidget {
     final calendarEventsAsync = ref.watch(
       calendarEventDataProvider(focusedMonth),
     );
+
+    // カレンダーイベントの変更を監視して自動更新
+    ref.listen(calendarEventDataProvider(focusedMonth), (previous, next) {
+      next.whenData((calendarEvents) {
+        _setCalendarEventList(ref, focusDay, calendarEvents);
+      });
+    });
 
     return calendarEventsAsync.when(
       data: (calendarEvents) {
@@ -37,18 +77,11 @@ class HomeCalendarWidget extends ConsumerWidget {
           },
           onDaySelected: (selectedDay, focusDay) {
             ref.read(calendarFocusDayProvider.notifier).change(selectedDay);
-            final localSelectedDay = DateTime(
-              selectedDay.year,
-              selectedDay.month,
-              selectedDay.day,
-            );
-            ref
-                .read(calendarEventListProvider.notifier)
-                .change(calendarEvents[localSelectedDay] ?? []);
+            _setCalendarEventList(ref, selectedDay, calendarEvents);
           },
           onPageChanged: (focusedDay) {
             ref.read(calendarFocusDayProvider.notifier).change(focusedDay);
-            // buildパターンでは自動的に新しい月のデータが取得される
+            _setCalendarEventList(ref, focusedDay, calendarEvents);
           },
           calendarBuilders: CalendarBuilders(
             markerBuilder: (context, day, events) {
@@ -87,6 +120,6 @@ class HomeCalendarWidget extends ConsumerWidget {
 }
 
 Widget getBadge(int cnt, Color color) {
-  if (cnt == 0) return SizedBox.shrink();
+  if (cnt == 0) return const SizedBox.shrink();
   return Badge.count(count: cnt, backgroundColor: color);
 }

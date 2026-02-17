@@ -34,4 +34,18 @@ class PurchaseList extends _$PurchaseList {
     });
     return result;
   }
+
+  Future<Purchase> deletePurchase(int purchaseId) async {
+    final repository = ref.read(purchaseRepositoryProvider);
+    final purchase = await repository.deletePurchase(purchaseId);
+
+    // 非同期でinvalidate（呼び出し元に影響しない）
+    Future.microtask(() {
+      if (ref.mounted) {
+        ref.invalidateSelf();
+      }
+    });
+
+    return purchase;
+  }
 }

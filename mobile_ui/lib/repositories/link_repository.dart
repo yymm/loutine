@@ -111,4 +111,18 @@ class LinkRepository {
       throw ParseException('リンクデータの形式が不正です: $e');
     }
   }
+
+  Future<Link> deleteLink(int linkId) async {
+    try {
+      final resBody = await _apiClient.delete(linkId);
+      final Map<String, dynamic> json = jsonDecode(resBody);
+      return Link.fromJson(json);
+    } on SocketException {
+      throw const NetworkException('インターネット接続を確認してください');
+    } on FormatException catch (e) {
+      throw ParseException('リンクデータの解析に失敗しました: ${e.message}');
+    } on TypeError catch (e) {
+      throw ParseException('リンクデータの形式が不正です: $e');
+    }
+  }
 }

@@ -151,9 +151,9 @@ class NoteListPaginated extends _$NoteListPaginated {
   }
 
   /// ノートを削除
-  Future<void> deleteNote(int noteId) async {
+  Future<Note> deleteNote(int noteId) async {
     final repository = ref.read(noteRepositoryProvider);
-    await repository.deleteNote(noteId);
+    final note = await repository.deleteNote(noteId);
 
     // リストから削除（楽観的更新）
     final currentState = state.value;
@@ -167,6 +167,8 @@ class NoteListPaginated extends _$NoteListPaginated {
 
     // カレンダー用のNoteListを無効化
     ref.invalidate(noteListProvider);
+
+    return note;
   }
 
   /// ノートを更新

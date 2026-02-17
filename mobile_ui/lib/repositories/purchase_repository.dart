@@ -71,4 +71,18 @@ class PurchaseRepository {
       throw ParseException('作成された購入履歴データの形式が不正です: $e');
     }
   }
+
+  Future<Purchase> deletePurchase(int purchaseId) async {
+    try {
+      final resBody = await _apiClient.delete(purchaseId);
+      final Map<String, dynamic> json = jsonDecode(resBody);
+      return Purchase.fromJson(json);
+    } on SocketException {
+      throw const NetworkException('インターネット接続を確認してください');
+    } on FormatException catch (e) {
+      throw ParseException('購入履歴データの解析に失敗しました: ${e.message}');
+    } on TypeError catch (e) {
+      throw ParseException('購入履歴データの形式が不正です: $e');
+    }
+  }
 }

@@ -123,9 +123,18 @@ class NoteRepository {
   }
 
   /// ノートを削除
-  /// TODO: バックエンドのDelete APIが実装されたら実装
-  Future<void> deleteNote(int noteId) async {
-    throw UnimplementedError('Delete API is not implemented yet');
+  Future<Note> deleteNote(int noteId) async {
+    try {
+      final resBody = await _apiClient.delete(noteId);
+      final Map<String, dynamic> json = jsonDecode(resBody);
+      return Note.fromJson(json);
+    } on SocketException {
+      throw const NetworkException('インターネット接続を確認してください');
+    } on FormatException catch (e) {
+      throw ParseException('ノートデータの解析に失敗しました: ${e.message}');
+    } on TypeError catch (e) {
+      throw ParseException('ノートデータの形式が不正です: $e');
+    }
   }
 
   /// IDでノートを取得

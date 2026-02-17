@@ -141,4 +141,29 @@ class LinkListPaginated extends _$LinkListPaginated {
 
     return link;
   }
+
+  /// リンクを削除
+  ///
+  /// リスト画面とカレンダー画面での削除処理を担当
+  /// home_calendarの更新も自動的にトリガーされる
+  Future<Link> deleteLink(int linkId) async {
+    final repository = ref.read(linkRepositoryProvider);
+    final link = await repository.deleteLink(linkId);
+
+    // 1. このProviderを更新（楽観的更新）
+    final currentState = state.value;
+    if (currentState != null) {
+      state = AsyncValue.data(
+        currentState.copyWith(
+          items: currentState.items.where((link) => link.id != linkId).toList(),
+        ),
+      );
+    }
+
+    // 2. カレンダー用のLinkListを無効化
+    // これによりhome_calendarのref.listenが反応して自動更新される
+    ref.invalidate(linkListProvider);
+
+    return link;
+  }
 }
