@@ -59,7 +59,8 @@ class HomeCalendarEventList extends ConsumerWidget {
                 ],
               ),
               trailing: IconButton(
-                icon: const Icon(Icons.delete_forever),
+                icon: const Icon(Icons.backspace),
+                color: Colors.black45,
                 onPressed: () async {
                   final confirm = await showDialog<bool>(
                     context: context,
