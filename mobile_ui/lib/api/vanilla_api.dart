@@ -255,7 +255,9 @@ class CategoryApiClient {
   }
 
   Future<String> delete(int categoryId) async {
-    final url = Uri.parse('$baseUrl/api/v1/categories/${categoryId.toString()}');
+    final url = Uri.parse(
+      '$baseUrl/api/v1/categories/${categoryId.toString()}',
+    );
     final res = await http.delete(url);
     if (res.statusCode == 200) {
       return utf8.decode(res.bodyBytes);

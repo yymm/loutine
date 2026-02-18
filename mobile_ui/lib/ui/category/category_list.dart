@@ -51,7 +51,9 @@ class CategoryListWidget extends ConsumerWidget {
                   itemType: DeleteItemType.category,
                 );
                 if (confirm == true) {
-                  await ref.read(categoryListProvider.notifier).delete(category.id);
+                  await ref
+                      .read(categoryListProvider.notifier)
+                      .delete(category.id);
                 }
               },
             ),

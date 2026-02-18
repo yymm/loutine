@@ -15,11 +15,11 @@ enum DeleteItemType {
 }
 
 /// 削除確認ダイアログを表示し、ユーザーの選択を返す
-/// 
+///
 /// [context] - BuildContext
 /// [title] - 削除対象のアイテムタイトル（例: "Sample Link"）
 /// [itemType] - アイテムの種類（Link, Purchase, Note）
-/// 
+///
 /// Returns: true（削除実行）/ false（キャンセル）/ null（ダイアログ外タップ）
 Future<bool?> showDeleteConfirmDialog(
   BuildContext context, {
@@ -27,15 +27,11 @@ Future<bool?> showDeleteConfirmDialog(
   DeleteItemType? itemType,
 }) {
   final type = itemType ?? DeleteItemType.other;
-  
+
   return showDialog<bool>(
     context: context,
     builder: (context) => AlertDialog(
-      icon: Icon(
-        type.icon,
-        size: 48,
-        color: type.color,
-      ),
+      icon: Icon(type.icon, size: 48, color: type.color),
       title: const Text('Are you sure you want to delete?'),
       content: Text('Title: $title'),
       actions: [

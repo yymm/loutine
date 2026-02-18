@@ -88,9 +88,9 @@ class _LinkForm extends ConsumerState<LinkForm> {
     final dropdownItems = tags
         .map((tag) => DropdownItem(label: tag.name, value: tag.id.toString()))
         .toList();
-    
+
     final controller = _getOrCreateController(tags.length);
-    
+
     return Container(
       padding: EdgeInsets.all(25),
       child: Form(
@@ -219,7 +219,8 @@ class _LinkForm extends ConsumerState<LinkForm> {
             ElevatedButton(
               onPressed: () {
                 if (!_formKey.currentState!.validate()) return;
-                final tagIds = _tabController?.selectedItems
+                final tagIds =
+                    _tabController?.selectedItems
                         .map((v) => int.parse(v.value))
                         .toList() ??
                     [];

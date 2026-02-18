@@ -68,7 +68,7 @@ class HomeCalendarEventList extends ConsumerWidget {
                     CalendarEventItemType.purchase => DeleteItemType.purchase,
                     CalendarEventItemType.note => DeleteItemType.note,
                   };
-                  
+
                   final confirm = await showDeleteConfirmDialog(
                     context,
                     title: event.title,
