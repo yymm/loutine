@@ -63,9 +63,16 @@ class HomeCalendarEventList extends ConsumerWidget {
                 icon: const Icon(Icons.backspace),
                 color: Colors.black45,
                 onPressed: () async {
+                  final itemType = switch (event.itemType) {
+                    CalendarEventItemType.link => DeleteItemType.link,
+                    CalendarEventItemType.purchase => DeleteItemType.purchase,
+                    CalendarEventItemType.note => DeleteItemType.note,
+                  };
+                  
                   final confirm = await showDeleteConfirmDialog(
                     context,
                     title: event.title,
+                    itemType: itemType,
                   );
                   if (confirm == true) {
                     final _ = switch (event.itemType) {

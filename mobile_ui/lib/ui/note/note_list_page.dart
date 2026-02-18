@@ -127,6 +127,7 @@ class _NoteListPageState extends ConsumerState<NoteListPage> {
                         final confirm = await showDeleteConfirmDialog(
                           context,
                           title: note.title,
+                          itemType: DeleteItemType.note,
                         );
                         if (confirm == true && mounted) {
                           await ref

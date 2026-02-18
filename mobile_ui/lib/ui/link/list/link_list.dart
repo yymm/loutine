@@ -95,6 +95,7 @@ class _LinkListState extends ConsumerState<LinkList> {
                       final confirm = await showDeleteConfirmDialog(
                         context,
                         title: link.title,
+                        itemType: DeleteItemType.link,
                       );
                       if (confirm == true && mounted) {
                         await ref
