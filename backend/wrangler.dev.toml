@@ -4,8 +4,10 @@ compatibility_date = "2025-01-01"
 
 compatibility_flags = [ "nodejs_compat" ]
 
-[vars]
-CUSTOM_AUTH_KEY = "your-secret-key-here-change-in-production"
+# [vars]
+# CUSTOM_AUTH_KEY = "your-secret-key-here-change-in-production"
+# Note: ローカル開発時は認証をスキップするため、デフォルトではコメントアウト
+# dev環境にデプロイする場合は、Cloudflare Dashboardの環境変数で設定してください
 
 # [[kv_namespaces]]
 # binding = "MY_KV_NAMESPACE"

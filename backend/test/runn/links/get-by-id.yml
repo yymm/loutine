@@ -1,10 +1,14 @@
 desc: Get link by ID
 runners:
+vars:
+  authKey: '{{ env "CUSTOM_AUTH_KEY" "" }}'
   req: http://localhost:8787
 steps:
 - req:
     /api/v1/links/1:
       get:
+        headers:
+          X-Custom-Auth-Key: '{{ vars.authKey }}'
         body: null
   test: |
     current.res.status == 200

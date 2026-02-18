@@ -1,10 +1,14 @@
 desc: Create a new tag
 runners:
+vars:
+  authKey: '{{ env "CUSTOM_AUTH_KEY" "" }}'
   req: http://localhost:8787
 steps:
 - req:
     /api/v1/tags:
       post:
+        headers:
+          X-Custom-Auth-Key: '{{ vars.authKey }}'
         body:
           application/json:
             name: test tag runn
