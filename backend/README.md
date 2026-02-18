@@ -33,6 +33,22 @@ npm run dev_db_create
 npm run dev
 ```
 
+## 認証キーの設定
+
+dev環境では簡易的な認証機構を使用しています。`wrangler.dev.toml`の`CUSTOM_AUTH_KEY`を変更してください。
+
+```toml
+[vars]
+CUSTOM_AUTH_KEY = "your-secret-key-here-change-in-production"
+```
+
+APIリクエスト時には以下のヘッダーを付与してください：
+
+```bash
+curl -H "X-Custom-Auth-Key: your-secret-key-here-change-in-production" \
+  https://your-dev-api.workers.dev/api/v1/links
+```
+
 src/schema.ts を更新した際に実行する
 
 ```

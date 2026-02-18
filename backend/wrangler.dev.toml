@@ -4,8 +4,8 @@ compatibility_date = "2025-01-01"
 
 compatibility_flags = [ "nodejs_compat" ]
 
-# [vars]
-# MY_VAR = "my-variable"
+[vars]
+CUSTOM_AUTH_KEY = "your-secret-key-here-change-in-production"
 
 # [[kv_namespaces]]
 # binding = "MY_KV_NAMESPACE"

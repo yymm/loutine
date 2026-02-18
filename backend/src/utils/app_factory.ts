@@ -20,6 +20,7 @@ export type Env = {
 	};
 	Bindings: {
 		DB: D1Database;
+		CUSTOM_AUTH_KEY?: string;
 	};
 };
 
