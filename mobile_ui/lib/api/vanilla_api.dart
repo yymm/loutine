@@ -10,9 +10,7 @@ const envCustomAuthKey = String.fromEnvironment('customAuthKey');
 
 // Helper function to create headers with optional auth key
 Map<String, String> _createHeaders() {
-  final headers = <String, String>{
-    'content-type': 'application/json',
-  };
+  final headers = <String, String>{'content-type': 'application/json'};
   if (envCustomAuthKey.isNotEmpty) {
     headers['X-Custom-Auth-Key'] = envCustomAuthKey;
   }
