@@ -64,4 +64,18 @@ class CategoryRepository {
       throw ParseException('作成されたカテゴリデータの形式が不正です: $e');
     }
   }
+
+  Future<Category> deleteCategory(int categoryId) async {
+    try {
+      final resBody = await _apiClient.delete(categoryId);
+      final Map<String, dynamic> json = jsonDecode(resBody);
+      return Category.fromJson(json);
+    } on SocketException {
+      throw const NetworkException('インターネット接続を確認してください');
+    } on FormatException catch (e) {
+      throw ParseException('削除されたカテゴリデータの解析に失敗しました: ${e.message}');
+    } on TypeError catch (e) {
+      throw ParseException('削除されたカテゴリデータの形式が不正です: $e');
+    }
+  }
 }

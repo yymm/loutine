@@ -6,6 +6,7 @@ import 'package:intl/intl.dart';
 import 'package:mobile_ui/providers/note/note_list_paginated_provider.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:dart_quill_delta/dart_quill_delta.dart';
+import 'package:mobile_ui/ui/shared/delete_confirm_dialog.dart';
 
 class NoteListPage extends ConsumerStatefulWidget {
   const NoteListPage({super.key});
@@ -123,30 +124,9 @@ class _NoteListPageState extends ConsumerState<NoteListPage> {
                       icon: const Icon(Icons.backspace),
                       color: Colors.black45,
                       onPressed: () async {
-                        final confirm = await showDialog<bool>(
-                          context: context,
-                          builder: (context) => AlertDialog(
-                            title: const Text(
-                              'Are you sure you want to delete?',
-                            ),
-                            content: Text('Title: ${note.title}'),
-                            actions: [
-                              TextButton(
-                                onPressed: () =>
-                                    Navigator.of(context).pop(false),
-                                child: const Text('Cancel'),
-                              ),
-                              TextButton(
-                                onPressed: () =>
-                                    Navigator.of(context).pop(true),
-                                style: TextButton.styleFrom(
-                                  backgroundColor: Colors.red,
-                                  foregroundColor: Colors.white70,
-                                ),
-                                child: const Text('DELETE'),
-                              ),
-                            ],
-                          ),
+                        final confirm = await showDeleteConfirmDialog(
+                          context,
+                          title: note.title,
                         );
                         if (confirm == true && mounted) {
                           await ref
