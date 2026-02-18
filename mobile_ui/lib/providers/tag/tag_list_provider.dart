@@ -33,4 +33,19 @@ class TagList extends _$TagList {
     });
     return tag;
   }
+
+  /// タグを削除
+  ///
+  /// Repositoryを使ってAPIにリクエストし、
+  /// 削除されたタグを状態から削除
+  Future<void> delete(int tagId) async {
+    final repository = ref.read(tagRepositoryProvider);
+    await repository.deleteTag(tagId);
+    // 非同期でinvalidate（呼び出し元に影響しない）
+    Future.microtask(() {
+      if (ref.mounted) {
+        ref.invalidateSelf();
+      }
+    });
+  }
 }

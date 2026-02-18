@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 
 /// アイテムタイプの定義
 enum DeleteItemType {
-  link(Icons.add_link, Colors.lightBlue),
-  purchase(Icons.add_shopping_cart, Colors.orange),
-  note(Icons.note_add, Colors.lightGreen),
+  link(Icons.link_off, Colors.lightBlue),
+  purchase(Icons.remove_shopping_cart, Colors.orange),
+  note(Icons.assignment_returned, Colors.lightGreen),
+  tag(Icons.label_off, Colors.purple),
+  category(Icons.category_outlined, Colors.teal),
   other(Icons.delete, Colors.red);
 
   const DeleteItemType(this.icon, this.color);

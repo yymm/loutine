@@ -31,7 +31,7 @@ class HomeCalendarEventList extends ConsumerWidget {
                   color: Colors.orange,
                 ),
                 CalendarEventItemType.note => Icon(
-                  Icons.note,
+                  Icons.insert_drive_file,
                   color: Colors.lightGreen,
                 ),
               },
