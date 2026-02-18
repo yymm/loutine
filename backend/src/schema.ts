@@ -13,7 +13,9 @@ export const links = sqliteTable(
 		id: integer('id').primaryKey({ autoIncrement: true }),
 		title: text('title').notNull(),
 		url: text('url').notNull(),
-		created_at: text('created_at').notNull().default(sql`(strftime('%Y-%m-%dT%H:%M:%SZ', 'now'))`),
+		created_at: text('created_at')
+			.notNull()
+			.default(sql`(strftime('%Y-%m-%dT%H:%M:%SZ', 'now'))`),
 		updated_at: text('updated_at')
 			.notNull()
 			.default(sql`(strftime('%Y-%m-%dT%H:%M:%SZ', 'now'))`)
@@ -29,7 +31,9 @@ export const purchases = sqliteTable(
 		title: text('title').notNull(),
 		cost: real('cost').notNull(),
 		currency_code: text('currency').default('JPY').notNull(),
-		created_at: text('created_at').notNull().default(sql`(strftime('%Y-%m-%dT%H:%M:%SZ', 'now'))`),
+		created_at: text('created_at')
+			.notNull()
+			.default(sql`(strftime('%Y-%m-%dT%H:%M:%SZ', 'now'))`),
 		updated_at: text('updated_at')
 			.notNull()
 			.default(sql`(strftime('%Y-%m-%dT%H:%M:%SZ', 'now'))`)
@@ -45,7 +49,9 @@ export const notes = sqliteTable(
 		id: integer('id').primaryKey({ autoIncrement: true }),
 		title: text('title').notNull(),
 		text: text('text').notNull(),
-		created_at: text('created_at').notNull().default(sql`(strftime('%Y-%m-%dT%H:%M:%SZ', 'now'))`),
+		created_at: text('created_at')
+			.notNull()
+			.default(sql`(strftime('%Y-%m-%dT%H:%M:%SZ', 'now'))`),
 		updated_at: text('updated_at')
 			.notNull()
 			.default(sql`(strftime('%Y-%m-%dT%H:%M:%SZ', 'now'))`)
@@ -65,7 +71,9 @@ export const tags = sqliteTable('tags', {
 	id: integer('id').primaryKey({ autoIncrement: true }),
 	name: text('name').unique().notNull(),
 	description: text('description'),
-	created_at: text('created_at').notNull().default(sql`(strftime('%Y-%m-%dT%H:%M:%SZ', 'now'))`),
+	created_at: text('created_at')
+		.notNull()
+		.default(sql`(strftime('%Y-%m-%dT%H:%M:%SZ', 'now'))`),
 	updated_at: text('updated_at')
 		.notNull()
 		.default(sql`(strftime('%Y-%m-%dT%H:%M:%SZ', 'now'))`)
@@ -80,7 +88,9 @@ export const link_tag = sqliteTable('link_tag', {
 	tag_id: integer('tag_id')
 		.notNull()
 		.references(() => tags.id),
-	created_at: text('created_at').notNull().default(sql`(strftime('%Y-%m-%dT%H:%M:%SZ', 'now'))`),
+	created_at: text('created_at')
+		.notNull()
+		.default(sql`(strftime('%Y-%m-%dT%H:%M:%SZ', 'now'))`),
 	updated_at: text('updated_at')
 		.notNull()
 		.default(sql`(strftime('%Y-%m-%dT%H:%M:%SZ', 'now'))`)
@@ -95,7 +105,9 @@ export const note_tag = sqliteTable('note_tag', {
 	tag_id: integer('tag_id')
 		.notNull()
 		.references(() => tags.id),
-	created_at: text('created_at').notNull().default(sql`(strftime('%Y-%m-%dT%H:%M:%SZ', 'now'))`),
+	created_at: text('created_at')
+		.notNull()
+		.default(sql`(strftime('%Y-%m-%dT%H:%M:%SZ', 'now'))`),
 	updated_at: text('updated_at')
 		.notNull()
 		.default(sql`(strftime('%Y-%m-%dT%H:%M:%SZ', 'now'))`)
@@ -110,7 +122,9 @@ export const categories = sqliteTable('categories', {
 	id: integer('id').primaryKey({ autoIncrement: true }),
 	name: text('name').unique().notNull(),
 	description: text('description'),
-	created_at: text('created_at').notNull().default(sql`(strftime('%Y-%m-%dT%H:%M:%SZ', 'now'))`),
+	created_at: text('created_at')
+		.notNull()
+		.default(sql`(strftime('%Y-%m-%dT%H:%M:%SZ', 'now'))`),
 	updated_at: text('updated_at')
 		.notNull()
 		.default(sql`(strftime('%Y-%m-%dT%H:%M:%SZ', 'now'))`)

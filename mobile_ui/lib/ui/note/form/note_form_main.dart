@@ -9,9 +9,12 @@ class NoteFormMain extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isUpdateMode = noteId != null;
+    final title = isUpdateMode ? 'Update Note #$noteId' : 'Note Form';
+    
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Note'),
+        title: Text(title),
         leading: const Icon(Icons.note_add),
         actions: [
           IconButton(
