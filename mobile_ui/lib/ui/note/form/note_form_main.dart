@@ -11,7 +11,7 @@ class NoteFormMain extends StatelessWidget {
   Widget build(BuildContext context) {
     final isUpdateMode = noteId != null;
     final title = isUpdateMode ? 'Update Note #$noteId' : 'Note Form';
-    
+
     return Scaffold(
       appBar: AppBar(
         title: Text(title),
