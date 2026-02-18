@@ -33,4 +33,19 @@ class CategoryList extends _$CategoryList {
     });
     return category;
   }
+
+  /// カテゴリを削除
+  ///
+  /// Repositoryを使ってAPIにリクエストし、
+  /// 削除されたカテゴリを状態から削除
+  Future<void> delete(int categoryId) async {
+    final repository = ref.read(categoryRepositoryProvider);
+    await repository.deleteCategory(categoryId);
+    // 非同期でinvalidate（呼び出し元に影響しない）
+    Future.microtask(() {
+      if (ref.mounted) {
+        ref.invalidateSelf();
+      }
+    });
+  }
 }

@@ -65,4 +65,18 @@ class TagRepository {
       throw ParseException('作成されたタグデータの形式が不正です: $e');
     }
   }
+
+  Future<Tag> deleteTag(int tagId) async {
+    try {
+      final resBody = await _apiClient.delete(tagId);
+      final Map<String, dynamic> json = jsonDecode(resBody);
+      return Tag.fromJson(json);
+    } on SocketException {
+      throw const NetworkException('インターネット接続を確認してください');
+    } on FormatException catch (e) {
+      throw ParseException('削除されたタグデータの解析に失敗しました: ${e.message}');
+    } on TypeError catch (e) {
+      throw ParseException('削除されたタグデータの形式が不正です: $e');
+    }
+  }
 }

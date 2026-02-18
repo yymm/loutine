@@ -51,7 +51,7 @@ final class CategoryListProvider
   CategoryList create() => CategoryList();
 }
 
-String _$categoryListHash() => r'1902aa4c76c95562bb3e268665dd69dd5e109acb';
+String _$categoryListHash() => r'92965d32d4f3c4ecb45f0eb72252c125789c8d14';
 
 /// カテゴリ一覧の状態を管理するProvider
 ///

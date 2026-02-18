@@ -523,7 +523,7 @@ void main() {
         print('  ✓ Purchaseイベントが表示されています');
 
         // Noteのアイコンを確認
-        final noteIcon = find.byIcon(Icons.note);
+        final noteIcon = find.byIcon(Icons.insert_drive_file);
         expect(noteIcon, findsAtLeastNWidgets(1));
         print('  ✓ Noteイベントが表示されています');
 

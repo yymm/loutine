@@ -219,6 +219,16 @@ class TagApiClient {
       throw StateError('Failure to add tag');
     }
   }
+
+  Future<String> delete(int tagId) async {
+    final url = Uri.parse('$baseUrl/api/v1/tags/${tagId.toString()}');
+    final res = await http.delete(url);
+    if (res.statusCode == 200) {
+      return utf8.decode(res.bodyBytes);
+    } else {
+      throw StateError('Failure to delete tag');
+    }
+  }
 }
 
 class CategoryApiClient {
@@ -241,6 +251,18 @@ class CategoryApiClient {
       return utf8.decode(res.bodyBytes);
     } else {
       throw StateError('Failure to add category');
+    }
+  }
+
+  Future<String> delete(int categoryId) async {
+    final url = Uri.parse(
+      '$baseUrl/api/v1/categories/${categoryId.toString()}',
+    );
+    final res = await http.delete(url);
+    if (res.statusCode == 200) {
+      return utf8.decode(res.bodyBytes);
+    } else {
+      throw StateError('Failure to delete category');
     }
   }
 }

@@ -6,6 +6,7 @@ import 'package:mobile_ui/providers/home/home_calendar_provider.dart';
 import 'package:mobile_ui/providers/link/link_list_paginated_provider.dart';
 import 'package:mobile_ui/providers/note/note_list_paginated_provider.dart';
 import 'package:mobile_ui/providers/purchase/purchase_list_provider.dart';
+import 'package:mobile_ui/ui/shared/delete_confirm_dialog.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 class HomeCalendarEventList extends ConsumerWidget {
@@ -30,7 +31,7 @@ class HomeCalendarEventList extends ConsumerWidget {
                   color: Colors.orange,
                 ),
                 CalendarEventItemType.note => Icon(
-                  Icons.note,
+                  Icons.insert_drive_file,
                   color: Colors.lightGreen,
                 ),
               },
@@ -59,28 +60,19 @@ class HomeCalendarEventList extends ConsumerWidget {
                 ],
               ),
               trailing: IconButton(
-                icon: const Icon(Icons.delete_forever),
+                icon: const Icon(Icons.backspace),
+                color: Colors.black45,
                 onPressed: () async {
-                  final confirm = await showDialog<bool>(
-                    context: context,
-                    builder: (context) => AlertDialog(
-                      title: const Text('Are you sure you want to delete?'),
-                      content: Text('Title: ${event.title}'),
-                      actions: [
-                        TextButton(
-                          onPressed: () => Navigator.of(context).pop(false),
-                          child: const Text('Cancel'),
-                        ),
-                        TextButton(
-                          onPressed: () => Navigator.of(context).pop(true),
-                          style: TextButton.styleFrom(
-                            backgroundColor: Colors.red,
-                            foregroundColor: Colors.white70,
-                          ),
-                          child: const Text('DELETE'),
-                        ),
-                      ],
-                    ),
+                  final itemType = switch (event.itemType) {
+                    CalendarEventItemType.link => DeleteItemType.link,
+                    CalendarEventItemType.purchase => DeleteItemType.purchase,
+                    CalendarEventItemType.note => DeleteItemType.note,
+                  };
+
+                  final confirm = await showDeleteConfirmDialog(
+                    context,
+                    title: event.title,
+                    itemType: itemType,
                   );
                   if (confirm == true) {
                     final _ = switch (event.itemType) {

@@ -98,7 +98,7 @@ flutter:
   # list giving the asset and other descriptors for the font. For
   # example:
   fonts:
-    - family: NotoSansJP
+    - family: Noto Sans JP
       fonts:
         - asset: assets/fonts/static/NotoSansJP-Black.ttf
           weight: 900

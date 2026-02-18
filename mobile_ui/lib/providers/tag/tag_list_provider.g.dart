@@ -50,7 +50,7 @@ final class TagListProvider extends $AsyncNotifierProvider<TagList, List<Tag>> {
   TagList create() => TagList();
 }
 
-String _$tagListHash() => r'89cebf0051696a52e03779bc06fd28bd1428f7bf';
+String _$tagListHash() => r'ee54b9b6513460a66e74f7ac6857b45ba01b306b';
 
 /// タグ一覧の状態を管理するProvider
 ///
