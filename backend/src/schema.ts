@@ -13,11 +13,11 @@ export const links = sqliteTable(
 		id: integer('id').primaryKey({ autoIncrement: true }),
 		title: text('title').notNull(),
 		url: text('url').notNull(),
-		created_at: text('created_at').notNull().default(sql`(current_timestamp)`),
+		created_at: text('created_at').notNull().default(sql`(strftime('%Y-%m-%dT%H:%M:%SZ', 'now'))`),
 		updated_at: text('updated_at')
 			.notNull()
-			.default(sql`(current_timestamp)`)
-			.$onUpdateFn(() => sql`(current_timestamp)`),
+			.default(sql`(strftime('%Y-%m-%dT%H:%M:%SZ', 'now'))`)
+			.$onUpdateFn(() => sql`(strftime('%Y-%m-%dT%H:%M:%SZ', 'now'))`),
 	},
 	(table) => [index('links_created_at_idx').on(table.created_at)],
 );
@@ -29,11 +29,11 @@ export const purchases = sqliteTable(
 		title: text('title').notNull(),
 		cost: real('cost').notNull(),
 		currency_code: text('currency').default('JPY').notNull(),
-		created_at: text('created_at').notNull().default(sql`(current_timestamp)`),
+		created_at: text('created_at').notNull().default(sql`(strftime('%Y-%m-%dT%H:%M:%SZ', 'now'))`),
 		updated_at: text('updated_at')
 			.notNull()
-			.default(sql`(current_timestamp)`)
-			.$onUpdateFn(() => sql`(current_timestamp)`),
+			.default(sql`(strftime('%Y-%m-%dT%H:%M:%SZ', 'now'))`)
+			.$onUpdateFn(() => sql`(strftime('%Y-%m-%dT%H:%M:%SZ', 'now'))`),
 		category_id: integer('category_id').references(() => categories.id),
 	},
 	(table) => [index('purchases_created_at_idx').on(table.created_at)],
@@ -45,11 +45,11 @@ export const notes = sqliteTable(
 		id: integer('id').primaryKey({ autoIncrement: true }),
 		title: text('title').notNull(),
 		text: text('text').notNull(),
-		created_at: text('created_at').notNull().default(sql`(current_timestamp)`),
+		created_at: text('created_at').notNull().default(sql`(strftime('%Y-%m-%dT%H:%M:%SZ', 'now'))`),
 		updated_at: text('updated_at')
 			.notNull()
-			.default(sql`(current_timestamp)`)
-			.$onUpdateFn(() => sql`(current_timestamp)`),
+			.default(sql`(strftime('%Y-%m-%dT%H:%M:%SZ', 'now'))`)
+			.$onUpdateFn(() => sql`(strftime('%Y-%m-%dT%H:%M:%SZ', 'now'))`),
 	},
 	(table) => [index('notes_created_at_idx').on(table.created_at)],
 );
@@ -65,11 +65,11 @@ export const tags = sqliteTable('tags', {
 	id: integer('id').primaryKey({ autoIncrement: true }),
 	name: text('name').unique().notNull(),
 	description: text('description'),
-	created_at: text('created_at').notNull().default(sql`(current_timestamp)`),
+	created_at: text('created_at').notNull().default(sql`(strftime('%Y-%m-%dT%H:%M:%SZ', 'now'))`),
 	updated_at: text('updated_at')
 		.notNull()
-		.default(sql`(current_timestamp)`)
-		.$onUpdateFn(() => sql`(current_timestamp)`),
+		.default(sql`(strftime('%Y-%m-%dT%H:%M:%SZ', 'now'))`)
+		.$onUpdateFn(() => sql`(strftime('%Y-%m-%dT%H:%M:%SZ', 'now'))`),
 });
 
 export const link_tag = sqliteTable('link_tag', {
@@ -80,11 +80,11 @@ export const link_tag = sqliteTable('link_tag', {
 	tag_id: integer('tag_id')
 		.notNull()
 		.references(() => tags.id),
-	created_at: text('created_at').notNull().default(sql`(current_timestamp)`),
+	created_at: text('created_at').notNull().default(sql`(strftime('%Y-%m-%dT%H:%M:%SZ', 'now'))`),
 	updated_at: text('updated_at')
 		.notNull()
-		.default(sql`(current_timestamp)`)
-		.$onUpdateFn(() => sql`(current_timestamp)`),
+		.default(sql`(strftime('%Y-%m-%dT%H:%M:%SZ', 'now'))`)
+		.$onUpdateFn(() => sql`(strftime('%Y-%m-%dT%H:%M:%SZ', 'now'))`),
 });
 
 export const note_tag = sqliteTable('note_tag', {
@@ -95,11 +95,11 @@ export const note_tag = sqliteTable('note_tag', {
 	tag_id: integer('tag_id')
 		.notNull()
 		.references(() => tags.id),
-	created_at: text('created_at').notNull().default(sql`(current_timestamp)`),
+	created_at: text('created_at').notNull().default(sql`(strftime('%Y-%m-%dT%H:%M:%SZ', 'now'))`),
 	updated_at: text('updated_at')
 		.notNull()
-		.default(sql`(current_timestamp)`)
-		.$onUpdateFn(() => sql`(current_timestamp)`),
+		.default(sql`(strftime('%Y-%m-%dT%H:%M:%SZ', 'now'))`)
+		.$onUpdateFn(() => sql`(strftime('%Y-%m-%dT%H:%M:%SZ', 'now'))`),
 });
 
 // 'categories' relationship 'purchases' and 1:N
@@ -110,9 +110,9 @@ export const categories = sqliteTable('categories', {
 	id: integer('id').primaryKey({ autoIncrement: true }),
 	name: text('name').unique().notNull(),
 	description: text('description'),
-	created_at: text('created_at').notNull().default(sql`(current_timestamp)`),
+	created_at: text('created_at').notNull().default(sql`(strftime('%Y-%m-%dT%H:%M:%SZ', 'now'))`),
 	updated_at: text('updated_at')
 		.notNull()
-		.default(sql`(current_timestamp)`)
-		.$onUpdateFn(() => sql`(current_timestamp)`),
+		.default(sql`(strftime('%Y-%m-%dT%H:%M:%SZ', 'now'))`)
+		.$onUpdateFn(() => sql`(strftime('%Y-%m-%dT%H:%M:%SZ', 'now'))`),
 });
