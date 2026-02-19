@@ -2,7 +2,7 @@ desc: Get links by date range
 runners:
   req: http://localhost:8787
 vars:
-  authKey: '{{ env "CUSTOM_AUTH_KEY" "" }}'
+  authKey: '{{ env "CUSTOM_AUTH_KEY" "local-dev-key-change-for-production" }}'
 steps:
 - req:
     /api/v1/links?start_date=2025-01-01&end_date=2025-12-31:

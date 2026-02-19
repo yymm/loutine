@@ -2,7 +2,7 @@ desc: test api/v1/url/title POST
 runners:
   req: http://localhost:8787
 vars:
-  authKey: '{{ env "CUSTOM_AUTH_KEY" "" }}'
+  authKey: '{{ env "CUSTOM_AUTH_KEY" "local-dev-key-change-for-production" }}'
 steps:
 - req:
     /api/v1/url/title:

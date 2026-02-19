@@ -2,19 +2,21 @@ import type { Context, Next } from 'hono';
 import { HTTPException } from 'hono/http-exception';
 import type { Env } from '../utils/app_factory';
 
-let hasLoggedMissingAuthKey = false;
-
 export const customAuthMiddleware = async (c: Context<Env>, next: Next) => {
 	const authKey = c.req.header('X-Custom-Auth-Key');
 	const expectedKey = c.env.CUSTOM_AUTH_KEY;
 
+	// 環境変数が未設定 = エラー（fail-closed）
 	if (!expectedKey) {
-		if (!hasLoggedMissingAuthKey) {
-			console.warn('CUSTOM_AUTH_KEY is not configured. Skipping auth check.');
-			hasLoggedMissingAuthKey = true;
-		}
-		await next();
-		return;
+		throw new HTTPException(500, {
+			res: c.json(
+				{
+					success: false,
+					message: 'Server misconfiguration: authentication key not configured',
+				},
+				500,
+			),
+		});
 	}
 
 	if (!authKey) {
