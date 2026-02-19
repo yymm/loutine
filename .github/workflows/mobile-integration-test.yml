@@ -84,6 +84,7 @@ jobs:
           echo $! > /tmp/backend_pid.txt
         env:
           WRANGLER_SEND_METRICS: false
+          CUSTOM_AUTH_KEY: local-dev-key-change-for-production
       
       - name: Wait for Backend to be ready
         run: |
@@ -110,7 +111,8 @@ jobs:
         run: |
           flutter test integration_test/ \
             -d linux \
-            --dart-define=baseUrl=http://127.0.0.1:8787
+            --dart-define=baseUrl=http://127.0.0.1:8787 \
+            --dart-define=customAuthKey=local-dev-key-change-for-production
         env:
           DISPLAY: :99
       

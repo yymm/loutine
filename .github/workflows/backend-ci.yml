@@ -116,23 +116,26 @@ jobs:
         run: npx wrangler dev --local --ip 127.0.0.1 --port 8787 &
         env:
           WRANGLER_SEND_METRICS: false
+          CUSTOM_AUTH_KEY: local-dev-key-change-for-production
       
       - name: Wait
         run: sleep 10
       
       - name: Prepare E2E tests
         run: |
-          curl -X POST http://127.0.0.1:8787/api/v1/categories -d '{ "name": "prepare category", "description": "it is a sample" }' -H "Content-Type: application/json"
-          curl -X POST http://127.0.0.1:8787/api/v1/tags -d '{ "name": "prepare tag", "description": "it is a sample" }' -H "Content-Type: application/json"
-          curl -X POST http://127.0.0.1:8787/api/v1/links -d '{ "title": "prepare link", "url": "https://example.com" }' -H "Content-Type: application/json"
-          curl -X POST http://127.0.0.1:8787/api/v1/notes -d '{ "title": "prepare note", "text": "sample" }' -H "Content-Type: application/json"
-          curl -X POST http://127.0.0.1:8787/api/v1/purchases -d '{ "title": "prepare purchase", "cost": 1000 }' -H "Content-Type: application/json"
+          curl -X POST http://127.0.0.1:8787/api/v1/categories -d '{ "name": "prepare category", "description": "it is a sample" }' -H "Content-Type: application/json" -H "X-Custom-Auth-Key: local-dev-key-change-for-production"
+          curl -X POST http://127.0.0.1:8787/api/v1/tags -d '{ "name": "prepare tag", "description": "it is a sample" }' -H "Content-Type: application/json" -H "X-Custom-Auth-Key: local-dev-key-change-for-production"
+          curl -X POST http://127.0.0.1:8787/api/v1/links -d '{ "title": "prepare link", "url": "https://example.com" }' -H "Content-Type: application/json" -H "X-Custom-Auth-Key: local-dev-key-change-for-production"
+          curl -X POST http://127.0.0.1:8787/api/v1/notes -d '{ "title": "prepare note", "text": "sample" }' -H "Content-Type: application/json" -H "X-Custom-Auth-Key: local-dev-key-change-for-production"
+          curl -X POST http://127.0.0.1:8787/api/v1/purchases -d '{ "title": "prepare purchase", "cost": 1000 }' -H "Content-Type: application/json" -H "X-Custom-Auth-Key: local-dev-key-change-for-production"
       
       - name: Wait
         run: sleep 10
 
       - name: Run E2E tests
         run: npm run ci:test:e2e
+        env:
+          CUSTOM_AUTH_KEY: local-dev-key-change-for-production
 
   build:
     name: Build Check
