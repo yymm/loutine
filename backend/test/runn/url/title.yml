@@ -1,10 +1,14 @@
 desc: test api/v1/url/title POST
 runners:
-  req: http://127.0.0.1:8787
+  req: http://localhost:8787
+vars:
+  authKey: 'local-dev-key-change-for-production'
 steps:
 - req:
     /api/v1/url/title:
       post:
+        headers:
+          X-Custom-Auth-Key: '{{ vars.authKey }}'
         body:
           application/json:
             url: https://dev.to/abdullahyasir/flutter-development-setup-for-wsl2-windows-android-studio-complete-guide-4493

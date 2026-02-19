@@ -6,6 +6,16 @@ import 'package:intl/intl.dart';
 // load from dart-define-from-file
 const envBaseUrl = String.fromEnvironment('baseUrl');
 const baseUrl = envBaseUrl == "" ? 'http://10.0.2.2:8787' : envBaseUrl;
+const envCustomAuthKey = String.fromEnvironment('customAuthKey');
+
+// Helper function to create headers with optional auth key
+Map<String, String> _createHeaders() {
+  final headers = <String, String>{'content-type': 'application/json'};
+  if (envCustomAuthKey.isNotEmpty) {
+    headers['X-Custom-Auth-Key'] = envCustomAuthKey;
+  }
+  return headers;
+}
 
 class LinkApiClient {
   Future<String> list(DateTime startDate, DateTime endDate) async {
@@ -15,7 +25,8 @@ class LinkApiClient {
     final url = Uri.parse(
       '$baseUrl/api/v1/links?start_date=$startDateStr&end_date=$endDateStr',
     );
-    final res = await http.get(url);
+    final headers = _createHeaders();
+    final res = await http.get(url, headers: headers);
     if (res.statusCode == 200) {
       return utf8.decode(res.bodyBytes);
     } else {
@@ -32,7 +43,8 @@ class LinkApiClient {
     final url = Uri.parse(
       '$baseUrl/api/v1/links/latest',
     ).replace(queryParameters: queryParams);
-    final res = await http.get(url);
+    final headers = _createHeaders();
+    final res = await http.get(url, headers: headers);
     if (res.statusCode == 200) {
       return utf8.decode(res.bodyBytes);
     } else {
@@ -42,7 +54,7 @@ class LinkApiClient {
 
   Future<String> post(String url, String title, List<int> tagIds) async {
     final postUrl = Uri.parse('$baseUrl/api/v1/links');
-    final headers = {'content-type': 'application/json'};
+    final headers = _createHeaders();
     final body = json.encode({'url': url, 'title': title, 'tag_ids': tagIds});
     final res = await http.post(postUrl, headers: headers, body: body);
     if (res.statusCode == 201) {
@@ -54,7 +66,7 @@ class LinkApiClient {
 
   Future<String> delete(int id) async {
     final postUrl = Uri.parse('$baseUrl/api/v1/links/${id.toString()}');
-    final headers = {'content-type': 'application/json'};
+    final headers = _createHeaders();
     final res = await http.delete(postUrl, headers: headers);
     if (res.statusCode == 200) {
       return utf8.decode(res.bodyBytes);
@@ -72,7 +84,8 @@ class PurchaseApiClient {
     final url = Uri.parse(
       '$baseUrl/api/v1/purchases?start_date=$startDateStr&end_date=$endDateStr',
     );
-    final res = await http.get(url);
+    final headers = _createHeaders();
+    final res = await http.get(url, headers: headers);
     if (res.statusCode == 200) {
       return utf8.decode(res.bodyBytes);
     } else {
@@ -82,7 +95,7 @@ class PurchaseApiClient {
 
   Future<String> post(double cost, String title, int? categoryId) async {
     final postUrl = Uri.parse('$baseUrl/api/v1/purchases');
-    final headers = {'content-type': 'application/json'};
+    final headers = _createHeaders();
     final bodyObject = categoryId != null
         ? {'cost': cost, 'title': title, 'categoryId': categoryId}
         : {'cost': cost, 'title': title};
@@ -97,7 +110,7 @@ class PurchaseApiClient {
 
   Future<String> delete(int id) async {
     final postUrl = Uri.parse('$baseUrl/api/v1/purchases/${id.toString()}');
-    final headers = {'content-type': 'application/json'};
+    final headers = _createHeaders();
     final res = await http.delete(postUrl, headers: headers);
     if (res.statusCode == 200) {
       return utf8.decode(res.bodyBytes);
@@ -115,7 +128,8 @@ class NoteApiClient {
     final url = Uri.parse(
       '$baseUrl/api/v1/notes?start_date=$startDateStr&end_date=$endDateStr',
     );
-    final res = await http.get(url);
+    final headers = _createHeaders();
+    final res = await http.get(url, headers: headers);
     if (res.statusCode == 200) {
       return utf8.decode(res.bodyBytes);
     } else {
@@ -132,7 +146,8 @@ class NoteApiClient {
     final url = Uri.parse(
       '$baseUrl/api/v1/notes/latest',
     ).replace(queryParameters: queryParams);
-    final res = await http.get(url);
+    final headers = _createHeaders();
+    final res = await http.get(url, headers: headers);
     if (res.statusCode == 200) {
       return utf8.decode(res.bodyBytes);
     } else {
@@ -142,7 +157,7 @@ class NoteApiClient {
 
   Future<String> post(String text, String title, List<int> tagIds) async {
     final postUrl = Uri.parse('$baseUrl/api/v1/notes');
-    final headers = {'content-type': 'application/json'};
+    final headers = _createHeaders();
     final body = json.encode({'text': text, 'title': title, 'tag_ids': tagIds});
     final res = await http.post(postUrl, headers: headers, body: body);
     if (res.statusCode == 201) {
@@ -154,7 +169,7 @@ class NoteApiClient {
 
   Future<String> delete(int id) async {
     final postUrl = Uri.parse('$baseUrl/api/v1/notes/${id.toString()}');
-    final headers = {'content-type': 'application/json'};
+    final headers = _createHeaders();
     final res = await http.delete(postUrl, headers: headers);
     if (res.statusCode == 200) {
       return utf8.decode(res.bodyBytes);
@@ -165,7 +180,7 @@ class NoteApiClient {
 
   Future<String> getById(int id) async {
     final postUrl = Uri.parse('$baseUrl/api/v1/notes/${id.toString()}');
-    final headers = {'content-type': 'application/json'};
+    final headers = _createHeaders();
     final res = await http.get(postUrl, headers: headers);
     if (res.statusCode == 200) {
       return utf8.decode(res.bodyBytes);
@@ -181,7 +196,7 @@ class NoteApiClient {
     List<int> tagIds,
   ) async {
     final postUrl = Uri.parse('$baseUrl/api/v1/notes');
-    final headers = {'content-type': 'application/json'};
+    final headers = _createHeaders();
     final body = json.encode({
       'id': id,
       'text': text,
@@ -200,7 +215,8 @@ class NoteApiClient {
 class TagApiClient {
   Future<String> list() async {
     final url = Uri.parse('$baseUrl/api/v1/tags');
-    final res = await http.get(url);
+    final headers = _createHeaders();
+    final res = await http.get(url, headers: headers);
     if (res.statusCode == 200) {
       return utf8.decode(res.bodyBytes);
     } else {
@@ -210,7 +226,7 @@ class TagApiClient {
 
   Future<String> post(String name, String description) async {
     final url = Uri.parse('$baseUrl/api/v1/tags');
-    final headers = {'content-type': 'application/json'};
+    final headers = _createHeaders();
     final body = json.encode({'name': name, 'description': description});
     final res = await http.post(url, headers: headers, body: body);
     if (res.statusCode == 201) {
@@ -222,7 +238,8 @@ class TagApiClient {
 
   Future<String> delete(int tagId) async {
     final url = Uri.parse('$baseUrl/api/v1/tags/${tagId.toString()}');
-    final res = await http.delete(url);
+    final headers = _createHeaders();
+    final res = await http.delete(url, headers: headers);
     if (res.statusCode == 200) {
       return utf8.decode(res.bodyBytes);
     } else {
@@ -234,7 +251,8 @@ class TagApiClient {
 class CategoryApiClient {
   Future<String> list() async {
     final url = Uri.parse('$baseUrl/api/v1/categories');
-    final res = await http.get(url);
+    final headers = _createHeaders();
+    final res = await http.get(url, headers: headers);
     if (res.statusCode == 200) {
       return utf8.decode(res.bodyBytes);
     } else {
@@ -244,7 +262,7 @@ class CategoryApiClient {
 
   Future<String> post(String name, String description) async {
     final url = Uri.parse('$baseUrl/api/v1/categories');
-    final headers = {'content-type': 'application/json'};
+    final headers = _createHeaders();
     final body = json.encode({'name': name, 'description': description});
     final res = await http.post(url, headers: headers, body: body);
     if (res.statusCode == 201) {
@@ -258,7 +276,8 @@ class CategoryApiClient {
     final url = Uri.parse(
       '$baseUrl/api/v1/categories/${categoryId.toString()}',
     );
-    final res = await http.delete(url);
+    final headers = _createHeaders();
+    final res = await http.delete(url, headers: headers);
     if (res.statusCode == 200) {
       return utf8.decode(res.bodyBytes);
     } else {
@@ -270,7 +289,7 @@ class CategoryApiClient {
 class UrlApiClient {
   Future<String> getTitleFromUrl(String url) async {
     final apiUrl = Uri.parse('$baseUrl/api/v1/url/title');
-    final headers = {'content-type': 'application/json'};
+    final headers = _createHeaders();
     final body = json.encode({'url': url});
     final res = await http.post(apiUrl, headers: headers, body: body);
     if (res.statusCode == 200) {

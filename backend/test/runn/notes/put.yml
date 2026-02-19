@@ -1,10 +1,14 @@
 desc: Update a note
 runners:
   req: http://localhost:8787
+vars:
+  authKey: 'local-dev-key-change-for-production'
 steps:
 - req:
     /api/v1/notes:
       put:
+        headers:
+          X-Custom-Auth-Key: '{{ vars.authKey }}'
         body:
           application/json:
             id: 1

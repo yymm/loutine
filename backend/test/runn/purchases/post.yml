@@ -1,10 +1,14 @@
 desc: Create a new purchase
 runners:
   req: http://localhost:8787
+vars:
+  authKey: 'local-dev-key-change-for-production'
 steps:
 - req:
     /api/v1/purchases:
       post:
+        headers:
+          X-Custom-Auth-Key: '{{ vars.authKey }}'
         body:
           application/json:
             title: test purchase runn

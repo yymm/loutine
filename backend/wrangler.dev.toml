@@ -4,8 +4,11 @@ compatibility_date = "2025-01-01"
 
 compatibility_flags = [ "nodejs_compat" ]
 
-# [vars]
-# MY_VAR = "my-variable"
+[vars]
+CUSTOM_AUTH_KEY = "local-dev-key-change-for-production"
+
+# Note: ローカル開発用のダミーキー
+# dev環境にデプロイする場合は、Cloudflare Dashboardで本番用のキーに上書き設定してください
 
 # [[kv_namespaces]]
 # binding = "MY_KV_NAMESPACE"

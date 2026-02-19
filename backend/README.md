@@ -6,6 +6,10 @@
 npm run local
 ```
 
+認証キーは`wrangler.toml`で設定されています（デフォルト: `local-dev-key-change-for-production`）。
+
+**重要**: 本番環境にデプロイする前に必ず変更してください。
+
 src/schema.ts を更新した際に実行する
 
 ```
@@ -31,6 +35,39 @@ npm run dev_db_create
 
 ```
 npm run dev
+```
+
+## 認証キーの設定
+
+**ローカル開発時**は`wrangler.toml`と`wrangler.dev.toml`にデフォルトキー（`local-dev-key-change-for-production`）が設定されています。
+
+**dev環境にデプロイする場合**は、Cloudflare Dashboardで環境変数`CUSTOM_AUTH_KEY`を本番用のキーに上書き設定してください。
+
+### APIリクエスト例
+
+```bash
+curl -H "X-Custom-Auth-Key: local-dev-key-change-for-production" \
+  http://localhost:8787/api/v1/links
+```
+
+### mobile_uiアプリから接続する場合
+
+ローカル開発時はそのまま動作します（`dart_defines/local.env`に同じキーが設定済み）。
+
+dev環境への接続時は、`mobile_ui/dart_defines/dev.env`の`customAuthKey`をCloudflare Dashboardで設定したキーに合わせてください。
+
+### runnテストの実行
+
+ローカル開発時:
+```bash
+npm run test:runn
+```
+
+環境変数が未設定の場合、デフォルトキー（`local-dev-key-change-for-production`）が使用されます。
+
+dev環境への接続時:
+```bash
+CUSTOM_AUTH_KEY="your-production-key" npm run test:runn
 ```
 
 src/schema.ts を更新した際に実行する
