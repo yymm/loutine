@@ -1,4 +1,0 @@
-desc: Common configuration for runn tests
-vars:
-  # Load auth key from environment variable (empty by default for local dev)
-  authKey: '{{ env "CUSTOM_AUTH_KEY" "" }}'

@@ -1,8 +1,8 @@
 desc: Create a new note
 runners:
+  req: http://localhost:8787
 vars:
   authKey: '{{ env "CUSTOM_AUTH_KEY" "" }}'
-  req: http://localhost:8787
 steps:
 - req:
     /api/v1/notes:
