@@ -98,6 +98,85 @@ prod にデプロイ
 npm run deploy
 ```
 
+# Deployment to Cloudflare Workers (dev)
+
+## GitHub Secretsの設定（初回のみ）
+
+GitHub Actionsから自動デプロイするために、以下のSecretsを設定してください：
+
+1. GitHubリポジトリ https://github.com/yymm/loutine にアクセス
+2. Settings > Secrets and variables > Actions を選択
+3. 以下の2つのSecretを追加：
+
+### CLOUDFLARE_API_TOKEN
+
+1. https://dash.cloudflare.com/profile/api-tokens にアクセス
+2. "Create Token" をクリック
+3. "Edit Cloudflare Workers" テンプレートを使用
+4. 権限を設定：
+   - Account > Account Settings > Read
+   - Account > Workers Scripts > Edit
+   - Account > D1 > Edit
+5. トークンを生成してコピー
+
+```
+Name: CLOUDFLARE_API_TOKEN
+Secret: <コピーしたAPI Token>
+```
+
+### CLOUDFLARE_ACCOUNT_ID
+
+1. https://dash.cloudflare.com/ にアクセス
+2. Workers & Pages を選択
+3. 右サイドバーの Account ID をコピー
+
+```
+Name: CLOUDFLARE_ACCOUNT_ID
+Secret: <コピーしたAccount ID>
+```
+
+## 自動デプロイフロー
+
+mainブランチにマージされると、GitHub Actionsが自動的に：
+
+1. 型チェック実行
+2. D1データベースへマイグレーション実行
+3. Cloudflare Workers (dev)にデプロイ
+
+## 手動デプロイ
+
+GitHub Actionsから手動でデプロイすることも可能：
+
+1. GitHubリポジトリ > Actions タブ
+2. "Deploy Backend to Dev" ワークフローを選択
+3. "Run workflow" をクリック
+4. ブランチを選択（通常は main）
+5. "Run workflow" をクリック
+
+## Cloudflare Dashboard での環境変数設定
+
+デプロイ後、認証キーを設定してください：
+
+1. https://dash.cloudflare.com/ にアクセス
+2. Workers & Pages > backend を選択
+3. Settings > Variables を選択
+4. "Add variable" をクリック
+5. 以下を追加：
+
+```
+Variable name: CUSTOM_AUTH_KEY
+Value: <強力なランダム文字列>
+Type: Text
+Encrypt: ✅
+```
+
+推奨：認証キーの生成
+```bash
+openssl rand -base64 32
+```
+
+詳細は `docs/cloudflare-deployment.md` を参照してください。
+
 # API Architecture
 
 ドメイン的なやつ
