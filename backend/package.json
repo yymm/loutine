@@ -16,13 +16,11 @@
     "local:drizzle:generate": "drizzle-kit generate --config drizzle.config.local.ts",
     "local:drizzle:migrate": "drizzle-kit migrate --config drizzle.config.local.ts",
     "local:drizzle:studio": "drizzle-kit studio --config drizzle.config.local.ts",
-    "dev": "wrangler dev --remote --config wrangler.dev.toml",
     "dev:db:create": "wrangler d1 create loutine-dev",
-    "dev:drizzle:migrate": "drizzle-kit migrate --config drizzle.config.dev.ts",
-    "dev:drizzle:studio": "drizzle-kit studio --config drizzle.config.dev.ts",
-    "prod:drizzle:migrate": "drizzle-kit migrate",
-    "prod:drizzle:studio": "drizzle-kit studio",
-    "prod:db:create": "wrangler d1 create loutine",
+    "dev:drizzle:migrate": "wrangler d1 migrations apply loutine-dev --remote --config wrangler.dev.toml",
+    "dev:deploy": "wrangler deploy --config wrangler.dev.toml",
+    "prod:db:create": "wrangler d1 create loutine-prod",
+    "prod:drizzle:migrate": "wrangler d1 migrations apply loutine-prod --remote",
     "prod:deploy": "wrangler deploy --minify"
   },
   "dependencies": {
