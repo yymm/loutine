@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$Purchase {
 
- int get id; String get title; int get cost;@JsonKey(name: 'created_at', fromJson: _dateTimeFromJson) DateTime get createdAt;@JsonKey(name: 'updated_at', fromJson: _dateTimeFromJson) DateTime get updatedAt;
+ int get id; String get title; int get cost;@JsonKey(name: 'category_id') int? get categoryId;@JsonKey(name: 'created_at', fromJson: _dateTimeFromJson) DateTime get createdAt;@JsonKey(name: 'updated_at', fromJson: _dateTimeFromJson) DateTime get updatedAt;
 /// Create a copy of Purchase
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -28,16 +28,16 @@ $PurchaseCopyWith<Purchase> get copyWith => _$PurchaseCopyWithImpl<Purchase>(thi
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Purchase&&(identical(other.id, id) || other.id == id)&&(identical(other.title, title) || other.title == title)&&(identical(other.cost, cost) || other.cost == cost)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Purchase&&(identical(other.id, id) || other.id == id)&&(identical(other.title, title) || other.title == title)&&(identical(other.cost, cost) || other.cost == cost)&&(identical(other.categoryId, categoryId) || other.categoryId == categoryId)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,title,cost,createdAt,updatedAt);
+int get hashCode => Object.hash(runtimeType,id,title,cost,categoryId,createdAt,updatedAt);
 
 @override
 String toString() {
-  return 'Purchase(id: $id, title: $title, cost: $cost, createdAt: $createdAt, updatedAt: $updatedAt)';
+  return 'Purchase(id: $id, title: $title, cost: $cost, categoryId: $categoryId, createdAt: $createdAt, updatedAt: $updatedAt)';
 }
 
 
@@ -48,7 +48,7 @@ abstract mixin class $PurchaseCopyWith<$Res>  {
   factory $PurchaseCopyWith(Purchase value, $Res Function(Purchase) _then) = _$PurchaseCopyWithImpl;
 @useResult
 $Res call({
- int id, String title, int cost,@JsonKey(name: 'created_at', fromJson: _dateTimeFromJson) DateTime createdAt,@JsonKey(name: 'updated_at', fromJson: _dateTimeFromJson) DateTime updatedAt
+ int id, String title, int cost,@JsonKey(name: 'category_id') int? categoryId,@JsonKey(name: 'created_at', fromJson: _dateTimeFromJson) DateTime createdAt,@JsonKey(name: 'updated_at', fromJson: _dateTimeFromJson) DateTime updatedAt
 });
 
 
@@ -65,12 +65,13 @@ class _$PurchaseCopyWithImpl<$Res>
 
 /// Create a copy of Purchase
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? title = null,Object? cost = null,Object? createdAt = null,Object? updatedAt = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? title = null,Object? cost = null,Object? categoryId = freezed,Object? createdAt = null,Object? updatedAt = null,}) {
   return _then(_self.copyWith(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as int,title: null == title ? _self.title : title // ignore: cast_nullable_to_non_nullable
 as String,cost: null == cost ? _self.cost : cost // ignore: cast_nullable_to_non_nullable
-as int,createdAt: null == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
+as int,categoryId: freezed == categoryId ? _self.categoryId : categoryId // ignore: cast_nullable_to_non_nullable
+as int?,createdAt: null == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
 as DateTime,updatedAt: null == updatedAt ? _self.updatedAt : updatedAt // ignore: cast_nullable_to_non_nullable
 as DateTime,
   ));
@@ -157,10 +158,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int id,  String title,  int cost, @JsonKey(name: 'created_at', fromJson: _dateTimeFromJson)  DateTime createdAt, @JsonKey(name: 'updated_at', fromJson: _dateTimeFromJson)  DateTime updatedAt)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int id,  String title,  int cost, @JsonKey(name: 'category_id')  int? categoryId, @JsonKey(name: 'created_at', fromJson: _dateTimeFromJson)  DateTime createdAt, @JsonKey(name: 'updated_at', fromJson: _dateTimeFromJson)  DateTime updatedAt)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _Purchase() when $default != null:
-return $default(_that.id,_that.title,_that.cost,_that.createdAt,_that.updatedAt);case _:
+return $default(_that.id,_that.title,_that.cost,_that.categoryId,_that.createdAt,_that.updatedAt);case _:
   return orElse();
 
 }
@@ -178,10 +179,10 @@ return $default(_that.id,_that.title,_that.cost,_that.createdAt,_that.updatedAt)
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int id,  String title,  int cost, @JsonKey(name: 'created_at', fromJson: _dateTimeFromJson)  DateTime createdAt, @JsonKey(name: 'updated_at', fromJson: _dateTimeFromJson)  DateTime updatedAt)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int id,  String title,  int cost, @JsonKey(name: 'category_id')  int? categoryId, @JsonKey(name: 'created_at', fromJson: _dateTimeFromJson)  DateTime createdAt, @JsonKey(name: 'updated_at', fromJson: _dateTimeFromJson)  DateTime updatedAt)  $default,) {final _that = this;
 switch (_that) {
 case _Purchase():
-return $default(_that.id,_that.title,_that.cost,_that.createdAt,_that.updatedAt);case _:
+return $default(_that.id,_that.title,_that.cost,_that.categoryId,_that.createdAt,_that.updatedAt);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -198,10 +199,10 @@ return $default(_that.id,_that.title,_that.cost,_that.createdAt,_that.updatedAt)
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int id,  String title,  int cost, @JsonKey(name: 'created_at', fromJson: _dateTimeFromJson)  DateTime createdAt, @JsonKey(name: 'updated_at', fromJson: _dateTimeFromJson)  DateTime updatedAt)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int id,  String title,  int cost, @JsonKey(name: 'category_id')  int? categoryId, @JsonKey(name: 'created_at', fromJson: _dateTimeFromJson)  DateTime createdAt, @JsonKey(name: 'updated_at', fromJson: _dateTimeFromJson)  DateTime updatedAt)?  $default,) {final _that = this;
 switch (_that) {
 case _Purchase() when $default != null:
-return $default(_that.id,_that.title,_that.cost,_that.createdAt,_that.updatedAt);case _:
+return $default(_that.id,_that.title,_that.cost,_that.categoryId,_that.createdAt,_that.updatedAt);case _:
   return null;
 
 }
@@ -213,12 +214,13 @@ return $default(_that.id,_that.title,_that.cost,_that.createdAt,_that.updatedAt)
 @JsonSerializable()
 
 class _Purchase implements Purchase {
-  const _Purchase({required this.id, required this.title, required this.cost, @JsonKey(name: 'created_at', fromJson: _dateTimeFromJson) required this.createdAt, @JsonKey(name: 'updated_at', fromJson: _dateTimeFromJson) required this.updatedAt});
+  const _Purchase({required this.id, required this.title, required this.cost, @JsonKey(name: 'category_id') this.categoryId, @JsonKey(name: 'created_at', fromJson: _dateTimeFromJson) required this.createdAt, @JsonKey(name: 'updated_at', fromJson: _dateTimeFromJson) required this.updatedAt});
   factory _Purchase.fromJson(Map<String, dynamic> json) => _$PurchaseFromJson(json);
 
 @override final  int id;
 @override final  String title;
 @override final  int cost;
+@override@JsonKey(name: 'category_id') final  int? categoryId;
 @override@JsonKey(name: 'created_at', fromJson: _dateTimeFromJson) final  DateTime createdAt;
 @override@JsonKey(name: 'updated_at', fromJson: _dateTimeFromJson) final  DateTime updatedAt;
 
@@ -235,16 +237,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Purchase&&(identical(other.id, id) || other.id == id)&&(identical(other.title, title) || other.title == title)&&(identical(other.cost, cost) || other.cost == cost)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Purchase&&(identical(other.id, id) || other.id == id)&&(identical(other.title, title) || other.title == title)&&(identical(other.cost, cost) || other.cost == cost)&&(identical(other.categoryId, categoryId) || other.categoryId == categoryId)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,title,cost,createdAt,updatedAt);
+int get hashCode => Object.hash(runtimeType,id,title,cost,categoryId,createdAt,updatedAt);
 
 @override
 String toString() {
-  return 'Purchase(id: $id, title: $title, cost: $cost, createdAt: $createdAt, updatedAt: $updatedAt)';
+  return 'Purchase(id: $id, title: $title, cost: $cost, categoryId: $categoryId, createdAt: $createdAt, updatedAt: $updatedAt)';
 }
 
 
@@ -255,7 +257,7 @@ abstract mixin class _$PurchaseCopyWith<$Res> implements $PurchaseCopyWith<$Res>
   factory _$PurchaseCopyWith(_Purchase value, $Res Function(_Purchase) _then) = __$PurchaseCopyWithImpl;
 @override @useResult
 $Res call({
- int id, String title, int cost,@JsonKey(name: 'created_at', fromJson: _dateTimeFromJson) DateTime createdAt,@JsonKey(name: 'updated_at', fromJson: _dateTimeFromJson) DateTime updatedAt
+ int id, String title, int cost,@JsonKey(name: 'category_id') int? categoryId,@JsonKey(name: 'created_at', fromJson: _dateTimeFromJson) DateTime createdAt,@JsonKey(name: 'updated_at', fromJson: _dateTimeFromJson) DateTime updatedAt
 });
 
 
@@ -272,12 +274,13 @@ class __$PurchaseCopyWithImpl<$Res>
 
 /// Create a copy of Purchase
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? title = null,Object? cost = null,Object? createdAt = null,Object? updatedAt = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? title = null,Object? cost = null,Object? categoryId = freezed,Object? createdAt = null,Object? updatedAt = null,}) {
   return _then(_Purchase(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as int,title: null == title ? _self.title : title // ignore: cast_nullable_to_non_nullable
 as String,cost: null == cost ? _self.cost : cost // ignore: cast_nullable_to_non_nullable
-as int,createdAt: null == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
+as int,categoryId: freezed == categoryId ? _self.categoryId : categoryId // ignore: cast_nullable_to_non_nullable
+as int?,createdAt: null == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
 as DateTime,updatedAt: null == updatedAt ? _self.updatedAt : updatedAt // ignore: cast_nullable_to_non_nullable
 as DateTime,
   ));

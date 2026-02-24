@@ -69,7 +69,7 @@ final class CalendarEventDataProvider
   }
 }
 
-String _$calendarEventDataHash() => r'f2e99775312dd257322eee3fdcc636790a225076';
+String _$calendarEventDataHash() => r'11c3f91ed27f1d6dd36eafbf46540452a46f2713';
 
 /// カレンダーに表示する月のイベント一覧を管理するProvider
 ///

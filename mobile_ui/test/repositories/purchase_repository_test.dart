@@ -30,6 +30,7 @@ void main() {
             "id": 1,
             "title": "購入1",
             "cost": 1000,
+            "category_id": 1,
             "created_at": "2024-01-01T00:00:00Z",
             "updated_at": "2024-01-01T00:00:00Z"
           },
@@ -37,6 +38,7 @@ void main() {
             "id": 2,
             "title": "購入2",
             "cost": 2000,
+            "category_id": null,
             "created_at": "2024-01-02T00:00:00Z",
             "updated_at": "2024-01-02T00:00:00Z"
           }
@@ -55,9 +57,11 @@ void main() {
         expect(purchases[0].id, 1);
         expect(purchases[0].title, '購入1');
         expect(purchases[0].cost, 1000);
+        expect(purchases[0].categoryId, 1);
         expect(purchases[1].id, 2);
         expect(purchases[1].title, '購入2');
         expect(purchases[1].cost, 2000);
+        expect(purchases[1].categoryId, null);
 
         verify(() => mockApiClient.list(startDate, endDate)).called(1);
       });
@@ -91,6 +95,7 @@ void main() {
           "id": 3,
           "title": "$title",
           "cost": 1500,
+          "category_id": $categoryId,
           "created_at": "2024-01-03T00:00:00Z",
           "updated_at": "2024-01-03T00:00:00Z"
         }
@@ -111,6 +116,7 @@ void main() {
         expect(purchase.id, 3);
         expect(purchase.title, title);
         expect(purchase.cost, 1500);
+        expect(purchase.categoryId, categoryId);
         verify(() => mockApiClient.post(cost, title, categoryId)).called(1);
       });
 
@@ -124,6 +130,7 @@ void main() {
           "id": 4,
           "title": "$title",
           "cost": 2000,
+          "category_id": null,
           "created_at": "2024-01-04T00:00:00Z",
           "updated_at": "2024-01-04T00:00:00Z"
         }
@@ -140,6 +147,7 @@ void main() {
         expect(purchase.id, 4);
         expect(purchase.title, title);
         expect(purchase.cost, 2000);
+        expect(purchase.categoryId, null);
         verify(() => mockApiClient.post(cost, title, null)).called(1);
       });
     });

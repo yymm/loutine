@@ -11,6 +11,7 @@ abstract class Purchase with _$Purchase {
     required int id,
     required String title,
     required int cost,
+    @JsonKey(name: 'category_id') int? categoryId,
     @JsonKey(name: 'created_at', fromJson: _dateTimeFromJson)
     required DateTime createdAt,
     @JsonKey(name: 'updated_at', fromJson: _dateTimeFromJson)

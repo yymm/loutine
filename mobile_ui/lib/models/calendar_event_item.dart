@@ -36,13 +36,14 @@ class CalendarEventItem {
     );
   }
 
-  factory CalendarEventItem.fromPurchase(Purchase purchase) {
+  factory CalendarEventItem.fromPurchase(Purchase purchase, {Category? category}) {
     return CalendarEventItem(
       createdAt: purchase.createdAt,
       itemType: CalendarEventItemType.purchase,
       id: purchase.id.toString(),
       title: purchase.title,
       data: purchase.cost.toString(),
+      category: category,
       // tags: link.tags,
     );
   }

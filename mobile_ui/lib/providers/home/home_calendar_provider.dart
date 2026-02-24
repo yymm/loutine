@@ -1,5 +1,6 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:mobile_ui/models/calendar_event_item.dart';
+import 'package:mobile_ui/models/category.dart';
 import 'package:mobile_ui/models/link.dart';
 import 'package:mobile_ui/models/note.dart';
 import 'package:mobile_ui/models/purchase.dart';
@@ -54,22 +55,31 @@ class CalendarEventData extends _$CalendarEventData {
     final linkRepo = ref.watch(linkRepositoryProvider);
     final purchaseRepo = ref.watch(purchaseRepositoryProvider);
     final noteRepo = ref.watch(noteRepositoryProvider);
+    final categoryRepo = ref.watch(categoryRepositoryProvider);
 
     // 並列取得
     final results = await Future.wait([
       linkRepo.fetchLinks(startDate, endDate),
       purchaseRepo.fetchPurchases(startDate, endDate),
       noteRepo.fetchNotes(startDate, endDate),
+      categoryRepo.fetchCategories(),
     ]);
 
     final links = results[0] as List<Link>;
     final purchases = results[1] as List<Purchase>;
     final notes = results[2] as List<Note>;
+    final categories = results[3] as List<Category>;
+
+    // カテゴリマップを作成（高速検索用）
+    final categoryMap = {for (var c in categories) c.id: c};
 
     // CalendarEventItemに変換
     final eventItems = [
       ...links.map((e) => CalendarEventItem.fromLink(e)),
-      ...purchases.map((e) => CalendarEventItem.fromPurchase(e)),
+      ...purchases.map((p) => CalendarEventItem.fromPurchase(
+            p,
+            category: p.categoryId != null ? categoryMap[p.categoryId] : null,
+          )),
       ...notes.map((e) => CalendarEventItem.fromNote(e)),
     ];
 
