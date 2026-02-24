@@ -53,6 +53,12 @@ class HomeCalendarEventList extends ConsumerWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const SizedBox(height: 8),
+                  if (event.itemType == CalendarEventItemType.purchase &&
+                      event.category != null)
+                    Text(
+                      'Category: ${event.category!.name}',
+                      style: TextStyle(fontSize: 12, color: Colors.grey[700]),
+                    ),
                   Text(
                     'Created: ${dateFormat.format(event.createdAt)}',
                     style: TextStyle(fontSize: 12, color: Colors.grey[600]),
