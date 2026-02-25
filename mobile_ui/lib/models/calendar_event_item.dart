@@ -36,7 +36,10 @@ class CalendarEventItem {
     );
   }
 
-  factory CalendarEventItem.fromPurchase(Purchase purchase, {Category? category}) {
+  factory CalendarEventItem.fromPurchase(
+    Purchase purchase, {
+    Category? category,
+  }) {
     return CalendarEventItem(
       createdAt: purchase.createdAt,
       itemType: CalendarEventItemType.purchase,

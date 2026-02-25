@@ -76,10 +76,12 @@ class CalendarEventData extends _$CalendarEventData {
     // CalendarEventItemに変換
     final eventItems = [
       ...links.map((e) => CalendarEventItem.fromLink(e)),
-      ...purchases.map((p) => CalendarEventItem.fromPurchase(
-            p,
-            category: p.categoryId != null ? categoryMap[p.categoryId] : null,
-          )),
+      ...purchases.map(
+        (p) => CalendarEventItem.fromPurchase(
+          p,
+          category: p.categoryId != null ? categoryMap[p.categoryId] : null,
+        ),
+      ),
       ...notes.map((e) => CalendarEventItem.fromNote(e)),
     ];
 
