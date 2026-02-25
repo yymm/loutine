@@ -97,7 +97,7 @@ class PurchaseApiClient {
     final postUrl = Uri.parse('$baseUrl/api/v1/purchases');
     final headers = _createHeaders();
     final bodyObject = categoryId != null
-        ? {'cost': cost, 'title': title, 'categoryId': categoryId}
+        ? {'cost': cost, 'title': title, 'category_id': categoryId}
         : {'cost': cost, 'title': title};
     final body = json.encode(bodyObject);
     final res = await http.post(postUrl, headers: headers, body: body);
