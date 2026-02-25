@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:mobile_ui/ui/purchase/form/purchase_form.dart';
 
 class PurchaseFormMain extends StatelessWidget {
@@ -13,8 +14,7 @@ class PurchaseFormMain extends StatelessWidget {
         actions: <Widget>[
           IconButton(
             onPressed: () {
-              // context.go('/setting');
-              // context.go('/text_input');
+              context.go('/purchase/summary');
             },
             icon: const Icon(Icons.bar_chart),
           ),
