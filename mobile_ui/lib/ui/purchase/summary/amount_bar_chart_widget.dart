@@ -1,6 +1,7 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/intl.dart';
 import 'package:mobile_ui/providers/purchase/purchase_summary_provider.dart';
 
 class AmountBarChartWidget extends ConsumerWidget {
@@ -13,6 +14,7 @@ class AmountBarChartWidget extends ConsumerWidget {
       purchaseDailyCategorySummaryProvider,
     );
     final categorySummaryAsync = ref.watch(purchaseCategorySummaryProvider);
+    final currencyFormat = NumberFormat('#,###');
 
     return Card(
       child: Padding(
@@ -57,8 +59,9 @@ class AmountBarChartWidget extends ConsumerWidget {
                   ? _buildStackedDailyChart(
                       dailyCategorySummaryAsync,
                       categorySummaryAsync,
+                      currencyFormat,
                     )
-                  : _buildWeeklyChart(ref),
+                  : _buildWeeklyChart(ref, currencyFormat),
             ),
           ],
         ),
@@ -69,6 +72,7 @@ class AmountBarChartWidget extends ConsumerWidget {
   Widget _buildStackedDailyChart(
     AsyncValue<List<DailyCategorySummary>> dailyCategorySummaryAsync,
     AsyncValue<List<CategorySummary>> categorySummaryAsync,
+    NumberFormat currencyFormat,
   ) {
     return dailyCategorySummaryAsync.when(
       data: (dailySummaries) {
@@ -96,7 +100,7 @@ class AmountBarChartWidget extends ConsumerWidget {
                       reservedSize: 50,
                       getTitlesWidget: (value, meta) {
                         return Text(
-                          '¥${value.toInt()}',
+                          '¥${currencyFormat.format(value.toInt())}',
                           style: const TextStyle(fontSize: 10),
                         );
                       },
@@ -134,7 +138,7 @@ class AmountBarChartWidget extends ConsumerWidget {
     );
   }
 
-  Widget _buildWeeklyChart(WidgetRef ref) {
+  Widget _buildWeeklyChart(WidgetRef ref, NumberFormat currencyFormat) {
     final weeklySummaryAsync = ref.watch(purchaseWeeklySummaryProvider);
     return weeklySummaryAsync.when(
       data: (summaries) {
@@ -151,7 +155,7 @@ class AmountBarChartWidget extends ConsumerWidget {
                   reservedSize: 50,
                   getTitlesWidget: (value, meta) {
                     return Text(
-                      '¥${value.toInt()}',
+                      '¥${currencyFormat.format(value.toInt())}',
                       style: const TextStyle(fontSize: 10),
                     );
                   },

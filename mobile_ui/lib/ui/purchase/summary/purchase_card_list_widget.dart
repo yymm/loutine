@@ -14,6 +14,7 @@ class PurchaseCardListWidget extends ConsumerWidget {
     final calendarDataAsync = ref.watch(
       calendarEventDataProvider(selectedMonth),
     );
+    final currencyFormat = NumberFormat('#,###');
 
     return Card(
       child: Padding(
@@ -50,7 +51,11 @@ class PurchaseCardListWidget extends ConsumerWidget {
 
                 return Column(
                   children: purchases.map((purchase) {
-                    return _buildPurchaseCard(context, purchase);
+                    return _buildPurchaseCard(
+                      context,
+                      purchase,
+                      currencyFormat,
+                    );
                   }).toList(),
                 );
               },
@@ -73,7 +78,11 @@ class PurchaseCardListWidget extends ConsumerWidget {
     );
   }
 
-  Widget _buildPurchaseCard(BuildContext context, CalendarEventItem purchase) {
+  Widget _buildPurchaseCard(
+    BuildContext context,
+    CalendarEventItem purchase,
+    NumberFormat currencyFormat,
+  ) {
     final dateFormat = DateFormat('yyyy/MM/dd');
     final amount = int.tryParse(purchase.data) ?? 0;
 
@@ -101,7 +110,7 @@ class PurchaseCardListWidget extends ConsumerWidget {
           ],
         ),
         trailing: Text(
-          '¥${amount.toString()}',
+          '¥${currencyFormat.format(amount)}',
           style: TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.bold,

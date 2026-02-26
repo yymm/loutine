@@ -13,6 +13,7 @@ class PurchaseSummaryPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final selectedMonth = ref.watch(purchaseSummaryMonthProvider);
     final monthFormat = DateFormat('MMMM yyyy'); // 英語フォーマット
+    final currencyFormat = NumberFormat('#,###'); // カンマ区切りフォーマット
     final monthlyTotalAsync = ref.watch(purchaseMonthlyTotalProvider);
 
     return Scaffold(
@@ -80,7 +81,7 @@ class PurchaseSummaryPage extends ConsumerWidget {
                           ),
                           const SizedBox(height: 12),
                           Text(
-                            '¥${total.toString()}',
+                            '¥${currencyFormat.format(total)}',
                             style: TextStyle(
                               fontSize: 32,
                               fontWeight: FontWeight.bold,
