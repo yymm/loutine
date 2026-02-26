@@ -114,6 +114,54 @@ final class PurchaseCategorySummaryProvider
 String _$purchaseCategorySummaryHash() =>
     r'3b2ae21480cae46cc9262b2ae3c1cce91dc3c5d4';
 
+/// 選択月のPurchaseデータを日別・カテゴリー別に集計（積み上げ棒グラフ用）
+
+@ProviderFor(purchaseDailyCategorySummary)
+final purchaseDailyCategorySummaryProvider =
+    PurchaseDailyCategorySummaryProvider._();
+
+/// 選択月のPurchaseデータを日別・カテゴリー別に集計（積み上げ棒グラフ用）
+
+final class PurchaseDailyCategorySummaryProvider
+    extends
+        $FunctionalProvider<
+          AsyncValue<List<DailyCategorySummary>>,
+          List<DailyCategorySummary>,
+          FutureOr<List<DailyCategorySummary>>
+        >
+    with
+        $FutureModifier<List<DailyCategorySummary>>,
+        $FutureProvider<List<DailyCategorySummary>> {
+  /// 選択月のPurchaseデータを日別・カテゴリー別に集計（積み上げ棒グラフ用）
+  PurchaseDailyCategorySummaryProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'purchaseDailyCategorySummaryProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$purchaseDailyCategorySummaryHash();
+
+  @$internal
+  @override
+  $FutureProviderElement<List<DailyCategorySummary>> $createElement(
+    $ProviderPointer pointer,
+  ) => $FutureProviderElement(pointer);
+
+  @override
+  FutureOr<List<DailyCategorySummary>> create(Ref ref) {
+    return purchaseDailyCategorySummary(ref);
+  }
+}
+
+String _$purchaseDailyCategorySummaryHash() =>
+    r'1e03f7c80a9add192ec6ecb7955280cf0d1c1f37';
+
 /// 選択月のPurchaseデータを日別に集計
 
 @ProviderFor(purchaseDailySummary)
@@ -264,4 +312,43 @@ final class PurchaseWeeklySummaryProvider
 }
 
 String _$purchaseWeeklySummaryHash() =>
-    r'c429d807e5fbc47beeb878f409c4f983b3fdd82e';
+    r'd1fdff3ca2a0b880224dcca78154e83126c18612';
+
+/// 選択月の合計金額を計算
+
+@ProviderFor(purchaseMonthlyTotal)
+final purchaseMonthlyTotalProvider = PurchaseMonthlyTotalProvider._();
+
+/// 選択月の合計金額を計算
+
+final class PurchaseMonthlyTotalProvider
+    extends $FunctionalProvider<AsyncValue<int>, int, FutureOr<int>>
+    with $FutureModifier<int>, $FutureProvider<int> {
+  /// 選択月の合計金額を計算
+  PurchaseMonthlyTotalProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'purchaseMonthlyTotalProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$purchaseMonthlyTotalHash();
+
+  @$internal
+  @override
+  $FutureProviderElement<int> $createElement($ProviderPointer pointer) =>
+      $FutureProviderElement(pointer);
+
+  @override
+  FutureOr<int> create(Ref ref) {
+    return purchaseMonthlyTotal(ref);
+  }
+}
+
+String _$purchaseMonthlyTotalHash() =>
+    r'dc133418ea3f080e72036c4693a9a15182fddea1';

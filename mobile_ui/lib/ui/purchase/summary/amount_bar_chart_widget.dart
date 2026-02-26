@@ -9,8 +9,10 @@ class AmountBarChartWidget extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final chartMode = ref.watch(purchaseChartModeProvider);
-    final dailySummaryAsync = ref.watch(purchaseDailySummaryProvider);
-    final weeklySummaryAsync = ref.watch(purchaseWeeklySummaryProvider);
+    final dailyCategorySummaryAsync = ref.watch(
+      purchaseDailyCategorySummaryProvider,
+    );
+    final categorySummaryAsync = ref.watch(purchaseCategorySummaryProvider);
 
     return Card(
       child: Padding(
@@ -21,20 +23,23 @@ class AmountBarChartWidget extends ConsumerWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  chartMode == ChartMode.daily ? '日別支出' : '週別支出',
-                  style: Theme.of(context).textTheme.titleLarge,
+                Expanded(
+                  child: Text(
+                    chartMode == ChartMode.daily ? 'Daily' : 'Weekly',
+                    style: Theme.of(context).textTheme.titleLarge,
+                  ),
                 ),
+                const SizedBox(width: 8),
                 SegmentedButton<ChartMode>(
                   segments: const [
                     ButtonSegment(
                       value: ChartMode.daily,
-                      label: Text('日次'),
+                      label: Text('Daily'),
                       icon: Icon(Icons.calendar_today, size: 16),
                     ),
                     ButtonSegment(
                       value: ChartMode.weekly,
-                      label: Text('週次'),
+                      label: Text('Weekly'),
                       icon: Icon(Icons.view_week, size: 16),
                     ),
                   ],
@@ -49,8 +54,11 @@ class AmountBarChartWidget extends ConsumerWidget {
             SizedBox(
               height: 300,
               child: chartMode == ChartMode.daily
-                  ? _buildDailyChart(dailySummaryAsync)
-                  : _buildWeeklyChart(weeklySummaryAsync),
+                  ? _buildStackedDailyChart(
+                      dailyCategorySummaryAsync,
+                      categorySummaryAsync,
+                    )
+                  : _buildWeeklyChart(ref),
             ),
           ],
         ),
@@ -58,59 +66,80 @@ class AmountBarChartWidget extends ConsumerWidget {
     );
   }
 
-  Widget _buildDailyChart(AsyncValue<List<DailySummary>> dailySummaryAsync) {
-    return dailySummaryAsync.when(
-      data: (summaries) {
-        if (summaries.isEmpty) {
-          return const Center(child: Text('データがありません'));
+  Widget _buildStackedDailyChart(
+    AsyncValue<List<DailyCategorySummary>> dailyCategorySummaryAsync,
+    AsyncValue<List<CategorySummary>> categorySummaryAsync,
+  ) {
+    return dailyCategorySummaryAsync.when(
+      data: (dailySummaries) {
+        if (dailySummaries.isEmpty) {
+          return const Center(child: Text('No data available'));
         }
-        return BarChart(
-          BarChartData(
-            barGroups: _createDailyBarGroups(summaries),
-            titlesData: FlTitlesData(
-              leftTitles: AxisTitles(
-                sideTitles: SideTitles(
-                  showTitles: true,
-                  reservedSize: 50,
-                  getTitlesWidget: (value, meta) {
-                    return Text(
-                      '¥${value.toInt()}',
-                      style: const TextStyle(fontSize: 10),
-                    );
-                  },
+
+        return categorySummaryAsync.when(
+          data: (categories) {
+            // カテゴリーと色のマッピングを作成
+            final categoryColors = {
+              for (var cat in categories) cat.categoryName: cat.color,
+            };
+
+            return BarChart(
+              BarChartData(
+                barGroups: _createStackedBarGroups(
+                  dailySummaries,
+                  categoryColors,
                 ),
-              ),
-              bottomTitles: AxisTitles(
-                sideTitles: SideTitles(
-                  showTitles: true,
-                  getTitlesWidget: (value, meta) {
-                    return Text(
-                      '${value.toInt()}日',
-                      style: const TextStyle(fontSize: 10),
-                    );
-                  },
+                titlesData: FlTitlesData(
+                  leftTitles: AxisTitles(
+                    sideTitles: SideTitles(
+                      showTitles: true,
+                      reservedSize: 50,
+                      getTitlesWidget: (value, meta) {
+                        return Text(
+                          '¥${value.toInt()}',
+                          style: const TextStyle(fontSize: 10),
+                        );
+                      },
+                    ),
+                  ),
+                  bottomTitles: AxisTitles(
+                    sideTitles: SideTitles(
+                      showTitles: true,
+                      getTitlesWidget: (value, meta) {
+                        return Text(
+                          '${value.toInt()}',
+                          style: const TextStyle(fontSize: 10),
+                        );
+                      },
+                    ),
+                  ),
+                  rightTitles: AxisTitles(
+                    sideTitles: SideTitles(showTitles: false),
+                  ),
+                  topTitles: AxisTitles(
+                    sideTitles: SideTitles(showTitles: false),
+                  ),
                 ),
+                borderData: FlBorderData(show: false),
+                gridData: FlGridData(show: true),
               ),
-              rightTitles: AxisTitles(
-                sideTitles: SideTitles(showTitles: false),
-              ),
-              topTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
-            ),
-            borderData: FlBorderData(show: false),
-            gridData: FlGridData(show: true),
-          ),
+            );
+          },
+          loading: () => const Center(child: CircularProgressIndicator()),
+          error: (error, stack) => Center(child: Text('Error: $error')),
         );
       },
       loading: () => const Center(child: CircularProgressIndicator()),
-      error: (error, stack) => Center(child: Text('エラー: $error')),
+      error: (error, stack) => Center(child: Text('Error: $error')),
     );
   }
 
-  Widget _buildWeeklyChart(AsyncValue<List<WeeklySummary>> weeklySummaryAsync) {
+  Widget _buildWeeklyChart(WidgetRef ref) {
+    final weeklySummaryAsync = ref.watch(purchaseWeeklySummaryProvider);
     return weeklySummaryAsync.when(
       data: (summaries) {
         if (summaries.isEmpty) {
-          return const Center(child: Text('データがありません'));
+          return const Center(child: Text('No data available'));
         }
         return BarChart(
           BarChartData(
@@ -133,7 +162,7 @@ class AmountBarChartWidget extends ConsumerWidget {
                   showTitles: true,
                   getTitlesWidget: (value, meta) {
                     return Text(
-                      '第${value.toInt()}週',
+                      'W${value.toInt()}',
                       style: const TextStyle(fontSize: 10),
                     );
                   },
@@ -150,19 +179,39 @@ class AmountBarChartWidget extends ConsumerWidget {
         );
       },
       loading: () => const Center(child: CircularProgressIndicator()),
-      error: (error, stack) => Center(child: Text('エラー: $error')),
+      error: (error, stack) => Center(child: Text('Error: $error')),
     );
   }
 
-  List<BarChartGroupData> _createDailyBarGroups(List<DailySummary> summaries) {
+  List<BarChartGroupData> _createStackedBarGroups(
+    List<DailyCategorySummary> summaries,
+    Map<String, Color> categoryColors,
+  ) {
     return summaries.map((summary) {
+      // 各カテゴリーのRodStackItemを作成
+      double fromY = 0;
+      final rodStackItems = <BarChartRodStackItem>[];
+
+      summary.categoryAmounts.forEach((categoryName, amount) {
+        final toY = fromY + amount.toDouble();
+        rodStackItems.add(
+          BarChartRodStackItem(
+            fromY,
+            toY,
+            categoryColors[categoryName] ?? Colors.grey,
+          ),
+        );
+        fromY = toY;
+      });
+
       return BarChartGroupData(
         x: summary.day,
         barRods: [
           BarChartRodData(
-            toY: summary.totalAmount.toDouble(),
-            color: Colors.blue,
+            toY: fromY, // 合計値
+            rodStackItems: rodStackItems,
             width: 16,
+            borderRadius: BorderRadius.zero,
           ),
         ],
       );
@@ -178,7 +227,7 @@ class AmountBarChartWidget extends ConsumerWidget {
         barRods: [
           BarChartRodData(
             toY: summary.totalAmount.toDouble(),
-            color: Colors.green,
+            color: Colors.orange,
             width: 24,
           ),
         ],

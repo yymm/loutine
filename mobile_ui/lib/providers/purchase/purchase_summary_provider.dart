@@ -89,12 +89,65 @@ Future<List<CategorySummary>> purchaseCategorySummary(Ref ref) async {
   }).toList();
 }
 
+/// 日別・カテゴリー別の集計データ（積み上げ棒グラフ用）
+class DailyCategorySummary {
+  DailyCategorySummary({required this.day, required this.categoryAmounts});
+
+  final int day;
+  final Map<String, int> categoryAmounts; // categoryName -> amount
+}
+
 /// 日別の集計データ
 class DailySummary {
   DailySummary({required this.day, required this.totalAmount});
 
   final int day;
   final int totalAmount;
+}
+
+/// 選択月のPurchaseデータを日別・カテゴリー別に集計（積み上げ棒グラフ用）
+@riverpod
+Future<List<DailyCategorySummary>> purchaseDailyCategorySummary(Ref ref) async {
+  final selectedMonth = ref.watch(purchaseSummaryMonthProvider);
+  final calendarData = await ref.watch(
+    calendarEventDataProvider(selectedMonth).future,
+  );
+
+  // Purchase typeのイベントのみを抽出
+  final purchases = calendarData.values
+      .expand((items) => items)
+      .where((item) => item.itemType == CalendarEventItemType.purchase)
+      .toList();
+
+  if (purchases.isEmpty) {
+    return [];
+  }
+
+  // 日別・カテゴリー別に集計
+  final Map<int, Map<String, int>> dailyCategoryTotals = {};
+  for (final purchase in purchases) {
+    final day = purchase.createdAt.day;
+    final categoryName = purchase.category?.name ?? 'Uncategorized';
+    final amount = int.tryParse(purchase.data) ?? 0;
+
+    dailyCategoryTotals[day] ??= {};
+    dailyCategoryTotals[day]![categoryName] =
+        (dailyCategoryTotals[day]![categoryName] ?? 0) + amount;
+  }
+
+  // DailyCategorySummaryのリストに変換してソート
+  final summaries =
+      dailyCategoryTotals.entries
+          .map(
+            (entry) => DailyCategorySummary(
+              day: entry.key,
+              categoryAmounts: entry.value,
+            ),
+          )
+          .toList()
+        ..sort((a, b) => a.day.compareTo(b.day));
+
+  return summaries;
 }
 
 /// 選択月のPurchaseデータを日別に集計
@@ -191,4 +244,29 @@ Future<List<WeeklySummary>> purchaseWeeklySummary(Ref ref) async {
         ..sort((a, b) => a.weekNumber.compareTo(b.weekNumber));
 
   return summaries;
+}
+
+/// 選択月の合計金額を計算
+@riverpod
+Future<int> purchaseMonthlyTotal(Ref ref) async {
+  final selectedMonth = ref.watch(purchaseSummaryMonthProvider);
+  final calendarData = await ref.watch(
+    calendarEventDataProvider(selectedMonth).future,
+  );
+
+  // Purchase typeのイベントのみを抽出
+  final purchases = calendarData.values
+      .expand((items) => items)
+      .where((item) => item.itemType == CalendarEventItemType.purchase)
+      .toList();
+
+  if (purchases.isEmpty) {
+    return 0;
+  }
+
+  // 合計金額を計算
+  return purchases.fold<int>(
+    0,
+    (sum, purchase) => sum + (int.tryParse(purchase.data) ?? 0),
+  );
 }

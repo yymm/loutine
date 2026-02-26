@@ -12,7 +12,8 @@ class PurchaseSummaryPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final selectedMonth = ref.watch(purchaseSummaryMonthProvider);
-    final monthFormat = DateFormat('yyyy年MM月');
+    final monthFormat = DateFormat('MMMM yyyy'); // 英語フォーマット
+    final monthlyTotalAsync = ref.watch(purchaseMonthlyTotalProvider);
 
     return Scaffold(
       appBar: AppBar(
@@ -36,15 +37,81 @@ class PurchaseSummaryPage extends ConsumerWidget {
         ),
         centerTitle: true,
       ),
-      body: const SingleChildScrollView(
-        padding: EdgeInsets.all(16.0),
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
-            CategoryPieChartWidget(),
-            SizedBox(height: 16),
-            AmountBarChartWidget(),
-            SizedBox(height: 16),
-            PurchaseCardListWidget(),
+            // 月の合計金額カード
+            monthlyTotalAsync.when(
+              data: (total) {
+                // 月の初日と最終日を計算
+                final startDate = DateTime(
+                  selectedMonth.year,
+                  selectedMonth.month,
+                  1,
+                );
+                final endDate = DateTime(
+                  selectedMonth.year,
+                  selectedMonth.month + 1,
+                  0,
+                );
+                final dateFormat = DateFormat('MM/dd');
+
+                return Card(
+                  child: Padding(
+                    padding: const EdgeInsets.all(20.0),
+                    child: SizedBox(
+                      width: double.infinity,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Text(
+                            'Total of Monthly',
+                            style: Theme.of(context).textTheme.titleMedium
+                                ?.copyWith(color: Colors.grey.shade700),
+                          ),
+                          const SizedBox(height: 4),
+                          Text(
+                            '${dateFormat.format(startDate)} ~ ${dateFormat.format(endDate)}',
+                            style: TextStyle(
+                              fontSize: 12,
+                              color: Colors.grey.shade600,
+                            ),
+                          ),
+                          const SizedBox(height: 12),
+                          Text(
+                            '¥${total.toString()}',
+                            style: TextStyle(
+                              fontSize: 32,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.orange.shade700,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                );
+              },
+              loading: () => const Card(
+                child: Padding(
+                  padding: EdgeInsets.all(16.0),
+                  child: Center(child: CircularProgressIndicator()),
+                ),
+              ),
+              error: (error, stack) => Card(
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Text('Error: $error'),
+                ),
+              ),
+            ),
+            const SizedBox(height: 16),
+            const CategoryPieChartWidget(),
+            const SizedBox(height: 16),
+            const AmountBarChartWidget(),
+            const SizedBox(height: 16),
+            const PurchaseCardListWidget(),
           ],
         ),
       ),

@@ -21,7 +21,10 @@ class PurchaseCardListWidget extends ConsumerWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Purchase一覧', style: Theme.of(context).textTheme.titleLarge),
+            Text(
+              'Purchase List',
+              style: Theme.of(context).textTheme.titleLarge,
+            ),
             const SizedBox(height: 16),
             calendarDataAsync.when(
               data: (calendarData) {
@@ -40,7 +43,7 @@ class PurchaseCardListWidget extends ConsumerWidget {
                   return const Center(
                     child: Padding(
                       padding: EdgeInsets.all(16.0),
-                      child: Text('データがありません'),
+                      child: Text('No data available'),
                     ),
                   );
                 }
@@ -60,7 +63,7 @@ class PurchaseCardListWidget extends ConsumerWidget {
               error: (error, stack) => Center(
                 child: Padding(
                   padding: const EdgeInsets.all(16.0),
-                  child: Text('エラー: $error'),
+                  child: Text('Error: $error'),
                 ),
               ),
             ),
@@ -79,8 +82,8 @@ class PurchaseCardListWidget extends ConsumerWidget {
       elevation: 1,
       child: ListTile(
         leading: CircleAvatar(
-          backgroundColor: Colors.blue.shade100,
-          child: const Icon(Icons.shopping_cart, color: Colors.blue),
+          backgroundColor: Colors.orange.shade100,
+          child: const Icon(Icons.shopping_cart, color: Colors.orange),
         ),
         title: Text(
           purchase.title,
@@ -99,10 +102,10 @@ class PurchaseCardListWidget extends ConsumerWidget {
         ),
         trailing: Text(
           '¥${amount.toString()}',
-          style: const TextStyle(
+          style: TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.bold,
-            color: Colors.blue,
+            color: Colors.orange.shade700,
           ),
         ),
       ),
