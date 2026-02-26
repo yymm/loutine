@@ -7,6 +7,7 @@ import 'package:mobile_ui/ui/link/form/link_form_main.dart';
 import 'package:mobile_ui/ui/note/note_list_page.dart';
 import 'package:mobile_ui/ui/note/form/note_form_main.dart';
 import 'package:mobile_ui/ui/purchase/form/purchase_form_main.dart';
+import 'package:mobile_ui/ui/purchase/summary/purchase_summary_page.dart';
 import 'package:mobile_ui/ui/setting/setting_main.dart';
 import 'package:mobile_ui/ui/shared/bottom_nav_widget.dart';
 import 'package:mobile_ui/ui/tag/tag_main.dart';
@@ -102,6 +103,15 @@ final router = GoRouter(
               builder: (BuildContext context, GoRouterState state) {
                 return const PurchaseFormMain();
               },
+              routes: [
+                GoRoute(
+                  name: 'purchase-summary',
+                  path: 'summary',
+                  builder: (BuildContext context, GoRouterState state) {
+                    return const PurchaseSummaryPage();
+                  },
+                ),
+              ],
             ),
           ],
         ),
