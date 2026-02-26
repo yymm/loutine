@@ -1,6 +1,7 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/intl.dart';
 import 'package:mobile_ui/providers/purchase/purchase_summary_provider.dart';
 
 class CategoryPieChartWidget extends ConsumerWidget {
@@ -9,6 +10,7 @@ class CategoryPieChartWidget extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final categorySummaryAsync = ref.watch(purchaseCategorySummaryProvider);
+    final currencyFormat = NumberFormat('#,###');
 
     return Card(
       child: Padding(
@@ -39,7 +41,7 @@ class CategoryPieChartWidget extends ConsumerWidget {
                       ),
                     ),
                     const SizedBox(height: 16),
-                    _buildLegend(summaries),
+                    _buildLegend(summaries, currencyFormat),
                   ],
                 );
               },
@@ -77,7 +79,10 @@ class CategoryPieChartWidget extends ConsumerWidget {
     }).toList();
   }
 
-  Widget _buildLegend(List<CategorySummary> summaries) {
+  Widget _buildLegend(
+    List<CategorySummary> summaries,
+    NumberFormat currencyFormat,
+  ) {
     return Wrap(
       spacing: 16,
       runSpacing: 8,
@@ -95,7 +100,7 @@ class CategoryPieChartWidget extends ConsumerWidget {
             ),
             const SizedBox(width: 4),
             Text(
-              '${summary.categoryName} (¥${summary.totalAmount})',
+              '${summary.categoryName} (¥${currencyFormat.format(summary.totalAmount)})',
               style: const TextStyle(fontSize: 12),
             ),
           ],

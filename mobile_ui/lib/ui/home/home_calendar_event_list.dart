@@ -16,6 +16,7 @@ class HomeCalendarEventList extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final calendarEventList = ref.watch(calendarEventListProvider);
     final dateFormat = DateFormat('yyyy/MM/dd HH:mm');
+    final currencyFormat = NumberFormat('#,###');
     return SingleChildScrollView(
       child: Column(
         children: calendarEventList.map((event) {
@@ -44,8 +45,20 @@ class HomeCalendarEventList extends ConsumerWidget {
                     overflow: TextOverflow.ellipsis,
                   ),
                 ),
-                CalendarEventItemType.purchase => Text(
-                  '${event.title} ¥${event.data}',
+                CalendarEventItemType.purchase => Row(
+                  children: [
+                    Expanded(
+                      child: Text(event.title, overflow: TextOverflow.ellipsis),
+                    ),
+                    const SizedBox(width: 8),
+                    Text(
+                      '¥${currencyFormat.format(int.tryParse(event.data) ?? 0)}',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Colors.orange.shade700,
+                      ),
+                    ),
+                  ],
                 ),
                 CalendarEventItemType.note => Text(event.title),
               },
