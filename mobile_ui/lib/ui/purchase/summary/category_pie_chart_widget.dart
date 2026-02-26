@@ -16,12 +16,15 @@ class CategoryPieChartWidget extends ConsumerWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('カテゴリー別支出', style: Theme.of(context).textTheme.titleLarge),
+            Text(
+              'Category Breakdown',
+              style: Theme.of(context).textTheme.titleLarge,
+            ),
             const SizedBox(height: 16),
             categorySummaryAsync.when(
               data: (summaries) {
                 if (summaries.isEmpty) {
-                  return const Center(child: Text('データがありません'));
+                  return const Center(child: Text('No data available'));
                 }
                 return Column(
                   children: [
@@ -46,7 +49,7 @@ class CategoryPieChartWidget extends ConsumerWidget {
               ),
               error: (error, stack) => SizedBox(
                 height: 200,
-                child: Center(child: Text('エラー: $error')),
+                child: Center(child: Text('Error: $error')),
               ),
             ),
           ],
