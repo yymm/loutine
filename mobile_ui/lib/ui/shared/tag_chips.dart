@@ -33,8 +33,12 @@ class TagChips extends ConsumerWidget {
               label: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  const Icon(Icons.tag, size: 14),
-                  const SizedBox(width: 4),
+                  Icon(
+                    Icons.tag,
+                    size: 14,
+                    color: Theme.of(context).colorScheme.primary,
+                  ),
+                  const SizedBox(width: 2),
                   Text(tag.name, style: const TextStyle(fontSize: 12)),
                 ],
               ),
