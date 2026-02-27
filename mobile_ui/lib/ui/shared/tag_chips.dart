@@ -3,10 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mobile_ui/providers/tag/tag_list_provider.dart';
 
 class TagChips extends ConsumerWidget {
-  const TagChips({
-    required this.tagIds,
-    super.key,
-  });
+  const TagChips({required this.tagIds, super.key});
 
   final List<int> tagIds;
 
@@ -20,8 +17,10 @@ class TagChips extends ConsumerWidget {
 
     return tagsAsync.when(
       data: (tags) {
-        final filteredTags = tags.where((tag) => tagIds.contains(tag.id)).toList();
-        
+        final filteredTags = tags
+            .where((tag) => tagIds.contains(tag.id))
+            .toList();
+
         if (filteredTags.isEmpty) {
           return const SizedBox.shrink();
         }
@@ -32,10 +31,7 @@ class TagChips extends ConsumerWidget {
           children: filteredTags.map((tag) {
             return Chip(
               avatar: const Icon(Icons.tag, size: 16),
-              label: Text(
-                tag.name,
-                style: const TextStyle(fontSize: 12),
-              ),
+              label: Text(tag.name, style: const TextStyle(fontSize: 12)),
               visualDensity: VisualDensity.compact,
               materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
               padding: const EdgeInsets.symmetric(horizontal: 4),
@@ -43,7 +39,7 @@ class TagChips extends ConsumerWidget {
           }).toList(),
         );
       },
-      error: (_, __) => const SizedBox.shrink(),
+      error: (error, stackTrace) => const SizedBox.shrink(),
       loading: () => const SizedBox.shrink(),
     );
   }
