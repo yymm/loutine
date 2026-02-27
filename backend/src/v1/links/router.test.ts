@@ -3,7 +3,7 @@ import { beforeEach, describe, expect, it } from 'vitest';
 import { tags_router } from '../tags/router';
 import type { Tag } from '../tags/types';
 import { links_router } from './router';
-import type { Link } from './types';
+import type { Link, LinkResponse } from './types';
 
 describe('links router', () => {
 	const body = {
@@ -85,10 +85,38 @@ describe('links router', () => {
 
 	it('GET /:id', async () => {
 		const res = await links_router.request(`/${created_link_id}`, {}, env);
-		const link: Link = await res.json();
+		const link: LinkResponse = await res.json();
 		expect(res.status).toBe(200);
 		expect(link.title).toBe(body.title);
 		expect(link.url).toBe(body.url);
+		expect(Array.isArray(link.tag_ids)).toBe(true);
+		expect(link.tag_ids).toEqual([]);
+	});
+
+	it('GET /:id with tags', async () => {
+		const new_body = {
+			title: 'link with tags for get',
+			url: 'https://tagged.example.com',
+			tag_ids: [created_tag_id],
+		};
+		const createRes = await links_router.request(
+			'/',
+			{
+				method: 'POST',
+				body: JSON.stringify(new_body),
+				headers: new Headers({ 'Content-Type': 'application/json' }),
+			},
+			env,
+		);
+		const created_link: Link = await createRes.json();
+
+		const res = await links_router.request(`/${created_link.id}`, {}, env);
+		const link: LinkResponse = await res.json();
+		expect(res.status).toBe(200);
+		expect(link.title).toBe(new_body.title);
+		expect(link.url).toBe(new_body.url);
+		expect(Array.isArray(link.tag_ids)).toBe(true);
+		expect(link.tag_ids).toEqual([created_tag_id]);
 	});
 
 	it('GET /:id mismatch param', async () => {
@@ -107,9 +135,12 @@ describe('links router', () => {
 			{},
 			env,
 		);
-		const links: Array<Link> = await res.json();
+		const links: Array<LinkResponse> = await res.json();
 		expect(res.status).toBe(200);
 		expect(Array.isArray(links)).toBe(true);
+		if (links.length > 0) {
+			expect(Array.isArray(links[0].tag_ids)).toBe(true);
+		}
 	});
 
 	it('GET / missing param', async () => {
@@ -129,12 +160,15 @@ describe('links router', () => {
 	it('GET /latest ', async () => {
 		const res = await links_router.request('/latest?limit=5', {}, env);
 		const cursor_res = (await res.json()) as {
-			links: Array<Link>;
+			links: Array<LinkResponse>;
 			next_cursor: string;
 			has_next_page: boolean;
 		};
 		expect(res.status).toBe(200);
 		expect(Array.isArray(cursor_res.links)).toBe(true);
+		if (cursor_res.links.length > 0) {
+			expect(Array.isArray(cursor_res.links[0].tag_ids)).toBe(true);
+		}
 	});
 
 	it('GET /latest mismatch param', async () => {

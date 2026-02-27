@@ -51,4 +51,9 @@ export const notesCursorSchema = z.object({
 	limit: z.coerce.number().lte(100).default(10),
 });
 
+export const noteResponseSchema = insertNotesSchema.extend({
+	tag_ids: z.coerce.number().array(),
+});
+
 export type Note = z.infer<typeof insertNotesSchema>;
+export type NoteResponse = z.infer<typeof noteResponseSchema>;
