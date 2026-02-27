@@ -7,6 +7,7 @@ import 'package:mobile_ui/providers/link/link_list_paginated_provider.dart';
 import 'package:mobile_ui/providers/note/note_list_paginated_provider.dart';
 import 'package:mobile_ui/providers/purchase/purchase_list_provider.dart';
 import 'package:mobile_ui/ui/shared/delete_confirm_dialog.dart';
+import 'package:mobile_ui/ui/shared/tag_chips.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 class HomeCalendarEventList extends ConsumerWidget {
@@ -72,6 +73,13 @@ class HomeCalendarEventList extends ConsumerWidget {
                       'Category: ${event.category!.name}',
                       style: TextStyle(fontSize: 12, color: Colors.grey[700]),
                     ),
+                  if ((event.itemType == CalendarEventItemType.link ||
+                          event.itemType == CalendarEventItemType.note) &&
+                      event.tagIds.isNotEmpty) ...[
+                    const SizedBox(height: 4),
+                    TagChips(tagIds: event.tagIds),
+                    const SizedBox(height: 4),
+                  ],
                   Text(
                     'Created: ${dateFormat.format(event.createdAt)}',
                     style: TextStyle(fontSize: 12, color: Colors.grey[600]),
