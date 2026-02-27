@@ -30,12 +30,17 @@ class TagChips extends ConsumerWidget {
           runSpacing: 4,
           children: filteredTags.map((tag) {
             return Chip(
-              avatar: const Icon(Icons.tag, size: 16),
-              label: Text(tag.name, style: const TextStyle(fontSize: 12)),
+              label: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const Icon(Icons.tag, size: 14),
+                  const SizedBox(width: 4),
+                  Text(tag.name, style: const TextStyle(fontSize: 12)),
+                ],
+              ),
               visualDensity: VisualDensity.compact,
               materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
               padding: const EdgeInsets.symmetric(horizontal: 2),
-              labelPadding: const EdgeInsets.only(left: 0, right: 4),
             );
           }).toList(),
         );
