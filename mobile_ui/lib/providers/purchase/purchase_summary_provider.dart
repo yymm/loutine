@@ -60,7 +60,7 @@ Future<List<CategorySummary>> purchaseCategorySummary(Ref ref) async {
   // カテゴリー別に集計
   final Map<String, int> categoryTotals = {};
   for (final purchase in purchases) {
-    final categoryName = purchase.category?.name ?? '未分類';
+    final categoryName = purchase.category?.name ?? 'No category';
     final amount = int.tryParse(purchase.data) ?? 0;
     categoryTotals[categoryName] = (categoryTotals[categoryName] ?? 0) + amount;
   }
