@@ -35,6 +35,7 @@ class TagChips extends ConsumerWidget {
               visualDensity: VisualDensity.compact,
               materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
               padding: const EdgeInsets.symmetric(horizontal: 4),
+              labelPadding: const EdgeInsets.only(left: 0, right: 4),
             );
           }).toList(),
         );
