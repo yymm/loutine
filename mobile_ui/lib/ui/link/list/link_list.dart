@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:mobile_ui/providers/link/link_list_paginated_provider.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import 'package:mobile_ui/ui/shared/delete_confirm_dialog.dart';
+import 'package:mobile_ui/ui/shared/tag_chips.dart';
 
 class LinkList extends ConsumerStatefulWidget {
   const LinkList({super.key});
@@ -82,6 +83,10 @@ class _LinkListState extends ConsumerState<LinkList> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       const SizedBox(height: 8),
+                      if (link.tagIds.isNotEmpty) ...[
+                        TagChips(tagIds: link.tagIds),
+                        const SizedBox(height: 4),
+                      ],
                       Text(
                         'Created: ${dateFormat.format(link.createdAt)}',
                         style: TextStyle(fontSize: 12, color: Colors.grey[600]),
