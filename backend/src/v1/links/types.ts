@@ -52,4 +52,9 @@ export const linksCursorSchema = z.object({
 	limit: z.coerce.number().lte(100).default(10),
 });
 
+export const linkResponseSchema = insertLinksSchema.extend({
+	tag_ids: z.coerce.number().array(),
+});
+
 export type Link = z.infer<typeof insertLinksSchema>;
+export type LinkResponse = z.infer<typeof linkResponseSchema>;

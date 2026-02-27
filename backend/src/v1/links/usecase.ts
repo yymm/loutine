@@ -15,31 +15,93 @@ export class LinksUsecase {
 	}
 
 	async get_by_id(id: number) {
-		const link = await this.db
-			.select()
+		const results = await this.db
+			.select({
+				id: links.id,
+				title: links.title,
+				url: links.url,
+				created_at: links.created_at,
+				updated_at: links.updated_at,
+				tag_id: link_tag.tag_id,
+			})
 			.from(links)
+			.leftJoin(link_tag, eq(links.id, link_tag.link_id))
 			.where(eq(links.id, id))
-			.get();
-		return link;
+			.all();
+
+		if (results.length === 0) {
+			return null;
+		}
+
+		const link = results[0];
+		const tag_ids = results
+			.map((r) => r.tag_id)
+			.filter((tag_id): tag_id is number => tag_id !== null);
+
+		return {
+			id: link.id,
+			title: link.title,
+			url: link.url,
+			created_at: link.created_at,
+			updated_at: link.updated_at,
+			tag_ids,
+		};
 	}
 
 	async get_date_range(start_date: string, end_date: string) {
-		const all_links = await this.db
-			.select()
+		const results = await this.db
+			.select({
+				id: links.id,
+				title: links.title,
+				url: links.url,
+				created_at: links.created_at,
+				updated_at: links.updated_at,
+				tag_id: link_tag.tag_id,
+			})
 			.from(links)
+			.leftJoin(link_tag, eq(links.id, link_tag.link_id))
 			.where(
 				and(gte(links.created_at, start_date), lt(links.created_at, end_date)),
 			)
 			.all();
-		return all_links;
+
+		const links_map = new Map<
+			number,
+			{
+				id: number;
+				title: string;
+				url: string;
+				created_at: string;
+				updated_at: string;
+				tag_ids: number[];
+			}
+		>();
+
+		for (const row of results) {
+			if (!links_map.has(row.id)) {
+				links_map.set(row.id, {
+					id: row.id,
+					title: row.title,
+					url: row.url,
+					created_at: row.created_at,
+					updated_at: row.updated_at,
+					tag_ids: [],
+				});
+			}
+			if (row.tag_id !== null) {
+				links_map.get(row.id)?.tag_ids.push(row.tag_id);
+			}
+		}
+
+		return Array.from(links_map.values());
 	}
 
 	async get_latest_by_cursor(
 		cursor_str: string | null | undefined,
 		limit = 10,
 	) {
-		const query = this.db
-			.select()
+		const limited_query = this.db
+			.select({ id: links.id })
 			.from(links)
 			.orderBy(desc(links.created_at), desc(links.id))
 			.limit(limit + 1);
@@ -48,13 +110,62 @@ export class LinksUsecase {
 			const { last_created_at, last_id } = JSON.parse(
 				atob(cursor_str),
 			) as CursorPayload;
-			query.where(
+			limited_query.where(
 				sql`(${links.created_at}, ${links.id}) < (${last_created_at}, ${last_id})`,
 			);
 		}
 
-		const all_links = await query.all();
+		const limited_links = await limited_query.all();
+		const link_ids = limited_links.map((l) => l.id);
 
+		if (link_ids.length === 0) {
+			return { links: [], next_cursor: null, has_next_page: false };
+		}
+
+		const results = await this.db
+			.select({
+				id: links.id,
+				title: links.title,
+				url: links.url,
+				created_at: links.created_at,
+				updated_at: links.updated_at,
+				tag_id: link_tag.tag_id,
+			})
+			.from(links)
+			.leftJoin(link_tag, eq(links.id, link_tag.link_id))
+			.where(sql`${links.id} IN ${link_ids}`)
+			.orderBy(desc(links.created_at), desc(links.id))
+			.all();
+
+		const links_map = new Map<
+			number,
+			{
+				id: number;
+				title: string;
+				url: string;
+				created_at: string;
+				updated_at: string;
+				tag_ids: number[];
+			}
+		>();
+
+		for (const row of results) {
+			if (!links_map.has(row.id)) {
+				links_map.set(row.id, {
+					id: row.id,
+					title: row.title,
+					url: row.url,
+					created_at: row.created_at,
+					updated_at: row.updated_at,
+					tag_ids: [],
+				});
+			}
+			if (row.tag_id !== null) {
+				links_map.get(row.id)?.tag_ids.push(row.tag_id);
+			}
+		}
+
+		const all_links = Array.from(links_map.values());
 		const has_next_page = all_links.length > limit;
 		const return_links = has_next_page ? all_links.slice(0, limit) : all_links;
 		let next_cursor: string | null = null;

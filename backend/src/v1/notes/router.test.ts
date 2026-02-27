@@ -3,7 +3,7 @@ import { beforeEach, describe, expect, it } from 'vitest';
 import { tags_router } from '../tags/router';
 import type { Tag } from '../tags/types';
 import { notes_router } from './router';
-import type { Note } from './types';
+import type { Note, NoteResponse } from './types';
 
 describe('notes router', () => {
 	const body = {
@@ -85,10 +85,38 @@ describe('notes router', () => {
 
 	it('GET /:id', async () => {
 		const res = await notes_router.request(`/${created_note_id}`, {}, env);
-		const note: Note = await res.json();
+		const note: NoteResponse = await res.json();
 		expect(res.status).toBe(200);
 		expect(note.title).toBe(body.title);
 		expect(note.text).toBe(body.text);
+		expect(Array.isArray(note.tag_ids)).toBe(true);
+		expect(note.tag_ids).toEqual([]);
+	});
+
+	it('GET /:id with tags', async () => {
+		const newBody = {
+			title: 'note with tags for get',
+			text: '[{\\"insert\\":\\"テスト内容\\\\n\\"}]',
+			tag_ids: [created_tag_id],
+		};
+		const createRes = await notes_router.request(
+			'/',
+			{
+				method: 'POST',
+				body: JSON.stringify(newBody),
+				headers: new Headers({ 'Content-Type': 'application/json' }),
+			},
+			env,
+		);
+		const created_note: Note = await createRes.json();
+
+		const res = await notes_router.request(`/${created_note.id}`, {}, env);
+		const note: NoteResponse = await res.json();
+		expect(res.status).toBe(200);
+		expect(note.title).toBe(newBody.title);
+		expect(note.text).toBe(newBody.text);
+		expect(Array.isArray(note.tag_ids)).toBe(true);
+		expect(note.tag_ids).toEqual([created_tag_id]);
 	});
 
 	it('GET /:id mismatch param', async () => {
@@ -107,9 +135,12 @@ describe('notes router', () => {
 			{},
 			env,
 		);
-		const notes = await res.json();
+		const notes: Array<NoteResponse> = await res.json();
 		expect(res.status).toBe(200);
 		expect(Array.isArray(notes)).toBe(true);
+		if (notes.length > 0) {
+			expect(Array.isArray(notes[0].tag_ids)).toBe(true);
+		}
 	});
 
 	it('GET / missing param', async () => {
@@ -129,12 +160,15 @@ describe('notes router', () => {
 	it('GET /latest ', async () => {
 		const res = await notes_router.request('/latest?limit=5', {}, env);
 		const cursor_res = (await res.json()) as {
-			notes: Array<Note>;
+			notes: Array<NoteResponse>;
 			next_cursor: string;
 			has_next_page: boolean;
 		};
 		expect(res.status).toBe(200);
 		expect(Array.isArray(cursor_res.notes)).toBe(true);
+		if (cursor_res.notes.length > 0) {
+			expect(Array.isArray(cursor_res.notes[0].tag_ids)).toBe(true);
+		}
 	});
 
 	it('GET /latest mismatch param', async () => {

@@ -15,31 +15,93 @@ export class NotesUsecase {
 	}
 
 	async get_by_id(id: number) {
-		const note = await this.db
-			.select()
+		const results = await this.db
+			.select({
+				id: notes.id,
+				title: notes.title,
+				text: notes.text,
+				created_at: notes.created_at,
+				updated_at: notes.updated_at,
+				tag_id: note_tag.tag_id,
+			})
 			.from(notes)
+			.leftJoin(note_tag, eq(notes.id, note_tag.note_id))
 			.where(eq(notes.id, id))
-			.get();
-		return note;
+			.all();
+
+		if (results.length === 0) {
+			return null;
+		}
+
+		const note = results[0];
+		const tag_ids = results
+			.map((r) => r.tag_id)
+			.filter((tag_id): tag_id is number => tag_id !== null);
+
+		return {
+			id: note.id,
+			title: note.title,
+			text: note.text,
+			created_at: note.created_at,
+			updated_at: note.updated_at,
+			tag_ids,
+		};
 	}
 
 	async get_date_range(start_date: string, end_date: string) {
-		const all_notes = await this.db
-			.select()
+		const results = await this.db
+			.select({
+				id: notes.id,
+				title: notes.title,
+				text: notes.text,
+				created_at: notes.created_at,
+				updated_at: notes.updated_at,
+				tag_id: note_tag.tag_id,
+			})
 			.from(notes)
+			.leftJoin(note_tag, eq(notes.id, note_tag.note_id))
 			.where(
 				and(gte(notes.created_at, start_date), lt(notes.created_at, end_date)),
 			)
 			.all();
-		return all_notes;
+
+		const notes_map = new Map<
+			number,
+			{
+				id: number;
+				title: string;
+				text: string;
+				created_at: string;
+				updated_at: string;
+				tag_ids: number[];
+			}
+		>();
+
+		for (const row of results) {
+			if (!notes_map.has(row.id)) {
+				notes_map.set(row.id, {
+					id: row.id,
+					title: row.title,
+					text: row.text,
+					created_at: row.created_at,
+					updated_at: row.updated_at,
+					tag_ids: [],
+				});
+			}
+			if (row.tag_id !== null) {
+				notes_map.get(row.id)?.tag_ids.push(row.tag_id);
+			}
+		}
+
+		return Array.from(notes_map.values());
 	}
 
 	async get_latest_by_cursor(
 		cursor_str: string | null | undefined,
 		limit = 10,
 	) {
-		const query = this.db
-			.select()
+		const limited_query = this.db
+			.select({ id: notes.id })
 			.from(notes)
 			.orderBy(desc(notes.created_at), desc(notes.id))
 			.limit(limit + 1);
@@ -48,13 +110,62 @@ export class NotesUsecase {
 			const { last_created_at, last_id } = JSON.parse(
 				atob(cursor_str),
 			) as CursorPayload;
-			query.where(
+			limited_query.where(
 				sql`(${notes.created_at}, ${notes.id}) < (${last_created_at}, ${last_id})`,
 			);
 		}
 
-		const all_notes = await query.all();
+		const limited_notes = await limited_query.all();
+		const note_ids = limited_notes.map((n) => n.id);
 
+		if (note_ids.length === 0) {
+			return { notes: [], next_cursor: null, has_next_page: false };
+		}
+
+		const results = await this.db
+			.select({
+				id: notes.id,
+				title: notes.title,
+				text: notes.text,
+				created_at: notes.created_at,
+				updated_at: notes.updated_at,
+				tag_id: note_tag.tag_id,
+			})
+			.from(notes)
+			.leftJoin(note_tag, eq(notes.id, note_tag.note_id))
+			.where(sql`${notes.id} IN ${note_ids}`)
+			.orderBy(desc(notes.created_at), desc(notes.id))
+			.all();
+
+		const notes_map = new Map<
+			number,
+			{
+				id: number;
+				title: string;
+				text: string;
+				created_at: string;
+				updated_at: string;
+				tag_ids: number[];
+			}
+		>();
+
+		for (const row of results) {
+			if (!notes_map.has(row.id)) {
+				notes_map.set(row.id, {
+					id: row.id,
+					title: row.title,
+					text: row.text,
+					created_at: row.created_at,
+					updated_at: row.updated_at,
+					tag_ids: [],
+				});
+			}
+			if (row.tag_id !== null) {
+				notes_map.get(row.id)?.tag_ids.push(row.tag_id);
+			}
+		}
+
+		const all_notes = Array.from(notes_map.values());
 		const has_next_page = all_notes.length > limit;
 		const return_notes = has_next_page ? all_notes.slice(0, limit) : all_notes;
 		let next_cursor: string | null = null;
