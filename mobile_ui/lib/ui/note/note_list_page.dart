@@ -7,6 +7,7 @@ import 'package:mobile_ui/providers/note/note_list_paginated_provider.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:dart_quill_delta/dart_quill_delta.dart';
 import 'package:mobile_ui/ui/shared/delete_confirm_dialog.dart';
+import 'package:mobile_ui/ui/shared/tag_chips.dart';
 
 class NoteListPage extends ConsumerStatefulWidget {
   const NoteListPage({super.key});
@@ -111,6 +112,10 @@ class _NoteListPageState extends ConsumerState<NoteListPage> {
                           overflow: TextOverflow.ellipsis,
                         ),
                         const SizedBox(height: 8),
+                        if (note.tagIds.isNotEmpty) ...[
+                          TagChips(tagIds: note.tagIds),
+                          const SizedBox(height: 4),
+                        ],
                         Text(
                           'Created: ${dateFormat.format(note.createdAt)}',
                           style: TextStyle(

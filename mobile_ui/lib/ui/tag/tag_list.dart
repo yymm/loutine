@@ -30,11 +30,25 @@ class TagListWidget extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Wrap(
-      spacing: 10,
+      spacing: 6,
+      runSpacing: 4,
       children: tags.map((tag) {
         return Chip(
-          avatar: const Icon(Icons.tag),
-          label: Text(tag.name),
+          label: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(
+                Icons.tag,
+                size: 14,
+                color: Theme.of(context).colorScheme.primary,
+              ),
+              const SizedBox(width: 2),
+              Text(tag.name, style: const TextStyle(fontSize: 12)),
+            ],
+          ),
+          visualDensity: VisualDensity.compact,
+          materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+          padding: const EdgeInsets.symmetric(horizontal: 2),
           onDeleted: () async {
             final confirm = await showDeleteConfirmDialog(
               context,

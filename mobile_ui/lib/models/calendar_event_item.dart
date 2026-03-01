@@ -15,6 +15,7 @@ class CalendarEventItem {
     required this.data,
     this.tags,
     this.category,
+    this.tagIds = const [],
   });
 
   final DateTime createdAt;
@@ -24,6 +25,7 @@ class CalendarEventItem {
   final String data;
   final List<Tag>? tags;
   final Category? category;
+  final List<int> tagIds;
 
   factory CalendarEventItem.fromLink(Link link) {
     return CalendarEventItem(
@@ -32,7 +34,7 @@ class CalendarEventItem {
       id: link.id.toString(),
       title: link.title,
       data: link.url,
-      // tags: link.tags,
+      tagIds: link.tagIds,
     );
   }
 
@@ -58,7 +60,7 @@ class CalendarEventItem {
       id: note.id.toString(),
       title: note.title,
       data: note.text,
-      // tags: link.tags,
+      tagIds: note.tagIds,
     );
   }
 }

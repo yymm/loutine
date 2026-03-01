@@ -16,6 +16,7 @@ abstract class Note with _$Note {
     required DateTime createdAt,
     @JsonKey(name: 'updated_at', fromJson: _dateTimeFromJson)
     required DateTime updatedAt,
+    @JsonKey(name: 'tag_ids') @Default([]) List<int> tagIds,
   }) = _Note;
 
   factory Note.fromJson(Map<String, dynamic> json) => _$NoteFromJson(json);

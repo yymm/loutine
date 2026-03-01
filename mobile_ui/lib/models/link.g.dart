@@ -12,6 +12,11 @@ _Link _$LinkFromJson(Map<String, dynamic> json) => _Link(
   url: json['url'] as String,
   createdAt: _dateTimeFromJson(json['created_at'] as String),
   updatedAt: _dateTimeFromJson(json['updated_at'] as String),
+  tagIds:
+      (json['tag_ids'] as List<dynamic>?)
+          ?.map((e) => (e as num).toInt())
+          .toList() ??
+      const [],
 );
 
 Map<String, dynamic> _$LinkToJson(_Link instance) => <String, dynamic>{
@@ -20,4 +25,5 @@ Map<String, dynamic> _$LinkToJson(_Link instance) => <String, dynamic>{
   'url': instance.url,
   'created_at': instance.createdAt.toIso8601String(),
   'updated_at': instance.updatedAt.toIso8601String(),
+  'tag_ids': instance.tagIds,
 };

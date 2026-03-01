@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$Link {
 
- int get id; String get title; String get url;@JsonKey(name: 'created_at', fromJson: _dateTimeFromJson) DateTime get createdAt;@JsonKey(name: 'updated_at', fromJson: _dateTimeFromJson) DateTime get updatedAt;
+ int get id; String get title; String get url;@JsonKey(name: 'created_at', fromJson: _dateTimeFromJson) DateTime get createdAt;@JsonKey(name: 'updated_at', fromJson: _dateTimeFromJson) DateTime get updatedAt;@JsonKey(name: 'tag_ids') List<int> get tagIds;
 /// Create a copy of Link
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -28,16 +28,16 @@ $LinkCopyWith<Link> get copyWith => _$LinkCopyWithImpl<Link>(this as Link, _$ide
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Link&&(identical(other.id, id) || other.id == id)&&(identical(other.title, title) || other.title == title)&&(identical(other.url, url) || other.url == url)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Link&&(identical(other.id, id) || other.id == id)&&(identical(other.title, title) || other.title == title)&&(identical(other.url, url) || other.url == url)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt)&&const DeepCollectionEquality().equals(other.tagIds, tagIds));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,title,url,createdAt,updatedAt);
+int get hashCode => Object.hash(runtimeType,id,title,url,createdAt,updatedAt,const DeepCollectionEquality().hash(tagIds));
 
 @override
 String toString() {
-  return 'Link(id: $id, title: $title, url: $url, createdAt: $createdAt, updatedAt: $updatedAt)';
+  return 'Link(id: $id, title: $title, url: $url, createdAt: $createdAt, updatedAt: $updatedAt, tagIds: $tagIds)';
 }
 
 
@@ -48,7 +48,7 @@ abstract mixin class $LinkCopyWith<$Res>  {
   factory $LinkCopyWith(Link value, $Res Function(Link) _then) = _$LinkCopyWithImpl;
 @useResult
 $Res call({
- int id, String title, String url,@JsonKey(name: 'created_at', fromJson: _dateTimeFromJson) DateTime createdAt,@JsonKey(name: 'updated_at', fromJson: _dateTimeFromJson) DateTime updatedAt
+ int id, String title, String url,@JsonKey(name: 'created_at', fromJson: _dateTimeFromJson) DateTime createdAt,@JsonKey(name: 'updated_at', fromJson: _dateTimeFromJson) DateTime updatedAt,@JsonKey(name: 'tag_ids') List<int> tagIds
 });
 
 
@@ -65,14 +65,15 @@ class _$LinkCopyWithImpl<$Res>
 
 /// Create a copy of Link
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? title = null,Object? url = null,Object? createdAt = null,Object? updatedAt = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? title = null,Object? url = null,Object? createdAt = null,Object? updatedAt = null,Object? tagIds = null,}) {
   return _then(_self.copyWith(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as int,title: null == title ? _self.title : title // ignore: cast_nullable_to_non_nullable
 as String,url: null == url ? _self.url : url // ignore: cast_nullable_to_non_nullable
 as String,createdAt: null == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
 as DateTime,updatedAt: null == updatedAt ? _self.updatedAt : updatedAt // ignore: cast_nullable_to_non_nullable
-as DateTime,
+as DateTime,tagIds: null == tagIds ? _self.tagIds : tagIds // ignore: cast_nullable_to_non_nullable
+as List<int>,
   ));
 }
 
@@ -157,10 +158,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int id,  String title,  String url, @JsonKey(name: 'created_at', fromJson: _dateTimeFromJson)  DateTime createdAt, @JsonKey(name: 'updated_at', fromJson: _dateTimeFromJson)  DateTime updatedAt)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int id,  String title,  String url, @JsonKey(name: 'created_at', fromJson: _dateTimeFromJson)  DateTime createdAt, @JsonKey(name: 'updated_at', fromJson: _dateTimeFromJson)  DateTime updatedAt, @JsonKey(name: 'tag_ids')  List<int> tagIds)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _Link() when $default != null:
-return $default(_that.id,_that.title,_that.url,_that.createdAt,_that.updatedAt);case _:
+return $default(_that.id,_that.title,_that.url,_that.createdAt,_that.updatedAt,_that.tagIds);case _:
   return orElse();
 
 }
@@ -178,10 +179,10 @@ return $default(_that.id,_that.title,_that.url,_that.createdAt,_that.updatedAt);
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int id,  String title,  String url, @JsonKey(name: 'created_at', fromJson: _dateTimeFromJson)  DateTime createdAt, @JsonKey(name: 'updated_at', fromJson: _dateTimeFromJson)  DateTime updatedAt)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int id,  String title,  String url, @JsonKey(name: 'created_at', fromJson: _dateTimeFromJson)  DateTime createdAt, @JsonKey(name: 'updated_at', fromJson: _dateTimeFromJson)  DateTime updatedAt, @JsonKey(name: 'tag_ids')  List<int> tagIds)  $default,) {final _that = this;
 switch (_that) {
 case _Link():
-return $default(_that.id,_that.title,_that.url,_that.createdAt,_that.updatedAt);case _:
+return $default(_that.id,_that.title,_that.url,_that.createdAt,_that.updatedAt,_that.tagIds);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -198,10 +199,10 @@ return $default(_that.id,_that.title,_that.url,_that.createdAt,_that.updatedAt);
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int id,  String title,  String url, @JsonKey(name: 'created_at', fromJson: _dateTimeFromJson)  DateTime createdAt, @JsonKey(name: 'updated_at', fromJson: _dateTimeFromJson)  DateTime updatedAt)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int id,  String title,  String url, @JsonKey(name: 'created_at', fromJson: _dateTimeFromJson)  DateTime createdAt, @JsonKey(name: 'updated_at', fromJson: _dateTimeFromJson)  DateTime updatedAt, @JsonKey(name: 'tag_ids')  List<int> tagIds)?  $default,) {final _that = this;
 switch (_that) {
 case _Link() when $default != null:
-return $default(_that.id,_that.title,_that.url,_that.createdAt,_that.updatedAt);case _:
+return $default(_that.id,_that.title,_that.url,_that.createdAt,_that.updatedAt,_that.tagIds);case _:
   return null;
 
 }
@@ -213,7 +214,7 @@ return $default(_that.id,_that.title,_that.url,_that.createdAt,_that.updatedAt);
 @JsonSerializable()
 
 class _Link implements Link {
-  const _Link({required this.id, required this.title, required this.url, @JsonKey(name: 'created_at', fromJson: _dateTimeFromJson) required this.createdAt, @JsonKey(name: 'updated_at', fromJson: _dateTimeFromJson) required this.updatedAt});
+  const _Link({required this.id, required this.title, required this.url, @JsonKey(name: 'created_at', fromJson: _dateTimeFromJson) required this.createdAt, @JsonKey(name: 'updated_at', fromJson: _dateTimeFromJson) required this.updatedAt, @JsonKey(name: 'tag_ids') final  List<int> tagIds = const []}): _tagIds = tagIds;
   factory _Link.fromJson(Map<String, dynamic> json) => _$LinkFromJson(json);
 
 @override final  int id;
@@ -221,6 +222,13 @@ class _Link implements Link {
 @override final  String url;
 @override@JsonKey(name: 'created_at', fromJson: _dateTimeFromJson) final  DateTime createdAt;
 @override@JsonKey(name: 'updated_at', fromJson: _dateTimeFromJson) final  DateTime updatedAt;
+ final  List<int> _tagIds;
+@override@JsonKey(name: 'tag_ids') List<int> get tagIds {
+  if (_tagIds is EqualUnmodifiableListView) return _tagIds;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_tagIds);
+}
+
 
 /// Create a copy of Link
 /// with the given fields replaced by the non-null parameter values.
@@ -235,16 +243,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Link&&(identical(other.id, id) || other.id == id)&&(identical(other.title, title) || other.title == title)&&(identical(other.url, url) || other.url == url)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Link&&(identical(other.id, id) || other.id == id)&&(identical(other.title, title) || other.title == title)&&(identical(other.url, url) || other.url == url)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt)&&const DeepCollectionEquality().equals(other._tagIds, _tagIds));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,title,url,createdAt,updatedAt);
+int get hashCode => Object.hash(runtimeType,id,title,url,createdAt,updatedAt,const DeepCollectionEquality().hash(_tagIds));
 
 @override
 String toString() {
-  return 'Link(id: $id, title: $title, url: $url, createdAt: $createdAt, updatedAt: $updatedAt)';
+  return 'Link(id: $id, title: $title, url: $url, createdAt: $createdAt, updatedAt: $updatedAt, tagIds: $tagIds)';
 }
 
 
@@ -255,7 +263,7 @@ abstract mixin class _$LinkCopyWith<$Res> implements $LinkCopyWith<$Res> {
   factory _$LinkCopyWith(_Link value, $Res Function(_Link) _then) = __$LinkCopyWithImpl;
 @override @useResult
 $Res call({
- int id, String title, String url,@JsonKey(name: 'created_at', fromJson: _dateTimeFromJson) DateTime createdAt,@JsonKey(name: 'updated_at', fromJson: _dateTimeFromJson) DateTime updatedAt
+ int id, String title, String url,@JsonKey(name: 'created_at', fromJson: _dateTimeFromJson) DateTime createdAt,@JsonKey(name: 'updated_at', fromJson: _dateTimeFromJson) DateTime updatedAt,@JsonKey(name: 'tag_ids') List<int> tagIds
 });
 
 
@@ -272,14 +280,15 @@ class __$LinkCopyWithImpl<$Res>
 
 /// Create a copy of Link
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? title = null,Object? url = null,Object? createdAt = null,Object? updatedAt = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? title = null,Object? url = null,Object? createdAt = null,Object? updatedAt = null,Object? tagIds = null,}) {
   return _then(_Link(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as int,title: null == title ? _self.title : title // ignore: cast_nullable_to_non_nullable
 as String,url: null == url ? _self.url : url // ignore: cast_nullable_to_non_nullable
 as String,createdAt: null == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
 as DateTime,updatedAt: null == updatedAt ? _self.updatedAt : updatedAt // ignore: cast_nullable_to_non_nullable
-as DateTime,
+as DateTime,tagIds: null == tagIds ? _self._tagIds : tagIds // ignore: cast_nullable_to_non_nullable
+as List<int>,
   ));
 }
 

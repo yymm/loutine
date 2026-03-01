@@ -16,8 +16,7 @@ abstract class Link with _$Link {
     required DateTime createdAt,
     @JsonKey(name: 'updated_at', fromJson: _dateTimeFromJson)
     required DateTime updatedAt,
-    // TODO: タグ機能を実装する際にコメントを外す
-    // required List<Tag> tags,
+    @JsonKey(name: 'tag_ids') @Default([]) List<int> tagIds,
   }) = _Link;
 
   factory Link.fromJson(Map<String, dynamic> json) => _$LinkFromJson(json);

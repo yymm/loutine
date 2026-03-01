@@ -112,7 +112,7 @@ final class PurchaseCategorySummaryProvider
 }
 
 String _$purchaseCategorySummaryHash() =>
-    r'3b2ae21480cae46cc9262b2ae3c1cce91dc3c5d4';
+    r'5c509522b3a75df832aa53718fc0d1452aa2116f';
 
 /// 選択月のPurchaseデータを日別・カテゴリー別に集計（積み上げ棒グラフ用）
 
