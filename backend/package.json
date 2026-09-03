@@ -37,7 +37,7 @@
     "@libsql/client": "^0.17.0",
     "drizzle-kit": "^0.31.8",
     "typescript": "^6.0.0",
-    "vitest": "^3.2.4",
+    "vitest": "^5.0.0",
     "wrangler": "^4.56.0"
   }
 }
